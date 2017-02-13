@@ -43,7 +43,7 @@
             
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Nuts-ml is a library for flow-based data pre-processing for machine learning.
+<p><strong>nuts-ml</strong> is a library for flow-based data pre-processing for machine learning.
 It allows to construct pre-processing pipelines such as the following</p>
 <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">train_sel</span> <span class="o">=</span> <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Pick</span><span class="p">(</span><span class="n">PSEL</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
 <span class="n">t_results</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_sel</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_sel</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span>
@@ -55,6 +55,9 @@ It allows to construct pre-processing pipelines such as the following</p>
 <span class="nb">print</span> <span class="s2">&quot;training acc     :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">))</span>
 </pre></div>
 </div>
+<p><strong>nuts-ml</strong> is based on <a class="reference external" href="https://github.com/maet3608/nuts-flow">nuts-flow</a>
+and reading its <a class="reference external" href="https://maet3608.github.io/nuts-flow/">documentation</a> is
+recommended.</p>
 </div>
 
 
