@@ -43,7 +43,18 @@
             
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Nuts-ml is a library for flow-based data pre-processing for machine learning.</p>
+<p>Nuts-ml is a library for flow-based data pre-processing for machine learning.
+It allows to construct pre-processing pipelines such as the following</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">train_sel</span> <span class="o">=</span> <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Pick</span><span class="p">(</span><span class="n">PSEL</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="n">t_results</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_sel</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_sel</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span>
+                  <span class="n">crop</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">normalize</span> <span class="o">&gt;&gt;</span>
+                  <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">log_train</span> <span class="o">&gt;&gt;</span>
+                  <span class="n">Print</span><span class="p">(</span><span class="s1">&#39;train loss:</span><span class="si">{}</span><span class="s1"> acc:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">())</span>
+<span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="n">t_results</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="nb">print</span> <span class="s2">&quot;training loss    :</span><span class="se">\t\t</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_loss</span><span class="p">))</span>
+<span class="nb">print</span> <span class="s2">&quot;training acc     :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">))</span>
+</pre></div>
+</div>
 </div>
 
 

@@ -2251,12 +2251,12 @@ False</p>
 <span id="nutsml-transformer-module"></span><h2>nutsml.transformer module<a class="headerlink" href="#module-nutsml.transformer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-transformer"></span><dl class="class">
 <dt id="nutsml.transformer.AugmentImage">
-<em class="property">class </em><code class="descname">AugmentImage</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x000000000ADE2C58&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">AugmentImage</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x000000000AE42C58&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.Nut</span></code></p>
 <p>Random augmentation of images in samples</p>
 <dl class="method">
 <dt id="nutsml.transformer.AugmentImage.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x000000000ADE2C58&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x000000000AE42C58&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>samples &gt;&gt; AugmentImage(imagecols, rand=rnd.Random())</p>
 <p>Randomly augment images, e.g. changing contrast. See TransformImage for
 a full list of available augmentations. Every transformation can be
@@ -2777,7 +2777,7 @@ annotation, e.g.  edgecolor=&#8217;y&#8217;, linewidth=1</li>
 <span id="nutsml-writer-module"></span><h2>nutsml.writer module<a class="headerlink" href="#module-nutsml.writer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-writer"></span><dl class="class">
 <dt id="nutsml.writer.WriteImage">
-<em class="property">class </em><code class="descname">WriteImage</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000AE33780&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">WriteImage</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000AE93780&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Write images within samples.</p>
 <dl class="method">
@@ -2788,7 +2788,7 @@ annotation, e.g.  edgecolor=&#8217;y&#8217;, linewidth=1</li>
 
 <dl class="method">
 <dt id="nutsml.writer.WriteImage.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000AE33780&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000AE93780&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write images within samples to file.</p>
 <p>Writes jpg, gif, png, tif and bmp format depending on file extension.
 Images in samples are expected to be numpy arrays.
