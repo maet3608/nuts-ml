@@ -17,13 +17,15 @@
         VERSION:     '1.0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="nutsml 1.0.1 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="Batcher" href="tutorial/batcher.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -466,7 +468,7 @@ samples grouped by label, and labelcnts is a Counter dict
 containing label frequencies.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple(dict, Counter)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a>, Counter)</p>
 </td>
 </tr>
 </tbody>
@@ -502,7 +504,7 @@ containing label frequencies.</p>
 
 <dl class="function">
 <dt id="nutsml.datautil.random_downsample">
-<code class="descname">random_downsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=&lt;random.Random object at 0x0000000009765BE8&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#random_downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.random_downsample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">random_downsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=&lt;random.Random object at 0x000000000949CF78&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#random_downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.random_downsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomly down-sample samples.</p>
 <p>Creates stratified samples by down-sampling larger classes to the size of
 the smallest class.</p>
@@ -569,7 +571,7 @@ e.g. int, str, bool</li>
 
 <dl class="function">
 <dt id="nutsml.datautil.upsample">
-<code class="descname">upsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=&lt;random.Random object at 0x0000000009770E38&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#upsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.upsample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">upsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=&lt;random.Random object at 0x000000000949C568&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#upsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.upsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Up-sample sample set.</p>
 <p>Creates stratified samples by up-sampling smaller classes to the size of
 the largest class.</p>
@@ -788,8 +790,8 @@ point, circle, rect or polyline</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>centers</strong> (<em>ndarray(n,2)</em>) &#8211; Center points of patches.</li>
-<li><strong>image</strong> (<em>ndarray(h,w)</em>) &#8211; Image the patches should be inside.</li>
+<li><strong>centers</strong> (<em>ndarray</em><em>(</em><em>n</em><em>,</em><em>2</em><em>)</em><em></em>) &#8211; Center points of patches.</li>
+<li><strong>image</strong> (<em>ndarray</em><em>(</em><em>h</em><em>,</em><em>w</em><em>)</em><em></em>) &#8211; Image the patches should be inside.</li>
 <li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Patch shape of form (h,w)</li>
 </ul>
 </td>
@@ -1607,7 +1609,7 @@ the image and the mask.</p>
 has the given mask value (pos, neg) and the label (1, 0)</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple(image_patch, mask_patch, label)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a>(image_patch, mask_patch, label)</p>
 </td>
 </tr>
 </tbody>
@@ -2018,7 +2020,7 @@ and the network with the lower score score is saved.</li>
 <span id="nutsml-plotter-module"></span><h2>nutsml.plotter module<a class="headerlink" href="#module-nutsml.plotter" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-plotter"></span><dl class="class">
 <dt id="nutsml.plotter.PlotLines">
-<em class="property">class </em><code class="descname">PlotLines</code><span class="sig-paren">(</span><em>ycols</em>, <em>xcols=count(0)</em>, <em>layout=(1</em>, <em>None)</em>, <em>every_sec=0</em>, <em>every_n=0</em>, <em>filterfunc=&lt;function &lt;lambda&gt; at 0x00000000099762E8&gt;</em>, <em>figsize=None</em>, <em>filepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/plotter.html#PlotLines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.plotter.PlotLines" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PlotLines</code><span class="sig-paren">(</span><em>ycols</em>, <em>xcols=count(0)</em>, <em>layout=(1</em>, <em>None)</em>, <em>every_sec=0</em>, <em>every_n=0</em>, <em>filterfunc=&lt;function &lt;lambda&gt; at 0x00000000094AE208&gt;</em>, <em>figsize=None</em>, <em>filepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/plotter.html#PlotLines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.plotter.PlotLines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Plot lines for selected data columns</p>
 <dl class="method">
@@ -2029,7 +2031,7 @@ and the network with the lower score score is saved.</li>
 
 <dl class="method">
 <dt id="nutsml.plotter.PlotLines.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>ycols</em>, <em>xcols=count(0)</em>, <em>layout=(1</em>, <em>None)</em>, <em>every_sec=0</em>, <em>every_n=0</em>, <em>filterfunc=&lt;function &lt;lambda&gt; at 0x00000000099762E8&gt;</em>, <em>figsize=None</em>, <em>filepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/plotter.html#PlotLines.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.plotter.PlotLines.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>ycols</em>, <em>xcols=count(0)</em>, <em>layout=(1</em>, <em>None)</em>, <em>every_sec=0</em>, <em>every_n=0</em>, <em>filterfunc=&lt;function &lt;lambda&gt; at 0x00000000094AE208&gt;</em>, <em>figsize=None</em>, <em>filepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/plotter.html#PlotLines.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.plotter.PlotLines.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>iterable &gt;&gt; PlotLines(ycols) &gt;&gt; Consume()</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -2251,12 +2253,12 @@ False</p>
 <span id="nutsml-transformer-module"></span><h2>nutsml.transformer module<a class="headerlink" href="#module-nutsml.transformer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-transformer"></span><dl class="class">
 <dt id="nutsml.transformer.AugmentImage">
-<em class="property">class </em><code class="descname">AugmentImage</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x000000000ADA2C58&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">AugmentImage</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x0000000008AD5CA8&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.Nut</span></code></p>
 <p>Random augmentation of images in samples</p>
 <dl class="method">
 <dt id="nutsml.transformer.AugmentImage.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x000000000ADA2C58&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x0000000008AD5CA8&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>samples &gt;&gt; AugmentImage(imagecols, rand=rnd.Random())</p>
 <p>Randomly augment images, e.g. changing contrast. See TransformImage for
 a full list of available augmentations. Every transformation can be
@@ -2614,7 +2616,7 @@ height for resize.</li>
 
 <dl class="attribute">
 <dt id="nutsml.transformer.TransformImage.transformations">
-<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical at 0x000000000970F2E8&gt;, 'normalize_histo': &lt;function normalize_histo at 0x000000000970F438&gt;, 'rerange': &lt;function rerange at 0x000000000970F278&gt;, 'color': &lt;function change_color at 0x000000000970F668&gt;, 'sharpness': &lt;function change_sharpness at 0x000000000970F5F8&gt;, 'crop': &lt;function crop at 0x000000000970F358&gt;, 'crop_center': &lt;function crop_center at 0x000000000970F3C8&gt;, 'resize': &lt;function resize at 0x000000000970F748&gt;, 'rotate': &lt;function rotate at 0x000000000970F6D8&gt;, 'flipud': &lt;function flipud at 0x000000000970F898&gt;, 'brightness': &lt;function change_brightness at 0x000000000970F588&gt;, 'fliplr': &lt;function fliplr at 0x000000000970F828&gt;, 'shear': &lt;function shear at 0x000000000970F7B8&gt;, 'contrast': &lt;function change_contrast at 0x000000000970F518&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical&gt;, 'normalize_histo': &lt;function normalize_histo&gt;, 'rerange': &lt;function rerange&gt;, 'color': &lt;function change_color&gt;, 'sharpness': &lt;function change_sharpness&gt;, 'crop': &lt;function crop&gt;, 'crop_center': &lt;function crop_center at 0x00000000094702E8&gt;, 'resize': &lt;function resize&gt;, 'rotate': &lt;function rotate at 0x00000000094705F8&gt;, 'flipud': &lt;function flipud at 0x00000000094707B8&gt;, 'brightness': &lt;function change_brightness at 0x00000000094704A8&gt;, 'fliplr': &lt;function fliplr&gt;, 'shear': &lt;function shear at 0x00000000094706D8&gt;, 'contrast': &lt;function change_contrast&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2777,7 +2779,7 @@ annotation, e.g.  edgecolor=&#8217;y&#8217;, linewidth=1</li>
 <span id="nutsml-writer-module"></span><h2>nutsml.writer module<a class="headerlink" href="#module-nutsml.writer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-writer"></span><dl class="class">
 <dt id="nutsml.writer.WriteImage">
-<em class="property">class </em><code class="descname">WriteImage</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000ADF3780&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">WriteImage</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000AD1D390&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Write images within samples.</p>
 <dl class="method">
@@ -2788,7 +2790,7 @@ annotation, e.g.  edgecolor=&#8217;y&#8217;, linewidth=1</li>
 
 <dl class="method">
 <dt id="nutsml.writer.WriteImage.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000ADF3780&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000AD1D390&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write images within samples to file.</p>
 <p>Writes jpg, gif, png, tif and bmp format depending on file extension.
 Images in samples are expected to be numpy arrays.
@@ -2875,7 +2877,7 @@ Length need to be the same as samples.</li>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/nutsml.txt"
+      <li><a href="_sources/nutsml.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -2897,11 +2899,11 @@ Length need to be the same as samples.</li>
       &copy;2016, IBM.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
-      <a href="_sources/nutsml.txt"
+      <a href="_sources/nutsml.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
