@@ -1,0 +1,24 @@
+Introduction
+============
+
+Data pre-processing software for machine learning tasks tends to grown into an
+unstructured, monolithic code base that is difficult to read or change and
+prone to errors.
+
+**nuts-ml** is a library for data pre-processing that provides common
+pre-processing functions as independent units, so called 'nuts'. Nuts can be
+freely arranged to build complex data flows that are efficient,
+easy to understand and easy to change.
+
+The following example gives a taste of a nuts data-flow:
+
+.. code:: python
+
+   train_samples >> Stratify(1) >> Pick(0.1) >> read_image >> \
+      crop >> augment >> Shuffle(100) >> normalize >> \
+      build_batch >> network.train() >> log_train >> \
+      Print('train loss:{} acc:{}') >> Collect()
+
+**nuts-ml** is based on `nuts-flow <https://github.com/maet3608/nuts-flow>`_
+and reading its `documentation <https://maet3608.github.io/nuts-flow/>`_ is
+recommended.
