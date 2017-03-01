@@ -112,8 +112,9 @@
 <span class="sd">    Load images for samples.</span>
 
 <span class="sd">    Loads images in jpg, gif, png, tif and bmp format.</span>
-<span class="sd">    Images are returned as numpy arrays.</span>
-<span class="sd">    See nutsml.util.load_image for details.</span>
+<span class="sd">    Images are returned as numpy arrays of shape (h, w, c) or (h, w) for</span>
+<span class="sd">    color images or gray scale images respectively.</span>
+<span class="sd">    See nutsml.imageutil.load_image for details.</span>
 
 <span class="sd">    &gt;&gt;&gt; samples = [(&#39;tests/data/img_formats/nut_color.gif&#39;, &#39;class0&#39;)]</span>
 <span class="sd">    &gt;&gt;&gt; img_samples = samples &gt;&gt; ReadImage(0) &gt;&gt; Collect()</span>
@@ -139,6 +140,7 @@
 <span class="sd">      None, in this case the image id is take as filepath.</span>
 <span class="sd">    :param as_grey: If true, load as grayscale image.</span>
 <span class="sd">    :return: Sample with image ids replaced by image (=ndarray)</span>
+<span class="sd">            of shape (h, w, c) or (h, w)</span>
 <span class="sd">    :rtype: tuple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -174,14 +176,14 @@
 <span class="sd">        Note that samples.table contains the original Pandas dataframe and</span>
 <span class="sd">        any Pandas operations can be performed on it.</span>
 <span class="sd">        &gt;&gt;&gt; samples = ReadPandas(&#39;tests/data/pandas_table.csv&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; samples.table.head()</span>
+<span class="sd">        &gt;&gt;&gt; samples.dataframe.head()</span>
 <span class="sd">           col1  col2</span>
 <span class="sd">        0     1   4.0</span>
 <span class="sd">        1     2   NaN</span>
 <span class="sd">        2     3   6.0</span>
 
 <span class="sd">        &gt;&gt;&gt; samples = ReadPandas(&#39;tests/data/pandas_table.csv&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; samples.table.columns.values.tolist()</span>
+<span class="sd">        &gt;&gt;&gt; samples.dataframe.columns.values.tolist()</span>
 <span class="sd">        [&#39;col1&#39;, &#39;col2&#39;]</span>
 
 <span class="sd">        :param str filepath: Path to a table in CSV, TSV, XLSX or</span>
@@ -206,7 +208,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dropnan</span> <span class="o">=</span> <span class="n">dropnan</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">replacenan</span> <span class="o">=</span> <span class="n">replacenan</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_table</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_table</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ReadPandas.print_head"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas.print_head">[docs]</a>    <span class="k">def</span> <span class="nf">print_head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -221,7 +223,7 @@
 
 <span class="sd">        :param int n: Number of rows to print.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
+        <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">n</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ReadPandas.print_info"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas.print_info">[docs]</a>    <span class="k">def</span> <span class="nf">print_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -237,7 +239,7 @@
 <span class="sd">        dtypes: float64(1), int64(1)</span>
 <span class="sd">        memory usage: 120.0 bytes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">info</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">info</span><span class="p">()</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ReadPandas.isnull"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas.isnull">[docs]</a>    <span class="k">def</span> <span class="nf">isnull</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
@@ -286,7 +288,7 @@
 <span class="sd">        :return: dplyr dataframe instead of Pandas dataframe.</span>
 <span class="sd">        :rtype: DplyFrame</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">DplyFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">DplyFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_load_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -313,7 +315,7 @@
 <span class="sd">        :return: Iterator over rows.</span>
 <span class="sd">        :rtype: iterator</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span>
         <span class="n">series</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="k">else</span> <span class="n">rows</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">replacenan</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">ReadPandas</span><span class="o">.</span><span class="n">_replacenan</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">series</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>

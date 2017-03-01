@@ -1,8 +1,8 @@
 .. Nutsml documentation master file
 
 
-Welcome to Nutsml
-=================
+Nuts-ml
+=======
 
 Contents:
 
@@ -15,8 +15,8 @@ Contents:
    nutsml
 
    
-Indices and tables
-==================
+Indices
+=======
 
 * :ref:`genindex`
 * :ref:`modindex`

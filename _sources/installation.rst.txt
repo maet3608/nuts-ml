@@ -30,7 +30,6 @@ Verify that it works:
   >>> samples = [('pos', 1), ('pos', 1), ('neg', 0)]
   >>> samples >> Stratify(1) >> Collect()
   [('neg', 0), ('pos', 1)]
-  >>> exit()
   
   
 Print version number:
@@ -40,8 +39,7 @@ Print version number:
   python
   >>> import nutsml
   >>> nutsml.__version__
-  '1.0.0'
-  >>> exit()
+  '1.0.1'
   
   
   
