@@ -6,7 +6,7 @@ Installation via ``pip`` from `PyPi <https://pypi.python.org/pypi>`_ :
 
 .. code::
   
-  pip install nuts-ml
+  pip install nutsml
   
 
 or ``git clone`` from `GitHub <https://github.com/>`_  
@@ -39,7 +39,7 @@ Print version number:
   python
   >>> import nutsml
   >>> nutsml.__version__
-  '1.0.5'
+  '1.0.6'
   
   
   

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>nutsml package &#8212; nutsml 1.0.5 documentation</title>
+    <title>nutsml package &#8212; nutsml 1.0.6 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.5',
+        VERSION:     '1.0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -504,7 +504,7 @@ containing label frequencies.</p>
 
 <dl class="function">
 <dt id="nutsml.datautil.random_downsample">
-<code class="descname">random_downsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=&lt;random.Random object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#random_downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.random_downsample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">random_downsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=&lt;random.Random object at 0x00000000099C4AA8&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#random_downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.random_downsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomly down-sample samples.</p>
 <p>Creates stratified samples by down-sampling larger classes to the size of
 the smallest class.</p>
@@ -571,7 +571,7 @@ e.g. int, str, bool</li>
 
 <dl class="function">
 <dt id="nutsml.datautil.upsample">
-<code class="descname">upsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=&lt;random.Random object at 0x0000000009473C88&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#upsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.upsample" title="Permalink to this definition">¶</a></dt>
+<code class="descname">upsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=&lt;random.Random object at 0x00000000096B25B8&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#upsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.upsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Up-sample sample set.</p>
 <p>Creates stratified samples by up-sampling smaller classes to the size of
 the largest class.</p>
@@ -1763,12 +1763,12 @@ to the log file.</li>
 <span id="nutsml-network-module"></span><h2>nutsml.network module<a class="headerlink" href="#module-nutsml.network" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-network"></span><dl class="class">
 <dt id="nutsml.network.KerasNetwork">
-<em class="property">class </em><code class="descname">KerasNetwork</code><span class="sig-paren">(</span><em>model</em>, <em>filepath='weights_keras_net.hd5'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">KerasNetwork</code><span class="sig-paren">(</span><em>model</em>, <em>weightspath='weights_keras_net.hd5'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#nutsml.network.Network" title="nutsml.network.Network"><code class="xref py py-class docutils literal"><span class="pre">nutsml.network.Network</span></code></a></p>
 <p>Wrapper for Keras models: <a class="reference external" href="https://keras.io/">https://keras.io/</a></p>
 <dl class="method">
 <dt id="nutsml.network.KerasNetwork.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>model</em>, <em>filepath='weights_keras_net.hd5'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>model</em>, <em>weightspath='weights_keras_net.hd5'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct wrapper around Keras model.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1778,7 +1778,7 @@ to the log file.</li>
 <li><strong>model model</strong> (<em>Keras</em>) &#8211; Keras model to wrap. See
 <a class="reference external" href="https://keras.io/models/sequential/">https://keras.io/models/sequential/</a>
 <a class="reference external" href="https://keras.io/models/model/">https://keras.io/models/model/</a></li>
-<li><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filepath to save/load model weights.</li>
+<li><strong>weightspath</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filepath to save/load model weights.</li>
 </ul>
 </td>
 </tr>
@@ -1820,12 +1820,12 @@ to the log file.</li>
 
 <dl class="class">
 <dt id="nutsml.network.LasagneNetwork">
-<em class="property">class </em><code class="descname">LasagneNetwork</code><span class="sig-paren">(</span><em>out_layer</em>, <em>train_fn</em>, <em>val_fn</em>, <em>pred_fn</em>, <em>filepath='weights_lasagne_net.npz'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">LasagneNetwork</code><span class="sig-paren">(</span><em>out_layer</em>, <em>train_fn</em>, <em>val_fn</em>, <em>pred_fn</em>, <em>weightspath='weights_lasagne_net.npz'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#nutsml.network.Network" title="nutsml.network.Network"><code class="xref py py-class docutils literal"><span class="pre">nutsml.network.Network</span></code></a></p>
 <p>Wrapper for Lasagne models: <a class="reference external" href="https://lasagne.readthedocs.io/en/latest/">https://lasagne.readthedocs.io/en/latest/</a></p>
 <dl class="method">
 <dt id="nutsml.network.LasagneNetwork.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>out_layer</em>, <em>train_fn</em>, <em>val_fn</em>, <em>pred_fn</em>, <em>filepath='weights_lasagne_net.npz'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>out_layer</em>, <em>train_fn</em>, <em>val_fn</em>, <em>pred_fn</em>, <em>weightspath='weights_lasagne_net.npz'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct wrapper around Lasagne network.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1836,7 +1836,7 @@ to the log file.</li>
 <li><strong>function train_fn</strong> (<em>Theano</em>) &#8211; Training function</li>
 <li><strong>function val_fn</strong> (<em>Theano</em>) &#8211; Validation function</li>
 <li><strong>function pred_fn</strong> (<em>Theano</em>) &#8211; Prediction function</li>
-<li><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filepath to save/load model weights.</li>
+<li><strong>weightspath</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filepath to save/load model weights.</li>
 </ul>
 </td>
 </tr>
@@ -1878,20 +1878,20 @@ to the log file.</li>
 
 <dl class="class">
 <dt id="nutsml.network.Network">
-<em class="property">class </em><code class="descname">Network</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Network</code><span class="sig-paren">(</span><em>weightspath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Abstract base class for networks. Allows to wrap existing network APIs
 such as Lasagne or Keras into an API that enables direct usage of the
 network as a Nut in a nuts flow.</p>
 <dl class="method">
 <dt id="nutsml.network.Network.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>weightspath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs base wrapper for networks.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filepath where network weights are saved to
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>weightspath</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Filepath where network weights are saved to
 and loaded from.</td>
 </tr>
 </tbody>
@@ -1927,7 +1927,7 @@ there is only one metric.</p>
 <dl class="method">
 <dt id="nutsml.network.Network.load_weights">
 <code class="descname">load_weights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network.load_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network.load_weights" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load network weights. network.filepath is used.</p>
+<dd><p>Load network weights. self.weightspath is used.</p>
 <p>network.load_weights()</p>
 </dd></dl>
 
@@ -1979,7 +1979,7 @@ and the network with the lower score score is saved.</li>
 <dl class="method">
 <dt id="nutsml.network.Network.save_weights">
 <code class="descname">save_weights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network.save_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network.save_weights" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save network weights. network.filepath is used.</p>
+<dd><p>Save network weights. self.weightspath is used.</p>
 <p>network.save_weights()</p>
 </dd></dl>
 
@@ -2020,7 +2020,7 @@ and the network with the lower score score is saved.</li>
 <span id="nutsml-plotter-module"></span><h2>nutsml.plotter module<a class="headerlink" href="#module-nutsml.plotter" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-plotter"></span><dl class="class">
 <dt id="nutsml.plotter.PlotLines">
-<em class="property">class </em><code class="descname">PlotLines</code><span class="sig-paren">(</span><em>ycols</em>, <em>xcols=count(0)</em>, <em>layout=(1</em>, <em>None)</em>, <em>every_sec=0</em>, <em>every_n=0</em>, <em>filterfunc=&lt;function &lt;lambda&gt; at 0x00000000096FBAC8&gt;</em>, <em>figsize=None</em>, <em>filepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/plotter.html#PlotLines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.plotter.PlotLines" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PlotLines</code><span class="sig-paren">(</span><em>ycols</em>, <em>xcols=count(0)</em>, <em>layout=(1</em>, <em>None)</em>, <em>every_sec=0</em>, <em>every_n=0</em>, <em>filterfunc=&lt;function &lt;lambda&gt;&gt;</em>, <em>figsize=None</em>, <em>filepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/plotter.html#PlotLines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.plotter.PlotLines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Plot lines for selected data columns</p>
 <dl class="method">
@@ -2031,7 +2031,7 @@ and the network with the lower score score is saved.</li>
 
 <dl class="method">
 <dt id="nutsml.plotter.PlotLines.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>ycols</em>, <em>xcols=count(0)</em>, <em>layout=(1</em>, <em>None)</em>, <em>every_sec=0</em>, <em>every_n=0</em>, <em>filterfunc=&lt;function &lt;lambda&gt; at 0x00000000096FBAC8&gt;</em>, <em>figsize=None</em>, <em>filepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/plotter.html#PlotLines.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.plotter.PlotLines.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>ycols</em>, <em>xcols=count(0)</em>, <em>layout=(1</em>, <em>None)</em>, <em>every_sec=0</em>, <em>every_n=0</em>, <em>filterfunc=&lt;function &lt;lambda&gt;&gt;</em>, <em>figsize=None</em>, <em>filepath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/plotter.html#PlotLines.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.plotter.PlotLines.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>iterable &gt;&gt; PlotLines(ycols) &gt;&gt; Consume()</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -2215,12 +2215,12 @@ False</p>
 <span id="nutsml-transformer-module"></span><h2>nutsml.transformer module<a class="headerlink" href="#module-nutsml.transformer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-transformer"></span><dl class="class">
 <dt id="nutsml.transformer.AugmentImage">
-<em class="property">class </em><code class="descname">AugmentImage</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x0000000008BB7458&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">AugmentImage</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x000000000AC78D48&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.Nut</span></code></p>
 <p>Random augmentation of images in samples</p>
 <dl class="method">
 <dt id="nutsml.transformer.AugmentImage.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x0000000008BB7458&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>imagecols</em>, <em>rand=&lt;random.Random object at 0x000000000AC78D48&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#AugmentImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.AugmentImage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>samples &gt;&gt; AugmentImage(imagecols, rand=rnd.Random())</p>
 <p>Randomly augment images, e.g. changing contrast. See TransformImage for
 a full list of available augmentations. Every transformation can be
@@ -2578,7 +2578,7 @@ height for resize.</li>
 
 <dl class="attribute">
 <dt id="nutsml.transformer.TransformImage.transformations">
-<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical at 0x00000000094EDAC8&gt;, 'normalize_histo': &lt;function normalize_histo at 0x00000000094EDC18&gt;, 'rerange': &lt;function rerange at 0x00000000094EDA58&gt;, 'color': &lt;function change_color at 0x00000000094EDE48&gt;, 'sharpness': &lt;function change_sharpness at 0x00000000094EDDD8&gt;, 'crop': &lt;function crop at 0x00000000094EDB38&gt;, 'crop_center': &lt;function crop_center at 0x00000000094EDBA8&gt;, 'resize': &lt;function resize at 0x00000000094EDF28&gt;, 'rotate': &lt;function rotate at 0x00000000094EDEB8&gt;, 'flipud': &lt;function flipud at 0x00000000094F30B8&gt;, 'brightness': &lt;function change_brightness at 0x00000000094EDD68&gt;, 'fliplr': &lt;function fliplr at 0x00000000094F3048&gt;, 'shear': &lt;function shear at 0x00000000094EDF98&gt;, 'contrast': &lt;function change_contrast at 0x00000000094EDCF8&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical at 0x000000000978F828&gt;, 'normalize_histo': &lt;function normalize_histo at 0x000000000978F978&gt;, 'rerange': &lt;function rerange at 0x000000000978F7B8&gt;, 'color': &lt;function change_color at 0x000000000978FBA8&gt;, 'sharpness': &lt;function change_sharpness at 0x000000000978FB38&gt;, 'crop': &lt;function crop at 0x000000000978F898&gt;, 'crop_center': &lt;function crop_center at 0x000000000978F908&gt;, 'resize': &lt;function resize at 0x000000000978FC88&gt;, 'rotate': &lt;function rotate at 0x000000000978FC18&gt;, 'flipud': &lt;function flipud at 0x000000000978FDD8&gt;, 'brightness': &lt;function change_brightness at 0x000000000978FAC8&gt;, 'fliplr': &lt;function fliplr at 0x000000000978FD68&gt;, 'shear': &lt;function shear at 0x000000000978FCF8&gt;, 'contrast': &lt;function change_contrast at 0x000000000978FA58&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2747,7 +2747,7 @@ annotation, e.g.  edgecolor=&#8217;y&#8217;, linewidth=1</li>
 <span id="nutsml-writer-module"></span><h2>nutsml.writer module<a class="headerlink" href="#module-nutsml.writer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-writer"></span><dl class="class">
 <dt id="nutsml.writer.WriteImage">
-<em class="property">class </em><code class="descname">WriteImage</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000B15E5C0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">WriteImage</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000B178898&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Write images within samples.</p>
 <dl class="method">
@@ -2758,7 +2758,7 @@ annotation, e.g.  edgecolor=&#8217;y&#8217;, linewidth=1</li>
 
 <dl class="method">
 <dt id="nutsml.writer.WriteImage.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000B15E5C0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.factory.Wrapper object at 0x000000000B178898&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write images within samples to file.</p>
 <p>Writes jpg, gif, png, tif and bmp format depending on file extension.
 Images in samples are expected to be numpy arrays.
@@ -2869,7 +2869,7 @@ Length need to be the same as samples.</li>
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="_sources/nutsml.rst.txt"
