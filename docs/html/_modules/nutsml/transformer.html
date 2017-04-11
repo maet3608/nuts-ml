@@ -1,0 +1,701 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>nutsml.transformer &#8212; nutsml 1.0.7 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.7',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for nutsml.transformer</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: transformer</span>
+<span class="sd">   :synopsis: Data and image transformations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">path</span>
+<span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rnd</span>
+<span class="kn">import</span> <span class="nn">nutsml.datautil</span> <span class="k">as</span> <span class="nn">ut</span>
+<span class="kn">import</span> <span class="nn">nutsml.imageutil</span> <span class="k">as</span> <span class="nn">ni</span>
+
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Nut</span><span class="p">,</span> <span class="n">NutFunction</span><span class="p">,</span> <span class="n">nut_processor</span><span class="p">,</span> <span class="n">as_tuple</span><span class="p">,</span> <span class="n">as_set</span>
+
+
+<span class="c1"># map transformation to specified sample columns</span>
+<div class="viewcode-block" id="map_transform"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.map_transform">[docs]</a><span class="k">def</span> <span class="nf">map_transform</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">spec</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Map transformation function on columns of sample.</span>
+
+<span class="sd">    :param tuple sample: Sample with images</span>
+<span class="sd">    :param int|tuple imagecols: Indices of sample columns the transformation</span>
+<span class="sd">       should be applied to. Can be a single index or a tuple of indices.</span>
+<span class="sd">    :param tuple spec: Transformation specification. Either a tuple with</span>
+<span class="sd">       the name of the transformation function or a tuple with the</span>
+<span class="sd">       name, arguments and keyword arguments of the transformation function.</span>
+<span class="sd">    :return: Sample with transformations applied. Columns not specified</span>
+<span class="sd">      remain unchained.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">colset</span> <span class="o">=</span> <span class="n">as_tuple</span><span class="p">(</span><span class="n">imagecols</span><span class="p">)</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">kw</span> <span class="o">=</span> <span class="n">spec</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="p">[],</span> <span class="p">{})</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="o">.</span><span class="n">transformations</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="n">enum_sample</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="o">*</span><span class="n">a</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colset</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">enum_sample</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TransformImage"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage">[docs]</a><span class="k">class</span> <span class="nc">TransformImage</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transformation of images in samples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">transformations</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;identical&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">identical</span><span class="p">,</span>
+        <span class="s1">&#39;rerange&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">rerange</span><span class="p">,</span>
+        <span class="s1">&#39;crop&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">crop</span><span class="p">,</span>
+        <span class="s1">&#39;crop_center&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">crop_center</span><span class="p">,</span>
+        <span class="s1">&#39;normalize_histo&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">normalize_histo</span><span class="p">,</span>
+        <span class="s1">&#39;resize&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">resize</span><span class="p">,</span>
+        <span class="s1">&#39;rotate&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">rotate</span><span class="p">,</span>
+        <span class="s1">&#39;contrast&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">change_contrast</span><span class="p">,</span>
+        <span class="s1">&#39;sharpness&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">change_sharpness</span><span class="p">,</span>
+        <span class="s1">&#39;brightness&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">change_brightness</span><span class="p">,</span>
+        <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">change_color</span><span class="p">,</span>
+        <span class="s1">&#39;fliplr&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">fliplr</span><span class="p">,</span>
+        <span class="s1">&#39;flipud&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">flipud</span><span class="p">,</span>
+        <span class="s1">&#39;shear&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">shear</span><span class="p">,</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="TransformImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        samples &gt;&gt; TransformImage(imagecols)</span>
+
+<span class="sd">        Images are expect to be numpy array of the shape (h, w, c) or (h, w)</span>
+<span class="sd">        with a range of [0,255] and a dtype of uint8. Transformation should</span>
+<span class="sd">        result in images with the same properties.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        &gt;&gt;&gt; transform = TransformImage(0).by(&#39;resize&#39;, 10, 20)</span>
+
+<span class="sd">        :param int|tuple imagecols: Indices of sample columns the transformation</span>
+<span class="sd">            should be applied to. Can be a single index or a tuple of indices.</span>
+<span class="sd">        :param tuple transspec: Transformation specification. Either a</span>
+<span class="sd">            tuple with the name of the transformation function or a tuple</span>
+<span class="sd">            with the name, arguments and keyword arguments of the</span>
+<span class="sd">            transformation function.</span>
+<span class="sd">            The list of argument values and dictionaries provided in the</span>
+<span class="sd">            transspec are simply passed on to the transformation function.</span>
+<span class="sd">            See the relevant functions for details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transspec</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imagecols</span> <span class="o">=</span> <span class="n">as_tuple</span><span class="p">(</span><span class="n">imagecols</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TransformImage.by"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.by">[docs]</a>    <span class="k">def</span> <span class="nf">by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Specify and add tranformation to be performed.</span>
+
+<span class="sd">        &gt;&gt;&gt; transform = TransformImage(0).by(&#39;resize&#39;, 10, 20).by(&#39;fliplr&#39;)</span>
+
+<span class="sd">        :param string name: Name of the transformation to apply, e.g. &#39;resize&#39;</span>
+<span class="sd">        :param args args: Arguments for the transformation, e.g. width and</span>
+<span class="sd">           height for resize.</span>
+<span class="sd">        :param kwargs kwargs: Keyword arguments passed on to the transformation</span>
+<span class="sd">        :return: instance of TransformImage with added transformation</span>
+<span class="sd">        :rtype: TransformImage</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transspec</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="TransformImage.register"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">transformation</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register new transformation function.</span>
+
+<span class="sd">        &gt;&gt;&gt; brighter = lambda image, c: image * c</span>
+<span class="sd">        &gt;&gt;&gt; TransformImage.register(&#39;brighter&#39;, brighter)</span>
+<span class="sd">        &gt;&gt;&gt; transform = TransformImage(0).by(&#39;brighter&#39;, 1.5)</span>
+
+<span class="sd">        :param string name: Name of transformation</span>
+<span class="sd">        :param function transformation: Transformation function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">transformations</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformation</span></div>
+
+<div class="viewcode-block" id="TransformImage.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply transformation to sample.</span>
+
+<span class="sd">        :param tuple sample: Sample</span>
+<span class="sd">        :return: Transformed sample</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">transspec</span><span class="p">:</span>
+            <span class="n">sample</span> <span class="o">=</span> <span class="n">map_transform</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagecols</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sample</span></div></div>
+
+
+<div class="viewcode-block" id="AugmentImage"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage">[docs]</a><span class="k">class</span> <span class="nc">AugmentImage</span><span class="p">(</span><span class="n">Nut</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Random augmentation of images in samples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AugmentImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rnd</span><span class="o">.</span><span class="n">Random</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        samples &gt;&gt; AugmentImage(imagecols, rand=rnd.Random())</span>
+
+<span class="sd">        Randomly augment images, e.g. changing contrast. See TransformImage for</span>
+<span class="sd">        a full list of available augmentations. Every transformation can be</span>
+<span class="sd">        used as an augmentation. Note that the same (random) augmentation</span>
+<span class="sd">        is applied to all images specified in imagecols. This ensures that</span>
+<span class="sd">        an image and its mask are randomly rotated by the same angle,</span>
+<span class="sd">        for instance.</span>
+
+<span class="sd">        &gt;&gt;&gt; augment_img = (AugmentImage(0)</span>
+<span class="sd">        ...     .by(&#39;identical&#39;, 1.0)</span>
+<span class="sd">        ...     .by(&#39;brightness&#39;, 0.5, [0.7, 1.3])</span>
+<span class="sd">        ...     .by(&#39;contrast&#39;, 0.5, [0.7, 1.3])</span>
+<span class="sd">        ...     .by(&#39;fliplr&#39;, 0.5)</span>
+<span class="sd">        ...     .by(&#39;flipud&#39;, 0.5)</span>
+<span class="sd">        ...     .by(&#39;rotate&#39;, 0.5, [0, 360]))</span>
+
+<span class="sd">        Note that each augmentation is applied independently. This is in</span>
+<span class="sd">        contrast to transformations which are applied in sequence and</span>
+<span class="sd">        result in one image.</span>
+<span class="sd">        Augmentation on the other hand are randomly applied and can result</span>
+<span class="sd">        in many images. However, augmenters can be chained to achieve</span>
+<span class="sd">        combinations of augmentation, e.g. contrast or brightness combined with</span>
+<span class="sd">        rotation or shearing:</span>
+
+<span class="sd">        &gt;&gt;&gt; augment1 = (AugmentImage(0)</span>
+<span class="sd">        ...     .by(&#39;brightness&#39;, 0.5, [0.7, 1.3])</span>
+<span class="sd">        ...     .by(&#39;contrast&#39;, 0.5, [0.7, 1.3]))</span>
+
+<span class="sd">        &gt;&gt;&gt; augment2 = (AugmentImage(0)</span>
+<span class="sd">        ...     .by(&#39;shear&#39;, 0.5, [0, 0.2])</span>
+<span class="sd">        ...     .by(&#39;rotate&#39;, 0.5, [0, 360]))</span>
+
+<span class="sd">        samples &gt;&gt; augment1 &gt;&gt; augment2 &gt;&gt; Consume()</span>
+
+
+<span class="sd">        :param int|tuple imagecols: Indices of sample columns that contain</span>
+<span class="sd">            images.</span>
+<span class="sd">        :param Random rand: Random number generator to be used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imagecols</span> <span class="o">=</span> <span class="n">imagecols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rand</span> <span class="o">=</span> <span class="n">rand</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">augmentations</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="AugmentImage.by"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.by">[docs]</a>    <span class="k">def</span> <span class="nf">by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="o">*</span><span class="n">ranges</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Specify and add augmentation to be performed.</span>
+
+<span class="sd">        &gt;&gt;&gt; augment_img = AugmentImage(0).by(&#39;rotate&#39;, 0.5, [0, 360])</span>
+
+<span class="sd">        :param string name: Name of the augmentation/transformation, e.g.</span>
+<span class="sd">          &#39;rotate&#39;</span>
+<span class="sd">        :param float prob: Probability [0,1] that the augmentation is applied.</span>
+<span class="sd">        :param list of lists ranges: Lists with ranges for each argument of</span>
+<span class="sd">          the augmentation, e.g. [0, 360] degrees, where parameters are</span>
+<span class="sd">            randomly sampled from.</span>
+<span class="sd">        :param kwargs kwargs: Keyword arguments passed on the the augmentation.</span>
+<span class="sd">        :return: instance of AugmentImage</span>
+<span class="sd">        :rtype: AugmentImage</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">augmentations</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">ranges</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="AugmentImage.__rrshift__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.__rrshift__">[docs]</a>    <span class="k">def</span> <span class="nf">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply augmentation to samples in iterable.</span>
+
+<span class="sd">        :param iterable iterable: Samples</span>
+<span class="sd">        :return: iterable with augmented samples</span>
+<span class="sd">        :rtype: iterable</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">imagecols</span> <span class="o">=</span> <span class="n">as_tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imagecols</span><span class="p">)</span>
+        <span class="n">rand</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rand</span>
+        <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">ranges</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">augmentations</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ranges</span><span class="p">]</span>
+                    <span class="n">transformation</span> <span class="o">=</span> <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
+                    <span class="k">yield</span> <span class="n">map_transform</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span></div></div>
+
+
+<span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">RegularImagePatches</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">stride</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    samples &gt;&gt; RegularImagePatches(imagecols, shape, stride)</span>
+
+<span class="sd">    Extract patches in a regular grid from images.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; img = np.reshape(np.arange(12), (3, 4))</span>
+<span class="sd">    &gt;&gt;&gt; samples = [(img, 0)]</span>
+<span class="sd">    &gt;&gt;&gt; get_patches = RegularImagePatches(0, (2, 2), 2)</span>
+<span class="sd">    &gt;&gt;&gt; for p in samples &gt;&gt; get_patches:</span>
+<span class="sd">    ...     print p</span>
+<span class="sd">    (array([[0, 1],</span>
+<span class="sd">           [4, 5]]), 0)</span>
+<span class="sd">    (array([[2, 3],</span>
+<span class="sd">           [6, 7]]), 0)</span>
+
+<span class="sd">    :param iterable iterable: Samples with images</span>
+<span class="sd">    :param int|tuple imagecols: Indices of sample columns that contain</span>
+<span class="sd">      images, where patches are extracted from.</span>
+<span class="sd">      Images must be numpy arrays of shape h,w,c or h,w</span>
+<span class="sd">    :param tuple shape: Shape of patch (h,w)</span>
+<span class="sd">    :param int stride: Step size of grid patches are extracted from</span>
+<span class="sd">    :return: Iterator over samples where images are replaced by patches.</span>
+<span class="sd">    :rtype: iterator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">colset</span> <span class="o">=</span> <span class="n">as_set</span><span class="p">(</span><span class="n">imagecols</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="n">patches</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">col_map</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">patch_iter</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">enum_iter</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">patches</span><span class="p">)</span>
+            <span class="n">patched</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colset</span> <span class="k">else</span> <span class="n">p</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">enum_iter</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">patched</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">patched</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>  <span class="c1"># one or all patch iterators are depleted</span>
+
+
+<span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">RandomImagePatches</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npatches</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    samples &gt;&gt; RandomImagePatches(imagecols, shape, npatches)</span>
+
+<span class="sd">    Extract patches at random locations from images.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)    # just to ensure stable doctest</span>
+<span class="sd">    &gt;&gt;&gt; img = np.reshape(np.arange(30), (5, 6))</span>
+<span class="sd">    &gt;&gt;&gt; samples = [(img, 0)]</span>
+<span class="sd">    &gt;&gt;&gt; get_patches = RandomImagePatches(0, (2, 3), 3)</span>
+<span class="sd">    &gt;&gt;&gt; for (p, l) in patches:</span>
+<span class="sd">    ...     print p, l</span>
+<span class="sd">    [[ 7  8  9]</span>
+<span class="sd">     [13 14 15]] 0</span>
+<span class="sd">    [[ 8  9 10]</span>
+<span class="sd">     [14 15 16]] 0</span>
+<span class="sd">    [[ 8  9 10]</span>
+<span class="sd">     [14 15 16]] 0</span>
+
+<span class="sd">    :param iterable iterable: Samples with images</span>
+<span class="sd">    :param int|tuple imagecols: Indices of sample columns that contain</span>
+<span class="sd">      images, where patches are extracted from.</span>
+<span class="sd">      Images must be numpy arrays of shape h,w,c or h,w</span>
+<span class="sd">    :param tuple shape: Shape of patch (h,w)</span>
+<span class="sd">    :param int npatches: Number of patches to extract (per image)</span>
+<span class="sd">    :return: Iterator over samples where images are replaced by patches.</span>
+<span class="sd">    :rtype: iterator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">imagecols</span> <span class="o">=</span> <span class="n">as_tuple</span><span class="p">(</span><span class="n">imagecols</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">imagecols</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">hi</span><span class="p">,</span> <span class="n">wi</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">hs2</span><span class="p">,</span> <span class="n">ws2</span> <span class="o">=</span> <span class="n">pshape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pshape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">hs2</span><span class="p">,</span> <span class="n">hi</span> <span class="o">-</span> <span class="n">hs2</span><span class="p">,</span> <span class="n">npatches</span><span class="p">)</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">ws2</span><span class="p">,</span> <span class="n">wi</span> <span class="o">-</span> <span class="n">ws2</span><span class="p">,</span> <span class="n">npatches</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">ut</span><span class="o">.</span><span class="n">col_map</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">extract_patch</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+
+<span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">ImagePatchesByMask</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">maskcol</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span>
+                       <span class="n">nneg</span><span class="o">=</span><span class="k">lambda</span> <span class="n">npos</span><span class="p">:</span> <span class="n">npos</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">neg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">retlabel</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    samples &gt;&gt; ImagePatchesByMask(imagecol, maskcol, pshape, npos,</span>
+<span class="sd">                                 nneg=lambda npos: npos,</span>
+<span class="sd">                                 pos=255, neg=0, retlabel=True)</span>
+
+
+<span class="sd">    Randomly sample positive/negative patches from image based on mask.</span>
+
+<span class="sd">    A patch is positive if its center point has the value &#39;pos&#39; in the</span>
+<span class="sd">    mask (corresponding to the input image) and is negative for value &#39;neg&#39;</span>
+<span class="sd">    The mask must be of same size as image.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)    # just to ensure stable doctest</span>
+<span class="sd">    &gt;&gt;&gt; img = np.reshape(np.arange(25), (5, 5))</span>
+<span class="sd">    &gt;&gt;&gt; mask = np.eye(5, dtype=&#39;uint8&#39;) * 255</span>
+<span class="sd">    &gt;&gt;&gt; samples = [(img, mask)]</span>
+
+<span class="sd">    &gt;&gt;&gt; get_patches = ImagePatchesByMask(0, 1, (3, 3), 2, 1)</span>
+<span class="sd">    &gt;&gt;&gt; for (p, l) in patches:</span>
+<span class="sd">    ...     print p, l</span>
+<span class="sd">    [[10 11 12]</span>
+<span class="sd">     [15 16 17]</span>
+<span class="sd">     [20 21 22]] 0</span>
+<span class="sd">    [[12 13 14]</span>
+<span class="sd">     [17 18 19]</span>
+<span class="sd">     [22 23 24]] 1</span>
+<span class="sd">    [[ 6  7  8]</span>
+<span class="sd">     [11 12 13]</span>
+<span class="sd">     [16 17 18]] 1</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)    # just to ensure stable doctest</span>
+<span class="sd">    &gt;&gt;&gt; get_patches = ImagePatchesByMask(0, 1, (3, 3), 1, 1, retlabel=False)</span>
+<span class="sd">    &gt;&gt;&gt; for (p, m) in patches:</span>
+<span class="sd">    ...     print p</span>
+<span class="sd">    ...     print m</span>
+<span class="sd">    [[12 13 14]</span>
+<span class="sd">     [17 18 19]</span>
+<span class="sd">     [22 23 24]]</span>
+<span class="sd">    [[255   0   0]</span>
+<span class="sd">     [  0 255   0]</span>
+<span class="sd">     [  0   0 255]]</span>
+<span class="sd">    [[10 11 12]</span>
+<span class="sd">     [15 16 17]</span>
+<span class="sd">     [20 21 22]]</span>
+<span class="sd">    [[  0   0 255]</span>
+<span class="sd">     [  0   0   0]</span>
+<span class="sd">     [  0   0   0]]</span>
+
+<span class="sd">    :param iterable iterable: Samples with images</span>
+<span class="sd">    :param int imagecol: Index of sample column that contain image</span>
+<span class="sd">    :param int maskcol: Index of sample column that contain mask</span>
+<span class="sd">    :param tuple pshape: Shape of patch</span>
+<span class="sd">    :param int npos: Number of positive patches to sample</span>
+<span class="sd">    :param int|function nneg: Number of negative patches to sample or</span>
+<span class="sd">        a function hat returns the number of negatives</span>
+<span class="sd">        based on number of positives.</span>
+<span class="sd">    :param int pos: Mask value indicating positives</span>
+<span class="sd">    :param int neg: Mask value indicating negatives</span>
+<span class="sd">    :param bool retlabel: True return label, False return mask patch</span>
+<span class="sd">    :return: Iterator over samples where images are replaced by image patches</span>
+<span class="sd">        and masks are replaced by labels [0,1] or mask patches</span>
+<span class="sd">    :rtype: iterator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">imagecol</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="n">maskcol</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">mask</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Image and mask size don&#39;&#39;t match!&#39;</span><span class="p">)</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="n">ni</span><span class="o">.</span><span class="n">sample_pn_patches</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span> <span class="n">nneg</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">neg</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">img_patch</span><span class="p">,</span> <span class="n">mask_patch</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+            <span class="n">outsample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sample</span><span class="p">)[:]</span>
+            <span class="n">outsample</span><span class="p">[</span><span class="n">imagecol</span><span class="p">]</span> <span class="o">=</span> <span class="n">img_patch</span>
+            <span class="n">outsample</span><span class="p">[</span><span class="n">maskcol</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span> <span class="k">if</span> <span class="n">retlabel</span> <span class="k">else</span> <span class="n">mask_patch</span>
+            <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">outsample</span><span class="p">)</span>
+
+
+<span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">ImagePatchesByAnnotation</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">annocol</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span>
+                             <span class="n">nneg</span><span class="o">=</span><span class="k">lambda</span> <span class="n">npos</span><span class="p">:</span> <span class="n">npos</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">neg</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    samples &gt;&gt; ImagePatchesByAnnotation(imagecol, annocol, pshape, npos,</span>
+<span class="sd">                                 nneg=lambda npos: npos,</span>
+<span class="sd">                                 pos=255, neg=0)</span>
+
+<span class="sd">    Randomly sample positive/negative patches from image based on annotation.</span>
+<span class="sd">    See imageutil.annotation2coords for annotation format.</span>
+<span class="sd">    A patch is positive if its center point is within the annotated region</span>
+<span class="sd">    and is negative otherwise</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)    # just to ensure stable doctest</span>
+<span class="sd">    &gt;&gt;&gt; img = np.reshape(np.arange(25), (5, 5))</span>
+<span class="sd">    &gt;&gt;&gt; anno = (&#39;point&#39;, ((3, 2), (2, 3),))</span>
+<span class="sd">    &gt;&gt;&gt; samples = [(img, anno)]</span>
+
+<span class="sd">    &gt;&gt;&gt; get_patches = ImagePatchesByAnnotation(0, 1, (3, 3), 1, 1)</span>
+<span class="sd">    &gt;&gt;&gt; for (p, l) in patches:</span>
+<span class="sd">    ...     print p, l</span>
+<span class="sd">    [[12 13 14]</span>
+<span class="sd">     [17 18 19]</span>
+<span class="sd">     [22 23 24]] 0</span>
+<span class="sd">    [[11 12 13]</span>
+<span class="sd">     [16 17 18]</span>
+<span class="sd">     [21 22 23]] 1</span>
+<span class="sd">    [[7 8 9]</span>
+<span class="sd">     [12 13 14]</span>
+<span class="sd">     [17 18 19]] 1</span>
+
+<span class="sd">    :param iterable iterable: Samples with images</span>
+<span class="sd">    :param int imagecol: Index of sample column that contain image</span>
+<span class="sd">    :param int annocol: Index of sample column that contain annotation</span>
+<span class="sd">    :param tuple pshape: Shape of patch</span>
+<span class="sd">    :param int npos: Number of positive patches to sample</span>
+<span class="sd">    :param int|function nneg: Number of negative patches to sample or</span>
+<span class="sd">        a function hat returns the number of negatives</span>
+<span class="sd">        based on number of positives.</span>
+<span class="sd">    :param int pos: Mask value indicating positives</span>
+<span class="sd">    :param int neg: Mask value indicating negatives</span>
+<span class="sd">    :return: Iterator over samples where images are replaced by image patches</span>
+<span class="sd">        and annotations are replaced by labels [0,1]</span>
+<span class="sd">    :rtype: iterator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="n">image</span><span class="p">,</span> <span class="n">annotations</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">imagecol</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="n">annocol</span><span class="p">]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">ni</span><span class="o">.</span><span class="n">annotation2mask</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">annotations</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotations</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">annotations</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="n">ni</span><span class="o">.</span><span class="n">sample_pn_patches</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">nneg</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">neg</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">img_patch</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+            <span class="n">outsample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sample</span><span class="p">)[:]</span>
+            <span class="n">outsample</span><span class="p">[</span><span class="n">imagecol</span><span class="p">]</span> <span class="o">=</span> <span class="n">img_patch</span>
+            <span class="n">outsample</span><span class="p">[</span><span class="n">annocol</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">outsample</span><span class="p">)</span>
+
+
+<span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">ImageAnnotationToMask</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">annocol</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    samples &gt;&gt; ImageAnnotationToMask(imagecol, annocol)</span>
+
+<span class="sd">    Create mask for image annotation. Annotation are of the following formats.</span>
+<span class="sd">    See imageutil.annotation2coords for details.</span>
+<span class="sd">    (&#39;point&#39;, ((x, y), ... ))</span>
+<span class="sd">    (&#39;circle&#39;, ((x, y, r), ...))</span>
+<span class="sd">    (&#39;rect&#39;, ((x, y, w, h), ...))</span>
+<span class="sd">    (&#39;polyline&#39;, (((x, y), (x, y), ...), ...))</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; img = np.zeros((3, 3), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; anno = (&#39;point&#39;, ((0, 1), (2, 0)))</span>
+<span class="sd">    &gt;&gt;&gt; samples = [(img, anno)]</span>
+<span class="sd">    &gt;&gt;&gt; masks = samples &gt;&gt; ImageAnnotationToMask(0, 1) &gt;&gt; Collect()</span>
+<span class="sd">    &gt;&gt;&gt; masks[0][1]</span>
+<span class="sd">    [[  0   0 255]</span>
+<span class="sd">     [255   0   0]</span>
+<span class="sd">     [  0   0   0]]</span>
+
+<span class="sd">    :param iterable iterable: Samples with images and annotations</span>
+<span class="sd">    :param int imagecol: Index of sample column that contain image</span>
+<span class="sd">    :param int annocol: Index of sample column that contain annotation</span>
+<span class="sd">    :return: Iterator over samples where annotations are replaced by masks</span>
+<span class="sd">    :rtype: iterator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sample</span><span class="p">)[:]</span>  <span class="c1"># going to mutate sample</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">ni</span><span class="o">.</span><span class="n">annotation2mask</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="n">imagecol</span><span class="p">],</span> <span class="n">sample</span><span class="p">[</span><span class="n">annocol</span><span class="p">])</span>
+        <span class="n">sample</span><span class="p">[</span><span class="n">annocol</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask</span>
+        <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ImageMean"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageMean">[docs]</a><span class="k">class</span> <span class="nc">ImageMean</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute, save mean over images and subtract from images.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ImageMean.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageMean.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;image_means.npy&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">         samples &gt;&gt; ImageMean(imagecol, filepath=&#39;image_means.npy&#39;)</span>
+
+<span class="sd">         Construct ImageMean nut.</span>
+
+<span class="sd">        :param int imagecol: Index of sample column that contain image</span>
+<span class="sd">        :param string filepath: Path to file were mean values are saved</span>
+<span class="sd">           and loaded from.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hasfile</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imagecol</span> <span class="o">=</span> <span class="n">imagecol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">if</span> <span class="n">hasfile</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
+
+<div class="viewcode-block" id="ImageMean.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageMean.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subtract mean from images in samples.</span>
+
+<span class="sd">        sub_mean = ImageMean(imagecol, filepath)</span>
+<span class="sd">        samples &gt;&gt; sub_mean &gt;&gt; Consume()</span>
+
+<span class="sd">        :param tuple sample: Sample that contains an image (at imagecol).</span>
+<span class="sd">        :return: Sample with image where mean is subtracted.</span>
+<span class="sd">                 Note that image will not be of dtype uint8 and</span>
+<span class="sd">                 in range [0,255] anymore!</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sample</span><span class="p">)[:]</span>  <span class="c1"># going to mutate sample</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">imagecol</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Mean has not yet been computed!&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Mean loaded was computed on different images?&#39;</span><span class="p">)</span>
+        <span class="n">sample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">imagecol</span><span class="p">]</span> <span class="o">=</span> <span class="n">image</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ImageMean.train"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageMean.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute mean over images in samples.</span>
+
+<span class="sd">        sub_mean = ImageMean(imagecol, filepath)</span>
+<span class="sd">        samples &gt;&gt; sub_mean.train() &gt;&gt; Consume()</span>
+
+<span class="sd">        :return: Input samples are returned unchanged</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nd">@nut_processor</span>
+        <span class="k">def</span> <span class="nf">Trainer</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">outer</span><span class="p">):</span>
+            <span class="n">img_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            <span class="k">for</span> <span class="n">n_i</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">outer</span><span class="o">.</span><span class="n">imagecol</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">img_mean</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                    <span class="n">img_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">img_mean</span> <span class="o">+=</span> <span class="n">image</span>
+                <span class="k">yield</span> <span class="n">sample</span>
+            <span class="n">outer</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">img_mean</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">outer</span><span class="o">.</span><span class="n">filepath</span><span class="p">:</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="n">outer</span><span class="o">.</span><span class="n">means</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Trainer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ImageChannelMean"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageChannelMean">[docs]</a><span class="k">class</span> <span class="nc">ImageChannelMean</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute, save per-channel means over images and subtract from images.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ImageChannelMean.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageChannelMean.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;image_channel_means.npy&#39;</span><span class="p">,</span>
+                 <span class="n">means</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">         samples &gt;&gt; ImageChannelMean(imagecol,</span>
+<span class="sd">                                     filepath=&#39;image_channel_means.npy&#39;,</span>
+<span class="sd">                                     means=None)</span>
+
+<span class="sd">         Construct ImageChannelMean nut.</span>
+
+<span class="sd">        :param int imagecol: Index of sample column that contain image</span>
+<span class="sd">        :param string filepath: Path to file were mean values are saved</span>
+<span class="sd">            and loaded from.</span>
+<span class="sd">        :param list|tuple means: Mean values can be provided directly.</span>
+<span class="sd">          In this case filepath will be ignored and training is not</span>
+<span class="sd">          necessary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hasfile</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imagecol</span> <span class="o">=</span> <span class="n">imagecol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="k">if</span> <span class="n">means</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">means</span><span class="p">]])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">if</span> <span class="n">hasfile</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
+
+<div class="viewcode-block" id="ImageChannelMean.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageChannelMean.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subtract per-channel mean from images in samples.</span>
+
+<span class="sd">        sub_mean = ImageChannelMean(imagecol, filepath=&#39;means.npy&#39;)</span>
+<span class="sd">        samples &gt;&gt; sub_mean &gt;&gt; Consume()</span>
+
+<span class="sd">        sub_mean = ImageChannelMean(imagecol, means=[197, 87, 101])</span>
+<span class="sd">        samples &gt;&gt; sub_mean &gt;&gt; Consume()</span>
+
+<span class="sd">        :param tuple sample: Sample that contains an image (at imagecol).</span>
+<span class="sd">        :return: Sample with image where mean is subtracted.</span>
+<span class="sd">                 Note that image will not be of dtype uint8 and</span>
+<span class="sd">                 in range [0,255] anymore!</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sample</span><span class="p">)[:]</span>  <span class="c1"># going to mutate sample</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">imagecol</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Mean has not yet been computed!&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Mean loaded was computed on different images?&#39;</span><span class="p">)</span>
+        <span class="n">sample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">imagecol</span><span class="p">]</span> <span class="o">=</span> <span class="n">image</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">means</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ImageChannelMean.train"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageChannelMean.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute per-channel mean over images in samples.</span>
+
+<span class="sd">        sub_mean = ImageChannelMean(imagecol, filepath)</span>
+<span class="sd">        samples &gt;&gt; sub_mean.train() &gt;&gt; Consume()</span>
+
+<span class="sd">        :return: Input samples are returned unchanged</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nd">@nut_processor</span>
+        <span class="k">def</span> <span class="nf">Trainer</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">outer</span><span class="p">):</span>
+            <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            <span class="k">for</span> <span class="n">n_i</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+                <span class="n">image</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">outer</span><span class="o">.</span><span class="n">imagecol</span><span class="p">]</span>
+                <span class="n">img_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">means</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                    <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">img_means</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">means</span> <span class="o">+=</span> <span class="n">img_means</span>
+                <span class="k">yield</span> <span class="n">sample</span>
+            <span class="n">outer</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">means</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">outer</span><span class="o">.</span><span class="n">filepath</span><span class="p">:</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">outer</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="n">outer</span><span class="o">.</span><span class="n">means</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Trainer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, IBM.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
