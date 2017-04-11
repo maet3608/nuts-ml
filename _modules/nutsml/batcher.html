@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>nutsml.batcher &#8212; nutsml 1.0.6 documentation</title>
+    <title>nutsml.batcher &#8212; nutsml 1.0.7 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.6',
+        VERSION:     '1.0.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -115,7 +115,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="build_image_batch"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.build_image_batch">[docs]</a><span class="k">def</span> <span class="nf">build_image_batch</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">channelfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="build_image_batch"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.build_image_batch">[docs]</a><span class="k">def</span> <span class="nf">build_image_batch</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">channelfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return batch of images.</span>
 
@@ -127,7 +127,7 @@
 
 <span class="sd">    &gt;&gt;&gt; from datautil import shapestr</span>
 <span class="sd">    &gt;&gt;&gt; images = [np.zeros((2, 3)), np.ones((2, 3))]</span>
-<span class="sd">    &gt;&gt;&gt; batch = build_image_batch(images, &#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; batch = build_image_batch(images, &#39;uint8&#39;, True)</span>
 <span class="sd">    &gt;&gt;&gt; shapestr(batch)</span>
 <span class="sd">    &#39;2x1x2x3&#39;</span>
 

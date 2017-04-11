@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>nutsml.imageutil &#8212; nutsml 1.0.6 documentation</title>
+    <title>nutsml.imageutil &#8212; nutsml 1.0.7 documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.6',
+        VERSION:     '1.0.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -58,6 +58,7 @@
 <span class="kn">from</span> <span class="nn">datautil</span> <span class="k">import</span> <span class="n">shapestr</span><span class="p">,</span> <span class="n">isnan</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">ImageEnhance</span> <span class="k">as</span> <span class="n">ie</span>
 <span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="k">import</span> <span class="n">circle</span><span class="p">,</span> <span class="n">polygon</span>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2gray</span>
 <span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
 
 
@@ -65,13 +66,13 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load image as numpy array from given filepath.</span>
 
-<span class="sd">    Supported formats: gif, png, jpg, bmp, tif</span>
+<span class="sd">    Supported formats: gif, png, jpg, bmp, tif, npy</span>
 
 <span class="sd">    &gt;&gt;&gt; img = load_image(&#39;tests/data/img_formats/nut_color.jpg&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; shapestr(img)</span>
 <span class="sd">    &#39;213x320x3&#39;</span>
 
-<span class="sd">    :param string filepath: Filepath to image file.</span>
+<span class="sd">    :param string filepath: Filepath to image file or numpy array.</span>
 <span class="sd">    :param bool as_grey:</span>
 <span class="sd">    :return: numpy array with shapes</span>
 <span class="sd">             (h, w) for grayscale or monochrome,</span>
@@ -81,8 +82,13 @@
 <span class="sd">             pixel values are in range [0,255] for dtype = uint8</span>
 <span class="sd">    :rtype: numpy ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># img_num=0 due to https://github.com/scikit-image/scikit-image/issues/2406</span>
-    <span class="n">arr</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="n">as_grey</span><span class="p">,</span> <span class="n">img_num</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">):</span>  <span class="c1"># image as numpy array</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">if</span> <span class="n">as_grey</span> <span class="k">else</span> <span class="n">arr</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># img_num=0 due to </span>
+        <span class="c1"># https://github.com/scikit-image/scikit-image/issues/2406</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="n">as_grey</span><span class="p">,</span> <span class="n">img_num</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">no_alpha</span><span class="p">:</span>
         <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># cut off alpha channel</span>
     <span class="k">return</span> <span class="n">arr</span></div>
@@ -90,16 +96,19 @@
 
 <div class="viewcode-block" id="save_image"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.save_image">[docs]</a><span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Save numpy array as image to given filepath.</span>
+<span class="sd">    Save numpy array as image (or numpy array) to given filepath.</span>
 
-<span class="sd">    Supported formats: gif, png, jpg, bmp, tif</span>
+<span class="sd">    Supported formats: gif, png, jpg, bmp, tif, npy</span>
 
 <span class="sd">    :param string filepath: File path for image file. Extension determines</span>
 <span class="sd">        image file format, e.g. .gif</span>
 <span class="sd">    :param numpy array image: Numpy array to save as image.</span>
 <span class="sd">        Must be of shape (h,w) or (h,w,3) or (h,w,4)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">sio</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">):</span>  <span class="c1"># image as numpy array</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sio</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="arr_to_pil"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.arr_to_pil">[docs]</a><span class="k">def</span> <span class="nf">arr_to_pil</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>

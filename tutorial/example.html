@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Example &#8212; nutsml 1.0.6 documentation</title>
+    <title>Example &#8212; nutsml 1.0.7 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1.0.6',
+        VERSION:     '1.0.7',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -45,15 +45,204 @@
             
   <div class="section" id="example">
 <h1>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h1>
-<p>CIFAR10 example</p>
+<p><a class="reference external" href="https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10</a> is a classical benchmark
+problem for deep learning in image recognition. Given are 10 categories
+(airplane, dog, ship, ...) and the task is to classify small images accordingly.</p>
+<img alt="../_images/cifar10.png" src="../_images/cifar10.png" />
+<p>The dataset consists of 60000 RGB images of size 32x32 pixels. There are 6000 images
+per class and the dataset is split into 50000 training images and 10000 test images.
+For more details see the <a class="reference external" href="https://www.cs.toronto.edu/~kriz/learning-features-2009-TR.pdf">Tech report</a>.</p>
+<p>Here we show how to use <strong>nuts-flow/ml</strong> and <a class="reference external" href="https://keras.io/">Keras</a> to
+train a network for this task. For readability we ommit the imports but
+the complete code and more examples can be found under
+<a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py">nutsml/examples</a>.</p>
+<div class="section" id="network">
+<h2>Network<a class="headerlink" href="#network" title="Permalink to this headline">¶</a></h2>
+<p>The following network definition of a CNN is a slightly modified copy of the Keras
+<a class="reference external" href="https://github.com/fchollet/keras/blob/master/examples/cifar10_cnn.py">cifar10_cnn.py</a>
+example with the notable exception of the last line, where the model is wrapped in a
+<code class="docutils literal"><span class="pre">KerasNetwork</span></code>. Note this Keras version 2.x.</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">INPUT_SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">NUM_CLASSES</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="k">def</span> <span class="nf">create_network</span><span class="p">():</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Convolution2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span>
+                            <span class="n">input_shape</span><span class="o">=</span><span class="n">INPUT_SHAPE</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Convolution2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Convolution2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Convolution2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">MaxPooling2D</span><span class="p">(</span><span class="n">pool_size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Flatten</span><span class="p">())</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">512</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">NUM_CLASSES</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s1">&#39;softmax&#39;</span><span class="p">))</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;categorical_crossentropy&#39;</span><span class="p">,</span>
+                  <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">KerasNetwork</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;weights_cifar10.hd5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The wrapping will allows us to use the CNN as a <code class="docutils literal"><span class="pre">nut</span></code> within a <strong>nuts-flow</strong>.
+The <code class="docutils literal"><span class="pre">KerasNetwork</span></code> wrapper also takes a path to a weights file used for
+check-pointing.</p>
+</div>
+<div class="section" id="loading-samples">
+<h2>Loading samples<a class="headerlink" href="#loading-samples" title="Permalink to this headline">¶</a></h2>
+<p>In many real-world image processing applications the complete set of training images
+is too large to fit in memory and images would be loaded individually
+as part of the data flow. See <a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/read_images.py">read_images.py</a>
+for an example that loads images sequentially from the file system.</p>
+<p>CIFAR-10 is small benchmark example and all images
+fit in memory. We therefore take advantage of the data loading function
+<code class="docutils literal"><span class="pre">cifar10.load_data()</span></code> provided by
+<a class="reference external" href="https://github.com/fchollet/keras/blob/master/keras/datasets/cifar10.py">Keras</a>,
+load all images in memory, but rearrange the data slightly</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_samples</span><span class="p">():</span>
+    <span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">cifar10</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)),</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Specifically, we convert class labels from Numpy floats to integers,
+and zip inputs and outputs to create training and test samples.
+A single sample is then of the following format</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where the image is a Numpy array of shape <code class="docutils literal"><span class="pre">(32,32,3)</span></code>, and the label is
+an integer number between 0 and 9, indicating the class. We can verify the
+type and shape of the loaded data by running the following code</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">train_samples</span><span class="p">,</span> <span class="n">val_samples</span> <span class="o">=</span> <span class="n">load_samples</span><span class="p">()</span>
+<span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which takes the first three samples and prints for each sample column
+the data type and content info</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">0</span><span class="o">-</span><span class="mi">255</span>
+<span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">6</span>
+
+<span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">5</span><span class="o">-</span><span class="mi">254</span>
+<span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">9</span>
+
+<span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">20</span><span class="o">-</span><span class="mi">255</span>
+<span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">9</span>
+</pre></div>
+</div>
+<p>As expected, sample column 0 contain RGB images of shape 32x32x3 with value
+in range 0 to 255 and the class labels in column 1 are an integers.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The standard format for image data in <strong>nuts-ml</strong> is Numpy arrays
+of shape <code class="docutils literal"><span class="pre">(h,w,3)</span></code> for RGB images. Also supported are gray-scale images
+<code class="docutils literal"><span class="pre">(h,w)</span></code> and RGBA images <code class="docutils literal"><span class="pre">(h,w,4)</span></code>.  Image readers will return images in
+these formats, image viewers expect these image formats,
+and batchers will convert to different shapes to build mini-batches if necessary.</p>
+</div>
+</div>
 <div class="section" id="training">
 <h2>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="validation">
-<h3>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h3>
+<p>We will introduce the code for the network training in small, slightly
+simplified pieces before showing the complete training example later.
+We start by creating the network and loading the sample data,
+using the functions shown above</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">()</span>
+<span class="n">train_samples</span><span class="p">,</span> <span class="n">val_samples</span> <span class="o">=</span> <span class="n">load_samples</span><span class="p">()</span>
+</pre></div>
 </div>
+<p>Having a network and samples we could now train the network (for one epoch)
+with the following <strong>nuts-flow</strong></p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                 <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Training images are <em>augmented</em> by random transformations, <em>re-ranged</em> from [0,255]
+to [0,1], and <em>shuffled</em> before mini-batches are <em>built</em> that are then fed into
+the network for <em>training</em>. The outputs of the training (losses, accuracies)  are
+<em>consumed</em>, which drives the entire flow.</p>
+<p><code class="docutils literal"><span class="pre">Consume</span></code> and <code class="docutils literal"><span class="pre">Shuffle</span></code> are pre-defined <em>nuts</em> from <strong>nuts-flow</strong>. Augmentation,
+re-ranging and batch-building are <em>nuts</em> from <strong>nuts-ml</strong> that are described below.</p>
 <div class="section" id="augmentation">
 <h3>Augmentation<a class="headerlink" href="#augmentation" title="Permalink to this headline">¶</a></h3>
+<p>Deep learning requires large data sets and a common strategy to increase the
+amount of image data is to augment the data set with randomly perturbed
+copies, e.g. slightly rotated or changed in contrast. Here we augment the
+CIFAR-10 data set by flipping images left-right and changing
+the brightness</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">augment</span> <span class="o">=</span> <span class="p">(</span><span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;identical&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;fliplr&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;brightness&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">]))</span>
+</pre></div>
 </div>
+<p>The <code class="docutils literal"><span class="pre">AugmentImage</span></code> nut takes as parameter the index of the image within the
+sample <code class="docutils literal"><span class="pre">(image,</span> <span class="pre">label)</span></code>, here position 0 and augmentations are specified
+by invoking <code class="docutils literal"><span class="pre">by(transformation,</span> <span class="pre">probability,</span> <span class="pre">*args)</span></code>.</p>
+<p>We augment by passing the unchanged image (<code class="docutils literal"><span class="pre">'identical'</span></code>) through with
+probability 1.0, flipping images horizontally for 10% of the data (<code class="docutils literal"><span class="pre">p</span> <span class="pre">=</span> <span class="pre">0.1</span></code>),
+and randomly changing the brightness in range <code class="docutils literal"><span class="pre">[0.7,</span> <span class="pre">1.3]</span></code> for another 10%.</p>
+<p>In detail: for every sample processed by <code class="docutils literal"><span class="pre">AugmentImage</span></code>, the image is
+extracted from position 0 of the sample tuple and new samples with the same label
+but with augmented images are outputted. For each input image the identical
+output image is generated (<code class="docutils literal"><span class="pre">identical</span></code>), and additional augmented samples
+(<code class="docutils literal"><span class="pre">fliplr</span></code>, <code class="docutils literal"><span class="pre">brightness</span></code>) are created with 10% probability each.</p>
+</div>
+<div class="section" id="preprocessing">
+<h3>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this headline">¶</a></h3>
+<p>Images returned by <code class="docutils literal"><span class="pre">load_samples()</span></code> are Numpy arrays with integers in range
+[0, 255]. The network, however, expects floating point numbers in range [0,1].
+We therefore transform images by <em>reranging</em></p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">rerange</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where again <code class="docutils literal"><span class="pre">TransformImage</span></code> takes as parameter the index of the image within
+the sample and transformation are specified by invoking
+<code class="docutils literal"><span class="pre">by(transformation,</span> <span class="pre">probability,</span> <span class="pre">*args)</span></code>.</p>
+</div>
+<div class="section" id="batching">
+<h3>Batching<a class="headerlink" href="#batching" title="Permalink to this headline">¶</a></h3>
+<p>Networks are trained with <em>mini-batches</em> of samples. <code class="docutils literal"><span class="pre">BuildBatch(batchsize)</span></code>
+is used to build these batches and to specify the transformations needed. The
+following definition creates a batcher that extracts images from column 0 of the
+samples and class labels from column 1. Class labels are encode as one-hot vectors,
+while images are represented as numpy arrays with dtype float32.</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">NUM_CLASSES</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">NUM_CLASSES</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="training-results">
+<h3>Training results<a class="headerlink" href="#training-results" title="Permalink to this headline">¶</a></h3>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                 <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train loss  :&quot;</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_loss</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train acc   :&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="validation">
+<h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="evaluation">
+<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="prediction">
 <h2>Prediction<a class="headerlink" href="#prediction" title="Permalink to this headline">¶</a></h2>
@@ -61,7 +250,7 @@
 <div class="section" id="writing">
 <h2>Writing<a class="headerlink" href="#writing" title="Permalink to this headline">¶</a></h2>
 <p>Writing image data</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">train_samples</span><span class="p">,</span> <span class="n">val_samples</span><span class="p">):</span>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">train_samples</span><span class="p">,</span> <span class="n">val_samples</span><span class="p">):</span>
     <span class="kn">from</span> <span class="nn">keras.metrics</span> <span class="k">import</span> <span class="n">categorical_accuracy</span>
 
     <span class="n">rerange</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
@@ -117,11 +306,17 @@
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Example</a><ul>
+<li><a class="reference internal" href="#network">Network</a></li>
+<li><a class="reference internal" href="#loading-samples">Loading samples</a></li>
 <li><a class="reference internal" href="#training">Training</a><ul>
-<li><a class="reference internal" href="#validation">Validation</a></li>
 <li><a class="reference internal" href="#augmentation">Augmentation</a></li>
+<li><a class="reference internal" href="#preprocessing">Preprocessing</a></li>
+<li><a class="reference internal" href="#batching">Batching</a></li>
+<li><a class="reference internal" href="#training-results">Training results</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#validation">Validation</a></li>
+<li><a class="reference internal" href="#evaluation">Evaluation</a></li>
 <li><a class="reference internal" href="#prediction">Prediction</a></li>
 <li><a class="reference internal" href="#writing">Writing</a></li>
 </ul>

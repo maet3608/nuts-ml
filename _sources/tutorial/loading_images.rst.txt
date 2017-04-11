@@ -1,4 +1,4 @@
-.. _loader:
+.. _reader:
 
 Loading images
 ==============
