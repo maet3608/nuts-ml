@@ -10,10 +10,10 @@ Contents:
    :maxdepth: 2
 
    introduction
-   installation
-   contributions
+   installation   
    tutorial/introduction
    faq
+   contributions
    nutsml
 
 

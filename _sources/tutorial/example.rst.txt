@@ -4,7 +4,7 @@ Example
 Prerequisites for this tutorial are a good knowledge of Python and
 `nuts-flow <https://github.com/maet3608/nuts-flow>`_. Please read the 
 `nuts-flow tutorial <https://maet3608.github.io/nuts-flow/tutorial/introduction.html>`_
-if you haven't yet. Some knowledge of `Keras <https://keras.io/>`_,
+if you haven't. Some knowledge of `Keras <https://keras.io/>`_,
 and of course deep-learning, will be helpful.
 
 
@@ -78,9 +78,9 @@ for check-pointing.
 
 .. note:: 
 
-  Wrapping a model is convenient and wrappers for Keras and Lasagne models
-  are provided. But any deep-learning library that accepts an iterable over 
-  mini-batches for training will work with **nuts-ml**.
+  So far only wrappers for Keras and Lasagne models are provided. However, 
+  any deep-learning library that accepts an iterable over mini-batches for training 
+  will work with **nuts-ml**.
 
 
 
@@ -261,24 +261,34 @@ Training results
 Validation
 ----------
 
+TODO
+
 
 Evaluation
 ----------
+
+TODO
 
 
 Prediction
 ----------
 
+TODO
+
 
 Writing
 -------
 
-Writing image data
+TODO
 
 
 
-Full example code
------------------
+Full example
+------------
+
+Complete code is 
+`here <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py>`_.
+
 
 .. code:: Python
 
@@ -325,5 +335,3 @@ Full example code
           plot_eval((np.mean(t_acc), e_acc))
       print('finished.')
 
-
-   

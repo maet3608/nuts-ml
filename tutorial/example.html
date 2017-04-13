@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example &mdash; nutsml 1.0.8 documentation</title>
+  <title>Example &mdash; nutsml 1.0.10 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="nutsml 1.0.8 documentation" href="../index.html"/>
+    <link rel="top" title="nutsml 1.0.10 documentation" href="../index.html"/>
         <link rel="up" title="Tutorial" href="introduction.html"/>
         <link rel="next" title="Reading samples" href="reading_samples.html"/>
         <link rel="prev" title="Tutorial" href="introduction.html"/> 
@@ -94,7 +94,6 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="introduction.html">Tutorial</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#task">Task</a></li>
@@ -111,7 +110,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#evaluation">Evaluation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#prediction">Prediction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#writing">Writing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#full-example-code">Full example code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#full-example">Full example</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="reading_samples.html">Reading samples</a></li>
@@ -127,6 +126,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nutsml.html">nutsml package</a></li>
 </ul>
 
@@ -198,7 +198,7 @@
 <p>Prerequisites for this tutorial are a good knowledge of Python and
 <a class="reference external" href="https://github.com/maet3608/nuts-flow">nuts-flow</a>. Please read the
 <a class="reference external" href="https://maet3608.github.io/nuts-flow/tutorial/introduction.html">nuts-flow tutorial</a>
-if you haven&#8217;t yet. Some knowledge of <a class="reference external" href="https://keras.io/">Keras</a>,
+if you haven&#8217;t. Some knowledge of <a class="reference external" href="https://keras.io/">Keras</a>,
 and of course deep-learning, will be helpful.</p>
 <div class="section" id="task">
 <h2>Task<a class="headerlink" href="#task" title="Permalink to this headline">¶</a></h2>
@@ -259,9 +259,9 @@ which simplifies training. The wrapper also takes a path to a weights file
 for check-pointing.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Wrapping a model is convenient and wrappers for Keras and Lasagne models
-are provided. But any deep-learning library that accepts an iterable over
-mini-batches for training will work with <strong>nuts-ml</strong>.</p>
+<p class="last">So far only wrappers for Keras and Lasagne models are provided. However,
+any deep-learning library that accepts an iterable over mini-batches for training
+will work with <strong>nuts-ml</strong>.</p>
 </div>
 </div>
 <div class="section" id="loading-data">
@@ -400,19 +400,24 @@ while images are represented as numpy arrays with dtype float32.</p>
 </div>
 <div class="section" id="validation">
 <h2>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
 </div>
 <div class="section" id="evaluation">
 <h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
 </div>
 <div class="section" id="prediction">
 <h2>Prediction<a class="headerlink" href="#prediction" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
 </div>
 <div class="section" id="writing">
 <h2>Writing<a class="headerlink" href="#writing" title="Permalink to this headline">¶</a></h2>
-<p>Writing image data</p>
+<p>TODO</p>
 </div>
-<div class="section" id="full-example-code">
-<h2>Full example code<a class="headerlink" href="#full-example-code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="full-example">
+<h2>Full example<a class="headerlink" href="#full-example" title="Permalink to this headline">¶</a></h2>
+<p>Complete code is
+<a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py">here</a>.</p>
 <div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">train_samples</span><span class="p">,</span> <span class="n">val_samples</span><span class="p">):</span>
     <span class="kn">from</span> <span class="nn">keras.metrics</span> <span class="k">import</span> <span class="n">categorical_accuracy</span>
 
@@ -504,7 +509,7 @@ while images are represented as numpy arrays with dtype float32.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0.8',
+            VERSION:'1.0.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

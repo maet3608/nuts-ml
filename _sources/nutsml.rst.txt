@@ -51,6 +51,14 @@ nutsml.datautil module
     :undoc-members:
     :show-inheritance:
 
+nutsml.fileutil module
+----------------------
+
+.. automodule:: nutsml.fileutil
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 nutsml.imageutil module
 -----------------------
 

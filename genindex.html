@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; nutsml 1.0.8 documentation</title>
+  <title>Index &mdash; nutsml 1.0.10 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
         <link rel="index" title="Index"
               href="#"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.8 documentation" href="index.html"/> 
+    <link rel="top" title="nutsml 1.0.10 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -92,9 +92,9 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/introduction.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nutsml.html">nutsml package</a></li>
 </ul>
 
@@ -346,17 +346,37 @@
 </li>
       <li><a href="nutsml.html#nutsml.common.CheckNaN">CheckNaN (class in nutsml.common)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#nutsml.fileutil.clear_folder">clear_folder() (in module nutsml.fileutil)</a>
+</li>
       <li><a href="nutsml.html#nutsml.logger.LogCols.close">close() (LogCols method)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-cnn_predict">cnn_predict (module)</a>, <a href="nutsml.examples.mnist.html#module-cnn_predict">[1]</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-cnn_train">cnn_train (module)</a>
 </li>
       <li><a href="nutsml.html#nutsml.datautil.col_map">col_map() (in module nutsml.datautil)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#module-common">common (module)</a>
 </li>
       <li><a href="nutsml.html#module-config">config (module)</a>
 </li>
       <li><a href="nutsml.html#nutsml.config.ConfigDict">ConfigDict (class in nutsml.config)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.fileutil.create_filename">create_filename() (in module nutsml.fileutil)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.fileutil.create_folders">create_folders() (in module nutsml.fileutil)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.create_network">create_network() (in module nutsml.examples.cifar.cnn_train)</a>
+
+      <ul>
+        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.cnn_train.create_network">(in module nutsml.examples.mnist.cnn_train)</a>
+</li>
+        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.mlp_train.create_network">(in module nutsml.examples.mnist.mlp_train)</a>
+</li>
+      </ul></li>
+      <li><a href="nutsml.html#nutsml.fileutil.create_temp_filepath">create_temp_filepath() (in module nutsml.fileutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.crop">crop() (in module nutsml.imageutil)</a>
 </li>
@@ -372,8 +392,14 @@
 </li>
       <li><a href="nutsml.html#nutsml.logger.LogCols.delete">delete() (LogCols method)</a>
 </li>
+      <li><a href="nutsml.html#nutsml.fileutil.delete_file">delete_file() (in module nutsml.fileutil)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#nutsml.fileutil.delete_folders">delete_folders() (in module nutsml.fileutil)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.fileutil.delete_temp_data">delete_temp_data() (in module nutsml.fileutil)</a>
+</li>
       <li><a href="nutsml.html#nutsml.reader.ReadPandas.dply">dply() (ReadPandas method)</a>
 </li>
       <li><a href="nutsml.html#nutsml.reader.DplyToList">DplyToList (class in nutsml.reader)</a>
@@ -400,6 +426,8 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#module-fileutil">fileutil (module)</a>
+</li>
       <li><a href="nutsml.html#nutsml.imageutil.fliplr">fliplr() (in module nutsml.imageutil)</a>
 </li>
   </ul></td>
@@ -466,6 +494,20 @@
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.load_image">load_image() (in module nutsml.imageutil)</a>
 </li>
+      <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.load_names">load_names() (in module nutsml.examples.cifar.cnn_train)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.load_samples">load_samples() (in module nutsml.examples.cifar.cnn_train)</a>
+
+      <ul>
+        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.cnn_train.load_samples">(in module nutsml.examples.mnist.cnn_train)</a>
+</li>
+        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.mlp_train.load_samples">(in module nutsml.examples.mnist.mlp_train)</a>
+</li>
+        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.write_images.load_samples">(in module nutsml.examples.mnist.write_images)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.network.KerasNetwork.load_weights">load_weights() (KerasNetwork method)</a>
 
       <ul>
@@ -474,8 +516,6 @@
         <li><a href="nutsml.html#nutsml.network.Network.load_weights">(Network method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.logger.LogCols">LogCols (class in nutsml.logger)</a>
 </li>
       <li><a href="nutsml.html#module-logger">logger (module)</a>
@@ -488,11 +528,19 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.transformer.map_transform">map_transform() (in module nutsml.transformer)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.imageutil.mask_choice">mask_choice() (in module nutsml.imageutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.mask_where">mask_where() (in module nutsml.imageutil)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.examples.mnist.html#module-mlp_precit">mlp_precit (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-mlp_predict">mlp_predict (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-mlp_train">mlp_train (module)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-mlp_view_misclassified">mlp_view_misclassified (module)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -518,8 +566,42 @@
 </li>
       <li><a href="nutsml.html#module-nutsml.datautil">nutsml.datautil (module)</a>
 </li>
+      <li><a href="nutsml.examples.html#module-nutsml.examples">nutsml.examples (module)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar">nutsml.examples.cifar (module)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.cnn_predict">nutsml.examples.cifar.cnn_predict (module)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.cnn_train">nutsml.examples.cifar.cnn_train (module)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.read_images">nutsml.examples.cifar.read_images (module)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.view_train_images">nutsml.examples.cifar.view_train_images (module)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.write_images">nutsml.examples.cifar.write_images (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist">nutsml.examples.mnist (module)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.cnn_predict">nutsml.examples.mnist.cnn_predict (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.cnn_train">nutsml.examples.mnist.cnn_train (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_predict">nutsml.examples.mnist.mlp_predict (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_train">nutsml.examples.mnist.mlp_train (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_view_misclasified">nutsml.examples.mnist.mlp_view_misclasified (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.read_images">nutsml.examples.mnist.read_images (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.view_train_images">nutsml.examples.mnist.view_train_images (module)</a>
+</li>
+      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.write_images">nutsml.examples.mnist.write_images (module)</a>
+</li>
+      <li><a href="nutsml.html#module-nutsml.fileutil">nutsml.fileutil (module)</a>
+</li>
       <li><a href="nutsml.html#module-nutsml.imageutil">nutsml.imageutil (module)</a>
 </li>
       <li><a href="nutsml.html#module-nutsml.logger">nutsml.logger (module)</a>
@@ -587,6 +669,8 @@
       <li><a href="nutsml.html#nutsml.datautil.random_downsample">random_downsample() (in module nutsml.datautil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.transformer.RandomImagePatches">RandomImagePatches (class in nutsml.transformer)</a>
+</li>
+      <li><a href="nutsml.examples.cifar.html#module-read_images">read_images (module)</a>, <a href="nutsml.examples.mnist.html#module-read_images">[1]</a>
 </li>
       <li><a href="nutsml.html#module-reader">reader (module)</a>
 </li>
@@ -665,6 +749,12 @@
 </li>
         <li><a href="nutsml.html#nutsml.network.Network.train">(Network method)</a>
 </li>
+        <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.train">(in module nutsml.examples.cifar.cnn_train)</a>
+</li>
+        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.cnn_train.train">(in module nutsml.examples.mnist.cnn_train)</a>
+</li>
+        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.mlp_train.train">(in module nutsml.examples.mnist.mlp_train)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -700,6 +790,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.examples.cifar.html#module-view_train_images">view_train_images (module)</a>, <a href="nutsml.examples.mnist.html#module-view_train_images">[1]</a>
+</li>
       <li><a href="nutsml.html#module-viewer">viewer (module)</a>
 </li>
       <li><a href="nutsml.html#nutsml.viewer.ViewImage">ViewImage (class in nutsml.viewer)</a>
@@ -712,10 +804,12 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.html#nutsml.writer.WriteImage">WriteImage (class in nutsml.writer)</a>
+      <li><a href="nutsml.examples.cifar.html#module-write_images">write_images (module)</a>, <a href="nutsml.examples.mnist.html#module-write_images">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#nutsml.writer.WriteImage">WriteImage (class in nutsml.writer)</a>
+</li>
       <li><a href="nutsml.html#module-writer">writer (module)</a>
 </li>
   </ul></td>
@@ -757,7 +851,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.8',
+            VERSION:'1.0.10',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
