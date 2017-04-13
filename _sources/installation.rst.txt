@@ -39,7 +39,7 @@ Print version number:
   python
   >>> import nutsml
   >>> nutsml.__version__
-  '1.0.7'
+  '1.0.8'
   
   
   

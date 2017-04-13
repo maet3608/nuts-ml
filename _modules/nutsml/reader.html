@@ -1,45 +1,163 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nutsml.reader &mdash; nutsml 1.0.8 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
     
-    <title>nutsml.reader &#8212; nutsml 1.0.7 documentation</title>
-    
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '1.0.7',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="nutsml 1.0.8 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
    
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <div class="wy-grid-for-nav">
 
-  </head>
-  <body role="document">
-  
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+          
+            <a href="../../index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                ['1', '0']
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">nutsml</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nutsml.reader</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for nutsml.reader</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -58,13 +176,13 @@
 
 
 <span class="nd">@nut_function</span>
-<span class="k">def</span> <span class="nf">DplyToList</span><span class="p">(</span><span class="n">dplyframe</span><span class="p">):</span>
+<div class="viewcode-block" id="DplyToList"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.DplyToList">[docs]</a><span class="k">def</span> <span class="nf">DplyToList</span><span class="p">(</span><span class="n">dplyframe</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert DplyDataframe to list.</span>
 
 <span class="sd">    See: https://github.com/dodger487/dplython</span>
 
-<span class="sd">    &gt;&gt;&gt; ReadPandas().dplyr() &gt;&gt; DplyToList() &gt;&gt; Collect()</span>
+<span class="sd">    &gt;&gt;&gt; ReadPandas(fpath).dplyr() &gt;&gt; DplyToList() &gt;&gt; Collect()  # doctest: +SKIP</span>
 
 <span class="sd">    :param DplyDataframe dplyframe: Dataframe.</span>
 <span class="sd">    :return: List of dataframe rows</span>
@@ -72,17 +190,19 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dplyframe</span><span class="p">,</span> <span class="n">DplyFrame</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expect Dplyr dataframe!&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">dplyframe</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">dplyframe</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
 
 <span class="nd">@nut_source</span>
-<span class="k">def</span> <span class="nf">ReadLabelDirs</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">filepattern</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadLabelDirs"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadLabelDirs">[docs]</a><span class="k">def</span> <span class="nf">ReadLabelDirs</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">filepattern</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read file paths from label directories.</span>
 
 <span class="sd">    Typically used when classification data is organized in folders,</span>
 <span class="sd">    where the folder name represents the class label and the files in</span>
 <span class="sd">    the folder the data samples (images, documents, ...) for that class.</span>
+
+<span class="sd">    &gt;&gt;&gt; from nutsflow import Collect</span>
 
 <span class="sd">    &gt;&gt;&gt; read = ReadLabelDirs(&#39;tests/data/labeldirs&#39;, &#39;*.txt&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; samples = read &gt;&gt; Collect()</span>
@@ -103,11 +223,11 @@
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">label</span><span class="p">)):</span>
             <span class="n">pathname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">filepattern</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">filepath</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">pathname</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span></div>
 
 
 <span class="nd">@nut_function</span>
-<span class="k">def</span> <span class="nf">ReadImage</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">pathfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadImage"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadImage">[docs]</a><span class="k">def</span> <span class="nf">ReadImage</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">pathfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load images for samples.</span>
 
@@ -115,9 +235,11 @@
 <span class="sd">    Images are returned as numpy arrays of shape (h, w, c) or (h, w) for</span>
 <span class="sd">    color images or gray scale images respectively.</span>
 <span class="sd">    See nutsml.imageutil.load_image for details.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; from nutsflow import Collect</span>
 
 <span class="sd">    &gt;&gt;&gt; samples = [&#39;tests/data/img_formats/nut_color.gif&#39;]</span>
-<span class="sd">    &gt;&gt;&gt; img_samples = samples &gt;&gt; ReadImage() &gt;&gt; Collect()</span>
+<span class="sd">    &gt;&gt;&gt; img_samples = samples &gt;&gt; ReadImage(None) &gt;&gt; Collect()</span>
 
 <span class="sd">    &gt;&gt;&gt; samples = [(&#39;tests/data/img_formats/nut_color.gif&#39;, &#39;class0&#39;)]</span>
 <span class="sd">    &gt;&gt;&gt; img_samples = samples &gt;&gt; ReadImage(0) &gt;&gt; Collect()</span>
@@ -164,7 +286,7 @@
 
     <span class="n">colset</span> <span class="o">=</span> <span class="n">as_set</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
     <span class="n">elems</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colset</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colset</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ReadPandas"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas">[docs]</a><span class="k">class</span> <span class="nc">ReadPandas</span><span class="p">(</span><span class="n">NutSource</span><span class="p">):</span>
@@ -183,6 +305,7 @@
 
 <span class="sd">        Note that samples.table contains the original Pandas dataframe and</span>
 <span class="sd">        any Pandas operations can be performed on it.</span>
+<span class="sd">        </span>
 <span class="sd">        &gt;&gt;&gt; samples = ReadPandas(&#39;tests/data/pandas_table.csv&#39;)</span>
 <span class="sd">        &gt;&gt;&gt; samples.dataframe.head()</span>
 <span class="sd">           col1  col2</span>
@@ -224,14 +347,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return true if values is NaN or None.</span>
 
-<span class="sd">        &gt;&gt; import numpy as np</span>
-<span class="sd">        &gt;&gt; ReadPandas.isnull(np.NaN)</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; ReadPandas.isnull(np.NaN)</span>
 <span class="sd">        True</span>
 
-<span class="sd">        &gt;&gt; ReadPandas.isnull(None)</span>
+<span class="sd">        &gt;&gt;&gt; ReadPandas.isnull(None)</span>
 <span class="sd">        True</span>
 
-<span class="sd">        &gt;&gt; ReadPandas.isnull(0)</span>
+<span class="sd">        &gt;&gt;&gt; ReadPandas.isnull(0)</span>
 <span class="sd">        False</span>
 
 <span class="sd">        :param value: Value to test</span>
@@ -260,7 +383,7 @@
 <span class="sd">        https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html</span>
 <span class="sd">        for more details about dplyr.</span>
 
-<span class="sd">        dplyr and Nuts use the same syntax (&gt;&gt;) for chaining functions and</span>
+<span class="sd">        dplyr and nuts-ml use the same syntax (&gt;&gt;) for chaining functions and</span>
 <span class="sd">        integrate nicely with each other.</span>
 
 <span class="sd">        :return: dplyr dataframe instead of Pandas dataframe.</span>
@@ -302,44 +425,66 @@
         <span class="k">return</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">series</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
 </pre></div>
 
+           </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on Apr 13, 2017.
+
+    </p>
+  </div> 
+
+</footer>
+
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">Module code</a><ul>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2016, IBM.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
-      
-    </div>
 
-    
+    </section>
 
-    
-  </body>
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.8',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

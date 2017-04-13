@@ -16,3 +16,4 @@ provides examples of its usage.
    logging
    plotting
    configuration
+   custom_nuts   
