@@ -19,6 +19,19 @@ for bleeding-edge version:
   python setup.py install
   pytest
 
+For upgrading an existing installation
+
+.. code::
+  
+  pip install nutsml  --upgrade
+
+or if installed via ``git clone`` and ``setup.py``
+
+  .. code::
+  
+  cd nuts-ml
+  python setup.py install --force
+
   
 Verify that it works:
 

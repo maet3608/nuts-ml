@@ -97,6 +97,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-the-default-image-representation-in-nuts-ml">What is the default image representation in nuts-ml?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#what-image-formats-can-nuts-ml-read">What image formats can nuts-ml read?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-flatten-a-batch-of-predictions">How to flatten a batch of predictions?</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
@@ -177,6 +178,25 @@ and <code class="docutils literal"><span class="pre">(h,w,4)</span></code> for R
 <p>The <code class="docutils literal"><span class="pre">ReadImage</span></code> nut can read images in the following formats
 GIF, PNG, JPG, BMP, TIF, NPY, where NPY are plain Numpy arrays.</p>
 </div>
+<div class="section" id="how-to-flatten-a-batch-of-predictions">
+<h2>How to flatten a batch of predictions?<a class="headerlink" href="#how-to-flatten-a-batch-of-predictions" title="Permalink to this headline">¶</a></h2>
+<p>Assuming the output of a network prediction is a batch
+of labels, how can it be flattened into a flow of labels?</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Flatten</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batched_labels</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>   <span class="c1"># e.g. from network.predict()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batched_labels</span> <span class="o">&gt;&gt;</span> <span class="n">Flatten</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[0, 1, 0, 1, 1, 0]</span>
+</pre></div>
+</div>
+<p>What if the batch has multiple columns, e.g. labels and
+probabilities</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">FlattenCol</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batched_preds</span> <span class="o">=</span> <span class="p">[((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">)),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.6</span><span class="p">))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batched_preds</span> <span class="o">&gt;&gt;</span> <span class="n">FlattenCol</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[(0, 0.1), (1, 0.2), (0, 0.3), (1, 0.4), (1, 0.5), (0, 0.6)]</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -202,7 +222,7 @@ GIF, PNG, JPG, BMP, TIF, NPY, where NPY are plain Numpy arrays.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 13, 2017.
+      Last updated on Apr 18, 2017.
 
     </p>
   </div> 
