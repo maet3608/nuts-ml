@@ -30,8 +30,7 @@ of labels, how can it be flattened into a flow of labels?
   >>> batched_labels >> Flatten() >> Collect()
   [0, 1, 0, 1, 1, 0]
 
-What if the batch has multiple columns, e.g. labels and
-probabilities
+What if the batch has multiple columns, e.g. labels and probabilities
 
 .. code:: Python
 

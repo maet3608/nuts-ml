@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                ['1', '0']
+                1.0.10
               </div>
             
           
@@ -237,11 +237,13 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut processors.</span>
 
-<span class="sd">    @nut_processor</span>
-<span class="sd">    def Pick(iterable, p):</span>
-<span class="sd">        for e in iterable:</span>
-<span class="sd">            if random() &gt; p:</span>
-<span class="sd">                yield e</span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_processor</span>
+<span class="sd">      def Pick(iterable, p):</span>
+<span class="sd">          for e in iterable:</span>
+<span class="sd">              if random() &gt; p:</span>
+<span class="sd">                  yield e</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :param iterpos: Position of iterable in function arguments</span>
@@ -255,9 +257,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut sinks.</span>
 
-<span class="sd">    @nut_sink</span>
-<span class="sd">    def Collect(iterable, container):</span>
-<span class="sd">        return container(iterable)</span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_sink</span>
+<span class="sd">      def Collect(iterable, container):</span>
+<span class="sd">          return container(iterable)</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :param iterpos: Position of iterable in function arguments</span>
@@ -271,9 +275,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut functions.</span>
 
-<span class="sd">    @nut_function</span>
-<span class="sd">    def TimesN(x, n):</span>
-<span class="sd">        return x * n</span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_function</span>
+<span class="sd">      def TimesN(x, n):</span>
+<span class="sd">          return x * n</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :return: Nut function for given function</span>
@@ -295,9 +301,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut sources.</span>
 
-<span class="sd">    @nut_source</span>
-<span class="sd">    def Range(start, end):</span>
-<span class="sd">        return xrange(start, end)</span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_source</span>
+<span class="sd">      def Range(start, end):</span>
+<span class="sd">          return xrange(start, end)</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :return: Nut source for given function</span>
@@ -319,9 +327,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut filters.</span>
 
-<span class="sd">    @nut_filter</span>
-<span class="sd">    def GreaterThan(x, threshold):</span>
-<span class="sd">        return x &gt; threshold</span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_filter</span>
+<span class="sd">      def GreaterThan(x, threshold):</span>
+<span class="sd">          return x &gt; threshold</span>
 
 <span class="sd">    :param function func: Function to decorate. Must return boolean value.</span>
 <span class="sd">    :return: Nut filter for given function</span>
@@ -334,9 +344,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut filters that are inverted.</span>
 
-<span class="sd">    @nut_filterfalse</span>
-<span class="sd">    def NotGreaterThan(x, threshold):</span>
-<span class="sd">        return x &gt; threshold</span>
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_filterfalse</span>
+<span class="sd">      def NotGreaterThan(x, threshold):</span>
+<span class="sd">          return x &gt; threshold</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :return: Nut filter for given function. . Must return boolean value.</span>
@@ -359,7 +371,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 18, 2017.
+      Last updated on Apr 19, 2017.
 
     </p>
   </div> 

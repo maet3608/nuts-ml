@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                ['1', '0']
+                1.0.10
               </div>
             
           
@@ -162,17 +162,16 @@
   <h1>Source code for nutsml.examples.cifar.cnn_train</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">.. module:: mlp_view_misclassified</span>
-<span class="sd">   :synopsis: Example for showing misclassifed examples</span>
+<span class="sd">   :synopsis: Example for showing misclassified examples</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
 
 <span class="kn">import</span> <span class="nn">cPickle</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">osp</span>
 
-<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="p">(</span><span class="n">PrintProgress</span><span class="p">,</span> <span class="n">Zip</span><span class="p">,</span> <span class="n">Unzip</span><span class="p">,</span> <span class="n">Pick</span><span class="p">,</span> <span class="n">Shuffle</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">PrintProgress</span><span class="p">,</span> <span class="n">Zip</span><span class="p">,</span> <span class="n">Unzip</span><span class="p">,</span> <span class="n">Pick</span><span class="p">,</span> <span class="n">Shuffle</span><span class="p">,</span> <span class="n">Mean</span>
 <span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="p">(</span><span class="n">KerasNetwork</span><span class="p">,</span> <span class="n">TransformImage</span><span class="p">,</span> <span class="n">AugmentImage</span><span class="p">,</span> <span class="n">BuildBatch</span><span class="p">,</span>
                     <span class="n">PlotLines</span><span class="p">)</span>
 
@@ -198,7 +197,7 @@
         <span class="k">return</span> <span class="n">cPickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="s1">&#39;label_names&#39;</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="create_network"><a class="viewcode-back" href="../../../../nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.create_network">[docs]</a><span class="k">def</span> <span class="nf">create_network</span><span class="p">():</span>    
+<div class="viewcode-block" id="create_network"><a class="viewcode-back" href="../../../../nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.create_network">[docs]</a><span class="k">def</span> <span class="nf">create_network</span><span class="p">():</span>
     <span class="kn">from</span> <span class="nn">keras.models</span> <span class="k">import</span> <span class="n">Sequential</span>
     <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="k">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Dropout</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Flatten</span>
     <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="k">import</span> <span class="n">Convolution2D</span><span class="p">,</span> <span class="n">MaxPooling2D</span>
@@ -233,7 +232,7 @@
 
 <div class="viewcode-block" id="train"><a class="viewcode-back" href="../../../../nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.train">[docs]</a><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">train_samples</span><span class="p">,</span> <span class="n">val_samples</span><span class="p">):</span>
     <span class="kn">from</span> <span class="nn">keras.metrics</span> <span class="k">import</span> <span class="n">categorical_accuracy</span>
-    
+
     <span class="n">rerange</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
     <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
                    <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
@@ -258,20 +257,20 @@
         <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                          <span class="n">Pick</span><span class="p">(</span><span class="n">PICK</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                          <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training loss  :</span><span class="se">\t\t</span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_loss</span><span class="p">)))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training acc   :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training loss  :</span><span class="se">\t\t</span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_loss</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training acc   :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_acc</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())))</span>
 
         <span class="n">v_loss</span><span class="p">,</span> <span class="n">v_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">val_samples</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span>
                          <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;validation loss :</span><span class="se">\t\t</span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">v_loss</span><span class="p">)))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;validation acc  :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">v_acc</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;validation loss :</span><span class="se">\t\t</span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v_loss</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;validation acc  :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">v_acc</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())))</span>
 
         <span class="n">e_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">val_samples</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span>
                  <span class="n">network</span><span class="o">.</span><span class="n">evaluate</span><span class="p">([</span><span class="n">categorical_accuracy</span><span class="p">]))</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;evaluation acc  :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">e_acc</span><span class="p">))</span>
 
         <span class="n">network</span><span class="o">.</span><span class="n">save_best</span><span class="p">(</span><span class="n">e_acc</span><span class="p">,</span> <span class="n">isloss</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">plot_eval</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">),</span> <span class="n">e_acc</span><span class="p">))</span>
+        <span class="n">plot_eval</span><span class="p">((</span><span class="n">t_acc</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">(),</span> <span class="n">e_acc</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;finished.&#39;</span><span class="p">)</span></div>
 
 
@@ -293,7 +292,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 18, 2017.
+      Last updated on Apr 19, 2017.
 
     </p>
   </div> 

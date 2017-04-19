@@ -1,30 +1,44 @@
 Introduction
 ============
 
-Typical deep-learning code is characterized by
+Deep-learning code is characterized by
 
 - data pre-processing on CPU and training on GPU
 - mix of common and task-specific pre-processing steps
 - training in epochs
 - mini-batches of training data
+- data transformation such as scaling, cropping and others
 - data augmentation to increase amount of training data
-- check-pointing of network weights during training
+- check-pointing of network weights
 - logging of training progress
 
-These functions can be implemented as generic components and 
-arranged in data processing pipelines.
+*nuts-ml* provides generic components, so called *nuts* that implement
+these functions and can be arranged in task-specific data
+processing pipelines. This leads to more readable and robust code that 
+can be modified easily, which is in contrast to the monolithic,
+unstructured code often found for data pre-processing.
+
+Below an (incomplete) example of a typical pipeline for network training 
+with **nuts-ml**. The ``>>`` operator defines the flow of data through the
+pipeline
+
+.. code:: Python
+
+  t_loss = (train_samples >> PrintProgress(train_samples) >>
+                             augment >> rerange >> Shuffle(100) >>
+                             build_batch >> network.train() >> Mean())
+  print "training loss  :", t_loss
+
 
 
 Canonical pipeline
 ------------------
 
-The *canonical pipeline* for deep-learning, specifically for image data,
-is depicted below
+A *canonical pipeline* for the processing of image data can be described 
+by the following components
 
 .. image:: pics/pipeline.png
 
-Data is processed in small batches or single images by a sequence of 
-components such as
 
 - *Reader*: sample data stored in CSV files, `Pandas <http://pandas.pydata.org/>`_ 
   tables, databases or other data sources is read,
@@ -47,18 +61,17 @@ components such as
 - *Logger*: the network performance (loss, accuracy, ...) is logged or plotted.
 
 Depending on the specific application, the mode (training, testing, evaluation, ...) 
-or data type (image, video, text) some of the processing steps will differ but 
-many components can be shared between applications. 
+or data type (image, video, text) some of the processing steps will differ, others
+will remain the same, but in general many components (nuts) can be shared.
 
 
 Library
 -------
 
 **nuts-ml** is a library that provides common data-processing and machine learning 
-components as so called ‘nuts’. **nuts-ml** is based on 
-`nuts-flow <https://maet3608.github.io/nuts-flow/>`_, which itself is based on 
-Python iterators and the `itertools <https://docs.python.org/2/library/itertools.html>`_
-library.
+components as *nuts*. It is based on `nuts-flow <https://maet3608.github.io/nuts-flow/>`_, 
+which itself is largely based on Python iterators and the 
+`itertools <https://docs.python.org/2/library/itertools.html>`_ library.
 
 .. image:: pics/architecture.png
    :align: center
@@ -79,17 +92,10 @@ can be flattened and more clearly written with **nuts-flow** as
   >>> Range(10) >> Filter(_ > 5) >> Take(3) >> Collect()  # doctest: +SKIP
   [6, 7, 8]
 
-Nuts can be freely arranged to build data flows that are efficient, 
-easy to understand and easy to modify.
-**nuts-ml** adds nuts specifically for machine learning and (image) data 
-processing. This excerpt shows the core of a **nuts-ml** pipeline
-
-.. code:: python
-
-  train_samples >> load_image >> transform >> augment >> Shuffle(100)
-                >> build_batch >> network.train() >> Consume()
-
-The following extended example demonstrates a network training with **nuts-ml**.
+**nuts-ml** extends **nuts-flow** with nuts specifically designed for machine learning 
+and (image) data processing. The following code example shows a **nuts-ml** pipeline
+with image transformation, image augmentation, batching, network training,
+evaluation and check-pointing.
 
 
 Example
@@ -113,21 +119,20 @@ Example
 
       network = create_network()
 
-      for epoch in xrange(NUM_EPOCHS):
+      for epoch in range(NUM_EPOCHS):
           t_loss, t_acc = (train_samples >> PrintProgress(train_samples) >>
                            augment >> rerange >> Shuffle(100) >>
                            build_batch >> network.train() >> Unzip())
-          print("training loss  :\t\t{:.6f}".format(np.mean(t_loss)))
-          print("training acc   :\t\t{:.1f}".format(100 * np.mean(t_acc)))
+          print("training loss  :", t_loss >> Mean())
+          print("training acc   :", 100 * (t_acc >> Mean()))
 
           e_acc = (val_samples >> rerange >> build_batch >>
                    network.evaluate([categorical_accuracy]))
-          print("evaluation acc  :\t\t{:.1f}".format(100 * e_acc))
+          print("evaluation acc  :", 100 * e_acc)
 
           network.save_best(e_acc, isloss=False)
-      print('finished.')
 
 
 The complete code and more examples can be found under
 `nutsml/examples <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples>`_ .
-See the tutorial section for a detailed explanation of the code.
+See the :ref:`tutorial <cifar-example>` for a detailed explanation of the code.

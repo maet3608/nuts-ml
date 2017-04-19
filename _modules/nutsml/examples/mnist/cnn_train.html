@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                ['1', '0']
+                1.0.10
               </div>
             
           
@@ -173,9 +173,7 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">PrintProgress</span><span class="p">,</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Unzip</span><span class="p">,</span> <span class="n">Shuffle</span><span class="p">,</span> <span class="n">Pick</span>
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">PrintProgress</span><span class="p">,</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Unzip</span><span class="p">,</span> <span class="n">Shuffle</span><span class="p">,</span> <span class="n">Pick</span><span class="p">,</span> <span class="n">Mean</span>
 <span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="n">KerasNetwork</span><span class="p">,</span> <span class="n">TransformImage</span><span class="p">,</span> <span class="n">BuildBatch</span><span class="p">,</span> <span class="n">PlotLines</span>
 
 <span class="n">PICK</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># Pick 10% of the data for a quick trial</span>
@@ -237,8 +235,8 @@
         <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                          <span class="n">Pick</span><span class="p">(</span><span class="n">PICK</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                          <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">plot</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training loss  : </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_loss</span><span class="p">)))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training acc   : </span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training loss  : </span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_loss</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training acc   : </span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_acc</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())))</span>
 
         <span class="n">e_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">val_samples</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span>
                  <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">evaluate</span><span class="p">([</span><span class="n">categorical_accuracy</span><span class="p">]))</span>
@@ -264,7 +262,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 18, 2017.
+      Last updated on Apr 19, 2017.
 
     </p>
   </div> 

@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                ['1', '0']
+                1.0.10
               </div>
             
           
@@ -167,25 +167,36 @@
             
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>Typical deep-learning code is characterized by</p>
+<p>Deep-learning code is characterized by</p>
 <ul class="simple">
 <li>data pre-processing on CPU and training on GPU</li>
 <li>mix of common and task-specific pre-processing steps</li>
 <li>training in epochs</li>
 <li>mini-batches of training data</li>
+<li>data transformation such as scaling, cropping and others</li>
 <li>data augmentation to increase amount of training data</li>
-<li>check-pointing of network weights during training</li>
+<li>check-pointing of network weights</li>
 <li>logging of training progress</li>
 </ul>
-<p>These functions can be implemented as generic components and
-arranged in data processing pipelines.</p>
+<p><em>nuts-ml</em> provides generic components, so called <em>nuts</em> that implement
+these functions and can be arranged in task-specific data
+processing pipelines. This leads to more readable and robust code that
+can be modified easily, which is in contrast to the monolithic,
+unstructured code often found for data pre-processing.</p>
+<p>Below an (incomplete) example of a typical pipeline for network training
+with <strong>nuts-ml</strong>. The <code class="docutils literal"><span class="pre">&gt;&gt;</span></code> operator defines the flow of data through the
+pipeline</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">t_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                           <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                           <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())</span>
+<span class="nb">print</span> <span class="s2">&quot;training loss  :&quot;</span><span class="p">,</span> <span class="n">t_loss</span>
+</pre></div>
+</div>
 <div class="section" id="canonical-pipeline">
 <h2>Canonical pipeline<a class="headerlink" href="#canonical-pipeline" title="Permalink to this headline">¶</a></h2>
-<p>The <em>canonical pipeline</em> for deep-learning, specifically for image data,
-is depicted below</p>
+<p>A <em>canonical pipeline</em> for the processing of image data can be described
+by the following components</p>
 <img alt="_images/pipeline.png" src="_images/pipeline.png" />
-<p>Data is processed in small batches or single images by a sequence of
-components such as</p>
 <ul class="simple">
 <li><em>Reader</em>: sample data stored in CSV files, <a class="reference external" href="http://pandas.pydata.org/">Pandas</a>
 tables, databases or other data sources is read,</li>
@@ -201,16 +212,15 @@ for GPU processing,</li>
 <li><em>Logger</em>: the network performance (loss, accuracy, ...) is logged or plotted.</li>
 </ul>
 <p>Depending on the specific application, the mode (training, testing, evaluation, ...)
-or data type (image, video, text) some of the processing steps will differ but
-many components can be shared between applications.</p>
+or data type (image, video, text) some of the processing steps will differ, others
+will remain the same, but in general many components (nuts) can be shared.</p>
 </div>
 <div class="section" id="library">
 <h2>Library<a class="headerlink" href="#library" title="Permalink to this headline">¶</a></h2>
 <p><strong>nuts-ml</strong> is a library that provides common data-processing and machine learning
-components as so called ‘nuts’. <strong>nuts-ml</strong> is based on
-<a class="reference external" href="https://maet3608.github.io/nuts-flow/">nuts-flow</a>, which itself is based on
-Python iterators and the <a class="reference external" href="https://docs.python.org/2/library/itertools.html">itertools</a>
-library.</p>
+components as <em>nuts</em>. It is based on <a class="reference external" href="https://maet3608.github.io/nuts-flow/">nuts-flow</a>,
+which itself is largely based on Python iterators and the
+<a class="reference external" href="https://docs.python.org/2/library/itertools.html">itertools</a> library.</p>
 <img alt="_images/architecture.png" class="align-center" src="_images/architecture.png" />
 <p><strong>nuts-flow</strong> wraps iterators and itertool functions into <em>nuts</em> that provide a
 <code class="docutils literal"><span class="pre">&gt;&gt;</span></code> operator, which enables the composition of iterators in pipelines.
@@ -224,15 +234,10 @@ For instance, a nested itertool expression such as the following</p>
 <span class="go">[6, 7, 8]</span>
 </pre></div>
 </div>
-<p>Nuts can be freely arranged to build data flows that are efficient,
-easy to understand and easy to modify.
-<strong>nuts-ml</strong> adds nuts specifically for machine learning and (image) data
-processing. This excerpt shows the core of a <strong>nuts-ml</strong> pipeline</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">load_image</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-              <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>The following extended example demonstrates a network training with <strong>nuts-ml</strong>.</p>
+<p><strong>nuts-ml</strong> extends <strong>nuts-flow</strong> with nuts specifically designed for machine learning
+and (image) data processing. The following code example shows a <strong>nuts-ml</strong> pipeline
+with image transformation, image augmentation, batching, network training,
+evaluation and check-pointing.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
@@ -252,24 +257,23 @@ processing. This excerpt shows the core of a <strong>nuts-ml</strong> pipeline</
 
     <span class="n">network</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">()</span>
 
-    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">NUM_EPOCHS</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_EPOCHS</span><span class="p">):</span>
         <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                          <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                          <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training loss  :</span><span class="se">\t\t</span><span class="si">{:.6f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_loss</span><span class="p">)))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training acc   :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training loss  :&quot;</span><span class="p">,</span> <span class="n">t_loss</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training acc   :&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_acc</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()))</span>
 
         <span class="n">e_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">val_samples</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span>
                  <span class="n">network</span><span class="o">.</span><span class="n">evaluate</span><span class="p">([</span><span class="n">categorical_accuracy</span><span class="p">]))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;evaluation acc  :</span><span class="se">\t\t</span><span class="si">{:.1f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">e_acc</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;evaluation acc  :&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">e_acc</span><span class="p">)</span>
 
         <span class="n">network</span><span class="o">.</span><span class="n">save_best</span><span class="p">(</span><span class="n">e_acc</span><span class="p">,</span> <span class="n">isloss</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;finished.&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The complete code and more examples can be found under
 <a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples">nutsml/examples</a> .
-See the tutorial section for a detailed explanation of the code.</p>
+See the <a class="reference internal" href="tutorial/example.html#cifar-example"><span class="std std-ref">tutorial</span></a> for a detailed explanation of the code.</p>
 </div>
 </div>
 
@@ -296,7 +300,7 @@ See the tutorial section for a detailed explanation of the code.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 18, 2017.
+      Last updated on Apr 19, 2017.
 
     </p>
   </div> 
