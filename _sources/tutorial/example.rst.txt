@@ -1,7 +1,7 @@
 .. _cifar-example:
 
-Example
-=======
+CIFAR-10 Example
+================
 
 Prerequisites for this tutorial are a good knowledge of Python and
 `nuts-flow <https://github.com/maet3608/nuts-flow>`_. Please read the 
@@ -120,7 +120,7 @@ by running the following flow
 
 .. code:: Python
 
-  train_samples, val_samples = load_samples()
+  train_samples, test_samples = load_samples()
   train_samples >> Take(3) >> PrintColType() >> Consume()
 
 which takes the first three samples and prints for each sample 
@@ -149,7 +149,7 @@ at the images themselves
 
 .. code:: Python
 
-  train_samples, val_samples = load_samples()
+  train_samples, test_samples = load_samples()
   train_samples >> Take(3) >> PrintColType() >> ViewImage(0) >> Consume()
 
 .. image:: ../pics/viewimage_cifar10.png
@@ -165,7 +165,7 @@ sample data using the functions introduced above
 .. code:: Python
 
   network = create_network()
-  train_samples, val_samples = load_samples()
+  train_samples, test_samples = load_samples()
 
 Having a network and samples we can now train the network (for one epoch) 
 with the following **nuts-flow**
@@ -214,7 +214,7 @@ a look at the augmented images and their labels using the following flow
 
 .. code:: Python
 
-  train_samples, val_samples = load_samples()
+  train_samples, test_samples = load_samples()
   train_samples >> augment >> ViewImageAnnotation(0, 1, pause=1) >> Consume()
 
 In detail: for every sample processed by ``AugmentImage``, the image is
@@ -325,19 +325,35 @@ and print the results (loss, accuracy)
       print("train acc   :", t_acc >> Mean())
 
 ``network.train()`` takes mini-batches as input and outputs loss and accuracy
-(per mini-batch) as specified in ``create_network()``. ``Unzip()`` transforms the 
+per mini-batch as specified in ``create_network()``. ``Unzip()`` transforms the 
 outputted sequence of ``(loss, accuracy)`` tuples into a sequence of losses 
 ``t_loss`` and a sequence of accuracies ``t_acc``. 
-Finally we print the mean (over mini-batches) for training loss and accuracy.
+Finally, we print the mean (over mini-batches) for training loss and accuracy.
 
 
 Validation
 ----------
 
-The performance of the network on the validation data can be computed analogous 
+The CIFAR-10 data set is divided into a training and a test set but does not come
+with a validation set per default. However, we can easily split the training
+set into a new training set and a validation set
+
+.. code:: Python
+
+  train_samples, val_samples = train_samples >> SplitRandom(0.8)
+
+The new training set will contain 80% of the original set and the validation
+set the remainder.
+
+.. note::
+  
+  ``SplitRandom()`` can split into more than two sets and can take constraints
+  into account.
+
+The performance of the network on the validation data can then be computed analogous 
 to the way the training results were computed. Important differences are 
 that we are using the validation data, calling ``network.validate()`` instead of
-``network.train(), do not perform augmentation and there is no need to shuffle the data
+``network.train()``, do not perform augmentation and there is no need to shuffle the data
 
 .. code:: Python
 
@@ -346,19 +362,89 @@ that we are using the validation data, calling ``network.validate()`` instead of
       print("val loss  :", v_loss >> Mean())
       print("val acc   :", v_acc >> Mean())
 
-Again, results are mean values over mini-batches per epoch.
+Again, printed results are mean values over mini-batch losses and accuracies.
 
 
 Evaluation
 ----------
 
+Validation accuracy averaged over mini-batches provides a reasonable estimate for the 
+prediction accuracy and is, for instance, useful for early stopping, 
+but is not an accurate measure of the true classification performance. Typically
+we want to evaluate on an independent test set and average over samples, not mini-batches.
+The code below calls ``network.evaluate()`` to compute the ``categorical_accuracy`` 
+over all test samples
+
+.. code:: Python
+
+  e_acc = test_samples >> rerange >> build_batch >> network.evaluate([categorical_accuracy])
+  print("evaluation acc  :", e_acc)
+
+In contrast to the training or validation accuracies computed by ``network.train()``
+or ``network.validate()``, ``network.evaluate()`` returns a single number per metric and
+no averaging is required.
+
+
+Check-pointing
+--------------
+
+A common method to enable the continuation of an interrupted training or to implement 
+early-stopping is to save the network weights, either at regular intervals (e.g. at
+each epoch) or when the validation accuracy reaches a new high.
+Network weights can be easily be saved by invoking the ``save()`` method
+
+.. code:: Python
+
+  network.save()
+
+where the path to the weights file was specified when wrapping the model via
+``KerasNetwork(model, weightsfile)`` in ``create_network()``.
+
+For *early-stopping* we want to save the weights depending on the validation loss
+or accuracy. The following code shows how to compute the validation accuracy 
+and uses ``save_best()`` to save the weights for the network with the highest 
+accuracy 
+
+.. code:: Python
+
+  v_acc = val_samples >> rerange >> build_batch >> network.validate() >> Get(1) >> Mean()
+  network.save_best(v_acc, isloss=False)
+
+Note that the computation of the validation accuracy is slightly different than shown
+before. Here we need only the accuracies but not the losses and therefore call ``Get(1)``
+to extract them. Since the output then contains only accuracies and not tuples of
+format ``(loss, acc)`` anymore, we can directly call ``Mean()`` and don't need to ``Unzip``.
+
+If we want to save the network with the smallest loss instead, we can write 
+
+.. code:: Python
+
+  v_loss = val_samples >> rerange >> build_batch >> network.validate() >> Get(0) >> Mean()
+  network.save_best(v_loss, isloss=True)
+
+
+Reading
+-------
+
 TODO
 
+Reading images from file system
 
-Prediction
-----------
+.. code:: Python
 
-TODO
+  show_image = ViewImage(0, pause=1, figsize=(2, 2), interpolation='spline36')
+  glob('images/*.png') >> ReadImage(None) >> show_image >> Consume()
+
+
+Reading from labeled directories
+
+.. code:: Python
+
+  (ReadLabelDirs('images', '*.png') >> Print() >> Consume())
+
+.. code:: Python
+
+  (ReadLabelDirs('images', '*.png') >> ReadImage(0) >> show_image >> Consume())
 
 
 Writing
@@ -366,56 +452,107 @@ Writing
 
 TODO
 
-
-
-Full example
-------------
-
-Complete code is 
-`here <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py>`_.
-
+Writing images to file system
 
 .. code:: Python
 
-  def train(train_samples, val_samples):
-      from keras.metrics import categorical_accuracy
+  def load_names():
+      from keras.utils.data_utils import get_file
+      dirname = 'cifar-10-batches-py'
+      origin = 'http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz'
+      path = get_file(dirname, origin=origin, untar=True)
+      with open(osp.join(path, 'batches.meta'), 'rb') as f:
+          return cPickle.load(f)['label_names']
 
-      rerange = TransformImage(0).by('rerange', 0, 255, 0, 1, 'float32')
-      build_batch = (BuildBatch(BATCH_SIZE)
-                     .by(0, 'image', 'float32')
-                     .by(1, 'one_hot', 'uint8', NUM_CLASSES))
-      p = 0.1
-      augment = (AugmentImage(0)
-                 .by('identical', 1.0)
-                 .by('brightness', p, [0.7, 1.3])
-                 .by('color', p, [0.7, 1.3])
-                 .by('shear', p, [0, 0.1])
-                 .by('fliplr', p)
-                 .by('rotate', p, [-10, 10]))
-      plot_eval = PlotLines((0, 1), layout=(2, 1))
+.. code:: Python
+  train_samples, _ = load_samples()
+  names = load_names()
 
-      print('creating network...')
-      network = create_network()
+  id2name = MapCol(1, lambda i: names[int(i)])
+  fnames = (Enumerate() >> Zip(train_samples >> Get(1)) >> id2name >>
+            Format('{0}_{1}') >> Print())
+  imagepath = 'images/img*.png'
+  train_samples >> Take(10) >> WriteImage(0, imagepath, fnames) >> Consume()
 
-      print('training...', len(train_samples), len(val_samples))
-      for epoch in xrange(NUM_EPOCHS):
-          print('EPOCH:', epoch)
 
-          t_loss, t_acc = (train_samples >> PrintProgress(train_samples) >>
-                           Pick(PICK) >> augment >> rerange >> Shuffle(100) >>
-                           build_batch >> network.train() >> Unzip())
-          print("training loss  :\t\t{:.6f}".format(t_loss >> Mean()))
-          print("training acc   :\t\t{:.1f}".format(100 * (t_acc >> Mean())))
 
-          v_loss, v_acc = (val_samples >> rerange >>
-                           build_batch >> network.validate() >> Unzip())
-          print("validation loss :\t\t{:.6f}".format(v_loss >> Mean()))
-          print("validation acc  :\t\t{:.1f}".format(100 * (v_acc >> Mean())))
+Classification
+--------------
 
-          e_acc = (val_samples >> rerange >> build_batch >>
-                   network.evaluate([categorical_accuracy]))
-          print("evaluation acc  :\t\t{:.1f}".format(100 * e_acc))
+TODO
 
-          network.save_best(e_acc, isloss=False)
-          plot_eval((t_acc >> Mean(), e_acc))
+Classify images using a trained network
 
+.. code:: Python
+
+  names = load_names()
+
+  show_image = ViewImageAnnotation(0, 1, pause=1, figsize=(3, 3),
+                                   interpolation='spline36')
+  pred_batch = BuildBatch(BATCH_SIZE).by(0, 'image', 'float32')
+
+  network = create_network()
+  network.load_weights()
+
+  samples = glob('images/*.png') >> Print() >> ReadImage(None) >> Collect()
+
+  predictions = (samples >> rerange >> pred_batch >>
+                 network.predict() >> Map(ArgMax()) >> Map(names.__getitem__))
+  samples >> Get(0) >> Zip(predictions) >> show_image >> Consume()
+
+
+
+
+Code
+----
+
+Below is the complete code for the network training.
+
+.. code:: Python
+
+  rerange = TransformImage(0).by('rerange', 0, 255, 0, 1, 'float32')
+  build_batch = (BuildBatch(BATCH_SIZE)
+                 .by(0, 'image', 'float32')
+                 .by(1, 'one_hot', 'uint8', NUM_CLASSES))
+  p = 0.1
+  augment = (AugmentImage(0)
+             .by('identical', 1.0)
+             .by('brightness', p, [0.7, 1.3])
+             .by('color', p, [0.7, 1.3])
+             .by('shear', p, [0, 0.1])
+             .by('fliplr', p)
+             .by('rotate', p, [-10, 10]))
+  plot_eval = PlotLines((0, 1), layout=(2, 1))
+
+  network = create_network()
+
+  train_samples, test_samples = load_samples()
+  train_samples, val_samples = train_samples >> SplitRandom(0.8)
+
+  for epoch in xrange(NUM_EPOCHS):
+      print('EPOCH:', epoch)
+
+      t_loss, t_acc = (train_samples >> PrintProgress(train_samples) >>
+                       Pick(PICK) >> augment >> rerange >> Shuffle(100) >>
+                       build_batch >> network.train() >> Unzip())
+      t_loss, t_acc = t_loss >> Mean(), t_acc >> Mean()
+      print("train loss : {:.6f}".format(t_loss))
+      print("train acc  : {:.1f}".format(100 * t_acc))
+
+      v_loss, v_acc = (val_samples >> rerange >>
+                       build_batch >> network.validate() >> Unzip())
+      v_loss, v_acc = v_loss >> Mean(), v_acc >> Mean()
+      print('val loss   : {:.6f}'.format(v_loss))
+      print('val acc    : {:.1f}'.format(100 * v_acc))
+
+      network.save_best(v_acc, isloss=False)
+      plot_eval((t_acc >> Mean(), v_acc))
+
+  print('testing...')
+  e_acc = (test_samples >> rerange >> build_batch >>
+           network.evaluate([categorical_accuracy]))
+  print('test acc   : {:.1f}'.format(100 * e_acc))
+
+
+The entire code for the example above can be found in
+`examples/cifar/cnn_train.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py>`_. 

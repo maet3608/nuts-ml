@@ -7,6 +7,10 @@ provides examples of its usage.
 .. toctree::
 
    example
+
+
+.. comment::
+
    reading_samples
    split_stratify
    loading_images

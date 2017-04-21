@@ -193,7 +193,7 @@
 <li class="toctree-l2"><a class="reference internal" href="nutsml.examples.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="nutsml.examples.cifar.html">nutsml.examples.cifar package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.cifar.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.cnn_predict">nutsml.examples.cifar.cnn_predict module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nutsml.examples.cifar.html#nutsml-examples-cifar-cnn-predict-module">nutsml.examples.cifar.cnn_predict module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.cnn_train">nutsml.examples.cifar.cnn_train module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.read_images">nutsml.examples.cifar.read_images module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.view_train_images">nutsml.examples.cifar.view_train_images module</a></li>
@@ -203,11 +203,11 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="nutsml.examples.mnist.html">nutsml.examples.mnist package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.cnn_predict">nutsml.examples.mnist.cnn_predict module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-cnn-predict-module">nutsml.examples.mnist.cnn_predict module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.cnn_train">nutsml.examples.mnist.cnn_train module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_predict">nutsml.examples.mnist.mlp_predict module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-mlp-predict-module">nutsml.examples.mnist.mlp_predict module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_train">nutsml.examples.mnist.mlp_train module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_view_misclasified">nutsml.examples.mnist.mlp_view_misclasified module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-mlp-view-misclasified-module">nutsml.examples.mnist.mlp_view_misclasified module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.read_images">nutsml.examples.mnist.read_images module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.view_train_images">nutsml.examples.mnist.view_train_images module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.write_images">nutsml.examples.mnist.write_images module</a></li>
@@ -229,16 +229,18 @@
 <span id="nutsml-batcher-module"></span><h2>nutsml.batcher module<a class="headerlink" href="#module-nutsml.batcher" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-batcher"></span><dl class="class">
 <dt id="nutsml.batcher.BuildBatch">
-<em class="property">class </em><code class="descname">BuildBatch</code><span class="sig-paren">(</span><em>batchsize</em>, <em>prefetch=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">BuildBatch</code><span class="sig-paren">(</span><em>batchsize</em>, <em>prefetch=1</em>, <em>fmt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.Nut</span></code></p>
 <p>Build batches for GPU-based neural network training.</p>
 <dl class="method">
 <dt id="nutsml.batcher.BuildBatch.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>batchsize</em>, <em>prefetch=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>batchsize</em>, <em>prefetch=1</em>, <em>fmt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>iterable &gt;&gt; BuildBatch(batchsize, prefetch=1)</p>
-<p>Take samples in interable, extract specified columns, convert
+<p>Take samples in iterable, extract specified columns, convert
 column data to numpy arrays of various types, aggregate converted
 samples into a batch.</p>
+<p>Dat structure of output batch depends on fmt function used. If None
+output is a list of np.arrays.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>
@@ -262,6 +264,7 @@ samples into a batch.</p>
 Number of columns is determined by colspec.</li>
 <li><strong>prefetch</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Number of batches to prefetch. This speeds up
 GPU based training.</li>
+<li><strong>fmt</strong> (<em>function|None</em>) &#8211; Function to format output.</li>
 </ul>
 </td>
 </tr>
@@ -273,6 +276,8 @@ GPU based training.</li>
 <dt id="nutsml.batcher.BuildBatch.__rrshift__">
 <code class="descname">__rrshift__</code><span class="sig-paren">(</span><em>iterable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch.__rrshift__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch.__rrshift__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert samples in iterable into mini-batches.</p>
+<p>Structure of output depends on fmt function used. If None
+output is a list of np.arrays</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -281,7 +286,7 @@ GPU based training.</li>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Mini-batches</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list of np.array</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list of np.array if fmt=None</td>
 </tr>
 </tbody>
 </table>
@@ -637,7 +642,7 @@ sufficient to provide the values for the partitions wanted.</p>
 means 70%, 30% split.
 Alternatively a list or ratios can be provided, e.g.
 ratio=(0.6, 0.3, 0.1). Note that ratios must sum up to one.</li>
-<li><strong>constraint</strong> (<em>function</em>) &#8211; Function that returns key the elements of
+<li><strong>constraint</strong> (<em>function|None</em>) &#8211; Function that returns key the elements of
 the iterable are grouped by before partitioning. Useful to ensure
 that a partition contains related elements, e.g. left and right eye
 images are not scattered across partitions.
@@ -646,7 +651,7 @@ Note that constrains have precedence over ratios.</li>
 rand=rnd.Random(0) = 0 ensures that the same split is created
 every time SplitRandom is called. This is important when continuing
 an interrupted training session!
-see random.Random for more info.</li>
+see random.</li>
 </ul>
 </td>
 </tr>
@@ -3985,7 +3990,7 @@ Length need to be the same as samples.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 19, 2017.
+      Last updated on Apr 21, 2017.
 
     </p>
   </div> 

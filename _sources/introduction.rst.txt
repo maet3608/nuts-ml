@@ -103,34 +103,31 @@ Example
 
 .. code:: Python
 
-  def train(train_samples, val_samples):
-      rerange = TransformImage(0).by('rerange', 0, 255, 0, 1, 'float32')
-      build_batch = (BuildBatch(BATCH_SIZE)
-                     .by(0, 'image', 'float32')
-                     .by(1, 'one_hot', 'uint8', NUM_CLASSES))
-      p = 0.1
-      augment = (AugmentImage(0)
-                 .by('identical', 1.0)
-                 .by('brightness', p, [0.7, 1.3])
-                 .by('color', p, [0.7, 1.3])
-                 .by('shear', p, [0, 0.1])
-                 .by('fliplr', p)
-                 .by('rotate', p, [-10, 10]))
+  rerange = TransformImage(0).by('rerange', 0, 255, 0, 1, 'float32')
+  build_batch = (BuildBatch(BATCH_SIZE)
+                 .by(0, 'image', 'float32')
+                 .by(1, 'one_hot', 'uint8', NUM_CLASSES))
+  p = 0.1
+  augment = (AugmentImage(0)
+             .by('identical', 1.0)
+             .by('brightness', p, [0.7, 1.3])
+             .by('color', p, [0.7, 1.3])
+             .by('shear', p, [0, 0.1])
+             .by('fliplr', p)
+             .by('rotate', p, [-10, 10]))
 
-      network = create_network()
+  network = create_network()
+  train_samples, test_samples = load_samples()
 
-      for epoch in range(NUM_EPOCHS):
-          t_loss, t_acc = (train_samples >> PrintProgress(train_samples) >>
-                           augment >> rerange >> Shuffle(100) >>
-                           build_batch >> network.train() >> Unzip())
-          print("training loss  :", t_loss >> Mean())
-          print("training acc   :", 100 * (t_acc >> Mean()))
+  for epoch in range(NUM_EPOCHS):
+      t_loss, t_acc = (train_samples >> PrintProgress(train_samples) >>
+                       augment >> rerange >> Shuffle(100) >>
+                       build_batch >> network.train() >> Unzip())
+      print("train loss :", t_loss >> Mean())
+      print("train acc  :", 100 * (t_acc >> Mean()))
 
-          e_acc = (val_samples >> rerange >> build_batch >>
-                   network.evaluate([categorical_accuracy]))
-          print("evaluation acc  :", 100 * e_acc)
-
-          network.save_best(e_acc, isloss=False)
+  e_acc = test_samples >> rerange >> build_batch >> network.evaluate([categorical_accuracy])
+  print("test acc   :", 100 * e_acc)
 
 
 The complete code and more examples can be found under

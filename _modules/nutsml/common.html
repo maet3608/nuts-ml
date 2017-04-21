@@ -227,8 +227,7 @@
 
 
 <span class="nd">@nut_sink</span>
-<div class="viewcode-block" id="SplitRandom"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.SplitRandom">[docs]</a><span class="k">def</span> <span class="nf">SplitRandom</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
-                <span class="n">rand</span><span class="o">=</span><span class="n">rnd</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
+<div class="viewcode-block" id="SplitRandom"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.SplitRandom">[docs]</a><span class="k">def</span> <span class="nf">SplitRandom</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rnd</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">0</span><span class="p">)):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Randomly split iterable into partitions.</span>
 <span class="sd">    </span>
@@ -255,7 +254,7 @@
 <span class="sd">            means 70%, 30% split.</span>
 <span class="sd">            Alternatively a list or ratios can be provided, e.g.</span>
 <span class="sd">            ratio=(0.6, 0.3, 0.1). Note that ratios must sum up to one.</span>
-<span class="sd">    :param function constraint: Function that returns key the elements of</span>
+<span class="sd">    :param function|None constraint: Function that returns key the elements of</span>
 <span class="sd">        the iterable are grouped by before partitioning. Useful to ensure</span>
 <span class="sd">        that a partition contains related elements, e.g. left and right eye</span>
 <span class="sd">        images are not scattered across partitions.</span>
@@ -264,7 +263,7 @@
 <span class="sd">            rand=rnd.Random(0) = 0 ensures that the same split is created</span>
 <span class="sd">            every time SplitRandom is called. This is important when continuing</span>
 <span class="sd">            an interrupted training session!</span>
-<span class="sd">            see random.Random for more info.</span>
+<span class="sd">            see random.</span>
 <span class="sd">    :return: partitions of iterable with sizes according to provided ratios.</span>
 <span class="sd">    :rtype: (list, list, ...)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -277,7 +276,10 @@
         <span class="n">ratios</span> <span class="o">=</span> <span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span>
     <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ratios</span><span class="p">]</span>
 
-    <span class="n">groups</span> <span class="o">=</span> <span class="n">group_by</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">constraint</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">constraint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="p">[[</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="n">group_by</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">constraint</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
     <span class="n">rand</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
     <span class="n">groups</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
     <span class="n">splits</span> <span class="o">=</span> <span class="p">[]</span>
@@ -310,7 +312,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 19, 2017.
+      Last updated on Apr 21, 2017.
 
     </p>
   </div> 

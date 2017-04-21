@@ -290,13 +290,16 @@
 <span class="sd">    Build batches for GPU-based neural network training.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="BuildBatch.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.BuildBatch.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">prefetch</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="BuildBatch.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.BuildBatch.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">prefetch</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        iterable &gt;&gt; BuildBatch(batchsize, prefetch=1)</span>
 
-<span class="sd">        Take samples in interable, extract specified columns, convert</span>
+<span class="sd">        Take samples in iterable, extract specified columns, convert</span>
 <span class="sd">        column data to numpy arrays of various types, aggregate converted</span>
 <span class="sd">        samples into a batch.</span>
+
+<span class="sd">        Dat structure of output batch depends on fmt function used. If None</span>
+<span class="sd">        output is a list of np.arrays.</span>
 
 <span class="sd">        &gt;&gt;&gt; from nutsflow import Collect</span>
 <span class="sd">        &gt;&gt;&gt; numbers = [4.1, 3.2, 1.1]</span>
@@ -312,13 +315,14 @@
 
 <span class="sd">        :param int batchsize: Size of batch = number of rows in batch.</span>
 <span class="sd">            Number of columns is determined by colspec.</span>
-
 <span class="sd">        :param int prefetch: Number of batches to prefetch. This speeds up</span>
 <span class="sd">           GPU based training.</span>
+<span class="sd">        :param function|None fmt: Function to format output.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span> <span class="o">=</span> <span class="n">batchsize</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">colspecs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span>    
         <span class="bp">self</span><span class="o">.</span><span class="n">prefetch</span> <span class="o">=</span> <span class="n">prefetch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colspecs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">builder</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">build_image_batch</span><span class="p">,</span>
                         <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="n">build_number_batch</span><span class="p">,</span>
                         <span class="s1">&#39;vector&#39;</span><span class="p">:</span> <span class="n">build_vector_batch</span><span class="p">,</span>
@@ -358,15 +362,18 @@
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid builder: &#39;</span> <span class="o">+</span> <span class="n">func</span><span class="p">)</span>
                 <span class="n">batch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="p">[</span><span class="n">func</span><span class="p">](</span><span class="n">cols</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-            <span class="k">yield</span> <span class="n">batch</span>
+            <span class="k">yield</span> <span class="n">batch</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BuildBatch.__rrshift__"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.BuildBatch.__rrshift__">[docs]</a>    <span class="k">def</span> <span class="nf">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert samples in iterable into mini-batches.</span>
 
+<span class="sd">        Structure of output depends on fmt function used. If None</span>
+<span class="sd">        output is a list of np.arrays</span>
+
 <span class="sd">        :param iterable iterable: Iterable over samples.</span>
 <span class="sd">        :return: Mini-batches</span>
-<span class="sd">        :rtype: list of np.array</span>
+<span class="sd">        :rtype: list of np.array if fmt=None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">prefetch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefetch</span>
         <span class="n">batch_gen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_generator</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">))</span>
@@ -386,7 +393,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 19, 2017.
+      Last updated on Apr 21, 2017.
 
     </p>
   </div> 

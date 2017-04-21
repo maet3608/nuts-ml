@@ -93,6 +93,10 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#standard">Standard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#verification">Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bleeding-edge">Bleeding-edge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#upgrade">Upgrade</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#virtual-environment">Virtual environment</a></li>
 </ul>
 </li>
@@ -165,27 +169,26 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>Installation via <code class="docutils literal"><span class="pre">pip</span></code> from <a class="reference external" href="https://pypi.python.org/pypi">PyPi</a> :</p>
+<div class="section" id="standard">
+<h2>Standard<a class="headerlink" href="#standard" title="Permalink to this headline">¶</a></h2>
+<p>Installation via <code class="docutils literal"><span class="pre">pip</span></code> from <a class="reference external" href="https://pypi.python.org/pypi">PyPi</a></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>
-</pre></div>
-</div>
-<p>or <code class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span></code> from <a class="reference external" href="https://github.com/">GitHub</a>
-for bleeding-edge version:</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">maet3608</span><span class="o">/</span><span class="n">nuts</span><span class="o">-</span><span class="n">ml</span><span class="o">.</span><span class="n">git</span>
-<span class="n">cd</span> <span class="n">nuts</span><span class="o">-</span><span class="n">ml</span>
-<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<span class="n">cd</span> <span class="n">my_python_path</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nutsml</span>
 <span class="n">pytest</span>
 </pre></div>
 </div>
-<p>For upgrading an existing installation</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>  <span class="o">--</span><span class="n">upgrade</span>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If you don&#8217;t know where your <code class="docutils literal"><span class="pre">site-packages</span></code> are, run the following code</p>
+<div class="code last highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import site; print(site.getsitepackages())&quot;</span>
+<span class="p">[</span><span class="s1">&#39;C:</span><span class="se">\\</span><span class="s1">Maet</span><span class="se">\\</span><span class="s1">Software</span><span class="se">\\</span><span class="s1">Anaconda&#39;</span><span class="p">,</span> <span class="s1">&#39;C:</span><span class="se">\\</span><span class="s1">Maet</span><span class="se">\\</span><span class="s1">Software</span><span class="se">\\</span><span class="s1">Anaconda</span><span class="se">\\</span><span class="s1">lib</span><span class="se">\\</span><span class="s1">site-packages&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>or if installed via <code class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span></code> and <code class="docutils literal"><span class="pre">setup.py</span></code></p>
-<blockquote>
-<div>cd nuts-ml
-python setup.py install &#8211;force</div></blockquote>
-<p>Verify that it works:</p>
+</div>
+</div>
+<div class="section" id="verification">
+<h2>Verification<a class="headerlink" href="#verification" title="Permalink to this headline">¶</a></h2>
+<p>Ensure that nutsflow and nutsml can be imported and work</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="o">*</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="o">*</span>
@@ -194,35 +197,52 @@ python setup.py install &#8211;force</div></blockquote>
 <span class="p">[(</span><span class="s1">&#39;neg&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
 </pre></div>
 </div>
-<p>Print version number:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">nutsml</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">nutsml</span><span class="o">.</span><span class="n">__version__</span>
-<span class="s1">&#39;1.0.10&#39;</span>
+</div>
+<div class="section" id="bleeding-edge">
+<h2>Bleeding-edge<a class="headerlink" href="#bleeding-edge" title="Permalink to this headline">¶</a></h2>
+<p>If you want the bleeding-edge version, install via
+<code class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span></code> from <a class="reference external" href="https://github.com/">GitHub</a></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">maet3608</span><span class="o">/</span><span class="n">nuts</span><span class="o">-</span><span class="n">ml</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">nuts</span><span class="o">-</span><span class="n">ml</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<span class="n">pytest</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="upgrade">
+<h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this headline">¶</a></h2>
+<p>For upgrading an existing installation run</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>  <span class="o">--</span><span class="n">upgrade</span>
+</pre></div>
+</div>
+<p>or if installed via <code class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span></code> and <code class="docutils literal"><span class="pre">setup.py</span></code></p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">nuts</span><span class="o">-</span><span class="n">ml</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span> <span class="o">--</span><span class="n">force</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="virtual-environment">
 <h2>Virtual environment<a class="headerlink" href="#virtual-environment" title="Permalink to this headline">¶</a></h2>
-<p>Create virtual environment:</p>
+<p>Create virtual environment</p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span>
 <span class="n">cd</span> <span class="n">my_projects</span>
 <span class="n">virtualenv</span> <span class="n">vnuts</span>
 </pre></div>
 </div>
-<p>Activate/deactivate  environment:</p>
-<p>Linux, Mac:</p>
+<p>Activate/deactivate  environment</p>
+<p><strong>Linux, Mac</strong></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span>$ source vnuts/bin/activate
 $ deactivate
 </pre></div>
 </div>
-<p>Windows:</p>
+<p><strong>Windows</strong></p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">vnuts</span>\<span class="n">Scripts</span>\<span class="n">activate</span><span class="o">.</span><span class="n">bat</span>
 <span class="o">&gt;</span> <span class="n">vnuts</span>\<span class="n">Scripts</span>\<span class="n">deactivate</span><span class="o">.</span><span class="n">bat</span>
 </pre></div>
 </div>
-<p>Install <strong>nuts-ml</strong>:</p>
+<p>Install <strong>nuts-ml</strong> in virtual environment (here for Linux/Mac)</p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">vnuts</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="n">nuts</span><span class="o">-</span><span class="n">ml</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>
 </pre></div>
 </div>
 </div>
@@ -251,7 +271,7 @@ $ deactivate
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 19, 2017.
+      Last updated on Apr 21, 2017.
 
     </p>
   </div> 

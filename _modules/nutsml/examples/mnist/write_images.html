@@ -176,7 +176,7 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">train_samples</span><span class="p">,</span> <span class="n">val_samples</span> <span class="o">=</span> <span class="n">load_samples</span><span class="p">()</span>
+    <span class="n">train_samples</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">load_samples</span><span class="p">()</span>
     <span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;images/*.png&#39;</span>
     <span class="n">names</span> <span class="o">=</span> <span class="n">Enumerate</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Zip</span><span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Get</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="n">Format</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{1}</span><span class="s1">/img</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">WriteImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
@@ -195,7 +195,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 19, 2017.
+      Last updated on Apr 21, 2017.
 
     </p>
   </div> 
