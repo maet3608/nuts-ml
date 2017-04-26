@@ -1,10 +1,12 @@
 .. Nutsml documentation master file
 
 
-nuts-ml
-=======
+.. image:: pics/nutsml_logo.gif
+   :align: center
 
-Contents:
+
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
@@ -18,7 +20,7 @@ Contents:
 
 
 Indices
-=======
+-------
 
 * :ref:`genindex`
 * :ref:`modindex`
