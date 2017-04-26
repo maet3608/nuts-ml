@@ -111,7 +111,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#check-pointing">Check-pointing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reading">Reading</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#writing">Writing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#classification">Classification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prediction">Prediction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#code">Code</a></li>
 </ul>
 </li>
@@ -522,8 +522,8 @@ accuracy</p>
 </div>
 <p>Note that the computation of the validation accuracy is slightly different than shown
 before. Here we need only the accuracies but not the losses and therefore call <code class="docutils literal"><span class="pre">Get(1)</span></code>
-to extract them. Since the output then contains only accuracies and not tuples of
-format <code class="docutils literal"><span class="pre">(loss,</span> <span class="pre">acc)</span></code> anymore, we can directly call <code class="docutils literal"><span class="pre">Mean()</span></code> and don&#8217;t need to <code class="docutils literal"><span class="pre">Unzip</span></code>.</p>
+to extract them. Since the output then contains only accuracies and not tuples
+<code class="docutils literal"><span class="pre">(loss,</span> <span class="pre">acc)</span></code> anymore, we can directly call <code class="docutils literal"><span class="pre">Mean()</span></code> and don&#8217;t need to <code class="docutils literal"><span class="pre">Unzip</span></code>.</p>
 <p>If we want to save the network with the smallest loss instead, we can write</p>
 <div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">v_loss</span> <span class="o">=</span> <span class="n">val_samples</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()</span>
 <span class="n">network</span><span class="o">.</span><span class="n">save_best</span><span class="p">(</span><span class="n">v_loss</span><span class="p">,</span> <span class="n">isloss</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -532,58 +532,95 @@ format <code class="docutils literal"><span class="pre">(loss,</span> <span clas
 </div>
 <div class="section" id="reading">
 <h2>Reading<a class="headerlink" href="#reading" title="Permalink to this headline">¶</a></h2>
-<p>TODO</p>
-<p>Reading images from file system</p>
+<p>The CIFAR-10 benchmark dataset is small enough to fit in memory. However, in many
+practical applications the image datasets are too large to be loaded in memory
+entirely and images need to be read sequentially from the file system. The following
+example shows how to read PNG images from a folder and to display them</p>
 <div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">show_image</span> <span class="o">=</span> <span class="n">ViewImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;spline36&#39;</span><span class="p">)</span>
 <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;images/*.png&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">show_image</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Reading from labeled directories</p>
-<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">ReadLabelDirs</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="s1">&#39;*.png&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
+<p><code class="docutils literal"><span class="pre">ReadImage</span></code> takes a sequence of file paths as input, generated using <code class="docutils literal"><span class="pre">glob</span></code>,
+reads the image from the file system, and returns tuples of shape <code class="docutils literal"><span class="pre">(image,)</span></code>,
+where images are numpy arrays. We can then display the image with <code class="docutils literal"><span class="pre">ViewImage</span></code>,
+where <code class="docutils literal"><span class="pre">0</span></code> indicates the column in the input sample that contains the image
+and <code class="docutils literal"><span class="pre">pause=1</span></code> forces a pause of one second between images.
+See <a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/read_images.py">cifar/read_images.py</a> for a complete code example.</p>
+<p>A common method to organize image data for network training on the file system
+is to store them in sub-folders named after the class labels, for instance</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">images</span>\
+  <span class="mi">0</span>\
+     <span class="n">img123</span><span class="o">.</span><span class="n">jpg</span>
+     <span class="n">img456</span><span class="o">.</span><span class="n">jpg</span>
+     <span class="o">...</span>
+  <span class="mi">9</span>\
+     <span class="n">img789</span><span class="o">.</span><span class="n">jpg</span>
 </pre></div>
 </div>
-<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">ReadLabelDirs</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="s1">&#39;*.png&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">show_image</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
+<p>We can read these images with their corresponding class labels using the
+following code</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">ReadLabelDirs</span><span class="p">(</span><span class="s1">&#39;images&#39;</span><span class="p">,</span> <span class="s1">&#39;*.jpg&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">show_image</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>where <code class="docutils literal"><span class="pre">ReadLabelDirs</span></code> returns tuples of the form <code class="docutils literal"><span class="pre">(filepath,</span> <span class="pre">label)</span></code>.
+See <a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/mnist/read_images.py">mnist/read_images.py</a> for a complete example using the MNIST data.</p>
 </div>
 <div class="section" id="writing">
 <h2>Writing<a class="headerlink" href="#writing" title="Permalink to this headline">¶</a></h2>
-<p>TODO</p>
-<p>Writing images to file system</p>
-<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_names</span><span class="p">():</span>
-    <span class="kn">from</span> <span class="nn">keras.utils.data_utils</span> <span class="k">import</span> <span class="n">get_file</span>
-    <span class="n">dirname</span> <span class="o">=</span> <span class="s1">&#39;cifar-10-batches-py&#39;</span>
-    <span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz&#39;</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">get_file</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="n">untar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;batches.meta&#39;</span><span class="p">),</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">cPickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="s1">&#39;label_names&#39;</span><span class="p">]</span>
+<p>Often we not only want to read image data but also write them, e.g. after
+transformation or augmentation. The following code writes the first 20 of the
+CIFAR-10 training images in PNG format to the file system</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">train_samples</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">load_samples</span><span class="p">()</span>
+<span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;images/img*.png&#39;</span>
+<span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">WriteImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="classification">
-<h2>Classification<a class="headerlink" href="#classification" title="Permalink to this headline">¶</a></h2>
-<p>TODO</p>
-<p>Classify images using a trained network</p>
-<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">names</span> <span class="o">=</span> <span class="n">load_names</span><span class="p">()</span>
-
-<span class="n">show_image</span> <span class="o">=</span> <span class="n">ViewImageAnnotation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-                                 <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;spline36&#39;</span><span class="p">)</span>
-<span class="n">pred_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
-
-<span class="n">network</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">()</span>
-<span class="n">network</span><span class="o">.</span><span class="n">load_weights</span><span class="p">()</span>
-
-<span class="n">samples</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;images/*.png&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-
-<span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">pred_batch</span> <span class="o">&gt;&gt;</span>
-               <span class="n">network</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Map</span><span class="p">(</span><span class="n">ArgMax</span><span class="p">())</span> <span class="o">&gt;&gt;</span> <span class="n">Map</span><span class="p">(</span><span class="n">names</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">))</span>
-<span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">show_image</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<p>The filenames for the images are generated automatically by replacing the
+<code class="docutils literal"><span class="pre">*</span></code> in <code class="docutils literal"><span class="pre">imagepath</span></code> by a running number. For instance, the code above
+would create the following files</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">images</span><span class="o">/</span><span class="n">img0</span><span class="o">.</span><span class="n">png</span>
+<span class="o">./</span><span class="n">images</span><span class="o">/</span><span class="n">img0</span><span class="o">.</span><span class="n">png</span>
+<span class="o">...</span>
+<span class="o">./</span><span class="n">images</span><span class="o">/</span><span class="n">img19</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
+<p>A more complex example that includes the class label of an image in its
+filename can be seen in <a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/write_images.py">cifar/write_images.py</a> .</p>
+</div>
+<div class="section" id="prediction">
+<h2>Prediction<a class="headerlink" href="#prediction" title="Permalink to this headline">¶</a></h2>
+<p>After having trained and evaluated a network we usually want to apply it
+and predict labels for new images. Here an example</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;images/*.png&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+
+<span class="n">build_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">pred_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span> <span class="o">&gt;&gt;</span>
+               <span class="n">Map</span><span class="p">(</span><span class="n">ArgMax</span><span class="p">())</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As before we read images from the file system with <code class="docutils literal"><span class="pre">ReadImage</span></code>, re-range
+them and build a batch. Note that it would be easy to add a transformation
+that resizes the new input images to the shape required by the network.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For classification the batch needs to be created differently
+(without class labels) compared to training/evaluation, since class labels
+are not available - that is what we want to predict!</p>
+</div>
+<p>We call <code class="docutils literal"><span class="pre">network.predict</span></code> to retrieve the prediction of the network for an
+input image. The output is a softmax vector (see <code class="docutils literal"><span class="pre">create_network()</span></code>) and
+we use <code class="docutils literal"><span class="pre">Map(ArgMax())</span></code> to get the class index. If you want the class index
+together with the class probability <code class="docutils literal"><span class="pre">Map(ArgMax(retvalue=True))</span></code> can be
+called instead.</p>
+<p><a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_classify.py">cifar/cnn_classify.py</a> contains a more complex example that displays the image
+with the true and predicted class names.</p>
 </div>
 <div class="section" id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
-<p>Below is the complete code for the network training.</p>
+<p>Here is the complete code (without imports) for the network training.
+The entire code can be found in <a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py">cifar/cnn_train.py</a>.</p>
 <div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">rerange</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
 <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
                <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
@@ -628,8 +665,6 @@ format <code class="docutils literal"><span class="pre">(loss,</span> <span clas
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test acc   : </span><span class="si">{:.1f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">e_acc</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>The entire code for the example above can be found in
-<a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py">examples/cifar/cnn_train.py</a>.</p>
 </div>
 </div>
 

@@ -37,7 +37,7 @@ Canonical pipeline
 A *canonical pipeline* for the processing of image data can be described 
 by the following components
 
-.. image:: pics/pipeline.png
+.. image:: pics/pipeline.gif
 
 
 - *Reader*: sample data stored in CSV files, `Pandas <http://pandas.pydata.org/>`_ 

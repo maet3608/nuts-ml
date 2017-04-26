@@ -412,8 +412,8 @@ accuracy
 
 Note that the computation of the validation accuracy is slightly different than shown
 before. Here we need only the accuracies but not the losses and therefore call ``Get(1)``
-to extract them. Since the output then contains only accuracies and not tuples of
-format ``(loss, acc)`` anymore, we can directly call ``Mean()`` and don't need to ``Unzip``.
+to extract them. Since the output then contains only accuracies and not tuples
+``(loss, acc)`` anymore, we can directly call ``Mean()`` and don't need to ``Unzip``.
 
 If we want to save the network with the smallest loss instead, we can write 
 
@@ -426,87 +426,116 @@ If we want to save the network with the smallest loss instead, we can write
 Reading
 -------
 
-TODO
-
-Reading images from file system
+The CIFAR-10 benchmark dataset is small enough to fit in memory. However, in many 
+practical applications the image datasets are too large to be loaded in memory
+entirely and images need to be read sequentially from the file system. The following 
+example shows how to read PNG images from a folder and to display them
 
 .. code:: Python
 
   show_image = ViewImage(0, pause=1, figsize=(2, 2), interpolation='spline36')
   glob('images/*.png') >> ReadImage(None) >> show_image >> Consume()
 
+``ReadImage`` takes a sequence of file paths as input, generated using ``glob``,
+reads the image from the file system, and returns tuples of shape ``(image,)``,
+where images are numpy arrays. We can then display the image with ``ViewImage``, 
+where ``0`` indicates the column in the input sample that contains the image
+and ``pause=1`` forces a pause of one second between images.
+See `cifar/read_images.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/read_images.py>`_ for a complete code example.
 
-Reading from labeled directories
+A common method to organize image data for network training on the file system 
+is to store them in sub-folders named after the class labels, for instance
+
+.. code::
+
+  images\
+    0\
+       img123.jpg
+       img456.jpg
+       ...     
+    9\
+       img789.jpg
+
+We can read these images with their corresponding class labels using the 
+following code
 
 .. code:: Python
 
-  (ReadLabelDirs('images', '*.png') >> Print() >> Consume())
+  ReadLabelDirs('images', '*.jpg') >> ReadImage(0) >> show_image >> Consume()
 
-.. code:: Python
-
-  (ReadLabelDirs('images', '*.png') >> ReadImage(0) >> show_image >> Consume())
+where ``ReadLabelDirs`` returns tuples of the form ``(filepath, label)``.
+See `mnist/read_images.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/mnist/read_images.py>`_ for a complete example using the MNIST data.
 
 
 Writing
 -------
 
-TODO
-
-Writing images to file system
-
-.. code:: Python
-
-  def load_names():
-      from keras.utils.data_utils import get_file
-      dirname = 'cifar-10-batches-py'
-      origin = 'http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz'
-      path = get_file(dirname, origin=origin, untar=True)
-      with open(osp.join(path, 'batches.meta'), 'rb') as f:
-          return cPickle.load(f)['label_names']
+Often we not only want to read image data but also write them, e.g. after
+transformation or augmentation. The following code writes the first 20 of the 
+CIFAR-10 training images in PNG format to the file system
 
 .. code:: Python
+
   train_samples, _ = load_samples()
-  names = load_names()
-
-  id2name = MapCol(1, lambda i: names[int(i)])
-  fnames = (Enumerate() >> Zip(train_samples >> Get(1)) >> id2name >>
-            Format('{0}_{1}') >> Print())
   imagepath = 'images/img*.png'
-  train_samples >> Take(10) >> WriteImage(0, imagepath, fnames) >> Consume()
+  train_samples >> Take(20) >> WriteImage(0, imagepath) >> Consume()
 
-
-
-Classification
---------------
-
-TODO
-
-Classify images using a trained network
+The filenames for the images are generated automatically by replacing the 
+``*`` in ``imagepath`` by a running number. For instance, the code above 
+would create the following files 
 
 .. code:: Python
 
-  names = load_names()
+  ./images/img0.png
+  ./images/img0.png
+  ...
+  ./images/img19.png
 
-  show_image = ViewImageAnnotation(0, 1, pause=1, figsize=(3, 3),
-                                   interpolation='spline36')
-  pred_batch = BuildBatch(BATCH_SIZE).by(0, 'image', 'float32')
-
-  network = create_network()
-  network.load_weights()
-
-  samples = glob('images/*.png') >> Print() >> ReadImage(None) >> Collect()
-
-  predictions = (samples >> rerange >> pred_batch >>
-                 network.predict() >> Map(ArgMax()) >> Map(names.__getitem__))
-  samples >> Get(0) >> Zip(predictions) >> show_image >> Consume()
+A more complex example that includes the class label of an image in its
+filename can be seen in `cifar/write_images.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/write_images.py>`_ .
 
 
+Prediction
+----------
+
+After having trained and evaluated a network we usually want to apply it
+and predict labels for new images. Here an example
+
+.. code:: Python
+
+  samples = glob('images/*.png') >> ReadImage(None) >> Collect()
+
+  build_batch = BuildBatch(BATCH_SIZE).by(0, 'image', 'float32')
+
+  predictions = (samples >> rerange >> pred_batch >> network.predict() >> 
+                 Map(ArgMax()) >> Collect())
+  print(predictions)
+
+As before we read images from the file system with ``ReadImage``, re-range
+them and build a batch. Note that it would be easy to add a transformation
+that resizes the new input images to the shape required by the network. 
+
+.. note::
+
+  For classification the batch needs to be created differently
+  (without class labels) compared to training/evaluation, since class labels 
+  are not available - that is what we want to predict!
+
+We call ``network.predict`` to retrieve the prediction of the network for an 
+input image. The output is a softmax vector (see ``create_network()``) and
+we use ``Map(ArgMax())`` to get the class index. If you want the class index
+together with the class probability ``Map(ArgMax(retvalue=True))`` can be 
+called instead.
+
+`cifar/cnn_classify.py  <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_classify.py>`_ contains a more complex example that displays the image
+with the true and predicted class names.
 
 
 Code
 ----
 
-Below is the complete code for the network training.
+Here is the complete code (without imports) for the network training.
+The entire code can be found in `cifar/cnn_train.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py>`_. 
 
 .. code:: Python
 
@@ -554,5 +583,4 @@ Below is the complete code for the network training.
   print('test acc   : {:.1f}'.format(100 * e_acc))
 
 
-The entire code for the example above can be found in
-`examples/cifar/cnn_train.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py>`_. 
+

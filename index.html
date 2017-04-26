@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contents &mdash; nutsml 1.0.10 documentation</title>
+  <title>Welcome to nuts-ml &mdash; nutsml 1.0.10 documentation</title>
   
 
   
@@ -140,7 +140,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>Contents</li>
+      <li>Welcome to nuts-ml</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -159,62 +159,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <img alt="_images/nutsml_logo.gif" class="align-center" src="_images/nutsml_logo.gif" />
-<div class="section" id="contents">
-<h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="welcome-to-nuts-ml">
+<h1>Welcome to nuts-ml<a class="headerlink" href="#welcome-to-nuts-ml" title="Permalink to this headline">¶</a></h1>
+<img alt="_images/nutsml_logo.gif" class="align-center" src="_images/nutsml_logo.gif" />
+<p><strong>nuts-ml</strong> is a data pre-processing library for GPU based deep learning
+that provides common pre-processing functions as independent, reusable units.
+These so called &#8216;nuts&#8217; can be freely arranged to build data flows that
+are efficient, easy to read and modify.
+The following example gives a taste of a <strong>nuts-ml</strong> data-flow that
+trains a network on image data and prints training loss and accuracy</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span>
+   <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span>
+   <span class="n">Print</span><span class="p">(</span><span class="s1">&#39;train loss:</span><span class="si">{}</span><span class="s1"> acc:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>For a quick start have a look at the <a class="reference internal" href="introduction.html#introduction"><span class="std std-ref">Introduction</span></a> and for
+more detailed information see the <a class="reference internal" href="tutorial/introduction.html#tutorial"><span class="std std-ref">Tutorial</span></a> .</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#canonical-pipeline">Canonical pipeline</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#library">Library</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#example">Example</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#standard">Standard</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#verification">Verification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#bleeding-edge">Bleeding-edge</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#upgrade">Upgrade</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#virtual-environment">Virtual environment</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial/introduction.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial/example.html">CIFAR-10 Example</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#what-is-the-default-image-representation-in-nuts-ml">What is the default image representation in nuts-ml?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#what-image-formats-can-nuts-ml-read">What image formats can nuts-ml read?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="faq.html#how-to-flatten-a-batch-of-predictions">How to flatten a batch of predictions?</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contributions.html#unit-tests">Unit tests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributions.html#documentation">Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributions.html#style-guide">Style guide</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="nutsml.html">nutsml package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#subpackages">Subpackages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.batcher">nutsml.batcher module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.booster">nutsml.booster module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.common">nutsml.common module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.config">nutsml.config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.datautil">nutsml.datautil module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.fileutil">nutsml.fileutil module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.imageutil">nutsml.imageutil module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.logger">nutsml.logger module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.network">nutsml.network module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.plotter">nutsml.plotter module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.reader">nutsml.reader module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.stratify">nutsml.stratify module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.transformer">nutsml.transformer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.viewer">nutsml.viewer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.writer">nutsml.writer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml">Module contents</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nutsml.html">nutsml package</a></li>
 </ul>
 </div>
 </div>
