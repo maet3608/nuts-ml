@@ -27,16 +27,15 @@ Installation via ``pip`` from `PyPi <https://pypi.python.org/pypi>`_
 Verification
 ------------
   
-Ensure that nutsflow and nutsml can be imported and work
+Ensure that nutsflow and nutsml can be imported and work.
+Open Python shell via ``python` and enter the following
+code
 
-.. doctest::
-
-  python
-  >>> from nutsflow import *
-  >>> from nutsml import *
-  >>> samples = [('pos', 1), ('pos', 1), ('neg', 0)]
-  >>> samples >> Stratify(1) >> Collect()
-  [('neg', 0), ('pos', 1)]
+>>> from nutsflow import *
+>>> from nutsml import *
+>>> samples = [('pos', 1), ('pos', 1), ('neg', 0)]
+>>> samples >> Stratify(1) >> Collect()
+[('neg', 0), ('pos', 1)]
   
   
 Bleeding-edge

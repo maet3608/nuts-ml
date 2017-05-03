@@ -251,6 +251,8 @@ See ``TransformImage`` in `transformer.py <https://github.com/maet3608/nuts-ml/b
 for a list of available transformations. Each transformation can also be used for
 augmentation. Custom transformations can be added via ``register``
 
+.. doctest::
+
   >>> from nutsml import TransformImage, AugmentImage
   >>> my_brightness = lambda image, c: image * c
   >>> TransformImage.register('my_brightness', my_brightness)

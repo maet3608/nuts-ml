@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.12 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.0.14 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.12 documentation" href="index.html"/>
+    <link rel="top" title="nutsml 1.0.14 documentation" href="index.html"/>
         <link rel="next" title="nutsml.examples package" href="nutsml.examples.html"/>
         <link rel="prev" title="Contributions" href="contributions.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                1.0.12
+                1.0.14
               </div>
             
           
@@ -93,6 +93,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial/introduction.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
@@ -481,7 +482,7 @@ alpha channel is fine (w,h,4).</li>
 <em class="property">class </em><code class="descname">Boost</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/booster.html#Boost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.booster.Boost" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.Nut</span></code></p>
 <p>iterable &gt;&gt; Boost(batcher, network, targetcol=-1)</p>
-<p>Boost samples with high softmax probability for incorrect class
+<p>Boost samples with high softmax probability for incorrect class.
 Expects one-hot encoded targets and softmax predictions for output.</p>
 <p>network = Network()
 build_batch = BuildBatch(BATCHSIZE, colspec)
@@ -568,7 +569,7 @@ e.g. samples &gt;&gt; network.train() &gt;&gt; CheckNan() &gt;&gt; log &gt;&gt; 
 <dt id="nutsml.common.PartitionByCol">
 <em class="property">class </em><code class="descname">PartitionByCol</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/common.html#PartitionByCol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.common.PartitionByCol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutSink</span></code></p>
-<p>Partition samples in interable depending on column value.</p>
+<p>Partition samples in iterables depending on column value.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ones</span><span class="p">,</span> <span class="n">twos</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">PartitionByCol</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ones</span>
@@ -1653,6 +1654,39 @@ Can be of shapes MxN, MxNxC.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="nutsml.imageutil.gray2rgb">
+<code class="descname">gray2rgb</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#gray2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.gray2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Grayscale scale image to RGB image</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gray2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="go">array([[[255, 255, 255],</span>
+<span class="go">        [  0,   0,   0],</span>
+<span class="go">        [  0,   0,   0]],</span>
+
+<span class="go">       [[  0,   0,   0],</span>
+<span class="go">        [255, 255, 255],</span>
+<span class="go">        [  0,   0,   0]],</span>
+
+<span class="go">       [[  0,   0,   0],</span>
+<span class="go">        [  0,   0,   0],</span>
+<span class="go">        [255, 255, 255]]], dtype=uint8)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array image</strong> (<em>numpy</em>) &#8211; Numpy array with range [0,255] and dtype &#8216;uint8&#8217;.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RGB image</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy array with range [0,255] and dtype &#8216;uint8&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="nutsml.imageutil.identical">
 <code class="descname">identical</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#identical"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.identical" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return input image unchanged.</p>
@@ -1919,6 +1953,31 @@ e.g. float32&#8217; or np.uint8</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="nutsml.imageutil.rgb2gray">
+<code class="descname">rgb2gray</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#rgb2gray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.rgb2gray" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB scale image to grayscale image</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+<span class="go">array([[255,   0,   0],</span>
+<span class="go">       [  0, 255,   0],</span>
+<span class="go">       [  0,   0, 255]], dtype=uint8)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array image</strong> (<em>numpy</em>) &#8211; Numpy array with range [0,255] and dtype &#8216;uint8&#8217;.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">grayscale image</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy array with range [0,255] and dtype &#8216;uint8&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="nutsml.imageutil.rotate">
 <code class="descname">rotate</code><span class="sig-paren">(</span><em>image</em>, <em>angle=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.rotate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate image.</p>
@@ -2156,6 +2215,38 @@ Must be of shape (h,w) or (h,w,3) or (h,w,4)</li>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Sheared image</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy array with range [0,255] and dtype &#8216;uint8&#8217;</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nutsml.imageutil.translate">
+<code class="descname">translate</code><span class="sig-paren">(</span><em>image</em>, <em>dx</em>, <em>dy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift image horizontally and vertically</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">translate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">array([[  0,   0,   0],</span>
+<span class="go">       [  0,   0, 255],</span>
+<span class="go">       [  0,   0,   0]], dtype=uint8)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>array image</strong> (<em>numpy</em>) &#8211; Numpy array with range [0,255] and dtype &#8216;uint8&#8217;.</li>
+<li><strong>dx</strong> &#8211; horizontal translation in pixels</li>
+<li><strong>dy</strong> &#8211; vertical translation in picels</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">translated image</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy array with range [0,255] and dtype &#8216;uint8&#8217;</p>
@@ -2987,7 +3078,7 @@ Loads all samples in memory!</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>over tuples iterable</strong> (<em>iterable</em>) &#8211; Iterable of tuples where column
 labelcol contains a sample label that is used for stratification</li>
-<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Column of tuple/samples that contains label</li>
+<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Column of tuple/samples that contains the label</li>
 <li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; &#8216;downrnd&#8217; : randomly down-sample
 &#8216;up&#8217; : up-sample</li>
 <li><strong>rand</strong> (<em>rand.Random</em>) &#8211; Random number generator used for down-sampling</li>
@@ -3684,7 +3775,7 @@ height for resize.</li>
 
 <dl class="attribute">
 <dt id="nutsml.transformer.TransformImage.transformations">
-<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical&gt;, 'normalize_histo': &lt;function normalize_histo&gt;, 'rerange': &lt;function rerange&gt;, 'color': &lt;function change_color&gt;, 'sharpness': &lt;function change_sharpness&gt;, 'crop': &lt;function crop&gt;, 'crop_center': &lt;function crop_center&gt;, 'resize': &lt;function resize&gt;, 'rotate': &lt;function rotate&gt;, 'flipud': &lt;function flipud&gt;, 'brightness': &lt;function change_brightness&gt;, 'fliplr': &lt;function fliplr&gt;, 'shear': &lt;function shear&gt;, 'contrast': &lt;function change_contrast&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical&gt;, 'normalize_histo': &lt;function normalize_histo&gt;, 'rotate': &lt;function rotate&gt;, 'flipud': &lt;function flipud&gt;, 'rerange': &lt;function rerange&gt;, 'brightness': &lt;function change_brightness&gt;, 'color': &lt;function change_color&gt;, 'sharpness': &lt;function change_sharpness&gt;, 'crop': &lt;function crop&gt;, 'shear': &lt;function shear&gt;, 'rgb2gray': &lt;function rgb2gray&gt;, 'gray2rgb': &lt;function gray2rgb&gt;, 'contrast': &lt;function change_contrast&gt;, 'fliplr': &lt;function fliplr&gt;, 'crop_center': &lt;function crop_center&gt;, 'translate': &lt;function translate&gt;, 'resize': &lt;function resize&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -3990,7 +4081,7 @@ Length need to be the same as samples.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 27, 2017.
+      Last updated on May 03, 2017.
 
     </p>
   </div> 
@@ -4011,7 +4102,7 @@ Length need to be the same as samples.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.12',
+            VERSION:'1.0.14',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

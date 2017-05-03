@@ -6,8 +6,14 @@ the examples, provide unit tests and ensure that ``pytest`` runs without
 errors. 
 
 
+Environment
+-----------
+
+You will need git, Python, pytest, Sphinx installed.
+
+
 Unit tests
-^^^^^^^^^^
+----------
 
 .. code::
 
@@ -86,7 +92,7 @@ We are aiming at a code coverage of 100%. Run ``pytest --cov`` for verification.
 
 
 Documentation
-^^^^^^^^^^^^^
+-------------
 
 Update Sphinx/HTML documentation as follows
 
@@ -95,13 +101,14 @@ Update Sphinx/HTML documentation as follows
   cd sphinx
   make clean
   make html
+  make test
 
   cd ..
   ./push_docs
 
 
 Style guide
-^^^^^^^^^^^
+-----------
 
 Code should be formatted following the `PEP-8 <https://www.python.org/dev/peps/pep-0008/>`_
 style guide. 

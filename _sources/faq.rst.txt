@@ -23,7 +23,7 @@ How to flatten a batch of predictions?
 Assuming the output of a network prediction is a batch
 of labels, how can it be flattened into a flow of labels?
 
-.. code:: Python
+.. doctest::
 
   >>> from nutsflow import Collect, Flatten
   >>> batched_labels = [(0, 1, 0), (1, 1, 0)]   # e.g. from network.predict()
@@ -32,7 +32,7 @@ of labels, how can it be flattened into a flow of labels?
 
 What if the batch has multiple columns, e.g. labels and probabilities
 
-.. code:: Python
+.. doctest::
 
   >>> from nutsflow import Collect, FlattenCol
   >>> batched_preds = [((0,1,0), (0.1,0.2,0.3)), ((1,1,0), (0.4,0.5,0.6))]

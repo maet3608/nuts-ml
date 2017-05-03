@@ -43,14 +43,16 @@ For a quick start read the :ref:`Introduction` and have a look at the code
 The :ref:`Tutorial` explains some of the examples in detail and if you are not
 familiar with `nuts-flow <https://github.com/maet3608/nuts-flow>`_, the library 
 **nuts-ml** is based on, reading its `documentation <https://maet3608.github.io/nuts-flow/>`_
-is recommended.
+is recommended. Skim over the short description of all nuts in the :ref:`Overview` 
+for an overall impression of the available functionality.
 
 
 .. toctree::
    :maxdepth: 1
 
    introduction
-   installation   
+   installation
+   overview   
    tutorial/introduction
    faq
    contributions
