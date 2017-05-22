@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; nutsml 1.0.17 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="nutsml 1.0.17 documentation" href="index.html"/>
+        <link rel="next" title="Tutorial" href="tutorial/introduction.html"/>
+        <link rel="prev" title="Installation" href="installation.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nutsml</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Click on a nut name for more details.</p>
+<p><strong>Network wrapping</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.network.KerasNetwork" title="nutsml.network.KerasNetwork"><code class="xref py py-class docutils literal"><span class="pre">KerasNetwork</span></code></a> :
+wrapper for Keras networks.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.network.LasagneNetwork" title="nutsml.network.LasagneNetwork"><code class="xref py py-class docutils literal"><span class="pre">LasagneNetwork</span></code></a> :
+wrapper for Lasagne networks.</li>
+</ul>
+<p><strong>Data reading</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.reader.DplyToList" title="nutsml.reader.DplyToList"><code class="xref py py-class docutils literal"><span class="pre">DplyToList</span></code></a> :
+convert DplyDataframe to list.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.reader.ReadImage" title="nutsml.reader.ReadImage"><code class="xref py py-class docutils literal"><span class="pre">ReadImage</span></code></a> :
+load image as numpy array from file system.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.reader.ReadLabelDirs" title="nutsml.reader.ReadLabelDirs"><code class="xref py py-class docutils literal"><span class="pre">ReadLabelDirs</span></code></a> :
+read file paths from label directories.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.reader.ReadPandas" title="nutsml.reader.ReadPandas"><code class="xref py py-class docutils literal"><span class="pre">ReadPandas</span></code></a> :
+read data as Pandas table from file system.</li>
+</ul>
+<p><strong>Data writing</strong></p>
+<ul class="simple">
+<li><code class="xref py py-class docutils literal"><span class="pre">WriteImage</span></code> :
+write images to file system.</li>
+</ul>
+<p><strong>Data viewing</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.viewer.PrintColType" title="nutsml.viewer.PrintColType"><code class="xref py py-class docutils literal"><span class="pre">PrintColType</span></code></a> :
+print type and other information for sample columns.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.viewer.ViewImage" title="nutsml.viewer.ViewImage"><code class="xref py py-class docutils literal"><span class="pre">ViewImage</span></code></a> :
+display image in window.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.viewer.ViewImageAnnotation" title="nutsml.viewer.ViewImageAnnotation"><code class="xref py py-class docutils literal"><span class="pre">ViewImageAnnotation</span></code></a> :
+display image and annotation in window.</li>
+</ul>
+<p><strong>Sample processing</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.common.CheckNaN" title="nutsml.common.CheckNaN"><code class="xref py py-class docutils literal"><span class="pre">CheckNaN</span></code></a> :
+raise exception if data contains NaNs.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.common.PartitionByCol" title="nutsml.common.PartitionByCol"><code class="xref py py-class docutils literal"><span class="pre">PartitionByCol</span></code></a> :
+partition samples depending on column value.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.common.SplitRandom" title="nutsml.common.SplitRandom"><code class="xref py py-class docutils literal"><span class="pre">SplitRandom</span></code></a> :
+randomly split iterable into partitions, e.g. training, validation, test.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.stratify.Stratify" title="nutsml.stratify.Stratify"><code class="xref py py-class docutils literal"><span class="pre">Stratify</span></code></a> :
+stratifies samples by down-sampling or up-sampling.</li>
+</ul>
+<p><strong>Transforming &amp; Augmenting</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.transformer.AugmentImage" title="nutsml.transformer.AugmentImage"><code class="xref py py-class docutils literal"><span class="pre">AugmentImage</span></code></a> :
+augment images using random transformations, e.g. rotation.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageAnnotationToMask" title="nutsml.transformer.ImageAnnotationToMask"><code class="xref py py-class docutils literal"><span class="pre">ImageAnnotationToMask</span></code></a> :
+return bit mask for geometric image annotation.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageChannelMean" title="nutsml.transformer.ImageChannelMean"><code class="xref py py-class docutils literal"><span class="pre">ImageChannelMean</span></code></a> :
+compute per-channel means over images and subtract from images.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageMean" title="nutsml.transformer.ImageMean"><code class="xref py py-class docutils literal"><span class="pre">ImageMean</span></code></a> :
+compute mean over images and subtract from images.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.transformer.ImagePatchesByAnnotation" title="nutsml.transformer.ImagePatchesByAnnotation"><code class="xref py py-class docutils literal"><span class="pre">ImagePatchesByAnnotation</span></code></a> :
+randomly sample patches from image based on geometric annotation.</li>
+<li><code class="xref py py-class docutils literal"><span class="pre">ImagePatchesByMask</span></code> :
+randomly sample patches from image based on annotation mask.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.transformer.RandomImagePatches" title="nutsml.transformer.RandomImagePatches"><code class="xref py py-class docutils literal"><span class="pre">RandomImagePatches</span></code></a> :
+extract patches at random locations from images.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.transformer.RegularImagePatches" title="nutsml.transformer.RegularImagePatches"><code class="xref py py-class docutils literal"><span class="pre">RegularImagePatches</span></code></a> :
+extract patches in a regular grid from images.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.transformer.TransformImage" title="nutsml.transformer.TransformImage"><code class="xref py py-class docutils literal"><span class="pre">TransformImage</span></code></a> :
+transform images, e.g. crop, translate, rotate.</li>
+</ul>
+<p><strong>Boosting</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.booster.Boost" title="nutsml.booster.Boost"><code class="xref py py-class docutils literal"><span class="pre">Boost</span></code></a> :
+boost samples with high confidence for incorrect class.</li>
+</ul>
+<p><strong>Batching</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.batcher.BuildBatch" title="nutsml.batcher.BuildBatch"><code class="xref py py-class docutils literal"><span class="pre">BuildBatch</span></code></a> :
+build batches for GPU-based training.</li>
+</ul>
+<p><strong>Plotting</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.plotter.PlotLines" title="nutsml.plotter.PlotLines"><code class="xref py py-class docutils literal"><span class="pre">PlotLines</span></code></a> :
+plot lines for selected data columns, e.g. accuracy, loss.</li>
+</ul>
+<p><strong>Logging</strong></p>
+<ul class="simple">
+<li><a class="reference internal" href="nutsml.html#nutsml.logger.LogCols" title="nutsml.logger.LogCols"><code class="xref py py-class docutils literal"><span class="pre">LogCols</span></code></a> :
+log sample columns to file.</li>
+</ul>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tutorial/introduction.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on May 22, 2017.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.17',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
