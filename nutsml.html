@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.14 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.0.17 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.14 documentation" href="index.html"/>
+    <link rel="top" title="nutsml 1.0.17 documentation" href="index.html"/>
         <link rel="next" title="nutsml.examples package" href="nutsml.examples.html"/>
         <link rel="prev" title="Contributions" href="contributions.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                1.0.14
+                1.0.17
               </div>
             
           
@@ -587,7 +587,7 @@ sufficient to provide the values for the partitions wanted.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>iterable</strong> (<em>iterable</em>) &#8211; Iterable over samples</li>
 <li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Index of column to extract</li>
-<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of column values to create partitions for.</li>
+<li><strong>values</strong> (<em>list</em>) &#8211; List of column values to create partitions for.</li>
 </ul>
 </td>
 </tr>
@@ -659,7 +659,7 @@ see random.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">partitions of iterable with sizes according to provided ratios.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a>, <a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a>, ..)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(list, list, ..)</p>
 </td>
 </tr>
 </tbody>
@@ -2364,7 +2364,7 @@ Returned when network.evaluate() is called.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>over batches batches</strong> (<em>iterable</em>) &#8211; Batches to evaluate</li>
 <li><strong>network</strong> (<em>nutmsml.Network</em>) &#8211; </li>
-<li><strong>of functions metrics</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of functions that compute
+<li><strong>of functions metrics</strong> (<em>list</em>) &#8211; List of functions that compute
 some metric, e.g. accuracy, F1, kappa-score.
 Each metric function must take vectors with true and
 predicted  classes/probabilities and must compute the
@@ -2438,12 +2438,12 @@ expected.</li>
 
 <dl class="method">
 <dt id="nutsml.network.KerasNetwork.train">
-<code class="descname">train</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.train" title="Permalink to this definition">¶</a></dt>
+<code class="descname">train</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.train" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="nutsml.network.KerasNetwork.validate">
-<code class="descname">validate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.validate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">validate</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.validate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2496,12 +2496,12 @@ expected.</li>
 
 <dl class="method">
 <dt id="nutsml.network.LasagneNetwork.train">
-<code class="descname">train</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork.train" title="Permalink to this definition">¶</a></dt>
+<code class="descname">train</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork.train" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="nutsml.network.LasagneNetwork.validate">
-<code class="descname">validate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork.validate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">validate</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork.validate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2540,7 +2540,7 @@ and loaded from.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of metrics. See EvalNut for details.</li>
+<li><strong>metric</strong> (<em>list</em>) &#8211; List of metrics. See EvalNut for details.</li>
 <li><strong>predcol</strong> (<em>int|None</em>) &#8211; Index of column in prediction to extract
 for evaluation. If None a single prediction output is
 expected.</li>
@@ -2690,7 +2690,7 @@ predictions return individual predictions</li>
 <dt id="nutsml.network.TrainValNut">
 <em class="property">class </em><code class="descname">TrainValNut</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#TrainValNut"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.TrainValNut" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.Nut</span></code></p>
-<p>batches &gt;&gt; TrainValNut(func)</p>
+<p>batches &gt;&gt; TrainValNut(func, <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs)</p>
 <p>Create nut to train or validate a network.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -2699,6 +2699,7 @@ predictions return individual predictions</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>over batches batches</strong> (<em>iterable</em>) &#8211; Batches to train/validate.</li>
 <li><strong>func</strong> (<em>function</em>) &#8211; Training or validation function of network.</li>
+<li><strong>kwargs</strong> (<em>kwargs</em>) &#8211; Keyword arguments passed on to function.</li>
 </ul>
 </td>
 </tr>
@@ -2758,13 +2759,18 @@ predictions return individual predictions</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ysin</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">PlotLines</span><span class="p">(</span><span class="n">ycols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">fp</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ycols</strong> (<em>int|tuple</em>) &#8211; Index or tuple of indices of the data columns
-that contain the y-data for the plot.</li>
+<li><strong>ycols</strong> (<em>int|tuple|None</em>) &#8211; Index or tuple of indices of the 
+data columns that contain the y-data for the plot.
+If None data is used directly.</li>
 <li><strong>xcols</strong> (<em>int|tuple|function|iterable</em>) &#8211; Index or tuple of indices of
 the data columns that contain the x-data for the plot.
 Alternatively an iterator or a function can be provided that
@@ -2874,14 +2880,15 @@ If None then a flat samples is assumed and
 a tuple with the image is returned.</li>
 <li><strong>pathfunc</strong> (<em>string|function|None</em>) &#8211; Filepath with wildcard &#8216;*&#8217;,
 which is replaced by the imageid provided in the sample, e.g.
-&#8216;tests/data/img_formats/<a href="#id1"><span class="problematic" id="id2">*</span></a>.jpg&#8217; for sample (&#8216;nut_grayscale&#8217;, 2)
+&#8216;tests/data/img_formats/<a href="#id3"><span class="problematic" id="id4">*</span></a>.jpg&#8217; for sample (&#8216;nut_grayscale&#8217;, 2)
 will become &#8216;tests/data/img_formats/nut_grayscale.jpg&#8217;
 or
 Function to compute path to image file from sample, e.g.
-lambda sample: &#8216;tests/data/img_formats/{1}.jpg&#8217;.format(<a href="#id3"><span class="problematic" id="id4">*</span></a>sample)
+lambda sample: &#8216;tests/data/img_formats/{1}.jpg&#8217;.format(<a href="#id5"><span class="problematic" id="id6">*</span></a>sample)
 or
 None, in this case the image id is take as filepath.</li>
-<li><strong>as_grey</strong> &#8211; If true, load as grayscale image.</li>
+<li><strong>as_grey</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If true, load as grayscale image.</li>
+<li><strong>dtype</strong> (<em>dtype</em>) &#8211; Numpy data type of the image.</li>
 </ul>
 </td>
 </tr>
@@ -2984,7 +2991,7 @@ Note tables must have a header with the column names or
 use kwarg header=None</li>
 <li><strong>rows</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Rows to filter. Any Pandas filter expression. If
 rows = None all rows of the table are returned.</li>
-<li><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of names for the table columns to return.
+<li><strong>columns</strong> (<em>list</em>) &#8211; List of names for the table columns to return.
 For columns = None all columns are returned.</li>
 <li><strong>dropnan</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; If True all rows that contain NaN are dropped.</li>
 <li><strong>replacenan</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; If not False all NaNs are replaced by
@@ -3127,6 +3134,8 @@ for instance.</p>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">]))</span>
 </pre></div>
 </div>
+<p>See <a class="reference internal" href="#nutsml.transformer.AugmentImage.by" title="nutsml.transformer.AugmentImage.by"><code class="xref py py-func docutils literal"><span class="pre">nutsml.transformer.AugmentImage.by()</span></code></a> for full list of 
+available augmentations.</p>
 <p>Note that each augmentation is applied independently. This is in
 contrast to transformations which are applied in sequence and
 result in one image.
@@ -3195,7 +3204,7 @@ images.</li>
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Name of the augmentation/transformation, e.g.
 &#8216;rotate&#8217;</li>
 <li><strong>prob</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Probability [0,1] that the augmentation is applied.</li>
-<li><strong>of lists ranges</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; <p>Lists with ranges for each argument of
+<li><strong>of lists ranges</strong> (<em>list</em>) &#8211; <p>Lists with ranges for each argument of
 the augmentation, e.g. [0, 360] degrees, where parameters are</p>
 <blockquote>
 <div>randomly sampled from.</div></blockquote>
@@ -3724,9 +3733,30 @@ See the relevant functions for details.</li>
 <dl class="method">
 <dt id="nutsml.transformer.TransformImage.by">
 <code class="descname">by</code><span class="sig-paren">(</span><em>name</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/transformer.html#TransformImage.by"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.transformer.TransformImage.by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specify and add tranformation to be performed.</p>
+<dd><p>Specify and add transformations to be performed.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transform</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;resize&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;fliplr&#39;</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="line-block">
+<div class="line">Available transformations:</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.identical" title="nutsml.imageutil.identical"><code class="xref py py-func docutils literal"><span class="pre">identical</span></code></a></div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.rerange" title="nutsml.imageutil.rerange"><code class="xref py py-func docutils literal"><span class="pre">rerange</span></code></a>
+(old_min, old_max, new_min, new_max, dtype)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.crop" title="nutsml.imageutil.crop"><code class="xref py py-func docutils literal"><span class="pre">crop</span></code></a> (x1, y1, x2, y2)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.crop_center" title="nutsml.imageutil.crop_center"><code class="xref py py-func docutils literal"><span class="pre">crop_center</span></code></a>  (w, h)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.normalize_histo" title="nutsml.imageutil.normalize_histo"><code class="xref py py-func docutils literal"><span class="pre">normalize_histo</span></code></a>  (gamma)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.rgb2gray" title="nutsml.imageutil.rgb2gray"><code class="xref py py-func docutils literal"><span class="pre">rgb2gray</span></code></a></div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.gray2rgb" title="nutsml.imageutil.gray2rgb"><code class="xref py py-func docutils literal"><span class="pre">gray2rgb</span></code></a></div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.resize" title="nutsml.imageutil.resize"><code class="xref py py-func docutils literal"><span class="pre">resize</span></code></a>  (w, h)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.translate" title="nutsml.imageutil.translate"><code class="xref py py-func docutils literal"><span class="pre">translate</span></code></a> (dx, dy)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.rotate" title="nutsml.imageutil.rotate"><code class="xref py py-func docutils literal"><span class="pre">rotate</span></code></a> (angle)</div>
+<div class="line"><code class="xref py py-func docutils literal"><span class="pre">contrast</span></code> (contrast)</div>
+<div class="line"><code class="xref py py-func docutils literal"><span class="pre">sharpness</span></code> (sharpness)</div>
+<div class="line"><code class="xref py py-func docutils literal"><span class="pre">brightness</span></code> (brightness)</div>
+<div class="line"><code class="xref py py-func docutils literal"><span class="pre">color</span></code> (color)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.fliplr" title="nutsml.imageutil.fliplr"><code class="xref py py-func docutils literal"><span class="pre">fliplr</span></code></a></div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.flipud" title="nutsml.imageutil.flipud"><code class="xref py py-func docutils literal"><span class="pre">flipud</span></code></a></div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.shear" title="nutsml.imageutil.shear"><code class="xref py py-func docutils literal"><span class="pre">shear</span></code></a> (shear_factor)</div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -3814,55 +3844,67 @@ remain unchained.</p>
 <span id="nutsml-viewer-module"></span><h2>nutsml.viewer module<a class="headerlink" href="#module-nutsml.viewer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-viewer"></span><dl class="class">
 <dt id="nutsml.viewer.PrintColType">
-<em class="property">class </em><code class="descname">PrintColType</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintColType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintColType" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">PrintColType</code><span class="sig-paren">(</span><em>cols=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintColType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintColType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
-<p>iterable &gt;&gt; PrintColType()</p>
+<dl class="method">
+<dt id="nutsml.viewer.PrintColType.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintColType.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintColType.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print data info.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#any" title="(in Python v2.7)"><em>any</em></a>) &#8211; Any type of iterable</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">data unchanged</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">same as data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nutsml.viewer.PrintColType.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>cols=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintColType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintColType.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterable &gt;&gt; PrintColType()</p>
 <p>Print type and other information for columns in data.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Consume</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-
-<span class="go">0: &lt;ndarray&gt; shape:10x20x3 dtype:float64 range:0.0-0.0</span>
-<span class="go">1: &lt;int&gt; 1</span>
-
-<span class="go">0: &lt;str&gt; text</span>
-<span class="go">1: &lt;int&gt; 2</span>
-
-<span class="go">0: &lt;int&gt; 3</span>
+<span class="go">item 0: &lt;tuple&gt;</span>
+<span class="go">  0: &lt;ndarray&gt; shape:10x20x3 dtype:float64 range:0.0..0.0</span>
+<span class="go">  1: &lt;int&gt; 1</span>
+<span class="go">item 1: &lt;tuple&gt;</span>
+<span class="go">  0: &lt;str&gt; text</span>
+<span class="go">  1: &lt;int&gt; 2</span>
+<span class="go">item 2: &lt;int&gt;</span>
+<span class="go">  0: &lt;int&gt; 3</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-
-<span class="go">1: &lt;int&gt; 2</span>
-
-<span class="go">1: &lt;int&gt; 4</span>
+<span class="go">item 0: &lt;tuple&gt;</span>
+<span class="go">  1: &lt;int&gt; 2</span>
+<span class="go">item 1: &lt;tuple&gt;</span>
+<span class="go">  1: &lt;int&gt; 4</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#any" title="(in Python v2.7)"><em>any</em></a>) &#8211; Any type of fas</li>
-<li><strong>cols</strong> (<em>int|tuple|None</em>) &#8211; Indices of columnbs to show info for.
-None means all columns. Can be a single index or a tuple of indices.</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cols</strong> (<em>int|tuple|None</em>) &#8211; Indices of columnbs to show info for.
+None means all columns. Can be a single index or a tuple of indices.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">input data unchanged</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">input data unchanged</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">same as data</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">same as data</td>
 </tr>
 </tbody>
 </table>
-<dl class="method">
-<dt id="nutsml.viewer.PrintColType.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>element</em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.viewer.PrintColType.__call__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -3892,11 +3934,15 @@ None means all columns. Can be a single index or a tuple of indices.</li>
 <dl class="method">
 <dt id="nutsml.viewer.ViewImage.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>imgcols</em>, <em>layout=(1</em>, <em>None)</em>, <em>figsize=None</em>, <em>pause=0.0001</em>, <em>**imargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImage.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>iterable &gt;&gt; ViewImage(imgcols, layout=(1, None), figsize=None, <a href="#id5"><span class="problematic" id="id6">**</span></a>plotargs)</p>
-<p>Images must be numpy arrays in one of the following formats:
-MxN - luminance (grayscale, float array only)
-MxNx3 - RGB (float or uint8 array)
-MxNx4 - RGBA (float or uint8 array)</p>
+<dd><p>iterable &gt;&gt; ViewImage(imgcols, layout=(1, None), figsize=None, <a href="#id7"><span class="problematic" id="id8">**</span></a>plotargs)</p>
+<div class="line-block">
+<div class="line">Images should be numpy arrays in one of the following formats:</div>
+<div class="line">MxN - luminance (grayscale, float array only)</div>
+<div class="line">MxNx3 - RGB (float or uint8 array)</div>
+<div class="line">MxNx4 - RGBA (float or uint8 array)</div>
+</div>
+<p>Shapes with single-dimension axis are supported but not encouraged,
+e.g. MxNx1 will be converted to MxN.</p>
 <p>See
 <a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow">http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow</a></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Consume</span>
@@ -3938,6 +3984,16 @@ imshow() function. See
 <em class="property">class </em><code class="descname">ViewImageAnnotation</code><span class="sig-paren">(</span><em>imgcol</em>, <em>annocols</em>, <em>figsize=None</em>, <em>pause=0.0001</em>, <em>interpolation=None</em>, <em>**annoargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImageAnnotation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImageAnnotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Display images and annotation in window.</p>
+<dl class="attribute">
+<dt id="nutsml.viewer.ViewImageAnnotation.SHAPEPROP">
+<code class="descname">SHAPEPROP</code><em class="property"> = {'edgecolor': 'y', 'linewidth': 1, 'facecolor': 'none'}</em><a class="headerlink" href="#nutsml.viewer.ViewImageAnnotation.SHAPEPROP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="nutsml.viewer.ViewImageAnnotation.TEXTPROP">
+<code class="descname">TEXTPROP</code><em class="property"> = {'edgecolor': 'k', 'backgroundcolor': (1, 1, 1, 0.5)}</em><a class="headerlink" href="#nutsml.viewer.ViewImageAnnotation.TEXTPROP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="nutsml.viewer.ViewImageAnnotation.__call__">
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImageAnnotation.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImageAnnotation.__call__" title="Permalink to this definition">¶</a></dt>
@@ -3961,14 +4017,18 @@ imshow() function. See
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>imgcol</em>, <em>annocols</em>, <em>figsize=None</em>, <em>pause=0.0001</em>, <em>interpolation=None</em>, <em>**annoargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImageAnnotation.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImageAnnotation.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>iterable &gt;&gt; ViewImageAnnotation(imgcol, annocols, figsize=None,</dt>
-<dd>pause, interpolation, <a href="#id7"><span class="problematic" id="id8">**</span></a>annoargs)</dd>
+<dd>pause, interpolation, <a href="#id9"><span class="problematic" id="id10">**</span></a>annoargs)</dd>
 </dl>
-<p>Images must be numpy arrays in one of the following formats:
-MxN - luminance (grayscale, float array only)
-MxNx3 - RGB (float or uint8 array)
-MxNx4 - RGBA (float or uint8 array)
-See
-<a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow">http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow</a></p>
+<div class="line-block">
+<div class="line">Images must be numpy arrays in one of the following formats:</div>
+<div class="line">MxN - luminance (grayscale, float array only)</div>
+<div class="line">MxNx3 - RGB (float or uint8 array)</div>
+<div class="line">MxNx4 - RGBA (float or uint8 array)</div>
+<div class="line">See</div>
+<div class="line"><a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow">http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow</a></div>
+</div>
+<p>Shapes with single-dimension axis are supported but not encouraged,
+e.g. MxNx1 will be converted to MxN.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -4036,7 +4096,7 @@ See nutsml.util.load_image for details.</p>
 <li><strong>column</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Column in sample that contains image.</li>
 <li><strong>pathfunc</strong> (<em>str|function</em>) &#8211; Filepath with wildcard &#8216;*&#8217;,
 which is replaced by the name provided names e.g.
-&#8216;tests/data/img_formats/<a href="#id9"><span class="problematic" id="id10">*</span></a>.jpg&#8217; for names = [&#8216;nut_grayscale&#8217;]
+&#8216;tests/data/img_formats/<a href="#id11"><span class="problematic" id="id12">*</span></a>.jpg&#8217; for names = [&#8216;nut_grayscale&#8217;]
 will become &#8216;tests/data/img_formats/nut_grayscale.jpg&#8217;
 or
 Function to compute path to image file from sample and name, e.g.
@@ -4081,7 +4141,7 @@ Length need to be the same as samples.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on May 03, 2017.
+      Last updated on May 22, 2017.
 
     </p>
   </div> 
@@ -4102,7 +4162,7 @@ Length need to be the same as samples.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.14',
+            VERSION:'1.0.17',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

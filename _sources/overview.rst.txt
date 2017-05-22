@@ -94,7 +94,7 @@ Click on a nut name for more details.
 **Boosting**
 
 - :class:`Boost <nutsml.booster.Boost>` :
-  boost samples with high softmax probability for incorrect class.
+  boost samples with high confidence for incorrect class.
 
 
 **Batching**

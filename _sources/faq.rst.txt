@@ -9,7 +9,6 @@ of shape ``(h,w,3)`` for RGB images, ``(h,w)`` for gray-scale images
 and ``(h,w,4)`` for RGBA image.
 
 
-
 What image formats can nuts-ml read?
 ------------------------------------
 
@@ -38,3 +37,38 @@ What if the batch has multiple columns, e.g. labels and probabilities
   >>> batched_preds = [((0,1,0), (0.1,0.2,0.3)), ((1,1,0), (0.4,0.5,0.6))]
   >>> batched_preds >> FlattenCol((0,1)) >> Collect()
   [(0, 0.1), (1, 0.2), (0, 0.3), (1, 0.4), (1, 0.5), (0, 0.6)]
+
+  
+Only length-1 arrays can be converted to Python scalars
+-------------------------------------------------------
+
+If you see the following error message when running
+``network.evaluate()`` under Keras you need to upgrade to Keras 2.x
+and the latests ``nuts-ml`` version.
+
+.. code::
+  
+  in compute_metric    
+  return float(result.eval() if hasattr(result, 'eval') else result)
+  TypeError: only length-1 arrays can be converted to Python scalars  
+  
+  
+How to use class weights for imbalanced classes in Keras
+--------------------------------------------------------
+
+.. code:: Python
+
+  class_weights = {0:1, 1:50} 
+
+  for epoch in xrange(EPOCHS):              
+    t_loss = samples >> build_batch >> network.train(class_weights) >> Mean()
+    
+If the samples are an iterable (and not an iterator that is consumed) the
+class weights can also be computed directly. For instance, assuming that
+the class labels are in the second column (index = 1) of the sample,
+the following code can be used
+
+.. code:: Python
+
+  class_weight = samples >> Get(1) >> CountValues()
+    

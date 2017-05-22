@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsflow.factory &mdash; nutsml 1.0.14 documentation</title>
+  <title>nutsflow.factory &mdash; nutsml 1.0.17 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.14 documentation" href="../../index.html"/>
+    <link rel="top" title="nutsml 1.0.17 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.14
+                1.0.17
               </div>
             
           
@@ -238,13 +238,17 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut processors.</span>
 
+<span class="sd">    Example on how to define a custom processor nut:</span>
+
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_processor</span>
-<span class="sd">      def Pick(iterable, p):</span>
+<span class="sd">      def Clone(iterable, n):</span>
 <span class="sd">          for e in iterable:</span>
-<span class="sd">              if random() &gt; p:</span>
+<span class="sd">              for _ in xrange(p):</span>
 <span class="sd">                  yield e</span>
+
+<span class="sd">      [1, 2, 3] &gt;&gt; Clone(2) &gt;&gt; Collect()  --&gt; [1, 1, 2, 2, 3, 3]</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :param iterpos: Position of iterable in function arguments</span>
@@ -258,11 +262,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut sinks.</span>
 
+<span class="sd">    Example on how to define a custom sink nut:</span>
+
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_sink</span>
 <span class="sd">      def Collect(iterable, container):</span>
 <span class="sd">          return container(iterable)</span>
+
+<span class="sd">      xrange(5) &gt;&gt; Collect(tuple)  --&gt;   (0, 1, 2, 3, 4)</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :param iterpos: Position of iterable in function arguments</span>
@@ -276,11 +284,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut functions.</span>
 
+<span class="sd">    Example on how to define a custom function nut:</span>
+
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_function</span>
 <span class="sd">      def TimesN(x, n):</span>
 <span class="sd">          return x * n</span>
+
+<span class="sd">      [1, 2, 3] &gt;&gt; TimesN(2) &gt;&gt; Collect()  --&gt;  [2, 4, 6]</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :return: Nut function for given function</span>
@@ -302,11 +314,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut sources.</span>
 
+<span class="sd">    Example on how to define a custom source nut:</span>
+
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_source</span>
 <span class="sd">      def Range(start, end):</span>
 <span class="sd">          return xrange(start, end)</span>
+
+<span class="sd">      Range(0, 5) &gt;&gt; Collect()  --&gt; [0, 1, 2, 3, 4]</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :return: Nut source for given function</span>
@@ -328,11 +344,16 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut filters.</span>
 
+<span class="sd">    Also see nut_filerfalse().</span>
+<span class="sd">    Example on how to define a custom filter nut:</span>
+
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_filter</span>
 <span class="sd">      def GreaterThan(x, threshold):</span>
 <span class="sd">          return x &gt; threshold</span>
+
+<span class="sd">      [1, 2, 3, 4] &gt;&gt; GreaterThan(2) &gt;&gt; Collect()  --&gt; [3, 4] </span>
 
 <span class="sd">    :param function func: Function to decorate. Must return boolean value.</span>
 <span class="sd">    :return: Nut filter for given function</span>
@@ -345,11 +366,16 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut filters that are inverted.</span>
 
+<span class="sd">    Also see nut_filter().</span>
+<span class="sd">    Example on how to define a custom filter-false nut:</span>
+
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_filterfalse</span>
 <span class="sd">      def NotGreaterThan(x, threshold):</span>
 <span class="sd">          return x &gt; threshold</span>
+
+<span class="sd">      [1, 2, 3, 4] &gt;&gt; NotGreaterThan(2) &gt;&gt; Collect()  --&gt; [1, 2]</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :return: Nut filter for given function. . Must return boolean value.</span>
@@ -372,7 +398,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on May 03, 2017.
+      Last updated on May 22, 2017.
 
     </p>
   </div> 
@@ -393,7 +419,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.14',
+            VERSION:'1.0.17',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
