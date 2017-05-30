@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nutsml.network &mdash; nutsml 1.0.17 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="nutsml 1.0.17 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">nutsml</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nutsml.network</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for nutsml.network</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: network</span>
+<span class="sd">   :synopsis: Wrapper around other network APIs such as Lasagne or Keras</span>
+<span class="sd">              to enable usage within nuts-flow.</span>
+<span class="sd">              For instance, with a wrapped network one can write:</span>
+<span class="sd">              samples &gt;&gt; build_batch &gt;&gt; network.train() &gt;&gt; log_loss &gt;&gt; Consume()</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="p">(</span><span class="n">nut_processor</span><span class="p">,</span> <span class="n">nut_sink</span><span class="p">,</span> <span class="n">nut_function</span><span class="p">,</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Map</span><span class="p">,</span>
+                      <span class="n">Flatten</span><span class="p">,</span> <span class="n">Get</span><span class="p">)</span>
+
+
+<span class="nd">@nut_processor</span>
+<div class="viewcode-block" id="TrainValNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.TrainValNut">[docs]</a><span class="k">def</span> <span class="nf">TrainValNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    batches &gt;&gt; TrainValNut(func, **kwargs)</span>
+
+<span class="sd">    Create nut to train or validate a network.</span>
+
+<span class="sd">    :param iterable over batches batches: Batches to train/validate.</span>
+<span class="sd">    :param function func: Training or validation function of network.</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments passed on to function.</span>
+<span class="sd">    :return: Result(s) of training/validation function, e.g. loss, accuracy, ...</span>
+<span class="sd">    :rtype: float or array/tuple of floats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">batch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<span class="nd">@nut_processor</span>
+<div class="viewcode-block" id="PredictNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.PredictNut">[docs]</a><span class="k">def</span> <span class="nf">PredictNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    batches &gt;&gt; PredictNut(func)</span>
+
+<span class="sd">    Create nut to perform network predictions.</span>
+
+<span class="sd">    :param iterable over batches batches: Batches to create predictions for.</span>
+<span class="sd">    :param function func: Prediction function</span>
+<span class="sd">    :param bool flatten: True: flatten output. Instead of returning batch of</span>
+<span class="sd">           predictions return individual predictions</span>
+<span class="sd">    :return: Result(s) of prediction</span>
+<span class="sd">    :rtype: typically array with class probabilities (softmax vector)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+        <span class="n">pred_batch</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">batch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">flatten</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">prediction</span> <span class="ow">in</span> <span class="n">pred_batch</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">prediction</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">pred_batch</span></div>
+
+
+<span class="nd">@nut_sink</span>
+<div class="viewcode-block" id="EvalNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.EvalNut">[docs]</a><span class="k">def</span> <span class="nf">EvalNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">compute</span><span class="p">,</span> <span class="n">predcol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targetcol</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    batches &gt;&gt; EvalNut(network, metrics)</span>
+
+<span class="sd">    Create nut to evaluate network performance for given metrics.</span>
+<span class="sd">    Returned when network.evaluate() is called.</span>
+
+<span class="sd">    :param iterable over batches batches: Batches to evaluate</span>
+<span class="sd">    :param nutmsml.Network network:</span>
+<span class="sd">    :param list of functions metrics: List of functions that compute</span>
+<span class="sd">           some metric, e.g. accuracy, F1, kappa-score.</span>
+<span class="sd">           Each metric function must take vectors with true and</span>
+<span class="sd">           predicted  classes/probabilities and must compute the</span>
+<span class="sd">           metric over the entire input (not per sample/mini-batch).</span>
+<span class="sd">    :param function compute: Function of the form f(metric, targets, preds)</span>
+<span class="sd">           that computes the given metric (e.g. mean accuracy) for the given</span>
+<span class="sd">           targets and predictions.</span>
+<span class="sd">    :param int|None predcol: Index of column in prediction to extract</span>
+<span class="sd">           for evaluation. If None a single prediction output is</span>
+<span class="sd">           expected.</span>
+<span class="sd">    :param int targetcol: Index of batch column that contain targets.</span>
+<span class="sd">    :return: Result(s) of evaluation, e.g. accuracy, precision, ...</span>
+<span class="sd">    :rtype: float or tuple of floats if there is more than one metric</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">accumulate</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>
+        <span class="n">p_batch</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[:</span><span class="n">targetcol</span><span class="p">],</span> <span class="n">batch</span><span class="p">[</span><span class="n">targetcol</span><span class="p">]</span>
+        <span class="n">targets</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">p_batch</span>
+
+    <span class="n">preds</span> <span class="o">=</span> <span class="p">(</span><span class="n">batches</span> <span class="o">&gt;&gt;</span> <span class="n">Map</span><span class="p">(</span><span class="n">accumulate</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">flatten</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+             <span class="n">Get</span><span class="p">(</span><span class="n">predcol</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Flatten</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">())</span>
+
+    <span class="n">targets</span><span class="p">,</span> <span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">targets</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">compute</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Network"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network">[docs]</a><span class="k">class</span> <span class="nc">Network</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for networks. Allows to wrap existing network APIs</span>
+<span class="sd">    such as Lasagne or Keras into an API that enables direct usage of the</span>
+<span class="sd">    network as a Nut in a nuts flow.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Network.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weightspath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructs base wrapper for networks.</span>
+
+<span class="sd">        :param string weightspath: Filepath where network weights are saved to</span>
+<span class="sd">            and loaded from.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">weightspath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># score of best scoring network so far</span></div>
+
+<div class="viewcode-block" id="Network.train"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Train network</span>
+
+<span class="sd">        &gt;&gt;&gt; train_losses = samples &gt;&gt; batcher &gt;&gt; network.train() &gt;&gt; Collect()  # doctest: +SKIP</span>
+
+<span class="sd">        :return: Typically returns training loss per batch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Implement train()!&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.validate"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate network</span>
+
+<span class="sd">        &gt;&gt;&gt; val_losses = samples &gt;&gt; batcher &gt;&gt; network.validate() &gt;&gt; Collect()  # doctest: +SKIP</span>
+
+<span class="sd">        :return: Typically returns validation loss per batch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Implement validate()!&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.predict"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get network predictions</span>
+
+<span class="sd">        &gt;&gt;&gt; predictions = samples &gt;&gt; batcher &gt;&gt; network.predict() &gt;&gt; Collect()  # doctest: +SKIP</span>
+
+<span class="sd">        :param bool flatten: True: return individual predictions instead</span>
+<span class="sd">          of batch of prediction</span>
+<span class="sd">        :return: Typically returns softmax class probabilities.</span>
+<span class="sd">        :rtype: ndarray</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Implement predict()!&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.evaluate"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">predcol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targetcol</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate performance of network for given metrices</span>
+
+<span class="sd">        &gt;&gt;&gt; acc, f1 = samples &gt;&gt; batcher &gt;&gt; network.evaluate([accuracy, f1_score])  # doctest: +SKIP</span>
+
+<span class="sd">        :param list metric: List of metrics. See EvalNut for details.</span>
+<span class="sd">        :param int|None predcol: Index of column in prediction to extract</span>
+<span class="sd">                for evaluation. If None a single prediction output is</span>
+<span class="sd">                expected.</span>
+<span class="sd">        :param int targetcol: Index of batch column that contain targets.</span>
+<span class="sd">        :return: Result for each metric as a tuple or a single float if</span>
+<span class="sd">           there is only one metric.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Implement predict()!&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.save_best"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.save_best">[docs]</a>    <span class="k">def</span> <span class="nf">save_best</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">isloss</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save weights of best network</span>
+
+<span class="sd">        :param float score: Score of the network, e.g. loss, accuracy</span>
+<span class="sd">        :param bool isloss: True means lower score is better, e.g. loss</span>
+<span class="sd">          and the network with the lower score score is saved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span> <span class="ow">or</span>
+                <span class="p">(</span><span class="n">isloss</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">score</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="p">(</span><span class="n">isloss</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_weights</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Network.save_weights"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.save_weights">[docs]</a>    <span class="k">def</span> <span class="nf">save_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save network weights. self.weightspath is used.</span>
+
+<span class="sd">        network.save_weights()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Implement save_weights()!&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.load_weights"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.load_weights">[docs]</a>    <span class="k">def</span> <span class="nf">load_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load network weights. self.weightspath is used.</span>
+
+<span class="sd">        network.load_weights()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Implement load_weights()!&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Network.print_layers"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.Network.print_layers">[docs]</a>    <span class="k">def</span> <span class="nf">print_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print description of the network layers&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Implement print_layers()!&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="LasagneNetwork"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork">[docs]</a><span class="k">class</span> <span class="nc">LasagneNetwork</span><span class="p">(</span><span class="n">Network</span><span class="p">):</span>  <span class="c1"># pragma no cover</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper for Lasagne models: https://lasagne.readthedocs.io/en/latest/</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LasagneNetwork.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_layer</span><span class="p">,</span> <span class="n">train_fn</span><span class="p">,</span> <span class="n">val_fn</span><span class="p">,</span> <span class="n">pred_fn</span><span class="p">,</span>
+                 <span class="n">weightspath</span><span class="o">=</span><span class="s1">&#39;weights_lasagne_net.npz&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct wrapper around Lasagne network.</span>
+
+<span class="sd">        :param Lasgane layer out_layer: Output layer of Lasagne network.</span>
+<span class="sd">        :param Theano function train_fn: Training function</span>
+<span class="sd">        :param Theano function val_fn: Validation function</span>
+<span class="sd">        :param Theano function pred_fn: Prediction function</span>
+<span class="sd">        :param string weightspath: Filepath to save/load model weights.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Network</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weightspath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_layer</span> <span class="o">=</span> <span class="n">out_layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_fn</span> <span class="o">=</span> <span class="n">train_fn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_fn</span> <span class="o">=</span> <span class="n">val_fn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pred_fn</span> <span class="o">=</span> <span class="n">pred_fn</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_weight_layers</span><span class="p">(</span><span class="n">layer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return list of layers with weights. InputLayer is NOT returned.&quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;input_layer&#39;</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">layer</span>
+            <span class="n">layer</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">input_layer</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_named_params</span><span class="p">(</span><span class="n">network</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return layer parameters and names&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">l_num</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">LasagneNetwork</span><span class="o">.</span><span class="n">_weight_layers</span><span class="p">(</span><span class="n">network</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">p_num</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">get_params</span><span class="p">()):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l_num</span><span class="p">,</span> <span class="n">p_num</span><span class="p">)</span>
+                <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span>
+
+<div class="viewcode-block" id="LasagneNetwork.train"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">TrainValNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LasagneNetwork.validate"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">TrainValNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LasagneNetwork.predict"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">PredictNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_fn</span><span class="p">,</span> <span class="n">flatten</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LasagneNetwork.evaluate"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">predcol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targetcol</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">metric</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">result</span>
+
+        <span class="k">return</span> <span class="n">EvalNut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">compute</span><span class="p">,</span> <span class="n">predcol</span><span class="p">,</span> <span class="n">targetcol</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LasagneNetwork.save_weights"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.save_weights">[docs]</a>    <span class="k">def</span> <span class="nf">save_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span>
+                   <span class="n">LasagneNetwork</span><span class="o">.</span><span class="n">_get_named_params</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_layer</span><span class="p">)}</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">weights</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LasagneNetwork.load_weights"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.load_weights">[docs]</a>    <span class="k">def</span> <span class="nf">load_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">LasagneNetwork</span><span class="o">.</span><span class="n">_get_named_params</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_layer</span><span class="p">):</span>
+            <span class="n">param</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">name</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="LasagneNetwork.print_layers"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.print_layers">[docs]</a>    <span class="k">def</span> <span class="nf">print_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">LasagneNetwork</span><span class="o">.</span><span class="n">_weight_layers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_layer</span><span class="p">):</span>
+            <span class="nb">print</span> <span class="s1">&#39;_&#39;</span> <span class="o">*</span> <span class="mi">80</span>
+            <span class="nb">print</span> <span class="n">layer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span></div></div>
+
+
+<div class="viewcode-block" id="KerasNetwork"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork">[docs]</a><span class="k">class</span> <span class="nc">KerasNetwork</span><span class="p">(</span><span class="n">Network</span><span class="p">):</span>  <span class="c1"># pragma no cover</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper for Keras models: https://keras.io/</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="KerasNetwork.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">weightspath</span><span class="o">=</span><span class="s1">&#39;weights_keras_net.hd5&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct wrapper around Keras model.</span>
+
+<span class="sd">        :param Keras model model: Keras model to wrap. See</span>
+<span class="sd">            https://keras.io/models/sequential/</span>
+<span class="sd">            https://keras.io/models/model/</span>
+
+<span class="sd">        :param string weightspath: Filepath to save/load model weights.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Network</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weightspath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span></div>
+
+<div class="viewcode-block" id="KerasNetwork.train"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">TrainValNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasNetwork.validate"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">TrainValNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">test_on_batch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasNetwork.predict"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">PredictNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_on_batch</span><span class="p">,</span> <span class="n">flatten</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasNetwork.evaluate"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">predcol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targetcol</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">keras</span> <span class="k">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">K</span>
+
+        <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">metric</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">targets</span><span class="p">),</span> <span class="n">K</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">preds</span><span class="p">))</span>
+            <span class="n">is_theano</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span> <span class="k">if</span> <span class="n">is_theano</span> <span class="k">else</span> <span class="n">result</span>
+            <span class="n">is_vector</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_vector</span> <span class="k">else</span> <span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">EvalNut</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">compute</span><span class="p">,</span> <span class="n">predcol</span><span class="p">,</span> <span class="n">targetcol</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasNetwork.save_weights"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.save_weights">[docs]</a>    <span class="k">def</span> <span class="nf">save_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasNetwork.load_weights"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.load_weights">[docs]</a>    <span class="k">def</span> <span class="nf">load_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="KerasNetwork.print_layers"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.print_layers">[docs]</a>    <span class="k">def</span> <span class="nf">print_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on May 30, 2017.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.17',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

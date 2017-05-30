@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reading samples &mdash; nutsml 1.0.17 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="nutsml 1.0.17 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.17
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">nutsml</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Reading samples</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/reading_samples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="reading-samples">
+<span id="reader"></span><h1>Reading samples<a class="headerlink" href="#reading-samples" title="Permalink to this headline">¶</a></h1>
+<p><strong>nuts-ml</strong> does not have a specific class or data structure defining data samples
+buts many nuts return <code class="docutils literal"><span class="pre">tuples</span></code> and expect indexable data structures such as
+<code class="docutils literal"><span class="pre">tuples</span></code> or <code class="docutils literal"><span class="pre">lists</span></code> as input.</p>
+<p>Here a toy example to demonstrate some basic operations before moving on to more advanced
+and better methods to read sample data. Given the file <code class="docutils literal"><span class="pre">tests/data/and.csv</span></code> that
+contains the truth table of the logical <code class="docutils literal"><span class="pre">and</span></code> operation</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y</span>
+<span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">no</span>
+<span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">no</span>
+<span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">no</span>
+<span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">yes</span>
+</pre></div>
+</div>
+<p>we can load its lines via Python&#8217;s <code class="docutils literal"><span class="pre">open</span></code> function and collect them in a <code class="docutils literal"><span class="pre">list</span></code></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tests/data/and.csv&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[&#39;x1,x2,y\n&#39;, &#39;0,0,no\n&#39;, &#39;0,1,no\n&#39;, &#39;1,0,no\n&#39;, &#39;1,1,yes&#39;]</span>
+</pre></div>
+</div>
+<p>However, what is typically needed is tuples with the data and no header.
+We therefore drop the first line, split all remaining lines at &#8216;,&#8217; and remove the
+pesky newline character (<code class="docutils literal"><span class="pre">\n</span></code>)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Split</span> <span class="o">=</span> <span class="n">nut_function</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span> <span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">load_data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tests/data/and.csv&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">load_data</span> <span class="o">&gt;&gt;</span> <span class="n">Drop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Split</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">[&#39;0&#39;, &#39;0&#39;, &#39;no&#39;]</span>
+<span class="go">[&#39;0&#39;, &#39;1&#39;, &#39;no&#39;]</span>
+<span class="go">[&#39;1&#39;, &#39;0&#39;, &#39;no&#39;]</span>
+<span class="go">[&#39;1&#39;, &#39;1&#39;, &#39;yes&#39;]</span>
+</pre></div>
+</div>
+<p>Better! But all numbers in the first and second column are strings. We use
+<code class="docutils literal"><span class="pre">MapCol</span></code>, which maps the <code class="docutils literal"><span class="pre">int</span></code> function on the specified colums <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">1)</span></code>
+and also make the loading of the data a bit more generic</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Load</span> <span class="o">=</span> <span class="n">nut_source</span><span class="p">(</span><span class="k">lambda</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tests/data/&#39;</span><span class="o">+</span><span class="n">fname</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">Load</span><span class="p">(</span><span class="s1">&#39;and.csv&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Drop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Split</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">MapCol</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+<span class="gp">... </span><span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
+<span class="go">(0, 0, &#39;no&#39;)</span>
+<span class="go">(0, 1, &#39;no&#39;)</span>
+<span class="go">(1, 0, &#39;no&#39;)</span>
+<span class="go">(1, 1, &#39;yes&#39;)</span>
+</pre></div>
+</div>
+<p>There is a  <a class="reference external" href="https://github.com/maet3608/nuts-flow/blob/master/nutsflow/source.py">ReadCSV</a>
+nut in <strong>nuts-flow</strong> that could simplify or eliminate some of the steps above but
+we are going to use <a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/reader.py">ReadPandas</a>
+from <strong>nuts-ml</strong>, which is even more powerfull</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/and.csv&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">(0L, 0L, &#39;no&#39;)</span>
+<span class="go">(0L, 1L, &#39;no&#39;)</span>
+<span class="go">(1L, 0L, &#39;no&#39;)</span>
+<span class="go">(1L, 1L, &#39;yes&#39;)</span>
+</pre></div>
+</div>
+<p>It drops the header, splits the lines and converts numbers to (long) integers automatically.
+But maybe the label column should be numeric as well. Here we go</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">label2int</span> <span class="o">=</span> <span class="n">MapCol</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">label</span><span class="o">==</span><span class="s1">&#39;yes&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/and.csv&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">label2int</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">(0L, 0L, 0)</span>
+<span class="go">(0L, 1L, 0)</span>
+<span class="go">(1L, 0L, 0)</span>
+<span class="go">(1L, 1L, 1)</span>
+</pre></div>
+</div>
+<p>Note: loads all data into memory at once</p>
+<div class="section" id="todo">
+<h2>TODO<a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h2>
+<p>More details about ReadPandas
+- reference to pandas
+- kwargs
+dplyr example</p>
+<p>Reading image/audio/text samples  (filepath, label)</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on May 30, 2017.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.17',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
