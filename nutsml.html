@@ -2262,11 +2262,22 @@ Must be of shape (h,w) or (h,w,3) or (h,w,4)</li>
 <span class="target" id="module-logger"></span><dl class="class">
 <dt id="nutsml.logger.LogCols">
 <em class="property">class </em><code class="descname">LogCols</code><span class="sig-paren">(</span><em>filepath</em>, <em>cols=None</em>, <em>colnames=None</em>, <em>reset=True</em>, <em>delimiter='</em>, <em>'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nutsml.logger.LogToFile" title="nutsml.logger.LogToFile"><code class="xref py py-class docutils literal"><span class="pre">nutsml.logger.LogToFile</span></code></a></p>
+<dl class="method">
+<dt id="nutsml.logger.LogCols.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>filepath</em>, <em>cols=None</em>, <em>colnames=None</em>, <em>reset=True</em>, <em>delimiter='</em>, <em>'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogCols.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogCols.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nutsml.logger.LogToFile">
+<em class="property">class </em><code class="descname">LogToFile</code><span class="sig-paren">(</span><em>filepath</em>, <em>cols=None</em>, <em>colnames=None</em>, <em>reset=True</em>, <em>delimiter='</em>, <em>'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogToFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogToFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Log columns of data to file.</p>
 <dl class="method">
-<dt id="nutsml.logger.LogCols.__call__">
-<code class="descname">__call__</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogCols.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogCols.__call__" title="Permalink to this definition">¶</a></dt>
+<dt id="nutsml.logger.LogToFile.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogToFile.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogToFile.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log x</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -2284,30 +2295,30 @@ Special support for numpy arrays.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="nutsml.logger.LogCols.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>filepath</em>, <em>cols=None</em>, <em>colnames=None</em>, <em>reset=True</em>, <em>delimiter='</em>, <em>'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogCols.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogCols.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="nutsml.logger.LogToFile.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>filepath</em>, <em>cols=None</em>, <em>colnames=None</em>, <em>reset=True</em>, <em>delimiter='</em>, <em>'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogToFile.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogToFile.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct logger.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Consume</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/temp_logfile.csv&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">LogCols</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">log_cols</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">log_cols</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">logtofile</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="go">1,2</span>
 <span class="go">3,4</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">log_cols</span> <span class="o">=</span> <span class="n">LogCols</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">log_cols</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="go">a,b</span>
 <span class="go">2,1</span>
 <span class="go">4,3</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">log_cols</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">log_cols</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2334,14 +2345,14 @@ to the log file.</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="nutsml.logger.LogCols.close">
-<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogCols.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogCols.close" title="Permalink to this definition">¶</a></dt>
+<dt id="nutsml.logger.LogToFile.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogToFile.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogToFile.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implementation of context manager API</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="nutsml.logger.LogCols.delete">
-<code class="descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogCols.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogCols.delete" title="Permalink to this definition">¶</a></dt>
+<dt id="nutsml.logger.LogToFile.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/logger.html#LogToFile.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.logger.LogToFile.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete log file</p>
 </dd></dl>
 
@@ -2369,6 +2380,9 @@ some metric, e.g. accuracy, F1, kappa-score.
 Each metric function must take vectors with true and
 predicted  classes/probabilities and must compute the
 metric over the entire input (not per sample/mini-batch).</li>
+<li><strong>compute</strong> (<em>function</em>) &#8211; Function of the form f(metric, targets, preds)
+that computes the given metric (e.g. mean accuracy) for the given
+targets and predictions.</li>
 <li><strong>predcol</strong> (<em>int|None</em>) &#8211; Index of column in prediction to extract
 for evaluation. If None a single prediction output is
 expected.</li>
@@ -2415,6 +2429,11 @@ expected.</li>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="nutsml.network.KerasNetwork.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>metrics</em>, <em>predcol=None</em>, <em>targetcol=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="nutsml.network.KerasNetwork.load_weights">
@@ -2473,6 +2492,11 @@ expected.</li>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="nutsml.network.LasagneNetwork.evaluate">
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>metrics</em>, <em>predcol=None</em>, <em>targetcol=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork.evaluate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="nutsml.network.LasagneNetwork.load_weights">
@@ -4141,7 +4165,7 @@ Length need to be the same as samples.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on May 22, 2017.
+      Last updated on May 30, 2017.
 
     </p>
   </div> 

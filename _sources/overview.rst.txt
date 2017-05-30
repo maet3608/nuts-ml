@@ -111,5 +111,5 @@ Click on a nut name for more details.
 
 **Logging**
 
-- :class:`LogCols <nutsml.logger.LogCols>` :
+- :class:`LogToFile <nutsml.logger.LogToFile>` :
   log sample columns to file.
