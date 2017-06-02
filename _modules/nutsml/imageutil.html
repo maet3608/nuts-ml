@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.imageutil &mdash; nutsml 1.0.17 documentation</title>
+  <title>nutsml.imageutil &mdash; nutsml 1.0.21 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.17 documentation" href="../../index.html"/>
+    <link rel="top" title="nutsml 1.0.21 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.17
+                1.0.21
               </div>
             
           
@@ -165,6 +165,8 @@
 <span class="sd">.. module:: imageutil</span>
 <span class="sd">   :synopsis: Basic image processing utilities</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">PIL</span> <span class="k">as</span> <span class="nn">pil</span>
@@ -172,12 +174,12 @@
 <span class="kn">import</span> <span class="nn">skimage.transform</span> <span class="k">as</span> <span class="nn">skt</span>
 <span class="kn">import</span> <span class="nn">skimage.color</span> <span class="k">as</span> <span class="nn">skc</span>
 <span class="kn">import</span> <span class="nn">skimage.util.shape</span> <span class="k">as</span> <span class="nn">sks</span>
-<span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">sio</span>
+<span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">ski</span>
+<span class="kn">import</span> <span class="nn">skimage.draw</span> <span class="k">as</span> <span class="nn">skd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">plp</span>
 
-<span class="kn">from</span> <span class="nn">datautil</span> <span class="k">import</span> <span class="n">shapestr</span><span class="p">,</span> <span class="n">isnan</span>
+<span class="kn">from</span> <span class="nn">.datautil</span> <span class="k">import</span> <span class="n">shapestr</span><span class="p">,</span> <span class="n">isnan</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">ImageEnhance</span> <span class="k">as</span> <span class="n">ie</span>
-<span class="kn">from</span> <span class="nn">skimage.draw</span> <span class="k">import</span> <span class="n">circle</span><span class="p">,</span> <span class="n">polygon</span>
 <span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2gray</span>
 <span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
 
@@ -208,7 +210,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># img_num=0 due to </span>
         <span class="c1"># https://github.com/scikit-image/scikit-image/issues/2406</span>
-        <span class="n">arr</span> <span class="o">=</span> <span class="n">sio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="n">as_grey</span><span class="p">,</span> <span class="n">img_num</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="n">as_grey</span><span class="p">,</span> <span class="n">img_num</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">no_alpha</span><span class="p">:</span>
         <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># cut off alpha channel</span>
     <span class="k">return</span> <span class="n">arr</span></div>
@@ -228,7 +230,7 @@
     <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">):</span>  <span class="c1"># image as numpy array</span>
         <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">sio</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span></div>
+        <span class="n">ski</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="arr_to_pil"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.arr_to_pil">[docs]</a><span class="k">def</span> <span class="nf">arr_to_pil</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
@@ -687,6 +689,27 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="polyline2coords"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.polyline2coords">[docs]</a><span class="k">def</span> <span class="nf">polyline2coords</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return row and column coordinates for a polyline.</span>
+
+<span class="sd">    &gt;&gt;&gt; rr, cc = polyline2coords([(0, 0), (2, 2), (2, 4)])</span>
+<span class="sd">    &gt;&gt;&gt; rr</span>
+<span class="sd">    array([0, 1, 2, 2, 3, 4], dtype=int64)</span>
+<span class="sd">    &gt;&gt;&gt; cc</span>
+<span class="sd">    array([0, 1, 2, 2, 2, 2], dtype=int64)</span>
+
+<span class="sd">    :param list of tuple points: Polyline in format [(x1,y1), (x2,y2), ...] </span>
+<span class="sd">    :return: tuple with row and column coordinates in numpy arrays</span>
+<span class="sd">    :rtype: tuple of numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">skd</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">x2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="mask_where"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.mask_where">[docs]</a><span class="k">def</span> <span class="nf">mask_where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return x,y coordinates where mask has specified value</span>
@@ -988,15 +1011,18 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;circle&#39;</span><span class="p">:</span>
-            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">circle</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">shape</span><span class="p">)</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">shape</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;rect&#39;</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">geo</span>
             <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
             <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
-            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;polyline&#39;</span><span class="p">:</span>
-            <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">geo</span><span class="p">)</span>
-            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">geo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># closed polyline =&gt; draw fill polygon</span>
+                <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">geo</span><span class="p">)</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">polyline2coords</span><span class="p">(</span><span class="n">geo</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid kind of annotation: &#39;</span> <span class="o">+</span> <span class="n">kind</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">rr</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">cc</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
@@ -1078,7 +1104,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on May 30, 2017.
+      Last updated on Jun 02, 2017.
 
     </p>
   </div> 
@@ -1099,7 +1125,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.17',
+            VERSION:'1.0.21',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

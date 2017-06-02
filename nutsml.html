@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.17 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.0.21 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.17 documentation" href="index.html"/>
+    <link rel="top" title="nutsml 1.0.21 documentation" href="index.html"/>
         <link rel="next" title="nutsml.examples package" href="nutsml.examples.html"/>
         <link rel="prev" title="Contributions" href="contributions.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                1.0.17
+                1.0.21
               </div>
             
           
@@ -1882,6 +1882,31 @@ Image can be gray-scale (no third channel dim) or color.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="nutsml.imageutil.polyline2coords">
+<code class="descname">polyline2coords</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#polyline2coords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.polyline2coords" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return row and column coordinates for a polyline.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">polyline2coords</span><span class="p">([(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rr</span>
+<span class="go">array([0, 1, 2, 2, 3, 4], dtype=int64)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cc</span>
+<span class="go">array([0, 1, 2, 2, 2, 2], dtype=int64)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>of tuple points</strong> (<em>list</em>) &#8211; Polyline in format [(x1,y1), (x2,y2), ...]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple with row and column coordinates in numpy arrays</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">tuple of numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="nutsml.imageutil.rerange">
 <code class="descname">rerange</code><span class="sig-paren">(</span><em>image</em>, <em>old_min</em>, <em>old_max</em>, <em>new_min</em>, <em>new_max</em>, <em>dtype</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#rerange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.rerange" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return image with values in new range.</p>
@@ -2326,7 +2351,7 @@ Special support for numpy arrays.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filepath</strong> (<em>strin</em>) &#8211; Path to file to write log to.</li>
+<li><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Path to file to write log to.</li>
 <li><strong>cols</strong> (<em>int|tuple|None</em>) &#8211; Indices of columns of input data to write.
 None: write all columns
 int: only write the single given column
@@ -4165,7 +4190,7 @@ Length need to be the same as samples.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on May 30, 2017.
+      Last updated on Jun 02, 2017.
 
     </p>
   </div> 
@@ -4186,7 +4211,7 @@ Length need to be the same as samples.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.17',
+            VERSION:'1.0.21',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
