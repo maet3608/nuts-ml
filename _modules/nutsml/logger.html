@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.logger &mdash; nutsml 1.0.21 documentation</title>
+  <title>nutsml.logger &mdash; nutsml 1.0.25 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.21 documentation" href="../../index.html"/>
+    <link rel="top" title="nutsml 1.0.25 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.21
+                1.0.25
               </div>
             
           
@@ -182,20 +182,21 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct logger.</span>
 
+<span class="sd">        &gt;&gt;&gt; from __future__ import print_function</span>
 <span class="sd">        &gt;&gt;&gt; from nutsflow import Consume</span>
 <span class="sd">        &gt;&gt;&gt; filepath = &#39;tests/data/temp_logfile.csv&#39;</span>
 <span class="sd">        &gt;&gt;&gt; data = [[1, 2], [3, 4]]</span>
 
 <span class="sd">        &gt;&gt;&gt; with LogToFile(filepath) as logtofile:</span>
 <span class="sd">        ...     data &gt;&gt; logtofile &gt;&gt; Consume()</span>
-<span class="sd">        &gt;&gt;&gt; print open(filepath).read()</span>
+<span class="sd">        &gt;&gt;&gt; print(open(filepath).read())</span>
 <span class="sd">        1,2</span>
 <span class="sd">        3,4</span>
 <span class="sd">        &lt;BLANKLINE&gt;</span>
 
 <span class="sd">        &gt;&gt;&gt; logtofile = LogToFile(filepath, cols=(1, 0), colnames=[&#39;a&#39;, &#39;b&#39;])</span>
 <span class="sd">        &gt;&gt;&gt; data &gt;&gt; logtofile &gt;&gt; Consume()</span>
-<span class="sd">        &gt;&gt;&gt; print open(filepath).read()</span>
+<span class="sd">        &gt;&gt;&gt; print(open(filepath).read())</span>
 <span class="sd">        a,b</span>
 <span class="sd">        2,1</span>
 <span class="sd">        4,3</span>
@@ -286,7 +287,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jun 02, 2017.
+      Last updated on Jun 22, 2017.
 
     </p>
   </div> 
@@ -307,7 +308,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.21',
+            VERSION:'1.0.25',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

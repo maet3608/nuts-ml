@@ -1,5 +1,0 @@
-Image processing
-================
-
-TODO
-   
