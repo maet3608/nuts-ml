@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.25 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.0.26 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.25 documentation" href="index.html"/>
+    <link rel="top" title="nutsml 1.0.26 documentation" href="index.html"/>
         <link rel="next" title="nutsml.examples package" href="nutsml.examples.html"/>
         <link rel="prev" title="Contributions" href="contributions.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                1.0.25
+                1.0.26
               </div>
             
           
@@ -663,7 +663,7 @@ sufficient to provide the values for the partitions wanted.</p>
 <em class="property">class </em><code class="descname">SplitRandom</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/common.html#SplitRandom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.common.SplitRandom" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutSink</span></code></p>
 <p>Randomly split iterable into partitions.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">StableRandom</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="k">import</span> <span class="n">StableRandom</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fix</span><span class="o">=</span><span class="n">StableRandom</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># stable random numbers for testing</span>
 </pre></div>
 </div>
@@ -945,8 +945,10 @@ sequence of randomly stratified samples. Usually it is sufficient to use
 the default (rand=rnd.Random(None)). Do NOT use rnd.Random(0) since this
 will generate the same subsample every time.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">StableRandom</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pos1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;pos2&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;pos3&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="k">import</span> <span class="n">StableRandom</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pos1&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;pos2&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;pos3&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
 <span class="gp">... </span>           <span class="p">(</span><span class="s1">&#39;neg1&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;neg2&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">random_downsample</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">StableRandom</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="kc">True</span><span class="p">))</span>
@@ -2003,7 +2005,7 @@ e.g. float32&#8217; or np.uint8</li>
 
 <dl class="function">
 <dt id="nutsml.imageutil.resize">
-<code class="descname">resize</code><span class="sig-paren">(</span><em>image</em>, <em>w</em>, <em>h</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#resize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.resize" title="Permalink to this definition">¶</a></dt>
+<code class="descname">resize</code><span class="sig-paren">(</span><em>image</em>, <em>w</em>, <em>h</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#resize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.resize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resize image.</p>
 <p>Image can be up- or down-sized (using interpolation). For details see:
 <a class="reference external" href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.resize">http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.resize</a></p>
@@ -2022,6 +2024,8 @@ e.g. float32&#8217; or np.uint8</li>
 <li><strong>array image</strong> (<em>numpy</em>) &#8211; Numpy array with range [0,255] and dtype &#8216;uint8&#8217;.</li>
 <li><strong>w</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Width in pixels.</li>
 <li><strong>h</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Height in pixels.</li>
+<li><strong>kwargs</strong> (<em>kwargs</em>) &#8211; Keyword arguments for the underlying scikit-image
+resize function, e.g. order=1 for linear interpolation.</li>
 </ul>
 </td>
 </tr>
@@ -2062,14 +2066,17 @@ e.g. float32&#8217; or np.uint8</li>
 
 <dl class="function">
 <dt id="nutsml.imageutil.rotate">
-<code class="descname">rotate</code><span class="sig-paren">(</span><em>image</em>, <em>angle=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.rotate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>image</em>, <em>angle=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.rotate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate image.</p>
-<p>Note that this rotate function is designed for images and does not perform
-a &#8216;mathematically correct&#8217; rotation of a matrix, e.g. for 90 degrees.
-For details see:
+<p>For details see:
 <a class="reference external" href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.rotate">http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.rotate</a></p>
+<p>For a smooth interpolation of images set &#8216;order=1&#8217;. To rotate masks use
+the default &#8216;order=0&#8217;.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rotated</span> <span class="o">=</span> <span class="n">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+<span class="go">array([[0, 0, 1],</span>
+<span class="go">       [0, 1, 0],</span>
+<span class="go">       [1, 0, 0]], dtype=uint8)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2079,6 +2086,8 @@ For details see:
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) &#8211; Numpy array with range [0,255] and dtype &#8216;uint8&#8217;.</li>
 <li><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Angle in degrees in counter-clockwise direction</li>
+<li><strong>kwargs</strong> (<em>kwargs</em>) &#8211; Keyword arguments for the underlying scikit-image
+rotate function, e.g. order=1 for linear interpolation.</li>
 </ul>
 </td>
 </tr>
@@ -2278,8 +2287,26 @@ Must be of shape (h,w) or (h,w,3) or (h,w,4)</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="nutsml.imageutil.set_default_order">
+<code class="descname">set_default_order</code><span class="sig-paren">(</span><em>kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#set_default_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.set_default_order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set order parameter in kwargs for scikit-image functions.</p>
+<p>Default order is 1, which performs a linear interpolation of pixel values
+when images are rotated, resized and sheared. This is fine for images
+but causes unwanted pixel values in masks. This function set the default
+order to 9, which disables the interpolation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> (<em>kwargs</em>) &#8211; Dictionary with keyword arguments.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="nutsml.imageutil.shear">
-<code class="descname">shear</code><span class="sig-paren">(</span><em>image</em>, <em>shear_factor</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#shear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.shear" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shear</code><span class="sig-paren">(</span><em>image</em>, <em>shear_factor</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#shear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.shear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shear image.</p>
 <p>For details see:
 <a class="reference external" href="http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.AffineTransform">http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.AffineTransform</a></p>
@@ -2294,6 +2321,8 @@ Must be of shape (h,w) or (h,w,3) or (h,w,4)</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) &#8211; Numpy array with range [0,255] and dtype &#8216;uint8&#8217;.</li>
 <li><strong>shear_factor</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Shear factor [0, 1]</li>
+<li><strong>kwargs</strong> (<em>kwargs</em>) &#8211; Keyword arguments for the underlying scikit-image
+warp function, e.g. order=1 for linear interpolation.</li>
 </ul>
 </td>
 </tr>
@@ -2309,7 +2338,7 @@ Must be of shape (h,w) or (h,w,3) or (h,w,4)</li>
 
 <dl class="function">
 <dt id="nutsml.imageutil.translate">
-<code class="descname">translate</code><span class="sig-paren">(</span><em>image</em>, <em>dx</em>, <em>dy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.translate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">translate</code><span class="sig-paren">(</span><em>image</em>, <em>dx</em>, <em>dy</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.translate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shift image horizontally and vertically</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">translate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -2325,7 +2354,9 @@ Must be of shape (h,w) or (h,w,3) or (h,w,4)</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) &#8211; Numpy array with range [0,255] and dtype &#8216;uint8&#8217;.</li>
 <li><strong>dx</strong> &#8211; horizontal translation in pixels</li>
-<li><strong>dy</strong> &#8211; vertical translation in picels</li>
+<li><strong>dy</strong> &#8211; vertical translation in pixels</li>
+<li><strong>kwargs</strong> (<em>kwargs</em>) &#8211; Keyword arguments for the underlying scikit-image
+rotate function, e.g. order=1 for linear interpolation.</li>
 </ul>
 </td>
 </tr>
@@ -4254,7 +4285,7 @@ Length need to be the same as samples.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jun 22, 2017.
+      Last updated on Jun 23, 2017.
 
     </p>
   </div> 
@@ -4275,7 +4306,7 @@ Length need to be the same as samples.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.25',
+            VERSION:'1.0.26',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

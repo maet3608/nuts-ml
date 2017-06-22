@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.imageutil &mdash; nutsml 1.0.25 documentation</title>
+  <title>nutsml.imageutil &mdash; nutsml 1.0.26 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.25 documentation" href="../../index.html"/>
+    <link rel="top" title="nutsml 1.0.26 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.25
+                1.0.26
               </div>
             
           
@@ -256,8 +256,6 @@
     <span class="k">return</span> <span class="n">pil</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s1">&#39;RGB&#39;</span> <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="s1">&#39;L&#39;</span><span class="p">)</span></div>
 
 
-<span class="c1"># TODO: faster conversion</span>
-<span class="c1"># https://blog.eduardovalle.com/2015/08/25/input-images-theano/</span>
 <div class="viewcode-block" id="pil_to_arr"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.pil_to_arr">[docs]</a><span class="k">def</span> <span class="nf">pil_to_arr</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert PIL image to Numpy array.</span>
@@ -273,9 +271,24 @@
 <span class="sd">    :return: Numpy array</span>
 <span class="sd">    :rtype: numpy.array with dtype &#39;uint8&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">image</span><span class="o">.</span><span class="n">mode</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;RGB&#39;</span><span class="p">}:</span>
+    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;RGB&#39;</span><span class="p">}:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expect RBG or grayscale but got:&#39;</span> <span class="o">+</span> <span class="n">image</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_default_order"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.set_default_order">[docs]</a><span class="k">def</span> <span class="nf">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set order parameter in kwargs for scikit-image functions.</span>
+
+<span class="sd">    Default order is 1, which performs a linear interpolation of pixel values</span>
+<span class="sd">    when images are rotated, resized and sheared. This is fine for images</span>
+<span class="sd">    but causes unwanted pixel values in masks. This function set the default</span>
+<span class="sd">    order to 9, which disables the interpolation.</span>
+
+<span class="sd">    :param kwargs kwargs: Dictionary with keyword arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;order&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span></div>
 
 
 <div class="viewcode-block" id="add_channel"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.add_channel">[docs]</a><span class="k">def</span> <span class="nf">add_channel</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">channelfirst</span><span class="p">):</span>
@@ -576,7 +589,7 @@
     <span class="k">return</span> <span class="n">floatimg2uint8</span><span class="p">(</span><span class="n">skc</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">):</span>
+<div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Shift image horizontally and vertically</span>
 
@@ -588,35 +601,47 @@
 
 <span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
 <span class="sd">    :param dx: horizontal translation in pixels</span>
-<span class="sd">    :param dy: vertical translation in picels</span>
+<span class="sd">    :param dy: vertical translation in pixels</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments for the underlying scikit-image</span>
+<span class="sd">       rotate function, e.g. order=1 for linear interpolation.</span>
 <span class="sd">    :return: translated image</span>
 <span class="sd">    :rtype:  numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">transmat</span> <span class="o">=</span> <span class="n">skt</span><span class="o">.</span><span class="n">AffineTransform</span><span class="p">(</span><span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">dx</span><span class="p">,</span> <span class="o">-</span><span class="n">dy</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">transmat</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">transmat</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="rotate"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.rotate">[docs]</a><span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="rotate"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.rotate">[docs]</a><span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Rotate image.</span>
 
-<span class="sd">    Note that this rotate function is designed for images and does not perform</span>
-<span class="sd">    a &#39;mathematically correct&#39; rotation of a matrix, e.g. for 90 degrees.</span>
 <span class="sd">    For details see:</span>
 <span class="sd">    http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.rotate</span>
 
+<span class="sd">    For a smooth interpolation of images set &#39;order=1&#39;. To rotate masks use</span>
+<span class="sd">    the default &#39;order=0&#39;.</span>
+
 <span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; rotated = rotate(image, 45)</span>
+<span class="sd">    &gt;&gt;&gt; rotate(image, 90)</span>
+<span class="sd">    array([[0, 0, 1],</span>
+<span class="sd">           [0, 1, 0],</span>
+<span class="sd">           [1, 0, 0]], dtype=uint8)</span>
 
 <span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
 <span class="sd">    :param float angle: Angle in degrees in counter-clockwise direction</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments for the underlying scikit-image</span>
+<span class="sd">       rotate function, e.g. order=1 for linear interpolation.</span>
 <span class="sd">    :return: Rotated image</span>
 <span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
+    <span class="n">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="resize"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.resize">[docs]</a><span class="k">def</span> <span class="nf">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+<div class="viewcode-block" id="resize"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.resize">[docs]</a><span class="k">def</span> <span class="nf">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resize image.</span>
 
@@ -632,15 +657,17 @@
 <span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
 <span class="sd">    :param int w: Width in pixels.</span>
 <span class="sd">    :param int h: Height in pixels.</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments for the underlying scikit-image</span>
+<span class="sd">       resize function, e.g. order=1 for linear interpolation.</span>
 <span class="sd">    :return: Resized image</span>
 <span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span>
-                      <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span>
-                      <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
+    <span class="n">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span>
+                      <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="shear"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.shear">[docs]</a><span class="k">def</span> <span class="nf">shear</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">shear_factor</span><span class="p">):</span>
+<div class="viewcode-block" id="shear"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.shear">[docs]</a><span class="k">def</span> <span class="nf">shear</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">shear_factor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Shear image.</span>
 
@@ -652,11 +679,15 @@
 
 <span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
 <span class="sd">    :param float shear_factor: Shear factor [0, 1]</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments for the underlying scikit-image</span>
+<span class="sd">       warp function, e.g. order=1 for linear interpolation.</span>
 <span class="sd">    :return: Sheared image</span>
 <span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">transform</span> <span class="o">=</span> <span class="n">skt</span><span class="o">.</span><span class="n">AffineTransform</span><span class="p">(</span><span class="n">shear</span><span class="o">=</span><span class="n">shear_factor</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">skt</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="fliplr"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.fliplr">[docs]</a><span class="k">def</span> <span class="nf">fliplr</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
@@ -1107,7 +1138,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jun 22, 2017.
+      Last updated on Jun 23, 2017.
 
     </p>
   </div> 
@@ -1128,7 +1159,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.25',
+            VERSION:'1.0.26',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
