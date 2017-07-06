@@ -21,4 +21,5 @@ provides examples of its usage.
    logging
    plotting
    configuration
+   checkpointing
    custom_nuts   

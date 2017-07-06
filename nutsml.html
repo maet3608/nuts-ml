@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.26 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.0.28 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.26 documentation" href="index.html"/>
+    <link rel="top" title="nutsml 1.0.28 documentation" href="index.html"/>
         <link rel="next" title="nutsml.examples package" href="nutsml.examples.html"/>
         <link rel="prev" title="Contributions" href="contributions.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                1.0.26
+                1.0.28
               </div>
             
           
@@ -728,16 +728,16 @@ see random.</li>
 <div class="section" id="module-nutsml.config">
 <span id="nutsml-config-module"></span><h2>nutsml.config module<a class="headerlink" href="#module-nutsml.config" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-config"></span><dl class="class">
-<dt id="nutsml.config.ConfigDict">
-<em class="property">class </em><code class="descname">ConfigDict</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#ConfigDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.ConfigDict" title="Permalink to this definition">¶</a></dt>
+<dt id="nutsml.config.Config">
+<em class="property">class </em><code class="descname">Config</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.Config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a></p>
 <p>Dictionary that allows access via keys or attributes.</p>
 <p>Used to store and access configuration data.</p>
 <dl class="method">
-<dt id="nutsml.config.ConfigDict.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#ConfigDict.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.ConfigDict.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="nutsml.config.Config.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#Config.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.Config.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create dictionary.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">contact</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">({</span><span class="s1">&#39;age&#39;</span><span class="p">:</span><span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;stefan&#39;</span><span class="p">})</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">contact</span> <span class="o">=</span> <span class="n">Config</span><span class="p">({</span><span class="s1">&#39;age&#39;</span><span class="p">:</span><span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span><span class="s1">&#39;stefan&#39;</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">contact</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span>
 <span class="go">13</span>
 </pre></div>
@@ -746,15 +746,79 @@ see random.</li>
 <span class="go">&#39;stefan&#39;</span>
 </pre></div>
 </div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">contact</span><span class="o">.</span><span class="n">surname</span> <span class="o">=</span> <span class="s1">&#39;maetschke&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">contact</span><span class="o">.</span><span class="n">surname</span>
+<span class="go">&#39;maetschke&#39;</span>
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>args</strong> &#8211; See dict</li>
-<li><strong>kwargs</strong> &#8211; See dict</li>
+<li><strong>args</strong> (<em>args</em>) &#8211; See dict</li>
+<li><strong>kwargs</strong> (<em>kwargs</em>) &#8211; See dict</li>
 </ul>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="nutsml.config.Config.isjson">
+<em class="property">static </em><code class="descname">isjson</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#Config.isjson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.Config.isjson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if filepath ends with &#8216;.json&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Filepaht</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if filepath points ot JSON file.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nutsml.config.Config.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#Config.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.Config.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load configuration from file in JSON or YAML format.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cfg</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;tests/data/configuration.json&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cfg</span><span class="o">.</span><span class="n">number</span>
+<span class="go">13</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Path to JSON or YAML file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">returns loaded configuration.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#nutsml.config.Config" title="nutsml.config.Config">Config</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nutsml.config.Config.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#Config.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.Config.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save configuration to file in JSON or YAML format.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cfg</span> <span class="o">=</span> <span class="n">Config</span><span class="p">({</span><span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Stefan&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cfg</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;tests/data/configuration.yaml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Filepath. Should end with &#8216;.json&#8217; or &#8216;.yaml&#8217;</td>
 </tr>
 </tbody>
 </table>
@@ -765,7 +829,7 @@ see random.</li>
 <dl class="function">
 <dt id="nutsml.config.load_config">
 <code class="descname">load_config</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#load_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.load_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load configuration file in YAML format.</p>
+<dd><p>Load configuration file in YAML format from locations in defined order.</p>
 <p>The search order for the config file is:
 1) user home dir
 2) current dir
@@ -793,7 +857,7 @@ see random.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">dictionary with config data. Note that config data can be
 accessed by key or attribute, e.g. cfg.filepath or cfg.[&#8216;filepath&#8217;]</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#nutsml.config.ConfigDict" title="nutsml.config.ConfigDict">ConfigDict</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ConfigDict</td>
 </tr>
 </tbody>
 </table>
@@ -1535,7 +1599,7 @@ point, circle, rect or polyline</td>
 <dt id="nutsml.imageutil.crop_center">
 <code class="descname">crop_center</code><span class="sig-paren">(</span><em>image</em>, <em>w</em>, <em>h</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#crop_center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.crop_center" title="Permalink to this definition">¶</a></dt>
 <dd><p>Crop region with size w, h from center of image.</p>
-<p>Note that the crop is specified via W, h and not via shape (h,w).
+<p>Note that the crop is specified via w, h and not via shape (h,w).
 Furthermore if the image or the crop region have even dimensions,
 coordinates are rounded down.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1564,6 +1628,26 @@ coordinates are rounded down.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body"><p class="first last">ValueError if image is smaller than crop region</p>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nutsml.imageutil.crop_square">
+<code class="descname">crop_square</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#crop_square"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.crop_square" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop image to square shape.</p>
+<p>Crops symmetrically left and right or top and bottom to achieve
+aspect ratio of one and preserves the largest dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array image</strong> (<em>numpy</em>) &#8211; Numpy array.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Cropped image</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy array</td>
 </tr>
 </tbody>
 </table>
@@ -2762,7 +2846,7 @@ and the network with the lower score score is saved.</li>
 
 <dl class="method">
 <dt id="nutsml.network.Network.save_weights">
-<code class="descname">save_weights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network.save_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network.save_weights" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save_weights</code><span class="sig-paren">(</span><em>weightspath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network.save_weights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network.save_weights" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save network weights.</p>
 <div class="line-block">
 <div class="line">network.save_weights()</div>
@@ -3881,6 +3965,7 @@ See the relevant functions for details.</li>
 (old_min, old_max, new_min, new_max, dtype)</div>
 <div class="line"><a class="reference internal" href="#nutsml.imageutil.crop" title="nutsml.imageutil.crop"><code class="xref py py-func docutils literal"><span class="pre">crop</span></code></a> (x1, y1, x2, y2)</div>
 <div class="line"><a class="reference internal" href="#nutsml.imageutil.crop_center" title="nutsml.imageutil.crop_center"><code class="xref py py-func docutils literal"><span class="pre">crop_center</span></code></a>  (w, h)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.crop_square" title="nutsml.imageutil.crop_square"><code class="xref py py-func docutils literal"><span class="pre">crop_square</span></code></a></div>
 <div class="line"><a class="reference internal" href="#nutsml.imageutil.normalize_histo" title="nutsml.imageutil.normalize_histo"><code class="xref py py-func docutils literal"><span class="pre">normalize_histo</span></code></a>  (gamma)</div>
 <div class="line"><a class="reference internal" href="#nutsml.imageutil.rgb2gray" title="nutsml.imageutil.rgb2gray"><code class="xref py py-func docutils literal"><span class="pre">rgb2gray</span></code></a></div>
 <div class="line"><a class="reference internal" href="#nutsml.imageutil.gray2rgb" title="nutsml.imageutil.gray2rgb"><code class="xref py py-func docutils literal"><span class="pre">gray2rgb</span></code></a></div>
@@ -3942,7 +4027,7 @@ height for resize.</li>
 
 <dl class="attribute">
 <dt id="nutsml.transformer.TransformImage.transformations">
-<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical&gt;, 'normalize_histo': &lt;function normalize_histo&gt;, 'rotate': &lt;function rotate&gt;, 'flipud': &lt;function flipud&gt;, 'rerange': &lt;function rerange&gt;, 'brightness': &lt;function change_brightness&gt;, 'color': &lt;function change_color&gt;, 'sharpness': &lt;function change_sharpness&gt;, 'crop': &lt;function crop&gt;, 'shear': &lt;function shear&gt;, 'rgb2gray': &lt;function rgb2gray&gt;, 'gray2rgb': &lt;function gray2rgb&gt;, 'contrast': &lt;function change_contrast&gt;, 'fliplr': &lt;function fliplr&gt;, 'crop_center': &lt;function crop_center&gt;, 'translate': &lt;function translate&gt;, 'resize': &lt;function resize&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical&gt;, 'normalize_histo': &lt;function normalize_histo&gt;, 'rotate': &lt;function rotate&gt;, 'flipud': &lt;function flipud&gt;, 'rerange': &lt;function rerange&gt;, 'brightness': &lt;function change_brightness&gt;, 'color': &lt;function change_color&gt;, 'sharpness': &lt;function change_sharpness&gt;, 'crop': &lt;function crop&gt;, 'shear': &lt;function shear&gt;, 'rgb2gray': &lt;function rgb2gray&gt;, 'gray2rgb': &lt;function gray2rgb&gt;, 'contrast': &lt;function change_contrast&gt;, 'fliplr': &lt;function fliplr&gt;, 'crop_center': &lt;function crop_center&gt;, 'translate': &lt;function translate&gt;, 'resize': &lt;function resize&gt;, 'crop_square': &lt;function crop_square&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -4285,7 +4370,7 @@ Length need to be the same as samples.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jun 23, 2017.
+      Last updated on Jul 06, 2017.
 
     </p>
   </div> 
@@ -4306,7 +4391,7 @@ Length need to be the same as samples.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.26',
+            VERSION:'1.0.28',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

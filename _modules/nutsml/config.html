@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.config &mdash; nutsml 1.0.26 documentation</title>
+  <title>nutsml.config &mdash; nutsml 1.0.28 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.26 documentation" href="../../index.html"/>
+    <link rel="top" title="nutsml 1.0.28 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.26
+                1.0.28
               </div>
             
           
@@ -168,36 +168,82 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
 
-<div class="viewcode-block" id="ConfigDict"><a class="viewcode-back" href="../../nutsml.html#nutsml.config.ConfigDict">[docs]</a><span class="k">class</span> <span class="nc">ConfigDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../nutsml.html#nutsml.config.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dictionary that allows access via keys or attributes.</span>
 
 <span class="sd">    Used to store and access configuration data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ConfigDict.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.config.ConfigDict.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Config.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.config.Config.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create dictionary.</span>
 
-<span class="sd">        &gt;&gt;&gt; contact = ConfigDict({&#39;age&#39;:13, &#39;name&#39;:&#39;stefan&#39;})</span>
+<span class="sd">        &gt;&gt;&gt; contact = Config({&#39;age&#39;:13, &#39;name&#39;:&#39;stefan&#39;})</span>
 <span class="sd">        &gt;&gt;&gt; contact[&#39;age&#39;]</span>
 <span class="sd">        13</span>
 
 <span class="sd">        &gt;&gt;&gt; contact.name</span>
 <span class="sd">        &#39;stefan&#39;</span>
 
-<span class="sd">        :param args: See dict</span>
-<span class="sd">        :param kwargs: See dict</span>
+<span class="sd">        &gt;&gt;&gt; contact.surname = &#39;maetschke&#39;</span>
+<span class="sd">        &gt;&gt;&gt; contact.surname</span>
+<span class="sd">        &#39;maetschke&#39;</span>
+
+<span class="sd">        :param args args: See dict</span>
+<span class="sd">        :param kwargs kwargs: See dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ConfigDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="bp">self</span></div></div>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Config</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="bp">self</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Config.isjson"><a class="viewcode-back" href="../../nutsml.html#nutsml.config.Config.isjson">[docs]</a>    <span class="k">def</span> <span class="nf">isjson</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return true if filepath ends with &#39;.json&#39;.</span>
+
+<span class="sd">        :param str filepath: Filepaht</span>
+<span class="sd">        :return: True if filepath points ot JSON file.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">filepath</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Config.load"><a class="viewcode-back" href="../../nutsml.html#nutsml.config.Config.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load configuration from file in JSON or YAML format.</span>
+
+<span class="sd">        &gt;&gt;&gt; cfg = Config().load(&#39;tests/data/configuration.json&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; cfg.number</span>
+<span class="sd">        13</span>
+
+<span class="sd">        :param str filepath: Path to JSON or YAML file.</span>
+<span class="sd">        :return: returns loaded configuration.</span>
+<span class="sd">        :rtype: Config</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span> <span class="k">if</span> <span class="n">Config</span><span class="o">.</span><span class="n">isjson</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">else</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Config.save"><a class="viewcode-back" href="../../nutsml.html#nutsml.config.Config.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save configuration to file in JSON or YAML format.</span>
+
+<span class="sd">        &gt;&gt;&gt; cfg = Config({&#39;number&#39;: 13, &#39;name&#39;: &#39;Stefan&#39;})</span>
+<span class="sd">        &gt;&gt;&gt; cfg.save(&#39;tests/data/configuration.yaml&#39;)</span>
+
+<span class="sd">        :param str filepath: Filepath. Should end with &#39;.json&#39; or &#39;.yaml&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">writer</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dump</span> <span class="k">if</span> <span class="n">Config</span><span class="o">.</span><span class="n">isjson</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">else</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">writer</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="load_config"><a class="viewcode-back" href="../../nutsml.html#nutsml.config.load_config">[docs]</a><span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load configuration file in YAML format.</span>
+<span class="sd">    Load configuration file in YAML format from locations in defined order.</span>
 
 <span class="sd">    The search order for the config file is:</span>
 <span class="sd">    1) user home dir</span>
@@ -226,7 +272,7 @@
             <span class="n">filepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
             <span class="n">filepaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">Config</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
             <span class="k">pass</span>
     <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;Configuration file not found: &#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">filepaths</span><span class="p">))</span></div>
@@ -245,7 +291,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jun 23, 2017.
+      Last updated on Jul 06, 2017.
 
     </p>
   </div> 
@@ -266,7 +312,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.26',
+            VERSION:'1.0.28',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

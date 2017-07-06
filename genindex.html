@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; nutsml 1.0.26 documentation</title>
+  <title>Index &mdash; nutsml 1.0.28 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
         <link rel="index" title="Index"
               href="#"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.26 documentation" href="index.html"/> 
+    <link rel="top" title="nutsml 1.0.28 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.26
+                1.0.28
               </div>
             
           
@@ -218,7 +218,7 @@
       <ul>
         <li><a href="nutsml.html#nutsml.batcher.BuildBatch.__init__">(BuildBatch method)</a>
 </li>
-        <li><a href="nutsml.html#nutsml.config.ConfigDict.__init__">(ConfigDict method)</a>
+        <li><a href="nutsml.html#nutsml.config.Config.__init__">(Config method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.transformer.ImageChannelMean.__init__">(ImageChannelMean method)</a>
 </li>
@@ -361,13 +361,13 @@
 </li>
       <li><a href="nutsml.html#nutsml.datautil.col_map">col_map() (in module nutsml.datautil)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#module-common">common (module)</a>
 </li>
-      <li><a href="nutsml.html#module-config">config (module)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#nutsml.config.Config">Config (class in nutsml.config)</a>
 </li>
-      <li><a href="nutsml.html#nutsml.config.ConfigDict">ConfigDict (class in nutsml.config)</a>
+      <li><a href="nutsml.html#module-config">config (module)</a>
 </li>
       <li><a href="nutsml.html#nutsml.fileutil.create_filename">create_filename() (in module nutsml.fileutil)</a>
 </li>
@@ -386,6 +386,8 @@
       <li><a href="nutsml.html#nutsml.imageutil.crop">crop() (in module nutsml.imageutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.crop_center">crop_center() (in module nutsml.imageutil)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.imageutil.crop_square">crop_square() (in module nutsml.imageutil)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -475,13 +477,15 @@
 </li>
       <li><a href="nutsml.html#nutsml.transformer.ImageMean">ImageMean (class in nutsml.transformer)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.transformer.ImagePatchesByAnnotation">ImagePatchesByAnnotation (class in nutsml.transformer)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.transformer.ImagePatchesByMask">ImagePatchesByMask (class in nutsml.transformer)</a>
 </li>
       <li><a href="nutsml.html#module-imageutil">imageutil (module)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.config.Config.isjson">isjson() (Config static method)</a>
 </li>
       <li><a href="nutsml.html#nutsml.datautil.isnan">isnan() (in module nutsml.datautil)</a>
 </li>
@@ -502,6 +506,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.network.LasagneNetwork">LasagneNetwork (class in nutsml.network)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.config.Config.load">load() (Config method)</a>
 </li>
       <li><a href="nutsml.html#nutsml.config.load_config">load_config() (in module nutsml.config)</a>
 </li>
@@ -715,6 +721,8 @@
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.sample_pn_patches">sample_pn_patches() (in module nutsml.imageutil)</a>
 </li>
+      <li><a href="nutsml.html#nutsml.config.Config.save">save() (Config method)</a>
+</li>
       <li><a href="nutsml.html#nutsml.network.Network.save_best">save_best() (Network method)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.save_image">save_image() (in module nutsml.imageutil)</a>
@@ -845,7 +853,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jun 23, 2017.
+      Last updated on Jul 06, 2017.
 
     </p>
   </div> 
@@ -866,7 +874,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.26',
+            VERSION:'1.0.28',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
