@@ -11,120 +11,128 @@ Subpackages
 Submodules
 ----------
 
-nutsml.batcher module
----------------------
+nutsml\.batcher module
+----------------------
 
 .. automodule:: nutsml.batcher
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.booster module
----------------------
+nutsml\.booster module
+----------------------
 
 .. automodule:: nutsml.booster
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.common module
---------------------
+nutsml\.checkpoint module
+-------------------------
+
+.. automodule:: nutsml.checkpoint
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+nutsml\.common module
+---------------------
 
 .. automodule:: nutsml.common
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.config module
---------------------
+nutsml\.config module
+---------------------
 
 .. automodule:: nutsml.config
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.datautil module
-----------------------
+nutsml\.datautil module
+-----------------------
 
 .. automodule:: nutsml.datautil
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.fileutil module
-----------------------
+nutsml\.fileutil module
+-----------------------
 
 .. automodule:: nutsml.fileutil
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.imageutil module
------------------------
+nutsml\.imageutil module
+------------------------
 
 .. automodule:: nutsml.imageutil
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.logger module
---------------------
+nutsml\.logger module
+---------------------
 
 .. automodule:: nutsml.logger
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.network module
----------------------
+nutsml\.network module
+----------------------
 
 .. automodule:: nutsml.network
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.plotter module
----------------------
+nutsml\.plotter module
+----------------------
 
 .. automodule:: nutsml.plotter
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.reader module
---------------------
+nutsml\.reader module
+---------------------
 
 .. automodule:: nutsml.reader
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.stratify module
-----------------------
+nutsml\.stratify module
+-----------------------
 
 .. automodule:: nutsml.stratify
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.transformer module
--------------------------
+nutsml\.transformer module
+--------------------------
 
 .. automodule:: nutsml.transformer
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.viewer module
---------------------
+nutsml\.viewer module
+---------------------
 
 .. automodule:: nutsml.viewer
     :members:
     :undoc-members:
     :show-inheritance:
 
-nutsml.writer module
---------------------
+nutsml\.writer module
+---------------------
 
 .. automodule:: nutsml.writer
     :members:

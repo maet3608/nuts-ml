@@ -1,11 +1,12 @@
-nutsml.examples package
-=======================
+nutsml\.examples package
+========================
 
 Subpackages
 -----------
 
 .. toctree::
 
+    nutsml.examples.autoencoder
     nutsml.examples.cifar
     nutsml.examples.mnist
 
