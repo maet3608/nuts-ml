@@ -48,6 +48,9 @@ Click on a nut name for more details.
 
 **Sample processing**
 
+- :class:`ConvertLabel <nutsml.common.ConvertLabel>` :
+  convert between string labels and integer class ids.
+
 - :class:`CheckNaN <nutsml.common.CheckNaN>` :
   raise exception if data contains NaNs.
 

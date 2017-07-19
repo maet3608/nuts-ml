@@ -1,5 +1,0 @@
-Custom nuts
-===========
-
-It is easy to extend **nuts-ml** with your own, custom nuts. For details
-see `nuts-flow <https://maet3608.github.io/nuts-flow/tutorial/custom_nuts.html>`_.

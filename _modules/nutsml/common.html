@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.common &mdash; nutsml 1.0.28 documentation</title>
+  <title>nutsml.common &mdash; nutsml 1.0.29 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.28 documentation" href="../../index.html"/>
+    <link rel="top" title="nutsml 1.0.29 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                1.0.28
+                1.0.29
               </div>
             
           
@@ -169,7 +169,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rnd</span>
 
-<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">nut_function</span><span class="p">,</span> <span class="n">nut_sink</span>
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">nut_function</span><span class="p">,</span> <span class="n">nut_sink</span><span class="p">,</span> <span class="n">NutFunction</span>
 <span class="kn">from</span> <span class="nn">nutsml.datautil</span> <span class="k">import</span> <span class="n">group_by</span>
 
 
@@ -300,6 +300,70 @@
                 <span class="k">break</span>
     <span class="n">append</span><span class="p">([</span><span class="n">e</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="p">])</span>  <span class="c1"># append remaining groups</span>
     <span class="k">return</span> <span class="n">splits</span></div>
+
+
+<div class="viewcode-block" id="ConvertLabel"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.ConvertLabel">[docs]</a><span class="k">class</span> <span class="nc">ConvertLabel</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert string labels to integer class ids and vice versa.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ConvertLabel.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.ConvertLabel.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert string labels to integer class ids and vice versa.</span>
+
+<span class="sd">        Also converts confidence vectors, e.g. softmax output or float values</span>
+<span class="sd">        to integer class ids.</span>
+
+<span class="sd">        &gt;&gt;&gt; from nutsflow import Collect</span>
+<span class="sd">        &gt;&gt;&gt; labels = [&#39;class0&#39;, &#39;class1&#39;, &#39;class2&#39;]</span>
+
+<span class="sd">        &gt;&gt;&gt; convert = ConvertLabel(None, labels)</span>
+<span class="sd">        &gt;&gt;&gt; [1, 0] &gt;&gt; convert &gt;&gt; Collect()</span>
+<span class="sd">        [&#39;class1&#39;, &#39;class0&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; [&#39;class1&#39;, &#39;class0&#39;] &gt;&gt; convert &gt;&gt; Collect()</span>
+<span class="sd">        [1, 0]</span>
+<span class="sd">        &gt;&gt;&gt; [0.9, 0.4, 1.6] &gt;&gt; convert &gt;&gt; Collect()</span>
+<span class="sd">        [&#39;class1&#39;, &#39;class0&#39;, &#39;class2&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; [[0.1, 0.7, 0.2], [0.8, 0.1, 0.1]] &gt;&gt; convert &gt;&gt; Collect()</span>
+<span class="sd">        [&#39;class1&#39;, &#39;class0&#39;]</span>
+
+<span class="sd">        &gt;&gt;&gt; convert = ConvertLabel(1, labels)</span>
+<span class="sd">        &gt;&gt;&gt; [(&#39;data&#39;, &#39;class1&#39;), (&#39;data&#39;, &#39;class0&#39;)] &gt;&gt; convert &gt;&gt; Collect()</span>
+<span class="sd">        [(&#39;data&#39;, 1), (&#39;data&#39;, 0)]</span>
+<span class="sd">        &gt;&gt;&gt; [(&#39;data&#39;, 1), (&#39;data&#39;, 2)] &gt;&gt; convert &gt;&gt; Collect()</span>
+<span class="sd">        [(&#39;data&#39;, &#39;class1&#39;), (&#39;data&#39;, &#39;class2&#39;)]</span>
+<span class="sd">        &gt;&gt;&gt; [(&#39;data&#39;, 0.9)] &gt;&gt; convert &gt;&gt; Collect()</span>
+<span class="sd">        [(&#39;data&#39;, &#39;class1&#39;)]</span>
+<span class="sd">        &gt;&gt;&gt; [(&#39;data&#39;, [0.1, 0.7, 0.2])] &gt;&gt; convert &gt;&gt; Collect()</span>
+<span class="sd">        [(&#39;data&#39;, &#39;class1&#39;)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="o">=</span> <span class="n">column</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id2label</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">l</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">)}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label2id</span> <span class="o">=</span> <span class="p">{</span><span class="n">l</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">)}</span></div>
+
+<div class="viewcode-block" id="ConvertLabel.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.ConvertLabel.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return sample and replace label within sample if it is a sample&quot;&quot;&quot;</span>
+        <span class="n">hascol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">]</span> <span class="k">if</span> <span class="n">hascol</span> <span class="k">else</span> <span class="n">sample</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label2id</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id2label</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id2label</span><span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># assume vector with confidence values</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">argmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">((</span><span class="n">v</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id2label</span><span class="p">[</span><span class="n">argmax</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">hascol</span><span class="p">:</span>  <span class="c1"># input has columns =&gt; return sample</span>
+            <span class="n">outsample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+            <span class="n">outsample</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">outsample</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">y</span></div></div>
 </pre></div>
 
            </div>
@@ -315,7 +379,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jul 06, 2017.
+      Last updated on Jul 20, 2017.
 
     </p>
   </div> 
@@ -336,7 +400,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.28',
+            VERSION:'1.0.29',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

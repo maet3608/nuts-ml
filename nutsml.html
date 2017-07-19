@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.28 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.0.29 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.28 documentation" href="index.html"/>
+    <link rel="top" title="nutsml 1.0.29 documentation" href="index.html"/>
         <link rel="next" title="nutsml.examples package" href="nutsml.examples.html"/>
         <link rel="prev" title="Contributions" href="contributions.html"/> 
 
@@ -66,7 +66,7 @@
             
             
               <div class="version">
-                1.0.28
+                1.0.29
               </div>
             
           
@@ -838,6 +838,53 @@ e.g. samples &gt;&gt; network.train() &gt;&gt; CheckNan() &gt;&gt; log &gt;&gt; 
 <dt id="nutsml.common.CheckNaN.__call__">
 <code class="descname">__call__</code><span class="sig-paren">(</span><em>element</em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.common.CheckNaN.__call__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nutsml.common.ConvertLabel">
+<em class="property">class </em><code class="descname">ConvertLabel</code><span class="sig-paren">(</span><em>column</em>, <em>labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/common.html#ConvertLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.common.ConvertLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
+<p>Convert string labels to integer class ids and vice versa.</p>
+<dl class="method">
+<dt id="nutsml.common.ConvertLabel.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>sample</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/common.html#ConvertLabel.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.common.ConvertLabel.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return sample and replace label within sample if it is a sample</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nutsml.common.ConvertLabel.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>labels</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/common.html#ConvertLabel.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.common.ConvertLabel.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert string labels to integer class ids and vice versa.</p>
+<p>Also converts confidence vectors, e.g. softmax output or float values
+to integer class ids.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;class0&#39;</span><span class="p">,</span> <span class="s1">&#39;class1&#39;</span><span class="p">,</span> <span class="s1">&#39;class2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">convert</span> <span class="o">=</span> <span class="n">ConvertLabel</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">convert</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[&#39;class1&#39;, &#39;class0&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="s1">&#39;class1&#39;</span><span class="p">,</span> <span class="s1">&#39;class0&#39;</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">convert</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[1, 0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">convert</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[&#39;class1&#39;, &#39;class0&#39;, &#39;class2&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]]</span> <span class="o">&gt;&gt;</span> <span class="n">convert</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[&#39;class1&#39;, &#39;class0&#39;]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">convert</span> <span class="o">=</span> <span class="n">ConvertLabel</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;class1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;class0&#39;</span><span class="p">)]</span> <span class="o">&gt;&gt;</span> <span class="n">convert</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[(&#39;data&#39;, 1), (&#39;data&#39;, 0)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">&gt;&gt;</span> <span class="n">convert</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[(&#39;data&#39;, &#39;class1&#39;), (&#39;data&#39;, &#39;class2&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)]</span> <span class="o">&gt;&gt;</span> <span class="n">convert</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[(&#39;data&#39;, &#39;class1&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])]</span> <span class="o">&gt;&gt;</span> <span class="n">convert</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[(&#39;data&#39;, &#39;class1&#39;)]</span>
+</pre></div>
+</div>
+</dd></dl>
 
 </dd></dl>
 
@@ -3406,6 +3453,8 @@ the folder the data samples (images, documents, ...) for that class.</p>
 <li><strong>basedir</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Path to folder that contains label directories.</li>
 <li><strong>filepattern</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Pattern for filepaths to read from
 label directories, e.g. &#8216;<em>.jpg&#8217;, &#8216;</em>.txt&#8217;</li>
+<li><strong>exclude</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Pattern for label directories to exclude.
+Default is &#8216;_*&#8217; which excludes all label folders prefixed with &#8216;_&#8217;.</li>
 </ul>
 </td>
 </tr>
@@ -4505,7 +4554,7 @@ annotation, e.g.  edgecolor=&#8217;y&#8217;, linewidth=1</li>
 <span id="nutsml-writer-module"></span><h2>nutsml.writer module<a class="headerlink" href="#module-nutsml.writer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-writer"></span><dl class="class">
 <dt id="nutsml.writer.WriteImage">
-<em class="property">class </em><code class="descname">WriteImage</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.source.Enumerate object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">WriteImage</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>namefunc=&lt;nutsflow.source.Enumerate object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Write images within samples.</p>
 <dl class="method">
@@ -4516,14 +4565,14 @@ annotation, e.g.  edgecolor=&#8217;y&#8217;, linewidth=1</li>
 
 <dl class="method">
 <dt id="nutsml.writer.WriteImage.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>names=&lt;nutsflow.source.Enumerate object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>column</em>, <em>pathfunc</em>, <em>namefunc=&lt;nutsflow.source.Enumerate object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/writer.html#WriteImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.writer.WriteImage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write images within samples to file.</p>
 <p>Writes jpg, gif, png, tif and bmp format depending on file extension.
 Images in samples are expected to be numpy arrays.
 See nutsml.util.load_image for details.</p>
 <p>Folders on output file path are created if missing.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="n">ReadImage</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Get</span><span class="p">,</span> <span class="n">Consume</span><span class="p">,</span> <span class="n">Unzip</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Get</span><span class="p">,</span> <span class="n">GetCols</span><span class="p">,</span> <span class="n">Consume</span><span class="p">,</span> <span class="n">Unzip</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nut_grayscale&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">inpath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*.bmp&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">img_samples</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inpath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
@@ -4540,6 +4589,12 @@ See nutsml.util.load_image for details.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">images</span> <span class="o">&gt;&gt;</span> <span class="n">WriteImage</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
 </div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/test_*.bmp&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">namefunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">sample</span><span class="p">:</span> <span class="n">sample</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">GetCols</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inpath</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+<span class="gp">... </span><span class="n">WriteImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">,</span> <span class="n">namefunc</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -4553,9 +4608,12 @@ which is replaced by the name provided names e.g.
 will become &#8216;tests/data/img_formats/nut_grayscale.jpg&#8217;
 or
 Function to compute path to image file from sample and name, e.g.
-pathfunc = lambda sample, name: &#8216;tests/data/test_{}.jpg&#8217;.format(name)</li>
-<li><strong>names</strong> (<em>iterable</em>) &#8211; Iterable over names to generate image paths from.
-Length need to be the same as samples.</li>
+pathfunc=lambda sample, name: &#8216;tests/data/test_{}.jpg&#8217;.format(name)</li>
+<li><strong>namefunc</strong> (<em>iterable|function</em>) &#8211; Iterable over names to generate
+image paths from (length need to be the same as samples),
+or
+Function to compute filenames from sample, e.g.
+namefunc=lambda samples: sample[0]</li>
 </ul>
 </td>
 </tr>
@@ -4594,7 +4652,7 @@ Length need to be the same as samples.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jul 06, 2017.
+      Last updated on Jul 20, 2017.
 
     </p>
   </div> 
@@ -4615,7 +4673,7 @@ Length need to be the same as samples.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.28',
+            VERSION:'1.0.29',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
