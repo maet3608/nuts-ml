@@ -1,0 +1,1210 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nutsml.imageutil &mdash; nutsml 1.0.29 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="nutsml 1.0.29 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.29
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">nutsml</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nutsml.imageutil</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for nutsml.imageutil</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: imageutil</span>
+<span class="sd">   :synopsis: Basic image processing utilities</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">PIL</span> <span class="k">as</span> <span class="nn">pil</span>
+<span class="kn">import</span> <span class="nn">skimage.exposure</span> <span class="k">as</span> <span class="nn">ske</span>
+<span class="kn">import</span> <span class="nn">skimage.transform</span> <span class="k">as</span> <span class="nn">skt</span>
+<span class="kn">import</span> <span class="nn">skimage.color</span> <span class="k">as</span> <span class="nn">skc</span>
+<span class="kn">import</span> <span class="nn">skimage.util.shape</span> <span class="k">as</span> <span class="nn">sks</span>
+<span class="kn">import</span> <span class="nn">skimage.io</span> <span class="k">as</span> <span class="nn">ski</span>
+<span class="kn">import</span> <span class="nn">skimage.draw</span> <span class="k">as</span> <span class="nn">skd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">plp</span>
+
+<span class="kn">from</span> <span class="nn">six.moves</span> <span class="k">import</span> <span class="nb">range</span><span class="p">,</span> <span class="nb">map</span>
+<span class="kn">from</span> <span class="nn">.datautil</span> <span class="k">import</span> <span class="n">shapestr</span><span class="p">,</span> <span class="n">isnan</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">ImageEnhance</span> <span class="k">as</span> <span class="n">ie</span>
+<span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2gray</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
+
+
+<div class="viewcode-block" id="load_image"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.load_image">[docs]</a><span class="k">def</span> <span class="nf">load_image</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">no_alpha</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load image as numpy array from given filepath.</span>
+
+<span class="sd">    Supported formats: gif, png, jpg, bmp, tif, npy</span>
+
+<span class="sd">    &gt;&gt;&gt; img = load_image(&#39;tests/data/img_formats/nut_color.jpg&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; shapestr(img)</span>
+<span class="sd">    &#39;213x320x3&#39;</span>
+
+<span class="sd">    :param string filepath: Filepath to image file or numpy array.</span>
+<span class="sd">    :param bool as_grey:</span>
+<span class="sd">    :return: numpy array with shapes</span>
+<span class="sd">             (h, w) for grayscale or monochrome,</span>
+<span class="sd">             (h, w, 3) for RGB (3 color channels in last axis)</span>
+<span class="sd">             (h, w, 4) for RGBA (for no_alpha = False)</span>
+<span class="sd">             (h, w, 3) for RGBA (for no_alpha = True)</span>
+<span class="sd">             pixel values are in range [0,255] for dtype = uint8</span>
+<span class="sd">    :rtype: numpy ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">):</span>  <span class="c1"># image as numpy array</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">rgb2gray</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="k">if</span> <span class="n">as_grey</span> <span class="k">else</span> <span class="n">arr</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># img_num=0 due to </span>
+        <span class="c1"># https://github.com/scikit-image/scikit-image/issues/2406</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">ski</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="n">as_grey</span><span class="p">,</span> <span class="n">img_num</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">no_alpha</span><span class="p">:</span>
+        <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>  <span class="c1"># cut off alpha channel</span>
+    <span class="k">return</span> <span class="n">arr</span></div>
+
+
+<div class="viewcode-block" id="save_image"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.save_image">[docs]</a><span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save numpy array as image (or numpy array) to given filepath.</span>
+
+<span class="sd">    Supported formats: gif, png, jpg, bmp, tif, npy</span>
+
+<span class="sd">    :param string filepath: File path for image file. Extension determines</span>
+<span class="sd">        image file format, e.g. .gif</span>
+<span class="sd">    :param numpy array image: Numpy array to save as image.</span>
+<span class="sd">        Must be of shape (h,w) or (h,w,3) or (h,w,4)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">filepath</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">):</span>  <span class="c1"># image as numpy array</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ski</span><span class="o">.</span><span class="n">imsave</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">image</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="arr_to_pil"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.arr_to_pil">[docs]</a><span class="k">def</span> <span class="nf">arr_to_pil</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert numpy array to PIL image.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; rgb_arr = np.ones((5, 4, 3), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; pil_img = arr_to_pil(rgb_arr)</span>
+<span class="sd">    &gt;&gt;&gt; pil_img.size</span>
+<span class="sd">    (4, 5)</span>
+
+<span class="sd">    :param ndarray image: Numpy array with dtype &#39;uint8&#39; and dimensions</span>
+<span class="sd">       (h,w,c) for RGB or (h,w) for gray-scale images.</span>
+<span class="sd">    :return: PIL image</span>
+<span class="sd">    :rtype: PIL.Image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expect uint8 dtype but got: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expect gray scale or RGB image: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">pil</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s1">&#39;RGB&#39;</span> <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="s1">&#39;L&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="pil_to_arr"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.pil_to_arr">[docs]</a><span class="k">def</span> <span class="nf">pil_to_arr</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert PIL image to Numpy array.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; rgb_arr = np.ones((5, 4, 3), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; pil_img = arr_to_pil(rgb_arr)</span>
+<span class="sd">    &gt;&gt;&gt; arr = pil_to_arr(pil_img)</span>
+<span class="sd">    &gt;&gt;&gt; shapestr(arr)</span>
+<span class="sd">    &#39;5x4x3&#39;</span>
+
+<span class="sd">    :param PIL.Image image: PIL image (RGB or grayscale)</span>
+<span class="sd">    :return: Numpy array</span>
+<span class="sd">    :rtype: numpy.array with dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;RGB&#39;</span><span class="p">}:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expect RBG or grayscale but got:&#39;</span> <span class="o">+</span> <span class="n">image</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_default_order"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.set_default_order">[docs]</a><span class="k">def</span> <span class="nf">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set order parameter in kwargs for scikit-image functions.</span>
+
+<span class="sd">    Default order is 1, which performs a linear interpolation of pixel values</span>
+<span class="sd">    when images are rotated, resized and sheared. This is fine for images</span>
+<span class="sd">    but causes unwanted pixel values in masks. This function set the default</span>
+<span class="sd">    order to 9, which disables the interpolation.</span>
+
+<span class="sd">    :param kwargs kwargs: Dictionary with keyword arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;order&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="add_channel"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.add_channel">[docs]</a><span class="k">def</span> <span class="nf">add_channel</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">channelfirst</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add channel if missing and make first axis if requested.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; image = np.ones((10, 20))</span>
+<span class="sd">    &gt;&gt;&gt; image = add_channel(image, True)</span>
+<span class="sd">    &gt;&gt;&gt; shapestr(image)</span>
+<span class="sd">    &#39;1x10x20&#39;</span>
+
+<span class="sd">    :param ndarray image: RBG (h,w,3) or gray-scale image (h,w).</span>
+<span class="sd">    :param bool channelfirst: If True, make channel first axis</span>
+<span class="sd">    :return: Numpy array with channel (as first axis if makefirst=True)</span>
+<span class="sd">    :rtype: numpy.array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Image must be 2 or 3 channel!&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>  <span class="c1"># gray-scale image</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># add channel axis</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rollaxis</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">channelfirst</span> <span class="k">else</span> <span class="n">image</span></div>
+
+
+<div class="viewcode-block" id="floatimg2uint8"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.floatimg2uint8">[docs]</a><span class="k">def</span> <span class="nf">floatimg2uint8</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert array with floats to &#39;uint8&#39; and rescale from [0,1] to [0, 256].</span>
+
+<span class="sd">    Converts only if image.dtype != uint8.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; image = np.eye(10, 20, dtype=float)</span>
+<span class="sd">    &gt;&gt;&gt; arr = floatimg2uint8(image)</span>
+<span class="sd">    &gt;&gt;&gt; np.max(arr)</span>
+<span class="sd">    255</span>
+
+<span class="sd">    :param numpy.array image: Numpy array with range [0,1]</span>
+<span class="sd">    :return: Numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    :rtype: numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">image</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="s1">&#39;uint8&#39;</span> <span class="k">else</span> <span class="n">image</span></div>
+
+
+<div class="viewcode-block" id="rerange"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.rerange">[docs]</a><span class="k">def</span> <span class="nf">rerange</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">old_min</span><span class="p">,</span> <span class="n">old_max</span><span class="p">,</span> <span class="n">new_min</span><span class="p">,</span> <span class="n">new_max</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return image with values in new range.</span>
+
+<span class="sd">    Note: The default range of images is [0, 255] and most image</span>
+<span class="sd">    processing functions expect this range and will fail otherwise.</span>
+<span class="sd">    However, as input to neural networks re-ranged images, e.g [-1, +1]</span>
+<span class="sd">    are sometimes needed.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; image = np.array([[0, 255], [255, 0]])</span>
+<span class="sd">    &gt;&gt;&gt; rerange(image, 0, 255, -1, +1, &#39;float32&#39;)</span>
+<span class="sd">    array([[-1.,  1.],</span>
+<span class="sd">           [ 1., -1.]], dtype=float32)</span>
+
+<span class="sd">    :param numpy.array image: Should be a numpy array of an image.</span>
+<span class="sd">    :param int|float old_min: Current minimum value of image, e.g. 0</span>
+<span class="sd">    :param int|float old_max: Current maximum value of image, e.g. 255</span>
+<span class="sd">    :param int|float new_min: New minimum, e.g. -1.0</span>
+<span class="sd">    :param int|float new_max: New maximum, e.g. +1.0</span>
+<span class="sd">    :param numpy datatype dtype: Data type of output image,</span>
+<span class="sd">           e.g. float32&#39; or np.uint8</span>
+<span class="sd">    :return: Image with values in new range.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+    <span class="n">old_range</span><span class="p">,</span> <span class="n">new_range</span> <span class="o">=</span> <span class="n">old_max</span> <span class="o">-</span> <span class="n">old_min</span><span class="p">,</span> <span class="n">new_max</span> <span class="o">-</span> <span class="n">new_min</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="p">(</span><span class="n">image</span> <span class="o">-</span> <span class="n">old_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">old_range</span> <span class="o">*</span> <span class="n">new_range</span> <span class="o">+</span> <span class="n">new_min</span>
+    <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="identical"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.identical">[docs]</a><span class="k">def</span> <span class="nf">identical</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return input image unchanged.</span>
+
+<span class="sd">    :param numpy.array image: Should be a numpy array of an image.</span>
+<span class="sd">    :return: Same as input</span>
+<span class="sd">    :rtype: Same as input</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+
+<div class="viewcode-block" id="crop"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.crop">[docs]</a><span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crop image.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; image = np.reshape(np.arange(16, dtype=&#39;uint8&#39;), (4, 4))</span>
+<span class="sd">    &gt;&gt;&gt; crop(image, 1, 2, 5, 5)</span>
+<span class="sd">    array([[ 9, 10, 11],</span>
+<span class="sd">           [13, 14, 15]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array.</span>
+<span class="sd">    :param int x1: x-coordinate of left upper corner of crop (inclusive)</span>
+<span class="sd">    :param int y1: y-coordinate of left upper corner of crop (inclusive)</span>
+<span class="sd">    :param int x2: x-coordinate of right lower corner of crop (exclusive)</span>
+<span class="sd">    :param int y2: y-coordinate of right lower corner of crop (exclusive)</span>
+<span class="sd">    :return: Cropped image</span>
+<span class="sd">    :rtype: numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">image</span><span class="p">[</span><span class="n">y1</span><span class="p">:</span><span class="n">y2</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span><span class="n">x2</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="crop_center"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.crop_center">[docs]</a><span class="k">def</span> <span class="nf">crop_center</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crop region with size w, h from center of image.</span>
+
+<span class="sd">    Note that the crop is specified via w, h and not via shape (h,w).</span>
+<span class="sd">    Furthermore if the image or the crop region have even dimensions,</span>
+<span class="sd">    coordinates are rounded down.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; image = np.reshape(np.arange(16, dtype=&#39;uint8&#39;), (4, 4))</span>
+<span class="sd">    &gt;&gt;&gt; crop_center(image, 3, 2)</span>
+<span class="sd">    array([[ 4,  5,  6],</span>
+<span class="sd">           [ 8,  9, 10]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array.</span>
+<span class="sd">    :param int w: Width of crop</span>
+<span class="sd">    :param int h: Height of crop</span>
+<span class="sd">    :return: Cropped image</span>
+<span class="sd">    :rtype: numpy array</span>
+<span class="sd">    :raise: ValueError if image is smaller than crop region</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dw</span><span class="p">,</span> <span class="n">dh</span> <span class="o">=</span> <span class="n">iw</span> <span class="o">-</span> <span class="n">w</span><span class="p">,</span> <span class="n">ih</span> <span class="o">-</span> <span class="n">h</span>
+    <span class="k">if</span> <span class="n">dw</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">dh</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Image too small for crop </span><span class="si">{}</span><span class="s1">x</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">iw</span><span class="p">,</span> <span class="n">ih</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">image</span><span class="p">[</span><span class="n">dh</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span><span class="n">dh</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">dw</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span><span class="n">dw</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">w</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="crop_square"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.crop_square">[docs]</a><span class="k">def</span> <span class="nf">crop_square</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Crop image to square shape.</span>
+
+<span class="sd">    Crops symmetrically left and right or top and bottom to achieve</span>
+<span class="sd">    aspect ratio of one and preserves the largest dimension.</span>
+
+<span class="sd">    :param numpy array image: Numpy array.</span>
+<span class="sd">    :return: Cropped image</span>
+<span class="sd">    :rtype: numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">iw</span> <span class="o">&gt;</span> <span class="n">ih</span><span class="p">:</span>
+        <span class="n">dw</span><span class="p">,</span> <span class="n">mw</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">iw</span><span class="o">-</span><span class="n">ih</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">iw</span><span class="o">-</span><span class="n">ih</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dw</span><span class="o">+</span><span class="n">mw</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">iw</span><span class="o">-</span><span class="n">dw</span><span class="p">,</span> <span class="n">ih</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dh</span><span class="p">,</span> <span class="n">mh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">ih</span><span class="o">-</span><span class="n">iw</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">ih</span><span class="o">-</span><span class="n">iw</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dh</span><span class="o">+</span><span class="n">mh</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span><span class="o">-</span><span class="n">dh</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="normalize_histo"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.normalize_histo">[docs]</a><span class="k">def</span> <span class="nf">normalize_histo</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform histogram normalization on image.</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param float gamma: Factor for gamma adjustment.</span>
+<span class="sd">    :return: Normalized image</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ske</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ske</span><span class="o">.</span><span class="n">equalize_adapthist</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">ske</span><span class="o">.</span><span class="n">adjust_gamma</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">floatimg2uint8</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="enhance"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.enhance">[docs]</a><span class="k">def</span> <span class="nf">enhance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enhance image using a PIL enhance function</span>
+
+<span class="sd">    See the following link for details on PIL enhance functions:</span>
+<span class="sd">    http://pillow.readthedocs.io/en/3.1.x/reference/ImageEnhance.html</span>
+
+<span class="sd">    &gt;&gt;&gt; from PIL.ImageEnhance import Brightness</span>
+<span class="sd">    &gt;&gt;&gt; image = np.ones((3,2), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; enhance(image, Brightness, 0.0)</span>
+<span class="sd">    array([[0, 0],</span>
+<span class="sd">           [0, 0],</span>
+<span class="sd">           [0, 0]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param function func: PIL ImageEnhance function</span>
+<span class="sd">    :param args args: Argument list passed on to enhance function.</span>
+<span class="sd">    :param kwargs kwargs: Key-word arguments passed on to enhance function</span>
+<span class="sd">    :return: Enhanced image</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">arr_to_pil</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">image</span><span class="p">)</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pil_to_arr</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change_contrast"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.change_contrast">[docs]</a><span class="k">def</span> <span class="nf">change_contrast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change contrast of image.</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;) * 255</span>
+<span class="sd">    &gt;&gt;&gt; change_contrast(image, 0.5)</span>
+<span class="sd">    array([[170,  42,  42],</span>
+<span class="sd">           [ 42, 170,  42],</span>
+<span class="sd">           [ 42,  42, 170]], dtype=uint8)</span>
+
+<span class="sd">    See</span>
+<span class="sd">    http://pillow.readthedocs.io/en/3.1.x/reference/ImageEnhance.html#PIL.ImageEnhance.Contrast</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param float contrast: Contrast [0, 1]</span>
+<span class="sd">    :return: Image with changed contrast</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">enhance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">ie</span><span class="o">.</span><span class="n">Contrast</span><span class="p">,</span> <span class="n">contrast</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change_brightness"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.change_brightness">[docs]</a><span class="k">def</span> <span class="nf">change_brightness</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">brightness</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change brightness of image.</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;) * 255</span>
+<span class="sd">    &gt;&gt;&gt; change_brightness(image, 0.5)</span>
+<span class="sd">    array([[127,   0,   0],</span>
+<span class="sd">           [  0, 127,   0],</span>
+<span class="sd">           [  0,   0, 127]], dtype=uint8)</span>
+
+<span class="sd">    See</span>
+<span class="sd">    http://pillow.readthedocs.io/en/3.1.x/reference/ImageEnhance.html#PIL.ImageEnhance.Brightness</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param float brightness: Brightness [0, 1]</span>
+<span class="sd">    :return: Image with changed brightness</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">enhance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">ie</span><span class="o">.</span><span class="n">Brightness</span><span class="p">,</span> <span class="n">brightness</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change_sharpness"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.change_sharpness">[docs]</a><span class="k">def</span> <span class="nf">change_sharpness</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">sharpness</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change sharpness of image.</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;) * 255</span>
+<span class="sd">    &gt;&gt;&gt; change_sharpness(image, 0.5)</span>
+<span class="sd">    array([[255,   0,   0],</span>
+<span class="sd">           [  0, 196,   0],</span>
+<span class="sd">           [  0,   0, 255]], dtype=uint8)</span>
+
+<span class="sd">    See</span>
+<span class="sd">    http://pillow.readthedocs.io/en/3.1.x/reference/ImageEnhance.html#PIL.ImageEnhance.Sharpness</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param float sharpness: Sharpness [0, ...]</span>
+<span class="sd">    :return: Image with changed sharpness</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">enhance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">ie</span><span class="o">.</span><span class="n">Sharpness</span><span class="p">,</span> <span class="n">sharpness</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="change_color"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.change_color">[docs]</a><span class="k">def</span> <span class="nf">change_color</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change color of image.</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;) * 255</span>
+<span class="sd">    &gt;&gt;&gt; change_color(image, 0.5)</span>
+<span class="sd">    array([[255,   0,   0],</span>
+<span class="sd">           [  0, 255,   0],</span>
+<span class="sd">           [  0,   0, 255]], dtype=uint8)</span>
+
+<span class="sd">    See</span>
+<span class="sd">    http://pillow.readthedocs.io/en/3.1.x/reference/ImageEnhance.html#PIL.ImageEnhance.Color</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param float color: Color [0, 1]</span>
+<span class="sd">    :return: Image with changed color</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">enhance</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">ie</span><span class="o">.</span><span class="n">Color</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="gray2rgb"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.gray2rgb">[docs]</a><span class="k">def</span> <span class="nf">gray2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Grayscale scale image to RGB image</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;) * 255</span>
+<span class="sd">    &gt;&gt;&gt; gray2rgb(image)</span>
+<span class="sd">    array([[[255, 255, 255],</span>
+<span class="sd">            [  0,   0,   0],</span>
+<span class="sd">            [  0,   0,   0]],</span>
+<span class="sd">    &lt;BLANKLINE&gt;</span>
+<span class="sd">           [[  0,   0,   0],</span>
+<span class="sd">            [255, 255, 255],</span>
+<span class="sd">            [  0,   0,   0]],</span>
+<span class="sd">    &lt;BLANKLINE&gt;</span>
+<span class="sd">           [[  0,   0,   0],</span>
+<span class="sd">            [  0,   0,   0],</span>
+<span class="sd">            [255, 255, 255]]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;. </span>
+<span class="sd">    :return: RGB image</span>
+<span class="sd">    :rtype:  numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">skc</span><span class="o">.</span><span class="n">gray2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rgb2gray"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.rgb2gray">[docs]</a><span class="k">def</span> <span class="nf">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    RGB scale image to grayscale image</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;) * 255</span>
+<span class="sd">    &gt;&gt;&gt; rgb2gray(image)</span>
+<span class="sd">    array([[255,   0,   0],</span>
+<span class="sd">           [  0, 255,   0],</span>
+<span class="sd">           [  0,   0, 255]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;. </span>
+<span class="sd">    :return: grayscale image</span>
+<span class="sd">    :rtype:  numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">floatimg2uint8</span><span class="p">(</span><span class="n">skc</span><span class="o">.</span><span class="n">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shift image horizontally and vertically</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;) * 255</span>
+<span class="sd">    &gt;&gt;&gt; translate(image, 2, 1)</span>
+<span class="sd">    array([[  0,   0,   0],</span>
+<span class="sd">           [  0,   0, 255],</span>
+<span class="sd">           [  0,   0,   0]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param dx: horizontal translation in pixels</span>
+<span class="sd">    :param dy: vertical translation in pixels</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments for the underlying scikit-image</span>
+<span class="sd">       rotate function, e.g. order=1 for linear interpolation.</span>
+<span class="sd">    :return: translated image</span>
+<span class="sd">    :rtype:  numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">transmat</span> <span class="o">=</span> <span class="n">skt</span><span class="o">.</span><span class="n">AffineTransform</span><span class="p">(</span><span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">dx</span><span class="p">,</span> <span class="o">-</span><span class="n">dy</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">transmat</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rotate"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.rotate">[docs]</a><span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rotate image.</span>
+
+<span class="sd">    For details see:</span>
+<span class="sd">    http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.rotate</span>
+
+<span class="sd">    For a smooth interpolation of images set &#39;order=1&#39;. To rotate masks use</span>
+<span class="sd">    the default &#39;order=0&#39;.</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; rotate(image, 90)</span>
+<span class="sd">    array([[0, 0, 1],</span>
+<span class="sd">           [0, 1, 0],</span>
+<span class="sd">           [1, 0, 0]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param float angle: Angle in degrees in counter-clockwise direction</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments for the underlying scikit-image</span>
+<span class="sd">       rotate function, e.g. order=1 for linear interpolation.</span>
+<span class="sd">    :return: Rotated image</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="resize"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.resize">[docs]</a><span class="k">def</span> <span class="nf">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resize image.</span>
+
+<span class="sd">    Image can be up- or down-sized (using interpolation). For details see:</span>
+<span class="sd">    http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.resize</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.ones((10,5), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; resize(image, 4, 3)</span>
+<span class="sd">    array([[1, 1, 1, 1],</span>
+<span class="sd">           [1, 1, 1, 1],</span>
+<span class="sd">           [1, 1, 1, 1]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param int w: Width in pixels.</span>
+<span class="sd">    :param int h: Height in pixels.</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments for the underlying scikit-image</span>
+<span class="sd">       resize function, e.g. order=1 for linear interpolation.</span>
+<span class="sd">    :return: Resized image</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span>
+                      <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="shear"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.shear">[docs]</a><span class="k">def</span> <span class="nf">shear</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">shear_factor</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shear image.</span>
+
+<span class="sd">    For details see:</span>
+<span class="sd">    http://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.AffineTransform</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.eye(3, dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; rotated = rotate(image, 45)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param float shear_factor: Shear factor [0, 1]</span>
+<span class="sd">    :param kwargs kwargs: Keyword arguments for the underlying scikit-image</span>
+<span class="sd">       warp function, e.g. order=1 for linear interpolation.</span>
+<span class="sd">    :return: Sheared image</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">set_default_order</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">skt</span><span class="o">.</span><span class="n">AffineTransform</span><span class="p">(</span><span class="n">shear</span><span class="o">=</span><span class="n">shear_factor</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">skt</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="fliplr"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.fliplr">[docs]</a><span class="k">def</span> <span class="nf">fliplr</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Flip image left to right.</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.reshape(np.arange(4, dtype=&#39;uint8&#39;), (2,2))</span>
+<span class="sd">    &gt;&gt;&gt; fliplr(image)</span>
+<span class="sd">    array([[1, 0],</span>
+<span class="sd">           [3, 2]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :return: Flipped image</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="flipud"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.flipud">[docs]</a><span class="k">def</span> <span class="nf">flipud</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Flip image up to down.</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.reshape(np.arange(4, dtype=&#39;uint8&#39;), (2,2))</span>
+<span class="sd">    &gt;&gt;&gt; flipud(image)</span>
+<span class="sd">    array([[2, 3],</span>
+<span class="sd">           [0, 1]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :return: Flipped image</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="polyline2coords"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.polyline2coords">[docs]</a><span class="k">def</span> <span class="nf">polyline2coords</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return row and column coordinates for a polyline.</span>
+
+<span class="sd">    &gt;&gt;&gt; rr, cc = polyline2coords([(0, 0), (2, 2), (2, 4)])</span>
+<span class="sd">    &gt;&gt;&gt; list(rr)</span>
+<span class="sd">    [0, 1, 2, 2, 3, 4]</span>
+<span class="sd">    &gt;&gt;&gt; list(cc)</span>
+<span class="sd">    [0, 1, 2, 2, 2, 2]</span>
+
+<span class="sd">    :param list of tuple points: Polyline in format [(x1,y1), (x2,y2), ...] </span>
+<span class="sd">    :return: tuple with row and column coordinates in numpy arrays</span>
+<span class="sd">    :rtype: tuple of numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">xy</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">points</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">skd</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xy</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">xy</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="mask_where"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.mask_where">[docs]</a><span class="k">def</span> <span class="nf">mask_where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return x,y coordinates where mask has specified value</span>
+
+<span class="sd">    &gt;&gt;&gt; mask = np.eye(3, dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; mask_where(mask, 1).tolist()</span>
+<span class="sd">    [[0, 0], [1, 1], [2, 2]]</span>
+
+<span class="sd">    :param numpy array mask: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :return: Array with x,y coordinates</span>
+<span class="sd">    :rtype: numpy array with shape Nx2 where each row contains x, y</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">value</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mask_choice"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.mask_choice">[docs]</a><span class="k">def</span> <span class="nf">mask_choice</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Random selection of n points where mask has given value</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(1)   # ensure same random selection for doctest</span>
+<span class="sd">    &gt;&gt;&gt; mask = np.eye(3, dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; mask_choice(mask, 1, 2).tolist()</span>
+<span class="sd">    [[0, 0], [2, 2]]</span>
+
+<span class="sd">    :param numpy array mask: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">    :param int n: Number of points to select. If n is larger than the</span>
+<span class="sd">      points available only the available points will be returned.</span>
+<span class="sd">    :return: Array with x,y coordinates</span>
+<span class="sd">    :rtype: numpy array with shape nx2 where each row contains x, y</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">mask_where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">points</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="extract_patch"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.extract_patch">[docs]</a><span class="k">def</span> <span class="nf">extract_patch</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract a patch of given shape, centered at r,c of given shape from image.</span>
+
+<span class="sd">    Note that there is no checking if the patch region is inside the image.</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.reshape(np.arange(16, dtype=&#39;uint8&#39;), (4, 4))</span>
+<span class="sd">    &gt;&gt;&gt; extract_patch(image, (2, 3), 2, 2)</span>
+<span class="sd">    array([[ 5,  6,  7],</span>
+<span class="sd">           [ 9, 10, 11]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array with range [0,255] and dtype &#39;uint8&#39;.</span>
+<span class="sd">       Can be of shapes MxN, MxNxC.</span>
+<span class="sd">    :param tuple pshape: Shape of patch. #Dimensions must match image.</span>
+<span class="sd">    :param int r: Row for center of patch</span>
+<span class="sd">    :param int c: Column for center of patch</span>
+<span class="sd">    :return: numpy array with shape pshape</span>
+<span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">pshape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pshape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">h</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="n">w</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">image</span><span class="p">[</span><span class="n">r</span><span class="p">:</span><span class="n">r</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span><span class="n">c</span> <span class="o">+</span> <span class="n">w</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="patch_iter"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.patch_iter">[docs]</a><span class="k">def</span> <span class="nf">patch_iter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts patches from images with given shape.</span>
+
+<span class="sd">    Patches are extracted in a regular grid with the given stride,</span>
+<span class="sd">    starting in the left upper corner and then row-wise.</span>
+<span class="sd">    Image can be gray-scale (no third channel dim) or color.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; img = np.reshape(np.arange(12), (3, 4))</span>
+<span class="sd">    &gt;&gt;&gt; for p in patch_iter(img, (2, 2), 2):</span>
+<span class="sd">    ...     print(p)</span>
+<span class="sd">    [[0 1]</span>
+<span class="sd">     [4 5]]</span>
+<span class="sd">    [[2 3]</span>
+<span class="sd">     [6 7]]</span>
+
+<span class="sd">    :param ndarray image: Numpy array of shape h,w,c or h,w.</span>
+<span class="sd">    :param tuple shape: Shape of patch (h,w)</span>
+<span class="sd">    :param int stride: Step size of grid patches are extracted from</span>
+<span class="sd">    :return: Iterator over patches</span>
+<span class="sd">    :rtype: Iterator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># view_as_windows requires contiguous array, which we ensure here</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">image</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s1">&#39;C_CONTIGUOUS&#39;</span><span class="p">]:</span>
+        <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;image is not contiguous array&#39;</span><span class="p">)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="n">is_gray</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="n">wshape</span> <span class="o">=</span> <span class="n">shape</span> <span class="k">if</span> <span class="n">is_gray</span> <span class="k">else</span> <span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">views</span> <span class="o">=</span> <span class="n">sks</span><span class="o">.</span><span class="n">view_as_windows</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">wshape</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">views</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">patch_gen</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">views</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_gray</span> <span class="k">else</span> <span class="n">views</span><span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">patch_gen</span><span class="p">()</span></div>
+
+
+<span class="c1"># Note that masked arrays don&#39;t work here since the where(pred) function ignores</span>
+<span class="c1"># the mask (returns all coordinates) for where(mask == 0).</span>
+<div class="viewcode-block" id="centers_inside"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.centers_inside">[docs]</a><span class="k">def</span> <span class="nf">centers_inside</span><span class="p">(</span><span class="n">centers</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">pshape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Filter center points of patches ensuring that patch is inside of image.</span>
+
+<span class="sd">    &gt;&gt;&gt; centers = np.array([[1, 2], [0,1]])</span>
+<span class="sd">    &gt;&gt;&gt; image = np.zeros((3, 4))</span>
+<span class="sd">    &gt;&gt;&gt; centers_inside(centers, image, (3, 3)).astype(&#39;uint8&#39;)</span>
+<span class="sd">    array([[1, 2]], dtype=uint8)</span>
+
+<span class="sd">    :param ndarray(n,2) centers: Center points of patches.</span>
+<span class="sd">    :param ndarray(h,w) image: Image the patches should be inside.</span>
+<span class="sd">    :param tuple pshape: Patch shape of form (h,w)</span>
+<span class="sd">    :return: Patch centers where the patch is completely inside the image.</span>
+<span class="sd">    :rtype: ndarray of shape (n, 2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">centers</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  <span class="c1"># list of centers is empty</span>
+        <span class="k">return</span> <span class="n">centers</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">h2</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="n">pshape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">pshape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">minr</span><span class="p">,</span> <span class="n">maxr</span><span class="p">,</span> <span class="n">minc</span><span class="p">,</span> <span class="n">maxc</span> <span class="o">=</span> <span class="n">h2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">h2</span><span class="p">,</span> <span class="n">w2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">w</span> <span class="o">-</span> <span class="n">w2</span>
+    <span class="n">rs</span><span class="p">,</span> <span class="n">cs</span> <span class="o">=</span> <span class="n">centers</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">centers</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">centers</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">([</span><span class="n">rs</span> <span class="o">&gt;</span> <span class="n">minr</span><span class="p">,</span> <span class="n">rs</span> <span class="o">&lt;</span> <span class="n">maxr</span><span class="p">,</span> <span class="n">cs</span> <span class="o">&gt;</span> <span class="n">minc</span><span class="p">,</span> <span class="n">cs</span> <span class="o">&lt;</span> <span class="n">maxc</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="sample_mask"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.sample_mask">[docs]</a><span class="k">def</span> <span class="nf">sample_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Randomly pick n points in mask where mask has given value.</span>
+
+<span class="sd">    Ensure that only points picked that can be center of a patch with</span>
+<span class="sd">    shape pshape that is inside the mask.</span>
+
+<span class="sd">    &gt;&gt;&gt; mask = np.zeros((3, 4))</span>
+<span class="sd">    &gt;&gt;&gt; mask[1, 2] = 1</span>
+<span class="sd">    &gt;&gt;&gt; sample_mask(mask, 1, (1, 1), 1)</span>
+<span class="sd">    array([[1, 2]], dtype=uint16)</span>
+
+<span class="sd">    :param ndarray mask: Mask</span>
+<span class="sd">    :param int value: Sample points in mask that have this value.</span>
+<span class="sd">    :param tuple pshape: Patch shape of form (h,w)</span>
+<span class="sd">    :param int n: Number of points to sample. If there is not enough points</span>
+<span class="sd">       to sample from a smaller number will be returned. If there are not</span>
+<span class="sd">       points at all np.empty((0, 2)) will be returned.</span>
+<span class="sd">    :return: Center points of patches within the mask where the center point</span>
+<span class="sd">      has the given mask value.</span>
+<span class="sd">    :rtype: ndarray of shape (n, 2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="n">value</span><span class="p">))</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">centers_inside</span><span class="p">(</span><span class="n">centers</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pshape</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint16&#39;</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">centers</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">centers</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">centers</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="sample_labeled_patch_centers"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.sample_labeled_patch_centers">[docs]</a><span class="k">def</span> <span class="nf">sample_labeled_patch_centers</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Randomly pick n points in mask where mask has given value and add label.</span>
+
+<span class="sd">    Same as imageutil.sample_mask but adds given label to each center</span>
+
+<span class="sd">    &gt;&gt;&gt; mask = np.zeros((3, 4))</span>
+<span class="sd">    &gt;&gt;&gt; mask[1, 2] = 1</span>
+<span class="sd">    &gt;&gt;&gt; sample_labeled_patch_centers(mask, 1, (1, 1), 1, 0)</span>
+<span class="sd">    array([[1, 2, 0]], dtype=uint16)</span>
+
+<span class="sd">    :param ndarray mask: Mask</span>
+<span class="sd">    :param int value: Sample points in mask that have this value.</span>
+<span class="sd">    :param tuple pshape: Patch shape of form (h,w)</span>
+<span class="sd">    :param int n: Number of points to sample. If there is not enough points</span>
+<span class="sd">       to sample from a smaller number will be returned. If there are not</span>
+<span class="sd">       points at all np.empty((0, 2)) will be returned.</span>
+<span class="sd">    :param int label: Numeric label to append to each center point</span>
+<span class="sd">    :return: Center points of patches within the mask where the center point</span>
+<span class="sd">      has the given mask value and the label</span>
+<span class="sd">    :rtype: ndarray of shape (n, 3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">centers</span> <span class="o">=</span> <span class="n">sample_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">centers</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">centers</span><span class="p">,</span> <span class="n">labels</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="sample_patch_centers"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.sample_patch_centers">[docs]</a><span class="k">def</span> <span class="nf">sample_patch_centers</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span> <span class="n">nneg</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">neg</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample positive and negative patch centers where mask value is pos or neg.</span>
+
+<span class="sd">    The sampling routine ensures that the patch is completely inside the mask.</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)   # just to ensure consistent doctest</span>
+<span class="sd">    &gt;&gt;&gt; mask = np.zeros((3, 4))</span>
+<span class="sd">    &gt;&gt;&gt; mask[1, 2] = 255</span>
+<span class="sd">    &gt;&gt;&gt; sample_patch_centers(mask, (2, 2), 1, 1)</span>
+<span class="sd">    array([[1, 1, 0],</span>
+<span class="sd">           [1, 2, 1]], dtype=uint16)</span>
+
+<span class="sd">    :param ndarray mask: Mask</span>
+<span class="sd">    :param tuple pshape: Patch shape of form (h,w)</span>
+<span class="sd">    :param int npos: Number of positives to sample.</span>
+<span class="sd">    :param int nneg: Number of negatives to sample.</span>
+<span class="sd">    :param int pos: Value for positive points in mask</span>
+<span class="sd">    :param int neg: Value for negative points in mask</span>
+<span class="sd">    :return: Center points of patches within the mask where the center point</span>
+<span class="sd">      has the given mask value (pos, neg) and the label (1, 0)</span>
+<span class="sd">    :rtype: ndarray of shape (n, 3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pcenters</span> <span class="o">=</span> <span class="n">sample_labeled_patch_centers</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">nneg</span> <span class="o">=</span> <span class="n">nneg</span><span class="p">(</span><span class="n">npos</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">nneg</span><span class="p">,</span> <span class="s1">&#39;__call__&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">nneg</span>
+    <span class="n">ncenters</span> <span class="o">=</span> <span class="n">sample_labeled_patch_centers</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">neg</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">nneg</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># return all labeled patch center points in random order</span>
+    <span class="n">labeled_centers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">pcenters</span><span class="p">,</span> <span class="n">ncenters</span><span class="p">))</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">labeled_centers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">labeled_centers</span></div>
+
+
+<div class="viewcode-block" id="sample_pn_patches"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.sample_pn_patches">[docs]</a><span class="k">def</span> <span class="nf">sample_pn_patches</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span> <span class="n">nneg</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">neg</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sample positive and negative patches where mask value is pos or neg.</span>
+
+<span class="sd">    The sampling routine ensures that the patch is completely inside the</span>
+<span class="sd">    image and mask and that a patch a the same position is extracted from</span>
+<span class="sd">    the image and the mask.</span>
+
+<span class="sd">    &gt;&gt;&gt; np.random.seed(0)   # just to ensure consistent doctest</span>
+<span class="sd">    &gt;&gt;&gt; mask = np.zeros((3, 4), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; img = np.reshape(np.arange(12, dtype=&#39;uint8&#39;), (3, 4))</span>
+<span class="sd">    &gt;&gt;&gt; mask[1, 2] = 255</span>
+<span class="sd">    &gt;&gt;&gt; for ip, mp, l in sample_pn_patches(img, mask, (2, 2), 1, 1):</span>
+<span class="sd">    ...     print(ip)</span>
+<span class="sd">    ...     print(mp)</span>
+<span class="sd">    ...     print(l)</span>
+<span class="sd">    [[0 1]</span>
+<span class="sd">     [4 5]]</span>
+<span class="sd">    [[0 0]</span>
+<span class="sd">     [0 0]]</span>
+<span class="sd">    0</span>
+<span class="sd">    [[1 2]</span>
+<span class="sd">     [5 6]]</span>
+<span class="sd">    [[  0   0]</span>
+<span class="sd">     [  0 255]]</span>
+<span class="sd">    1</span>
+
+<span class="sd">    :param ndarray mask: Mask</span>
+<span class="sd">    :param tuple pshape: Patch shape of form (h,w)</span>
+<span class="sd">    :param int npos: Number of positives to sample.</span>
+<span class="sd">    :param int nneg: Number of negatives to sample.</span>
+<span class="sd">    :param int pos: Value for positive points in mask</span>
+<span class="sd">    :param int neg: Value for negative points in mask</span>
+<span class="sd">    :return: Image and mask patches where the patch center point</span>
+<span class="sd">      has the given mask value (pos, neg) and the label (1, 0)</span>
+<span class="sd">    :rtype: tuple(image_patch, mask_patch, label)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">sample_patch_centers</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span> <span class="n">nneg</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">neg</span><span class="p">):</span>
+        <span class="n">img_patch</span> <span class="o">=</span> <span class="n">extract_patch</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="n">mask_patch</span> <span class="o">=</span> <span class="n">extract_patch</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">img_patch</span><span class="p">,</span> <span class="n">mask_patch</span><span class="p">,</span> <span class="n">label</span></div>
+
+
+<div class="viewcode-block" id="annotation2coords"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.annotation2coords">[docs]</a><span class="k">def</span> <span class="nf">annotation2coords</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">annotation</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert geometric annotation in image to pixel coordinates.</span>
+
+<span class="sd">    For example, given a rectangular region annotated in an image as</span>
+<span class="sd">    (&#39;rect&#39;, ((x, y, w, h))) the function returns the coordinates of all pixels</span>
+<span class="sd">    within this region as (row, col) position tuples.</span>
+
+<span class="sd">    The following annotation formats are supported:</span>
+<span class="sd">    (&#39;point&#39;, ((x, y), ... ))</span>
+<span class="sd">    (&#39;circle&#39;, ((x, y, r), ...))</span>
+<span class="sd">    (&#39;rect&#39;, ((x, y, w, h), ...))</span>
+<span class="sd">    (&#39;polyline&#39;, (((x, y), (x, y), ...), ...))</span>
+
+<span class="sd">    Annotation regions can exceed the image dimensions and will be clipped.</span>
+<span class="sd">    Note that annotation is in x,y order while output is r,c (row, col).</span>
+
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; img = np.zeros((5, 5), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; anno = (&#39;point&#39;, ((1, 1), (1, 2)))</span>
+<span class="sd">    &gt;&gt;&gt; for rr, cc in annotation2coords(img, anno):</span>
+<span class="sd">    ...     print(list(rr), list(cc))</span>
+<span class="sd">    [1] [1]</span>
+<span class="sd">    [2] [1]</span>
+
+<span class="sd">    :param ndarray image: Image</span>
+<span class="sd">    :param annotation annotation: Annotation of an image region such as</span>
+<span class="sd">      point, circle, rect or polyline</span>
+<span class="sd">    :return: Coordinates of pixels within the (clipped) region.</span>
+<span class="sd">    :rtype: generator over tuples (row, col)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">annotation</span> <span class="ow">or</span> <span class="n">isnan</span><span class="p">(</span><span class="n">annotation</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">kind</span><span class="p">,</span> <span class="n">geometries</span> <span class="o">=</span> <span class="n">annotation</span>
+    <span class="k">for</span> <span class="n">geo</span> <span class="ow">in</span> <span class="n">geometries</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;point&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;circle&#39;</span><span class="p">:</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;rect&#39;</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">geo</span>
+            <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
+            <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;polyline&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">geo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># closed polyline =&gt; draw fill polygon</span>
+                <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">geo</span><span class="p">)</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">polyline2coords</span><span class="p">(</span><span class="n">geo</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid kind of annotation: &#39;</span> <span class="o">+</span> <span class="n">kind</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">rr</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">cc</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Annotation outside image! Image resized?&#39;</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span></div>
+
+
+<div class="viewcode-block" id="annotation2pltpatch"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.annotation2pltpatch">[docs]</a><span class="k">def</span> <span class="nf">annotation2pltpatch</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert geometric annotation to matplotlib geometric objects (=patches)</span>
+
+<span class="sd">    For details regarding matplotlib patches see:</span>
+<span class="sd">    http://matplotlib.org/api/patches_api.html</span>
+<span class="sd">    For annotation formats see:</span>
+<span class="sd">    imageutil.annotation2coords</span>
+
+<span class="sd">    :param annotation annotation: Annotation of an image region such as</span>
+<span class="sd">      point, circle, rect or polyline</span>
+<span class="sd">    :return: matplotlib.patches</span>
+<span class="sd">    :rtype: generator over matplotlib patches</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">annotation</span> <span class="ow">or</span> <span class="n">isnan</span><span class="p">(</span><span class="n">annotation</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="n">kind</span><span class="p">,</span> <span class="n">geometries</span> <span class="o">=</span> <span class="n">annotation</span>
+    <span class="k">for</span> <span class="n">geo</span> <span class="ow">in</span> <span class="n">geometries</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;point&#39;</span><span class="p">:</span>
+            <span class="n">pltpatch</span> <span class="o">=</span> <span class="n">plp</span><span class="o">.</span><span class="n">CirclePolygon</span><span class="p">((</span><span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;circle&#39;</span><span class="p">:</span>
+            <span class="n">pltpatch</span> <span class="o">=</span> <span class="n">plp</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;rect&#39;</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">geo</span>
+            <span class="n">pltpatch</span> <span class="o">=</span> <span class="n">plp</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;polyline&#39;</span><span class="p">:</span>
+            <span class="n">pltpatch</span> <span class="o">=</span> <span class="n">plp</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="n">closed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid kind of annotation: &#39;</span> <span class="o">+</span> <span class="n">kind</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">pltpatch</span></div>
+
+
+<div class="viewcode-block" id="annotation2mask"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.annotation2mask">[docs]</a><span class="k">def</span> <span class="nf">annotation2mask</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">annotations</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert geometric annotation to mask.</span>
+
+<span class="sd">    For annotation formats see:</span>
+<span class="sd">    imageutil.annotation2coords</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; img = np.zeros((3, 3), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; anno = (&#39;point&#39;, ((0, 1), (2, 0)))</span>
+<span class="sd">    &gt;&gt;&gt; annotation2mask(img, anno)</span>
+<span class="sd">    array([[  0,   0, 255],</span>
+<span class="sd">           [255,   0,   0],</span>
+<span class="sd">           [  0,   0,   0]], dtype=uint8)</span>
+
+<span class="sd">    :param annotation annotation: Annotation of an image region such as</span>
+<span class="sd">      point, circle, rect or polyline</span>
+<span class="sd">    :param int pos: Value to write in mask for regions defined by annotation</span>
+<span class="sd">    :param numpy array image: Image annotation refers to.</span>
+<span class="sd">      Returned mask will be of same size.</span>
+<span class="sd">    :return: Mask with annotation</span>
+<span class="sd">    :rtype: numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="ow">in</span> <span class="n">annotation2coords</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">annotations</span><span class="p">):</span>
+        <span class="n">mask</span><span class="p">[</span><span class="n">rr</span><span class="p">,</span> <span class="n">cc</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos</span>
+    <span class="k">return</span> <span class="n">mask</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on Jul 20, 2017.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.29',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

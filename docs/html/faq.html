@@ -1,0 +1,303 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FAQ &mdash; nutsml 1.0.29 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="nutsml 1.0.29 documentation" href="index.html"/>
+        <link rel="next" title="Contributions" href="contributions.html"/>
+        <link rel="prev" title="CIFAR-10 Example" href="tutorial/example.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.29
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-the-default-image-representation-in-nuts-ml">What is the default image representation in nuts-ml?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-image-formats-can-nuts-ml-read">What image formats can nuts-ml read?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-flatten-a-batch-of-predictions">How to flatten a batch of predictions?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#only-length-1-arrays-can-be-converted-to-python-scalars">Only length-1 arrays can be converted to Python scalars</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use-class-weights-for-imbalanced-classes-in-keras">How to use class weights for imbalanced classes in Keras</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nutsml</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>FAQ</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/faq.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="faq">
+<h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-the-default-image-representation-in-nuts-ml">
+<h2>What is the default image representation in nuts-ml?<a class="headerlink" href="#what-is-the-default-image-representation-in-nuts-ml" title="Permalink to this headline">¶</a></h2>
+<p>The standard formats for image data in <strong>nuts-ml</strong> are Numpy arrays
+of shape <code class="docutils literal"><span class="pre">(h,w,3)</span></code> for RGB images, <code class="docutils literal"><span class="pre">(h,w)</span></code> for gray-scale images
+and <code class="docutils literal"><span class="pre">(h,w,4)</span></code> for RGBA image.</p>
+</div>
+<div class="section" id="what-image-formats-can-nuts-ml-read">
+<h2>What image formats can nuts-ml read?<a class="headerlink" href="#what-image-formats-can-nuts-ml-read" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">ReadImage</span></code> nut can read images in the following formats
+GIF, PNG, JPG, BMP, TIF, NPY, where NPY are plain Numpy arrays.</p>
+</div>
+<div class="section" id="how-to-flatten-a-batch-of-predictions">
+<h2>How to flatten a batch of predictions?<a class="headerlink" href="#how-to-flatten-a-batch-of-predictions" title="Permalink to this headline">¶</a></h2>
+<p>Assuming the output of a network prediction is a batch
+of labels, how can it be flattened into a flow of labels?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Flatten</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batched_labels</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>   <span class="c1"># e.g. from network.predict()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batched_labels</span> <span class="o">&gt;&gt;</span> <span class="n">Flatten</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[0, 1, 0, 1, 1, 0]</span>
+</pre></div>
+</div>
+<p>What if the batch has multiple columns, e.g. labels and probabilities</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">FlattenCol</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batched_preds</span> <span class="o">=</span> <span class="p">[((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">)),</span> <span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.6</span><span class="p">))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batched_preds</span> <span class="o">&gt;&gt;</span> <span class="n">FlattenCol</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[(0, 0.1), (1, 0.2), (0, 0.3), (1, 0.4), (1, 0.5), (0, 0.6)]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="only-length-1-arrays-can-be-converted-to-python-scalars">
+<h2>Only length-1 arrays can be converted to Python scalars<a class="headerlink" href="#only-length-1-arrays-can-be-converted-to-python-scalars" title="Permalink to this headline">¶</a></h2>
+<p>If you see the following error message when running
+<code class="docutils literal"><span class="pre">network.evaluate()</span></code> under Keras you need to upgrade to Keras 2.x
+and the latests <code class="docutils literal"><span class="pre">nuts-ml</span></code> version.</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="ow">in</span> <span class="n">compute_metric</span>
+<span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">result</span><span class="p">)</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">only</span> <span class="n">length</span><span class="o">-</span><span class="mi">1</span> <span class="n">arrays</span> <span class="n">can</span> <span class="n">be</span> <span class="n">converted</span> <span class="n">to</span> <span class="n">Python</span> <span class="n">scalars</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-use-class-weights-for-imbalanced-classes-in-keras">
+<h2>How to use class weights for imbalanced classes in Keras<a class="headerlink" href="#how-to-use-class-weights-for-imbalanced-classes-in-keras" title="Permalink to this headline">¶</a></h2>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">class_weights</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">50</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
+  <span class="n">t_loss</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">class_weights</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If the samples are an iterable (and not an iterator that is consumed) the
+class weights can also be computed directly. For instance, assuming that
+the class labels are in the second column (index = 1) of the sample,
+the following code can be used</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">class_weight</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="contributions.html" class="btn btn-neutral float-right" title="Contributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tutorial/example.html" class="btn btn-neutral" title="CIFAR-10 Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on Jul 20, 2017.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.29',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
