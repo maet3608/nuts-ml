@@ -175,7 +175,8 @@
 
 <span class="kn">from</span> <span class="nn">six.moves</span> <span class="k">import</span> <span class="nb">zip</span><span class="p">,</span> <span class="nb">range</span>
 <span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">PrintProgress</span><span class="p">,</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Unzip</span><span class="p">,</span> <span class="n">Shuffle</span><span class="p">,</span> <span class="n">Pick</span><span class="p">,</span> <span class="n">Mean</span>
-<span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="n">KerasNetwork</span><span class="p">,</span> <span class="n">TransformImage</span><span class="p">,</span> <span class="n">BuildBatch</span><span class="p">,</span> <span class="n">PlotLines</span>
+<span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="p">(</span><span class="n">KerasNetwork</span><span class="p">,</span> <span class="n">TransformImage</span><span class="p">,</span> <span class="n">AugmentImage</span><span class="p">,</span> <span class="n">BuildBatch</span><span class="p">,</span>
+                    <span class="n">PlotLines</span><span class="p">)</span>
 
 <span class="n">PICK</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># Pick 10% of the data for a quick trial</span>
 <span class="n">NUM_EPOCHS</span> <span class="o">=</span> <span class="mi">10</span>
@@ -216,6 +217,7 @@
 <div class="viewcode-block" id="train"><a class="viewcode-back" href="../../../../nutsml.examples.mnist.html#nutsml.examples.mnist.cnn_train.train">[docs]</a><span class="k">def</span> <span class="nf">train</span><span class="p">():</span>
     <span class="kn">from</span> <span class="nn">keras.metrics</span> <span class="k">import</span> <span class="n">categorical_accuracy</span>
 
+    <span class="n">augment</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;elastic&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
     <span class="n">transform</span> <span class="o">=</span> <span class="p">(</span><span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
                  <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">))</span>
     <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
@@ -234,7 +236,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;EPOCH:&#39;</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
 
         <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
-                         <span class="n">Pick</span><span class="p">(</span><span class="n">PICK</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                         <span class="n">Pick</span><span class="p">(</span><span class="n">PICK</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                          <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">plot</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;train loss : </span><span class="si">{:.6f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t_loss</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()))</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;train acc  : </span><span class="si">{:.1f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_acc</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())))</span>
@@ -263,7 +265,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jul 20, 2017.
+      Last updated on Aug 14, 2017.
 
     </p>
   </div> 

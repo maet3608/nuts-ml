@@ -250,8 +250,6 @@
 <p>Take samples in iterable, extract specified columns, convert
 column data to numpy arrays of various types, aggregate converted
 samples into a batch.</p>
-<p>Dat structure of output batch depends on fmt function used. If None
-output is a list of np.arrays.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>
@@ -259,8 +257,20 @@ output is a list of np.arrays.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">class_ids</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">prefetch</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">... </span>               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+<span class="gp">... </span>               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="gp">... </span>               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The structure of the output batch depends on fmt function used. If None,
+output is a list of np.arrays. The following example shows how to
+build a batch with two images for input and a one-hot vector as target:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">class_ids</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">prefetch</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">... </span>               <span class="n">fmt</span><span class="o">=</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="p">[[</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
+<span class="gp">... </span>               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="gp">... </span>               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="gp">... </span>               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
@@ -1548,6 +1558,7 @@ within this region as (row, col) position tuples.</p>
 <p>The following annotation formats are supported:
 (&#8216;point&#8217;, ((x, y), ... ))
 (&#8216;circle&#8217;, ((x, y, r), ...))
+(&#8216;ellipse&#8217;, ((x, y, rx, ry, rot), ...))
 (&#8216;rect&#8217;, ((x, y, w, h), ...))
 (&#8216;polyline&#8217;, (((x, y), (x, y), ...), ...))</p>
 <p>Annotation regions can exceed the image dimensions and will be clipped.
@@ -1919,6 +1930,40 @@ aspect ratio of one and preserves the largest dimension.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Cropped image</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nutsml.imageutil.distort_elastic">
+<code class="descname">distort_elastic</code><span class="sig-paren">(</span><em>image</em>, <em>smooth=10.0</em>, <em>scale=100.0</em>, <em>seed=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#distort_elastic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.distort_elastic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Elastic distortion of images.</p>
+<p>Channel axis in RGB images will not be distorted but grayscale or
+RGB images are both valid inputs. RGB and grayscale images will be
+distorted identically for the same seed.</p>
+<p>Simard, et. al, &#8220;Best Practices for Convolutional Neural Networks
+applied to Visual Document Analysis&#8221;,
+in Proc. of the International Conference on Document Analysis and
+Recognition, 2003.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>image</strong> (<em>ndarayy</em>) &#8211; Image of shape [h,w] or [h,w,c]</li>
+<li><strong>smooth</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Smoothes the distortion.</li>
+<li><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Scales the distortion.</li>
+<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Seed for random number generator. Ensures that for the
+same seed images are distorted identically.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Distorted image with same shape as input image.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -3721,7 +3766,8 @@ images.</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><em>string</em></a>) &#8211; Name of the augmentation/transformation, e.g.
 &#8216;rotate&#8217;</li>
-<li><strong>prob</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; Probability [0,1] that the augmentation is applied.</li>
+<li><strong>prob</strong> (<em>float|int</em>) &#8211; If prob &lt;= 1:  probability [0,1] that the augmentation is applied
+If prob &gt; 1: number of times augmentation is applied.</li>
 <li><strong>of lists ranges</strong> (<em>list</em>) &#8211; <p>Lists with ranges for each argument of
 the augmentation, e.g. [0, 360] degrees, where parameters are</p>
 <blockquote>
@@ -3948,12 +3994,12 @@ samples &gt;&gt; sub_mean.train() &gt;&gt; Consume()</p>
 <dl class="docutils">
 <dt>samples &gt;&gt; ImagePatchesByAnnotation(imagecol, annocol, pshape, npos,</dt>
 <dd>nneg=lambda npos: npos,
-pos=255, neg=0)</dd>
+pos=255, neg=0, retlabel=True)</dd>
 </dl>
 <p>Randomly sample positive/negative patches from image based on annotation.
 See imageutil.annotation2coords for annotation format.
 A patch is positive if its center point is within the annotated region
-and is negative otherwise</p>
+and is negative otherwise.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>    <span class="c1"># just to ensure stable doctest</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">25</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -3984,11 +4030,12 @@ a function hat returns the number of negatives
 based on number of positives.</li>
 <li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Mask value indicating positives</li>
 <li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Mask value indicating negatives</li>
+<li><strong>retlabel</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True return label, False return mask patch</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Iterator over samples where images are replaced by image patches
-and annotations are replaced by labels [0,1]</p>
+and masks are replaced by labels [0,1] or mask patches</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">generator</p>
@@ -4252,6 +4299,7 @@ See the relevant functions for details.</li>
 <div class="line"><a class="reference internal" href="#nutsml.imageutil.fliplr" title="nutsml.imageutil.fliplr"><code class="xref py py-func docutils literal"><span class="pre">fliplr</span></code></a></div>
 <div class="line"><a class="reference internal" href="#nutsml.imageutil.flipud" title="nutsml.imageutil.flipud"><code class="xref py py-func docutils literal"><span class="pre">flipud</span></code></a></div>
 <div class="line"><a class="reference internal" href="#nutsml.imageutil.shear" title="nutsml.imageutil.shear"><code class="xref py py-func docutils literal"><span class="pre">shear</span></code></a> (shear_factor)</div>
+<div class="line"><a class="reference internal" href="#nutsml.imageutil.distort_elastic" title="nutsml.imageutil.distort_elastic"><code class="xref py py-func docutils literal"><span class="pre">elastic</span></code></a> (smooth, scale, seed)</div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -4300,7 +4348,7 @@ height for resize.</li>
 
 <dl class="attribute">
 <dt id="nutsml.transformer.TransformImage.transformations">
-<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical&gt;, 'normalize_histo': &lt;function normalize_histo&gt;, 'rotate': &lt;function rotate&gt;, 'flipud': &lt;function flipud&gt;, 'rerange': &lt;function rerange&gt;, 'brightness': &lt;function change_brightness&gt;, 'color': &lt;function change_color&gt;, 'sharpness': &lt;function change_sharpness&gt;, 'crop': &lt;function crop&gt;, 'shear': &lt;function shear&gt;, 'rgb2gray': &lt;function rgb2gray&gt;, 'gray2rgb': &lt;function gray2rgb&gt;, 'contrast': &lt;function change_contrast&gt;, 'fliplr': &lt;function fliplr&gt;, 'crop_center': &lt;function crop_center&gt;, 'translate': &lt;function translate&gt;, 'resize': &lt;function resize&gt;, 'crop_square': &lt;function crop_square&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transformations</code><em class="property"> = {'identical': &lt;function identical&gt;, 'normalize_histo': &lt;function normalize_histo&gt;, 'rotate': &lt;function rotate&gt;, 'flipud': &lt;function flipud&gt;, 'rerange': &lt;function rerange&gt;, 'elastic': &lt;function distort_elastic&gt;, 'brightness': &lt;function change_brightness&gt;, 'color': &lt;function change_color&gt;, 'sharpness': &lt;function change_sharpness&gt;, 'crop': &lt;function crop&gt;, 'shear': &lt;function shear&gt;, 'rgb2gray': &lt;function rgb2gray&gt;, 'gray2rgb': &lt;function gray2rgb&gt;, 'contrast': &lt;function change_contrast&gt;, 'fliplr': &lt;function fliplr&gt;, 'crop_center': &lt;function crop_center&gt;, 'translate': &lt;function translate&gt;, 'resize': &lt;function resize&gt;, 'crop_square': &lt;function crop_square&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -4652,7 +4700,7 @@ namefunc=lambda samples: sample[0]</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jul 20, 2017.
+      Last updated on Aug 14, 2017.
 
     </p>
   </div> 

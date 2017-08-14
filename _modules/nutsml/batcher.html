@@ -336,17 +336,26 @@
 <span class="sd">        column data to numpy arrays of various types, aggregate converted</span>
 <span class="sd">        samples into a batch.</span>
 
-<span class="sd">        Dat structure of output batch depends on fmt function used. If None</span>
-<span class="sd">        output is a list of np.arrays.</span>
-
 <span class="sd">        &gt;&gt;&gt; from nutsflow import Collect</span>
 <span class="sd">        &gt;&gt;&gt; numbers = [4.1, 3.2, 1.1]</span>
 <span class="sd">        &gt;&gt;&gt; images = [np.zeros((5, 3)), np.ones((5, 3)) , np.ones((5, 3))]</span>
 <span class="sd">        &gt;&gt;&gt; class_ids = [1, 2, 1]</span>
 <span class="sd">        &gt;&gt;&gt; samples = zip(numbers, images, class_ids)</span>
 
-<span class="sd">        &gt;&gt;&gt; build_batch = (BuildBatch(2)</span>
+<span class="sd">        &gt;&gt;&gt; build_batch = (BuildBatch(2, prefetch=0)</span>
 <span class="sd">        ...                .by(0, &#39;number&#39;, float)</span>
+<span class="sd">        ...                .by(1, &#39;image&#39;, np.uint8, True)</span>
+<span class="sd">        ...                .by(2, &#39;one_hot&#39;, np.uint8, 3))</span>
+<span class="sd">        &gt;&gt;&gt; batches = samples &gt;&gt; build_batch &gt;&gt; Collect()</span>
+
+<span class="sd">        The structure of the output batch depends on fmt function used. If None,</span>
+<span class="sd">        output is a list of np.arrays. The following example shows how to</span>
+<span class="sd">        build a batch with two images for input and a one-hot vector as target:</span>
+
+<span class="sd">        &gt;&gt;&gt; samples = zip(images, images, class_ids)</span>
+<span class="sd">        &gt;&gt;&gt; build_batch = (BuildBatch(2, prefetch=0,</span>
+<span class="sd">        ...                fmt=lambda b: [[b[0], b[1]], b[2]])</span>
+<span class="sd">        ...                .by(0, &#39;image&#39;, np.uint8, True)</span>
 <span class="sd">        ...                .by(1, &#39;image&#39;, np.uint8, True)</span>
 <span class="sd">        ...                .by(2, &#39;one_hot&#39;, np.uint8, 3))</span>
 <span class="sd">        &gt;&gt;&gt; batches = samples &gt;&gt; build_batch &gt;&gt; Collect()</span>
@@ -433,7 +442,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jul 20, 2017.
+      Last updated on Aug 14, 2017.
 
     </p>
   </div> 

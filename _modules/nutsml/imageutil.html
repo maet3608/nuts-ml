@@ -181,6 +181,8 @@
 <span class="kn">from</span> <span class="nn">.datautil</span> <span class="k">import</span> <span class="n">shapestr</span><span class="p">,</span> <span class="n">isnan</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">ImageEnhance</span> <span class="k">as</span> <span class="n">ie</span>
 <span class="kn">from</span> <span class="nn">skimage.color</span> <span class="k">import</span> <span class="n">rgb2gray</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage.interpolation</span> <span class="k">import</span> <span class="n">map_coordinates</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage.filters</span> <span class="k">import</span> <span class="n">gaussian_filter</span>
 <span class="kn">from</span> <span class="nn">warnings</span> <span class="k">import</span> <span class="n">warn</span>
 
 
@@ -435,11 +437,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">iw</span> <span class="o">&gt;</span> <span class="n">ih</span><span class="p">:</span>
-        <span class="n">dw</span><span class="p">,</span> <span class="n">mw</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">iw</span><span class="o">-</span><span class="n">ih</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">iw</span><span class="o">-</span><span class="n">ih</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
-        <span class="k">return</span> <span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dw</span><span class="o">+</span><span class="n">mw</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">iw</span><span class="o">-</span><span class="n">dw</span><span class="p">,</span> <span class="n">ih</span><span class="p">)</span>
+        <span class="n">dw</span><span class="p">,</span> <span class="n">mw</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">iw</span> <span class="o">-</span> <span class="n">ih</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">iw</span> <span class="o">-</span> <span class="n">ih</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dw</span> <span class="o">+</span> <span class="n">mw</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">iw</span> <span class="o">-</span> <span class="n">dw</span><span class="p">,</span> <span class="n">ih</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">dh</span><span class="p">,</span> <span class="n">mh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">ih</span><span class="o">-</span><span class="n">iw</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">ih</span><span class="o">-</span><span class="n">iw</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
-        <span class="k">return</span> <span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dh</span><span class="o">+</span><span class="n">mh</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span><span class="o">-</span><span class="n">dh</span><span class="p">)</span></div>
+        <span class="n">dh</span><span class="p">,</span> <span class="n">mh</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">ih</span> <span class="o">-</span> <span class="n">iw</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">ih</span> <span class="o">-</span> <span class="n">iw</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="k">return</span> <span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dh</span> <span class="o">+</span> <span class="n">mh</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span> <span class="o">-</span> <span class="n">dh</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="normalize_histo"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.normalize_histo">[docs]</a><span class="k">def</span> <span class="nf">normalize_histo</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
@@ -742,6 +744,46 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">flipud</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="distort_elastic"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.distort_elastic">[docs]</a><span class="k">def</span> <span class="nf">distort_elastic</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Elastic distortion of images.</span>
+
+<span class="sd">    Channel axis in RGB images will not be distorted but grayscale or</span>
+<span class="sd">    RGB images are both valid inputs. RGB and grayscale images will be</span>
+<span class="sd">    distorted identically for the same seed.</span>
+
+<span class="sd">    Simard, et. al, &quot;Best Practices for Convolutional Neural Networks</span>
+<span class="sd">    applied to Visual Document Analysis&quot;,</span>
+<span class="sd">    in Proc. of the International Conference on Document Analysis and</span>
+<span class="sd">    Recognition, 2003.</span>
+
+<span class="sd">    :param ndarayy image: Image of shape [h,w] or [h,w,c]</span>
+<span class="sd">    :param float smooth: Smoothes the distortion.</span>
+<span class="sd">    :param float scale: Scales the distortion.</span>
+<span class="sd">    :param int seed: Seed for random number generator. Ensures that for the</span>
+<span class="sd">      same seed images are distorted identically.</span>
+<span class="sd">    :return: Distorted image with same shape as input image.</span>
+<span class="sd">    :rtype: ndarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># create random, smoothed displacement field</span>
+    <span class="n">rnd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">dxy</span> <span class="o">=</span> <span class="n">rnd</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">dxy</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span><span class="n">dxy</span><span class="p">,</span> <span class="n">smooth</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">)</span>
+    <span class="n">dxy</span> <span class="o">=</span> <span class="n">dxy</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dxy</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale</span>
+    <span class="n">dxyz</span> <span class="o">=</span> <span class="n">dxy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dxy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">dxy</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># create transformation coordinates and deform image</span>
+    <span class="n">is_color</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="n">ranges</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">]</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">ranges</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)</span>
+    <span class="n">add</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">,</span> <span class="n">dv</span><span class="p">:</span> <span class="n">v</span> <span class="o">+</span> <span class="n">dv</span> <span class="k">if</span> <span class="n">is_color</span> <span class="k">else</span> <span class="n">v</span> <span class="o">+</span> <span class="n">dv</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dv</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">dv</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">dxyz</span><span class="p">)]</span>
+    <span class="n">distorted</span> <span class="o">=</span> <span class="n">map_coordinates</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">distorted</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="polyline2coords"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.polyline2coords">[docs]</a><span class="k">def</span> <span class="nf">polyline2coords</span><span class="p">(</span><span class="n">points</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return row and column coordinates for a polyline.</span>
@@ -1033,6 +1075,7 @@
 <span class="sd">    The following annotation formats are supported:</span>
 <span class="sd">    (&#39;point&#39;, ((x, y), ... ))</span>
 <span class="sd">    (&#39;circle&#39;, ((x, y, r), ...))</span>
+<span class="sd">    (&#39;ellipse&#39;, ((x, y, rx, ry, rot), ...))</span>
 <span class="sd">    (&#39;rect&#39;, ((x, y, w, h), ...))</span>
 <span class="sd">    (&#39;polyline&#39;, (((x, y), (x, y), ...), ...))</span>
 
@@ -1066,6 +1109,9 @@
                 <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;circle&#39;</span><span class="p">:</span>
             <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;ellipse&#39;</span><span class="p">:</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                                 <span class="n">rotation</span><span class="o">=</span><span class="n">geo</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;rect&#39;</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">geo</span>
             <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
@@ -1158,7 +1204,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jul 20, 2017.
+      Last updated on Aug 14, 2017.
 
     </p>
   </div> 

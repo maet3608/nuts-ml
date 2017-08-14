@@ -342,8 +342,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="n">isloss</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">score</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span><span class="p">)</span> <span class="ow">or</span>
-                <span class="p">(</span><span class="n">isloss</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span><span class="p">)):</span>
+                <span class="p">(</span><span class="n">isloss</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">and</span> <span class="n">score</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="p">(</span><span class="n">isloss</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">save_weights</span><span class="p">()</span></div>
 
@@ -510,7 +510,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jul 20, 2017.
+      Last updated on Aug 14, 2017.
 
     </p>
   </div> 

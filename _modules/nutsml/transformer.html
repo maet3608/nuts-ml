@@ -223,6 +223,7 @@
         <span class="s1">&#39;fliplr&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">fliplr</span><span class="p">,</span>
         <span class="s1">&#39;flipud&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">flipud</span><span class="p">,</span>
         <span class="s1">&#39;shear&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">shear</span><span class="p">,</span>
+        <span class="s1">&#39;elastic&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">distort_elastic</span><span class="p">,</span>
     <span class="p">}</span>
 
 <div class="viewcode-block" id="TransformImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">):</span>
@@ -274,6 +275,7 @@
 <span class="sd">        | :func:`fliplr &lt;nutsml.imageutil.fliplr&gt;`</span>
 <span class="sd">        | :func:`flipud &lt;nutsml.imageutil.flipud&gt;`</span>
 <span class="sd">        | :func:`shear &lt;nutsml.imageutil.shear&gt;` (shear_factor)</span>
+<span class="sd">        | :func:`elastic &lt;nutsml.imageutil.distort_elastic&gt;` (smooth, scale, seed)</span>
 
 
 <span class="sd">        :param string name: Name of the transformation to apply, e.g. &#39;resize&#39;</span>
@@ -376,7 +378,9 @@
 
 <span class="sd">        :param string name: Name of the augmentation/transformation, e.g.</span>
 <span class="sd">          &#39;rotate&#39;</span>
-<span class="sd">        :param float prob: Probability [0,1] that the augmentation is applied.</span>
+<span class="sd">        :param float|int prob:</span>
+<span class="sd">          If prob &lt;= 1:  probability [0,1] that the augmentation is applied</span>
+<span class="sd">          If prob &gt; 1: number of times augmentation is applied.</span>
 <span class="sd">        :param list of lists ranges: Lists with ranges for each argument of</span>
 <span class="sd">          the augmentation, e.g. [0, 360] degrees, where parameters are</span>
 <span class="sd">            randomly sampled from.</span>
@@ -399,10 +403,12 @@
         <span class="n">rand</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rand</span>
         <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">ranges</span><span class="p">,</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">augmentations</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
-                    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ranges</span><span class="p">]</span>
-                    <span class="n">transformation</span> <span class="o">=</span> <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
-                    <span class="k">yield</span> <span class="n">map_transform</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span></div></div>
+                <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="k">else</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ranges</span><span class="p">]</span>
+                        <span class="n">transformation</span> <span class="o">=</span> <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
+                        <span class="k">yield</span> <span class="n">map_transform</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span></div></div>
 
 
 <span class="nd">@nut_processor</span>
@@ -548,16 +554,17 @@
 
 <span class="nd">@nut_processor</span>
 <div class="viewcode-block" id="ImagePatchesByAnnotation"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImagePatchesByAnnotation">[docs]</a><span class="k">def</span> <span class="nf">ImagePatchesByAnnotation</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">annocol</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span>
-                             <span class="n">nneg</span><span class="o">=</span><span class="k">lambda</span> <span class="n">npos</span><span class="p">:</span> <span class="n">npos</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">neg</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+                             <span class="n">nneg</span><span class="o">=</span><span class="k">lambda</span> <span class="n">npos</span><span class="p">:</span> <span class="n">npos</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">neg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                             <span class="n">retlabel</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    samples &gt;&gt; ImagePatchesByAnnotation(imagecol, annocol, pshape, npos,</span>
 <span class="sd">                                 nneg=lambda npos: npos,</span>
-<span class="sd">                                 pos=255, neg=0)</span>
+<span class="sd">                                 pos=255, neg=0, retlabel=True)</span>
 
 <span class="sd">    Randomly sample positive/negative patches from image based on annotation.</span>
 <span class="sd">    See imageutil.annotation2coords for annotation format.</span>
 <span class="sd">    A patch is positive if its center point is within the annotated region</span>
-<span class="sd">    and is negative otherwise</span>
+<span class="sd">    and is negative otherwise.</span>
 
 <span class="sd">    &gt;&gt;&gt; import numpy as np</span>
 <span class="sd">    &gt;&gt;&gt; np.random.seed(0)    # just to ensure stable doctest</span>
@@ -582,8 +589,9 @@
 <span class="sd">        based on number of positives.</span>
 <span class="sd">    :param int pos: Mask value indicating positives</span>
 <span class="sd">    :param int neg: Mask value indicating negatives</span>
+<span class="sd">    :param bool retlabel: True return label, False return mask patch</span>
 <span class="sd">    :return: Iterator over samples where images are replaced by image patches</span>
-<span class="sd">        and annotations are replaced by labels [0,1]</span>
+<span class="sd">        and masks are replaced by labels [0,1] or mask patches</span>
 <span class="sd">    :rtype: generator</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
@@ -591,10 +599,10 @@
         <span class="n">mask</span> <span class="o">=</span> <span class="n">ni</span><span class="o">.</span><span class="n">annotation2mask</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">annotations</span><span class="p">)</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">annotations</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">annotations</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="n">it</span> <span class="o">=</span> <span class="n">ni</span><span class="o">.</span><span class="n">sample_pn_patches</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">nneg</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">neg</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">img_patch</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">img_patch</span><span class="p">,</span> <span class="n">mask_patch</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
             <span class="n">outsample</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sample</span><span class="p">)[:]</span>
             <span class="n">outsample</span><span class="p">[</span><span class="n">imagecol</span><span class="p">]</span> <span class="o">=</span> <span class="n">img_patch</span>
-            <span class="n">outsample</span><span class="p">[</span><span class="n">annocol</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="n">outsample</span><span class="p">[</span><span class="n">annocol</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span> <span class="k">if</span> <span class="n">retlabel</span> <span class="k">else</span> <span class="n">mask_patch</span>
             <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">outsample</span><span class="p">)</span></div>
 
 
@@ -799,7 +807,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jul 20, 2017.
+      Last updated on Aug 14, 2017.
 
     </p>
   </div> 
