@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction &mdash; nutsml 1.0.29 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="nutsml 1.0.29 documentation" href="index.html"/>
+        <link rel="next" title="Installation" href="installation.html"/>
+        <link rel="prev" title="Welcome to nuts-ml" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.29
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#canonical-pipeline">Canonical pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#library">Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nutsml</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Introduction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Deep-learning code is characterized by</p>
+<ul class="simple">
+<li>data pre-processing on CPU and training on GPU</li>
+<li>mix of common and task-specific pre-processing steps</li>
+<li>training in epochs</li>
+<li>mini-batches of training data</li>
+<li>data transformation such as scaling, cropping and others</li>
+<li>data augmentation to increase amount of training data</li>
+<li>check-pointing of network weights</li>
+<li>logging of training progress</li>
+</ul>
+<p><em>nuts-ml</em> provides generic components, so called <em>nuts</em> that implement
+these functions and can be arranged in task-specific data
+processing pipelines. This leads to more readable and robust code that
+can be modified easily, which is in contrast to the monolithic,
+unstructured code often found for data pre-processing.</p>
+<p>Below an (incomplete) example of a typical pipeline for network training
+with <strong>nuts-ml</strong>. The <code class="docutils literal"><span class="pre">&gt;&gt;</span></code> operator defines the flow of data through the
+pipeline</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">t_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                           <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                           <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())</span>
+<span class="nb">print</span> <span class="s2">&quot;training loss  :&quot;</span><span class="p">,</span> <span class="n">t_loss</span>
+</pre></div>
+</div>
+<div class="section" id="canonical-pipeline">
+<h2>Canonical pipeline<a class="headerlink" href="#canonical-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>A <em>canonical pipeline</em> for the processing of image data can be described
+by the following components</p>
+<img alt="_images/pipeline.gif" src="_images/pipeline.gif" />
+<ul class="simple">
+<li><em>Reader</em>: sample data stored in CSV files, <a class="reference external" href="http://pandas.pydata.org/">Pandas</a>
+tables, databases or other data sources is read,</li>
+<li><em>Splitter</em>: samples are split into training, validation and sets, and stratified
+if necessary,</li>
+<li><em>Loader</em>: image data is loaded for each sample when needed,</li>
+<li><em>Transformer</em>: images are transformed, e.g. cropped or resized,</li>
+<li><em>Augmenter</em>: images are augmented to increase data size by random rotations,
+flipping, changes to contrast, or others,</li>
+<li><em>Batcher</em>: the transformed and augmented images are organized in mini-batches
+for GPU processing,</li>
+<li><em>Network</em>: a neural network is trained and evaluated on the GPU,</li>
+<li><em>Logger</em>: the network performance (loss, accuracy, ...) is logged or plotted.</li>
+</ul>
+<p>Depending on the specific application, the mode (training, testing, evaluation, ...)
+or data type (image, video, text) some of the processing steps will differ, others
+will remain the same, but in general many components (nuts) can be shared.</p>
+</div>
+<div class="section" id="library">
+<h2>Library<a class="headerlink" href="#library" title="Permalink to this headline">¶</a></h2>
+<p><strong>nuts-ml</strong> is a library that provides common data-processing and machine learning
+components as <em>nuts</em>. It is based on <a class="reference external" href="https://maet3608.github.io/nuts-flow/">nuts-flow</a>,
+which itself is largely based on Python iterators and the
+<a class="reference external" href="https://docs.python.org/2/library/itertools.html">itertools</a> library.</p>
+<img alt="_images/architecture.png" class="align-center" src="_images/architecture.png" />
+<p><strong>nuts-flow</strong> wraps iterators and itertool functions into <em>nuts</em> that provide a
+<code class="docutils literal"><span class="pre">&gt;&gt;</span></code> operator, which enables the composition of iterators in pipelines.
+For instance, a nested itertool expression such as the following</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">islice</span><span class="p">(</span><span class="n">ifilter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span> <span class="mi">3</span><span class="p">))</span>  
+<span class="go">[6, 7, 8]</span>
+</pre></div>
+</div>
+<p>can be flattened and more clearly written with <strong>nuts-flow</strong> as</p>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Filter</span><span class="p">(</span><span class="n">_</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
+<span class="go">[6, 7, 8]</span>
+</pre></div>
+</div>
+<p><strong>nuts-ml</strong> extends <strong>nuts-flow</strong> with nuts specifically designed for machine learning
+and (image) data processing. The following code example shows a <strong>nuts-ml</strong> pipeline
+with image transformation, image augmentation, batching, network training,
+evaluation and check-pointing.</p>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="code Python highlight-default"><div class="highlight"><pre><span></span><span class="n">rerange</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+               <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">NUM_CLASSES</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">augment</span> <span class="o">=</span> <span class="p">(</span><span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;identical&#39;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;brightness&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">])</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">])</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;shear&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;fliplr&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">create_network</span><span class="p">()</span>
+<span class="n">train_samples</span><span class="p">,</span> <span class="n">test_samples</span> <span class="o">=</span> <span class="n">load_samples</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_EPOCHS</span><span class="p">):</span>
+    <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                     <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+                     <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train loss :&quot;</span><span class="p">,</span> <span class="n">t_loss</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train acc  :&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">t_acc</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()))</span>
+
+<span class="n">e_acc</span> <span class="o">=</span> <span class="n">test_samples</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">evaluate</span><span class="p">([</span><span class="n">categorical_accuracy</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test acc   :&quot;</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">e_acc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The complete code and more examples can be found under
+<a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples">nutsml/examples</a> .
+See the <a class="reference internal" href="tutorial/example.html#cifar-example"><span class="std std-ref">tutorial</span></a> for a detailed explanation of the code.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to nuts-ml" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on Aug 14, 2017.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0.29',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
