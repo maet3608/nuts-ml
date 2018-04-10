@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributions &mdash; nutsml 1.0.29 documentation</title>
+  <title>Contributions &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -25,26 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="index.html"/>
-        <link rel="next" title="nutsml package" href="nutsml.html"/>
-        <link rel="prev" title="FAQ" href="faq.html"/> 
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="nutsml package" href="nutsml.html" />
+    <link rel="prev" title="FAQ" href="faq.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -66,7 +59,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -115,7 +108,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">nutsml</a>
@@ -123,9 +116,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -170,7 +164,7 @@
   <div class="section" id="contributions">
 <h1>Contributions<a class="headerlink" href="#contributions" title="Permalink to this headline">¶</a></h1>
 <p>Contributions to <strong>nuts-ml</strong> are welcome. Please document the code following
-the examples, provide unit tests and ensure that <code class="docutils literal"><span class="pre">pytest</span></code> runs without
+the examples, provide unit tests and ensure that <code class="docutils literal notranslate"><span class="pre">pytest</span></code> runs without
 errors.</p>
 <div class="section" id="environment">
 <h2>Environment<a class="headerlink" href="#environment" title="Permalink to this headline">¶</a></h2>
@@ -178,7 +172,7 @@ errors.</p>
 </div>
 <div class="section" id="unit-tests">
 <h2>Unit tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h2>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>$ cd nutsml
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd nutsml
 $ pytest
 
 ============================= test session starts =============================
@@ -223,8 +217,8 @@ tests\nutsml\test_writer.py .
 ==================== 164 passed, 6 skipped in 8.06 seconds ====================
 </pre></div>
 </div>
-<p>We are aiming at a code coverage of 100%. Run <code class="docutils literal"><span class="pre">pytest</span> <span class="pre">--cov</span></code> for verification.</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span>$ cd nutsml
+<p>We are aiming at a code coverage of 100%. Run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">--cov</span></code> for verification.</p>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd nutsml
 $ pytest --cov
 
 ---------- coverage: platform win32, python 2.7.13-final-0 -----------
@@ -253,7 +247,7 @@ TOTAL                     729      0   100%
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <p>Update Sphinx/HTML documentation as follows</p>
-<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">sphinx</span>
+<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">sphinx</span>
 <span class="n">make</span> <span class="n">clean</span>
 <span class="n">make</span> <span class="n">html</span>
 <span class="n">make</span> <span class="n">test</span>
@@ -268,23 +262,21 @@ TOTAL                     729      0   100%
 <p>Code should be formatted following the <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">PEP-8</a>
 style guide.</p>
 <p>Names of <em>nuts</em> shoulds be in CamelCase (just like class names) and describe an action,
-e.g. <code class="docutils literal"><span class="pre">ReadCSV</span></code>, <code class="docutils literal"><span class="pre">BuildBatch</span></code> but not <code class="docutils literal"><span class="pre">CSVReader</span></code> or <code class="docutils literal"><span class="pre">Batcher</span></code>.</p>
+e.g. <code class="docutils literal notranslate"><span class="pre">ReadCSV</span></code>, <code class="docutils literal notranslate"><span class="pre">BuildBatch</span></code> but not <code class="docutils literal notranslate"><span class="pre">CSVReader</span></code> or <code class="docutils literal notranslate"><span class="pre">Batcher</span></code>.</p>
 <p>Prefer <em>immutable</em> data types, e.g. tuples over lists, for outputs of nuts and
 avoid nuts with <em>side-effects. Nuts should not *mutate</em> their input data but create
 copies.</p>
-<p>If a nut has no input it should be a <em>source</em>, for instance like <code class="docutils literal"><span class="pre">Range</span></code>.
-If it doesn&#8217;t output a generator or iterator it should be a <em>sink</em>,
-see <code class="docutils literal"><span class="pre">Collect</span></code> for example.
+<p>If a nut has no input it should be a <em>source</em>, for instance like <code class="docutils literal notranslate"><span class="pre">Range</span></code>.
+If it doesn’t output a generator or iterator it should be a <em>sink</em>,
+see <code class="docutils literal notranslate"><span class="pre">Collect</span></code> for example.
 If a nut outputs the same number of elements it reads, it probably
-is a <em>function</em> (e.g. <code class="docutils literal"><span class="pre">Square</span></code>) otherwise a <em>processor</em>.</p>
+is a <em>function</em> (e.g. <code class="docutils literal notranslate"><span class="pre">Square</span></code>) otherwise a <em>processor</em>.</p>
 </div>
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -303,7 +295,7 @@ is a <em>function</em> (e.g. <code class="docutils literal"><span class="pre">Sq
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -324,7 +316,8 @@ is a <em>function</em> (e.g. <code class="docutils literal"><span class="pre">Sq
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -342,14 +335,13 @@ is a <em>function</em> (e.g. <code class="docutils literal"><span class="pre">Sq
     <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

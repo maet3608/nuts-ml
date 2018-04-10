@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; nutsml 1.0.29 documentation</title>
+  <title>Index &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -26,24 +26,17 @@
   
 
   
-  
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="#"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="index.html"/> 
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -65,7 +58,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -108,7 +101,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">nutsml</a>
@@ -116,9 +109,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -175,6 +169,7 @@
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
@@ -191,6 +186,8 @@
 
       <ul>
         <li><a href="nutsml.html#nutsml.common.ConvertLabel.__call__">(ConvertLabel method)</a>
+</li>
+        <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.Diff.__call__">(Diff method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.reader.DplyToList.__call__">(DplyToList method)</a>
 </li>
@@ -263,6 +260,8 @@
         <li><a href="nutsml.html#nutsml.booster.Boost.__rrshift__">(Boost method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.batcher.BuildBatch.__rrshift__">(BuildBatch method)</a>
+</li>
+        <li><a href="nutsml.html#nutsml.stratify.CollectStratified.__rrshift__">(CollectStratified method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.network.EvalNut.__rrshift__">(EvalNut method)</a>
 </li>
@@ -373,10 +372,12 @@
 </li>
       <li><a href="nutsml.html#nutsml.datautil.col_map">col_map() (in module nutsml.datautil)</a>
 </li>
-      <li><a href="nutsml.html#module-common">common (module)</a>
+      <li><a href="nutsml.html#nutsml.stratify.CollectStratified">CollectStratified (class in nutsml.stratify)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#module-common">common (module)</a>
+</li>
       <li><a href="nutsml.html#nutsml.config.Config">Config (class in nutsml.config)</a>
 </li>
       <li><a href="nutsml.html#module-config">config (module)</a>
@@ -387,11 +388,9 @@
 </li>
       <li><a href="nutsml.html#nutsml.fileutil.create_folders">create_folders() (in module nutsml.fileutil)</a>
 </li>
-      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.conv_autoencoder.create_network">create_network() (in module nutsml.examples.autoencoder.conv_autoencoder)</a>
+      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.create_network">create_network() (in module nutsml.examples.autoencoder.runner)</a>
 
       <ul>
-        <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.create_network">(in module nutsml.examples.autoencoder.runner)</a>
-</li>
         <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.create_network">(in module nutsml.examples.cifar.cnn_train)</a>
 </li>
         <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.cnn_train.create_network">(in module nutsml.examples.mnist.cnn_train)</a>
@@ -426,6 +425,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.fileutil.delete_temp_data">delete_temp_data() (in module nutsml.fileutil)</a>
+</li>
+      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.Diff">Diff (class in nutsml.examples.autoencoder.runner)</a>
 </li>
       <li><a href="nutsml.html#nutsml.checkpoint.Checkpoint.dirs">dirs() (Checkpoint method)</a>
 </li>
@@ -508,6 +509,8 @@
       <li><a href="nutsml.html#nutsml.transformer.ImagePatchesByMask">ImagePatchesByMask (class in nutsml.transformer)</a>
 </li>
       <li><a href="nutsml.html#module-imageutil">imageutil (module)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.batcher.BuildBatch.input">input() (BuildBatch method)</a>
 </li>
       <li><a href="nutsml.html#nutsml.config.Config.isjson">isjson() (Config static method)</a>
 </li>
@@ -625,8 +628,6 @@
 </li>
       <li><a href="nutsml.examples.autoencoder.html#module-nutsml.examples.autoencoder">nutsml.examples.autoencoder (module)</a>
 </li>
-      <li><a href="nutsml.examples.autoencoder.html#module-nutsml.examples.autoencoder.conv_autoencoder">nutsml.examples.autoencoder.conv_autoencoder (module)</a>
-</li>
       <li><a href="nutsml.examples.autoencoder.html#module-nutsml.examples.autoencoder.runner">nutsml.examples.autoencoder.runner (module)</a>
 </li>
       <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar">nutsml.examples.cifar (module)</a>
@@ -641,10 +642,10 @@
 </li>
       <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.view_data">nutsml.examples.cifar.view_data (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.view_train_images">nutsml.examples.cifar.view_train_images (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.write_images">nutsml.examples.cifar.write_images (module)</a>
 </li>
       <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist">nutsml.examples.mnist (module)</a>
@@ -684,6 +685,18 @@
       <li><a href="nutsml.html#module-nutsml.viewer">nutsml.viewer (module)</a>
 </li>
       <li><a href="nutsml.html#module-nutsml.writer">nutsml.writer (module)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#nutsml.imageutil.occlude">occlude() (in module nutsml.imageutil)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#nutsml.batcher.BuildBatch.output">output() (BuildBatch method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -793,6 +806,8 @@
       </ul></li>
       <li><a href="nutsml.html#nutsml.imageutil.save_image">save_image() (in module nutsml.imageutil)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.network.KerasNetwork.save_weights">save_weights() (KerasNetwork method)</a>
 
       <ul>
@@ -801,8 +816,6 @@
         <li><a href="nutsml.html#nutsml.network.Network.save_weights">(Network method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.imageutil.set_default_order">set_default_order() (in module nutsml.imageutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.viewer.ViewImageAnnotation.SHAPEPROP">SHAPEPROP (ViewImageAnnotation attribute)</a>
@@ -810,8 +823,6 @@
       <li><a href="nutsml.html#nutsml.datautil.shapestr">shapestr() (in module nutsml.datautil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.shear">shear() (in module nutsml.imageutil)</a>
-</li>
-      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.show_images">show_images() (in module nutsml.examples.autoencoder.runner)</a>
 </li>
       <li><a href="nutsml.html#nutsml.common.SplitRandom">SplitRandom (class in nutsml.common)</a>
 </li>
@@ -881,6 +892,8 @@
         <li><a href="nutsml.html#nutsml.network.Network.validate">(Network method)</a>
 </li>
       </ul></li>
+      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.view">view() (in module nutsml.examples.autoencoder.runner)</a>
+</li>
       <li><a href="nutsml.examples.cifar.html#module-view_augmented_images">view_augmented_images (module)</a>
 </li>
   </ul></td>
@@ -915,9 +928,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -927,7 +938,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -948,7 +959,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -966,14 +978,13 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

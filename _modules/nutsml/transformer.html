@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.transformer &mdash; nutsml 1.0.29 documentation</title>
+  <title>nutsml.transformer &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -25,25 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -65,7 +57,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">nutsml</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -147,8 +140,6 @@
     
     
       <li class="wy-breadcrumbs-aside">
-        
-            
         
       </li>
     
@@ -224,6 +215,7 @@
         <span class="s1">&#39;flipud&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">flipud</span><span class="p">,</span>
         <span class="s1">&#39;shear&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">shear</span><span class="p">,</span>
         <span class="s1">&#39;elastic&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">distort_elastic</span><span class="p">,</span>
+        <span class="s1">&#39;occlude&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">occlude</span><span class="p">,</span>
     <span class="p">}</span>
 
 <div class="viewcode-block" id="TransformImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">):</span>
@@ -276,7 +268,7 @@
 <span class="sd">        | :func:`flipud &lt;nutsml.imageutil.flipud&gt;`</span>
 <span class="sd">        | :func:`shear &lt;nutsml.imageutil.shear&gt;` (shear_factor)</span>
 <span class="sd">        | :func:`elastic &lt;nutsml.imageutil.distort_elastic&gt;` (smooth, scale, seed)</span>
-
+<span class="sd">        | :func:`occlude &lt;nutsml.imageutil.occlude&gt;` (x, y, w, h)</span>
 
 <span class="sd">        :param string name: Name of the transformation to apply, e.g. &#39;resize&#39;</span>
 <span class="sd">        :param args args: Arguments for the transformation, e.g. width and</span>
@@ -288,8 +280,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">transspec</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-    <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="TransformImage.register"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.register">[docs]</a>    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">transformation</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformImage.register"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.register">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">transformation</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Register new transformation function.</span>
 
@@ -320,9 +312,9 @@
 <span class="sd">    Random augmentation of images in samples</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AugmentImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rnd</span><span class="o">.</span><span class="n">Random</span><span class="p">()):</span>
+<div class="viewcode-block" id="AugmentImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        samples &gt;&gt; AugmentImage(imagecols, rand=rnd.Random())</span>
+<span class="sd">        samples &gt;&gt; AugmentImage(imagecols, rand=None)</span>
 
 <span class="sd">        Randomly augment images, e.g. changing contrast. See TransformImage for</span>
 <span class="sd">        a full list of available augmentations. Every transformation can be</span>
@@ -340,7 +332,7 @@
 <span class="sd">        ...     .by(&#39;rotate&#39;, 0.5, [0, 360]))</span>
 
 
-<span class="sd">        See :func:`nutsml.transformer.AugmentImage.by` for full list of </span>
+<span class="sd">        See :func:`nutsml.transformer.TransformImage.by` for full list of</span>
 <span class="sd">        available augmentations.</span>
 
 <span class="sd">        Note that each augmentation is applied independently. This is in</span>
@@ -364,10 +356,11 @@
 
 <span class="sd">        :param int|tuple imagecols: Indices of sample columns that contain</span>
 <span class="sd">            images.</span>
-<span class="sd">        :param Random rand: Random number generator to be used.</span>
+<span class="sd">        :param Random|None rand: Random number generator. If None,</span>
+<span class="sd">           random.Random() is used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">imagecols</span> <span class="o">=</span> <span class="n">imagecols</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rand</span> <span class="o">=</span> <span class="n">rand</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rand</span> <span class="o">=</span> <span class="n">rnd</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span> <span class="k">if</span> <span class="n">rand</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rand</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">augmentations</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="AugmentImage.by"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.by">[docs]</a>    <span class="k">def</span> <span class="nf">by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="o">*</span><span class="n">ranges</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -411,8 +404,8 @@
                         <span class="k">yield</span> <span class="n">map_transform</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">transformation</span><span class="p">)</span></div></div>
 
 
-<span class="nd">@nut_processor</span>
-<div class="viewcode-block" id="RegularImagePatches"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.RegularImagePatches">[docs]</a><span class="k">def</span> <span class="nf">RegularImagePatches</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">stride</span><span class="p">):</span>
+<div class="viewcode-block" id="RegularImagePatches"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.RegularImagePatches">[docs]</a><span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">RegularImagePatches</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">stride</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    samples &gt;&gt; RegularImagePatches(imagecols, shape, stride)</span>
 
@@ -450,8 +443,8 @@
                 <span class="k">break</span>  <span class="c1"># one or all patch iterators are depleted</span></div>
 
 
-<span class="nd">@nut_processor</span>
-<div class="viewcode-block" id="RandomImagePatches"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.RandomImagePatches">[docs]</a><span class="k">def</span> <span class="nf">RandomImagePatches</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npatches</span><span class="p">):</span>
+<div class="viewcode-block" id="RandomImagePatches"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.RandomImagePatches">[docs]</a><span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">RandomImagePatches</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npatches</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    samples &gt;&gt; RandomImagePatches(imagecols, shape, npatches)</span>
 
@@ -488,8 +481,8 @@
             <span class="k">yield</span> <span class="n">ut</span><span class="o">.</span><span class="n">col_map</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">extract_patch</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></div>
 
 
-<span class="nd">@nut_processor</span>
-<div class="viewcode-block" id="ImagePatchesByMask"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImagePatchesByMask">[docs]</a><span class="k">def</span> <span class="nf">ImagePatchesByMask</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">maskcol</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span>
+<div class="viewcode-block" id="ImagePatchesByMask"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImagePatchesByMask">[docs]</a><span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">ImagePatchesByMask</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">maskcol</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span>
                        <span class="n">nneg</span><span class="o">=</span><span class="k">lambda</span> <span class="n">npos</span><span class="p">:</span> <span class="n">npos</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">neg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">retlabel</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    samples &gt;&gt; ImagePatchesByMask(imagecol, maskcol, pshape, npos,</span>
@@ -552,8 +545,8 @@
             <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">outsample</span><span class="p">)</span></div>
 
 
-<span class="nd">@nut_processor</span>
-<div class="viewcode-block" id="ImagePatchesByAnnotation"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImagePatchesByAnnotation">[docs]</a><span class="k">def</span> <span class="nf">ImagePatchesByAnnotation</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">annocol</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span>
+<div class="viewcode-block" id="ImagePatchesByAnnotation"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImagePatchesByAnnotation">[docs]</a><span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">ImagePatchesByAnnotation</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">annocol</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">npos</span><span class="p">,</span>
                              <span class="n">nneg</span><span class="o">=</span><span class="k">lambda</span> <span class="n">npos</span><span class="p">:</span> <span class="n">npos</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">neg</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                              <span class="n">retlabel</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -606,8 +599,8 @@
             <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">outsample</span><span class="p">)</span></div>
 
 
-<span class="nd">@nut_processor</span>
-<div class="viewcode-block" id="ImageAnnotationToMask"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageAnnotationToMask">[docs]</a><span class="k">def</span> <span class="nf">ImageAnnotationToMask</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">annocol</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageAnnotationToMask"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageAnnotationToMask">[docs]</a><span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">ImageAnnotationToMask</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">annocol</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    samples &gt;&gt; ImageAnnotationToMask(imagecol, annocol)</span>
 
@@ -795,9 +788,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -807,7 +798,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -828,7 +819,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -846,14 +838,13 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

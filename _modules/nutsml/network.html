@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.network &mdash; nutsml 1.0.29 documentation</title>
+  <title>nutsml.network &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -25,25 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -65,7 +57,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">nutsml</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -148,8 +141,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -176,8 +167,8 @@
                       <span class="n">Flatten</span><span class="p">,</span> <span class="n">Get</span><span class="p">)</span>
 
 
-<span class="nd">@nut_processor</span>
-<div class="viewcode-block" id="TrainValNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.TrainValNut">[docs]</a><span class="k">def</span> <span class="nf">TrainValNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainValNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.TrainValNut">[docs]</a><span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">TrainValNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    batches &gt;&gt; TrainValNut(func, **kwargs)</span>
 
@@ -193,8 +184,8 @@
         <span class="k">yield</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">batch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<span class="nd">@nut_processor</span>
-<div class="viewcode-block" id="PredictNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.PredictNut">[docs]</a><span class="k">def</span> <span class="nf">PredictNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="PredictNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.PredictNut">[docs]</a><span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">PredictNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">flatten</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    batches &gt;&gt; PredictNut(func)</span>
 
@@ -216,8 +207,8 @@
             <span class="k">yield</span> <span class="n">pred_batch</span></div>
 
 
-<span class="nd">@nut_sink</span>
-<div class="viewcode-block" id="EvalNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.EvalNut">[docs]</a><span class="k">def</span> <span class="nf">EvalNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">compute</span><span class="p">,</span> <span class="n">predcol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targetcol</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="EvalNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.EvalNut">[docs]</a><span class="nd">@nut_sink</span>
+<span class="k">def</span> <span class="nf">EvalNut</span><span class="p">(</span><span class="n">batches</span><span class="p">,</span> <span class="n">network</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">compute</span><span class="p">,</span> <span class="n">predcol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">targetcol</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    batches &gt;&gt; EvalNut(network, metrics)</span>
 
@@ -397,16 +388,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pred_fn</span> <span class="o">=</span> <span class="n">pred_fn</span></div>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_weight_layers</span><span class="p">(</span><span class="n">layer</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return list of layers with weights. InputLayer is NOT returned.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_layers</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">ret_input</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return network layers. InputLayer is returned if ret_input==True.&quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;input_layer&#39;</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">layer</span>
             <span class="n">layer</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">input_layer</span>
+        <span class="k">if</span> <span class="n">ret_input</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">layer</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_get_named_params</span><span class="p">(</span><span class="n">network</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return layer parameters and names&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">l_num</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">LasagneNetwork</span><span class="o">.</span><span class="n">_weight_layers</span><span class="p">(</span><span class="n">network</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">l_num</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">LasagneNetwork</span><span class="o">.</span><span class="n">_layers</span><span class="p">(</span><span class="n">network</span><span class="p">)):</span>
             <span class="k">for</span> <span class="n">p_num</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">get_params</span><span class="p">()):</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l_num</span><span class="p">,</span> <span class="n">p_num</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span>
@@ -440,9 +433,31 @@
             <span class="n">param</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">name</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="LasagneNetwork.print_layers"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.LasagneNetwork.print_layers">[docs]</a>    <span class="k">def</span> <span class="nf">print_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">LasagneNetwork</span><span class="o">.</span><span class="n">_weight_layers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_layer</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;_&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></div></div>
+        <span class="kn">import</span> <span class="nn">lasagne</span> <span class="k">as</span> <span class="nn">la</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">LasagneNetwork</span><span class="o">.</span><span class="n">_layers</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_layer</span><span class="p">,</span> <span class="n">ret_input</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">layers</span><span class="p">)):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="n">la</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">get_output_shape</span><span class="p">(</span><span class="n">layer</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:3d}</span><span class="s1">  </span><span class="si">{:30s}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;filter_size&#39;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">filter_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;pool_size&#39;</span><span class="p">):</span>
+                <span class="n">is_int</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">pool_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">pool_size</span> <span class="k">if</span> <span class="n">is_int</span> <span class="k">else</span> <span class="n">layer</span><span class="o">.</span><span class="n">pool_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;//&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; [</span><span class="si">{:.2f}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">p</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;stride&#39;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">stride</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;learning_rate_scale&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">layer</span><span class="o">.</span><span class="n">learning_rate_scale</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="n">lr_scale</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">learning_rate_scale</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; [lr_scale=</span><span class="si">{:.2f}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lr_scale</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="s1">&#39;params&#39;</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">layer</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s1">&#39;trainable&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">layer</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; [NT]&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">()</span></div></div>
 
 
 <div class="viewcode-block" id="KerasNetwork"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork">[docs]</a><span class="k">class</span> <span class="nc">KerasNetwork</span><span class="p">(</span><span class="n">Network</span><span class="p">):</span>  <span class="c1"># pragma no cover</span>
@@ -498,9 +513,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -510,7 +523,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -531,7 +544,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -549,14 +563,13 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

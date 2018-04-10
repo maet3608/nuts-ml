@@ -105,8 +105,8 @@ Example
 
   rerange = TransformImage(0).by('rerange', 0, 255, 0, 1, 'float32')
   build_batch = (BuildBatch(BATCH_SIZE)
-                 .by(0, 'image', 'float32')
-                 .by(1, 'one_hot', 'uint8', NUM_CLASSES))
+                 .input(0, 'image', 'float32')
+                 .output(1, 'one_hot', 'uint8', NUM_CLASSES))
   p = 0.1
   augment = (AugmentImage(0)
              .by('identical', 1.0)

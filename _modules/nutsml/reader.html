@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.reader &mdash; nutsml 1.0.29 documentation</title>
+  <title>nutsml.reader &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -25,25 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -65,7 +57,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">nutsml</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -147,8 +140,6 @@
     
     
       <li class="wy-breadcrumbs-aside">
-        
-            
         
       </li>
     
@@ -179,8 +170,8 @@
 <span class="kn">from</span> <span class="nn">dplython</span> <span class="k">import</span> <span class="n">DplyFrame</span>
 
 
-<span class="nd">@nut_function</span>
-<div class="viewcode-block" id="DplyToList"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.DplyToList">[docs]</a><span class="k">def</span> <span class="nf">DplyToList</span><span class="p">(</span><span class="n">dplyframe</span><span class="p">):</span>
+<div class="viewcode-block" id="DplyToList"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.DplyToList">[docs]</a><span class="nd">@nut_function</span>
+<span class="k">def</span> <span class="nf">DplyToList</span><span class="p">(</span><span class="n">dplyframe</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert DplyDataframe to list.</span>
 
@@ -197,8 +188,8 @@
     <span class="k">return</span> <span class="n">dplyframe</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
 
-<span class="nd">@nut_source</span>
-<div class="viewcode-block" id="ReadLabelDirs"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadLabelDirs">[docs]</a><span class="k">def</span> <span class="nf">ReadLabelDirs</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">filepattern</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="s1">&#39;_*&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadLabelDirs"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadLabelDirs">[docs]</a><span class="nd">@nut_source</span>
+<span class="k">def</span> <span class="nf">ReadLabelDirs</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">filepattern</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="s1">&#39;_*&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read file paths from label directories.</span>
 
@@ -235,8 +226,8 @@
                 <span class="k">yield</span> <span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span></div>
 
 
-<span class="nd">@nut_function</span>
-<div class="viewcode-block" id="ReadImage"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadImage">[docs]</a><span class="k">def</span> <span class="nf">ReadImage</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">pathfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadImage"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadImage">[docs]</a><span class="nd">@nut_function</span>
+<span class="k">def</span> <span class="nf">ReadImage</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">pathfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load images for samples.</span>
 
@@ -313,7 +304,7 @@
 <span class="sd">        &gt;&gt;&gt; ReadPandas(&#39;tests/data/pandas_table.csv&#39;) &gt;&gt; Collect()</span>
 <span class="sd">        [(1.0, 4.0), (3.0, 6.0)]</span>
 
-<span class="sd">        Note that samples.table contains the original Pandas dataframe and</span>
+<span class="sd">        Note that samples.dataframe contains the original Pandas dataframe and</span>
 <span class="sd">        any Pandas operations can be performed on it.</span>
 <span class="sd">        </span>
 <span class="sd">        &gt;&gt;&gt; samples = ReadPandas(&#39;tests/data/pandas_table.csv&#39;)</span>
@@ -352,8 +343,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_table</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span></div>
 
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ReadPandas.isnull"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas.isnull">[docs]</a>    <span class="k">def</span> <span class="nf">isnull</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadPandas.isnull"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas.isnull">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isnull</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return true if values is NaN or None.</span>
 
@@ -436,9 +427,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -448,7 +437,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -469,7 +458,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -487,14 +477,13 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

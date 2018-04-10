@@ -282,8 +282,8 @@ Numpy arrays with dtype ``float32``.
   BATCH_SIZE = 32
 
   build_batch = (BuildBatch(BATCH_SIZE)
-                  .by(0, 'image', 'float32')
-                  .by(1, 'one_hot', 'uint8', NUM_CLASSES))
+                  .input(0, 'image', 'float32')
+                  .output(1, 'one_hot', 'uint8', NUM_CLASSES))
 
 Having a batcher we can now build a complete pipeline that trains the network
 for one epoch
@@ -507,7 +507,7 @@ and predict labels for new images. Here an example
 
   samples = glob('images/*.png') >> ReadImage(None) >> Collect()
 
-  build_batch = BuildBatch(BATCH_SIZE).by(0, 'image', 'float32')
+  build_batch = BuildBatch(BATCH_SIZE).input(0, 'image', 'float32')
 
   predictions = (samples >> rerange >> pred_batch >> network.predict() >> 
                  Map(ArgMax()) >> Collect())
@@ -543,8 +543,8 @@ The entire code can be found in `cifar/cnn_train.py <https://github.com/maet3608
 
   rerange = TransformImage(0).by('rerange', 0, 255, 0, 1, 'float32')
   build_batch = (BuildBatch(BATCH_SIZE)
-                 .by(0, 'image', 'float32')
-                 .by(1, 'one_hot', 'uint8', NUM_CLASSES))
+                 .input(0, 'image', 'float32')
+                 .output(1, 'one_hot', 'uint8', NUM_CLASSES))
   p = 0.1
   augment = (AugmentImage(0)
              .by('identical', 1.0)

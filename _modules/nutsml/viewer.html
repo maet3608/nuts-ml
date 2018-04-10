@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.viewer &mdash; nutsml 1.0.29 documentation</title>
+  <title>nutsml.viewer &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -25,25 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -65,7 +57,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">nutsml</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -147,8 +140,6 @@
     
     
       <li class="wy-breadcrumbs-aside">
-        
-            
         
       </li>
     
@@ -267,8 +258,9 @@
 <span class="sd">        &gt;&gt;&gt; read_image = ReadImage(1, imagepath)</span>
 <span class="sd">        &gt;&gt;&gt; samples &gt;&gt; read_image &gt;&gt; ViewImage(1) &gt;&gt; Consume() # doctest: +SKIP</span>
 
-<span class="sd">        :param int|tuple imgcols: Index or tuple of indices of data columns</span>
-<span class="sd">               containing images (ndarray)</span>
+<span class="sd">        :param int|tuple|None imgcols: Index or tuple of indices of data columns</span>
+<span class="sd">               containing images (ndarray). Use None if images are provided</span>
+<span class="sd">               directly, e.g. [img1, img2, ...] &gt;&gt; ViewImage(None) &gt;&gt; Consume()</span>
 <span class="sd">        :param tuple layout: Rows and columns of the viewer layout., e.g.</span>
 <span class="sd">               a layout of (2,3) means that 6 images in the data are</span>
 <span class="sd">               arranged in 2 rows and 3 columns.</span>
@@ -280,7 +272,7 @@
 <span class="sd">            imshow() function. See</span>
 <span class="sd">            http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">imgcols</span> <span class="o">=</span> <span class="n">as_tuple</span><span class="p">(</span><span class="n">imgcols</span><span class="p">)</span>
+        <span class="n">imgcols</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,)</span> <span class="k">if</span> <span class="n">imgcols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">as_tuple</span><span class="p">(</span><span class="n">imgcols</span><span class="p">)</span>
         <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">layout</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">layout</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">imgcols</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">c</span> <span class="o">=</span> <span class="n">n</span>
@@ -304,7 +296,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">imgcol</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imgcols</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">imgcol</span><span class="p">])</span>  <span class="c1"># remove single-dim axis, e.g. MxNx1</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">data</span> <span class="k">if</span> <span class="n">imgcol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">data</span><span class="p">[</span><span class="n">imgcol</span><span class="p">]</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>  <span class="c1"># remove single-dim axis, e.g. MxNx1</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">imargs</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">waitforbuttonpress</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pause</span><span class="p">)</span>  <span class="c1"># or plt.pause(self.pause)</span>
@@ -400,9 +393,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -412,7 +403,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -433,7 +424,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -451,14 +443,13 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

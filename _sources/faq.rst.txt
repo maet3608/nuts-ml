@@ -39,7 +39,7 @@ What if the batch has multiple columns, e.g. labels and probabilities
   [(0, 0.1), (1, 0.2), (0, 0.3), (1, 0.4), (1, 0.5), (0, 0.6)]
 
   
-Only length-1 arrays can be converted to Python scalars
+Error: Only length-1 arrays can be converted to Python scalars
 -------------------------------------------------------
 
 If you see the following error message when running
@@ -51,6 +51,27 @@ and the latests ``nuts-ml`` version.
   in compute_metric    
   return float(result.eval() if hasattr(result, 'eval') else result)
   TypeError: only length-1 arrays can be converted to Python scalars  
+  
+  
+ImportError: No module named Tkinter
+-------------------------------------------------------  
+
+This means the computer nuts-ml is running on is not supporting
+the default graphical backend for matplotlib. In this case create a file 
+``~/.config/matplotlib/matplotlibrc`` with the following content:
+
+.. code::
+  
+  backend : Agg
+
+  
+Alternatively add the following lines to your code:
+
+.. code::
+
+  import matplotlib
+  matplotlib.use('Agg')
+    
   
   
 How to use class weights for imbalanced classes in Keras

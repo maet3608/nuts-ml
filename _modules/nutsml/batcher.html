@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.batcher &mdash; nutsml 1.0.29 documentation</title>
+  <title>nutsml.batcher &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -25,25 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -65,7 +57,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">nutsml</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -148,8 +141,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -165,7 +156,7 @@
 <span class="sd">.. module:: batcher</span>
 <span class="sd">   :synopsis: Collecting samples in mini-batches for GPU-based training.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">nutsml.imageutil</span> <span class="k">as</span> <span class="nn">ni</span>
 
@@ -239,27 +230,19 @@
 <span class="sd">    Return batch of tensors.</span>
 
 <span class="sd">    &gt;&gt;&gt; from nutsml.datautil import shapestr</span>
-<span class="sd">    &gt;&gt;&gt; tensors = [np.zeros((2, 3, 2)), np.ones((2, 3, 2))]</span>
+<span class="sd">    &gt;&gt;&gt; tensors = [np.zeros((3, 3)), np.ones((3, 3))]</span>
 <span class="sd">    &gt;&gt;&gt; batch = build_tensor_batch(tensors, &#39;uint8&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; shapestr(batch)</span>
-<span class="sd">    &#39;4x3x2&#39;</span>
+<span class="sd">    &#39;2x3x3&#39;</span>
 
 <span class="sd">    &gt;&gt;&gt; print(batch)</span>
-<span class="sd">    [[[0 0]</span>
-<span class="sd">      [0 0]</span>
-<span class="sd">      [0 0]]</span>
+<span class="sd">    [[[0 0 0]</span>
+<span class="sd">      [0 0 0]</span>
+<span class="sd">      [0 0 0]]</span>
 <span class="sd">    &lt;BLANKLINE&gt;</span>
-<span class="sd">     [[0 0]</span>
-<span class="sd">      [0 0]</span>
-<span class="sd">      [0 0]]</span>
-<span class="sd">    &lt;BLANKLINE&gt;</span>
-<span class="sd">     [[1 1]</span>
-<span class="sd">      [1 1]</span>
-<span class="sd">      [1 1]]</span>
-<span class="sd">    &lt;BLANKLINE&gt;</span>
-<span class="sd">     [[1 1]</span>
-<span class="sd">      [1 1]</span>
-<span class="sd">      [1 1]]]</span>
+<span class="sd">     [[1 1 1]</span>
+<span class="sd">      [1 1 1]</span>
+<span class="sd">      [1 1 1]]]</span>
 
 <span class="sd">    :param iterable tensors: Numpy tensors</span>
 <span class="sd">    :param numpy data type dtype: Data type of batch, e.g. &#39;uint8&#39;</span>
@@ -268,7 +251,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">tensors</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No tensors to build batch!&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="build_image_batch"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.build_image_batch">[docs]</a><span class="k">def</span> <span class="nf">build_image_batch</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">channelfirst</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -312,7 +295,7 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No images to build batch!&#39;</span><span class="p">)</span>
     <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">_targetshape</span><span class="p">(</span><span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># shape of first(=all) images</span>
-    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="n">w</span> <span class="ow">or</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="n">h</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Channel not at last axis: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span><span class="p">)))</span>
     <span class="n">batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="k">if</span> <span class="n">channelfirst</span> <span class="k">else</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">image</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">images</span><span class="p">):</span>
@@ -343,27 +326,37 @@
 <span class="sd">        &gt;&gt;&gt; samples = zip(numbers, images, class_ids)</span>
 
 <span class="sd">        &gt;&gt;&gt; build_batch = (BuildBatch(2, prefetch=0)</span>
-<span class="sd">        ...                .by(0, &#39;number&#39;, float)</span>
-<span class="sd">        ...                .by(1, &#39;image&#39;, np.uint8, True)</span>
-<span class="sd">        ...                .by(2, &#39;one_hot&#39;, np.uint8, 3))</span>
+<span class="sd">        ...                .input(0, &#39;number&#39;, float)</span>
+<span class="sd">        ...                .input(1, &#39;image&#39;, np.uint8, True)</span>
+<span class="sd">        ...                .output(2, &#39;one_hot&#39;, np.uint8, 3))</span>
 <span class="sd">        &gt;&gt;&gt; batches = samples &gt;&gt; build_batch &gt;&gt; Collect()</span>
 
-<span class="sd">        The structure of the output batch depends on fmt function used. If None,</span>
-<span class="sd">        output is a list of np.arrays. The following example shows how to</span>
-<span class="sd">        build a batch with two images for input and a one-hot vector as target:</span>
+<span class="sd">        Sample columns can be ignored or reused. Assuming an autoencoder, one</span>
+<span class="sd">        might which to use the sample image as input and output:</span>
+
+<span class="sd">        &gt;&gt;&gt; build_batch = (BuildBatch(2, prefetch=0)</span>
+<span class="sd">        ...                .input(1, &#39;image&#39;, np.uint8, True)</span>
+<span class="sd">        ...                .output(1, &#39;image&#39;, np.uint8, True))</span>
+<span class="sd">        &gt;&gt;&gt; batches = samples &gt;&gt; build_batch &gt;&gt; Collect()</span>
+
+<span class="sd">        A batch typically is of the format [[inputs], [outputs]], e.g. in the</span>
+<span class="sd">        firs case above [[number, image], [one_hot]], where each of the columns</span>
+<span class="sd">        is a Numpy array. If a different structure is required a format function</span>
+<span class="sd">        can be specified. The following example shows how to build a batch as</span>
+<span class="sd">        as tuple of columns instead of a list.</span>
 
 <span class="sd">        &gt;&gt;&gt; samples = zip(images, images, class_ids)</span>
 <span class="sd">        &gt;&gt;&gt; build_batch = (BuildBatch(2, prefetch=0,</span>
-<span class="sd">        ...                fmt=lambda b: [[b[0], b[1]], b[2]])</span>
-<span class="sd">        ...                .by(0, &#39;image&#39;, np.uint8, True)</span>
-<span class="sd">        ...                .by(1, &#39;image&#39;, np.uint8, True)</span>
-<span class="sd">        ...                .by(2, &#39;one_hot&#39;, np.uint8, 3))</span>
+<span class="sd">        ...                fmt=lambda b: (b[0], b[1], b[2]) )</span>
+<span class="sd">        ...                .input(0, &#39;image&#39;, np.uint8, True)</span>
+<span class="sd">        ...                .input(1, &#39;image&#39;, np.uint8, True)</span>
+<span class="sd">        ...                .input(2, &#39;one_hot&#39;, np.uint8, 3))</span>
 <span class="sd">        &gt;&gt;&gt; batches = samples &gt;&gt; build_batch &gt;&gt; Collect()</span>
 
 <span class="sd">        :param int batchsize: Size of batch = number of rows in batch.</span>
-<span class="sd">            Number of columns is determined by colspec.</span>
 <span class="sd">        :param int prefetch: Number of batches to prefetch. This speeds up</span>
-<span class="sd">           GPU based training.</span>
+<span class="sd">           GPU based training, since one batch is built on CPU while the</span>
+<span class="sd">           another is procesed on the GPU.</span>
 <span class="sd">        :param function|None fmt: Function to format output.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span> <span class="o">=</span> <span class="n">batchsize</span>
@@ -395,7 +388,52 @@
 <span class="sd">        :return: instance of BuildBatch</span>
 <span class="sd">        :rtype: BuildBatch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">colspecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Use .input() or .output() instead.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colspecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BuildBatch.input"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.BuildBatch.input">[docs]</a>    <span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Specify and add input columns for batch to create</span>
+
+<span class="sd">        :param int col: column of the sample to extract and to create a</span>
+<span class="sd">          batch input column from.</span>
+<span class="sd">        :param string name: Name of the column function to apply to create</span>
+<span class="sd">            a batch column, e.g. &#39;image&#39;</span>
+<span class="sd">            See the following functions for more details:</span>
+<span class="sd">            &#39;image&#39;: nutsflow.batcher.build_image_batch</span>
+<span class="sd">            &#39;number&#39;: nutsflow.batcher.build_number_batch</span>
+<span class="sd">            &#39;vector&#39;: nutsflow.batcher.build_vector_batch</span>
+<span class="sd">            &#39;tensor&#39;: nutsflow.batcher.build_tensor_batch</span>
+<span class="sd">            &#39;one_hot&#39;: nutsflow.batcher.build_one_hot_batch</span>
+<span class="sd">        :param args args: Arguments for column function, e.g. dtype</span>
+<span class="sd">        :param kwargs kwargs: Keyword arguments for column function</span>
+<span class="sd">        :return: instance of BuildBatch</span>
+<span class="sd">        :rtype: BuildBatch</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colspecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BuildBatch.output"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.BuildBatch.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Specify and add output columns for batch to create</span>
+
+<span class="sd">        :param int col: column of the sample to extract and to create a</span>
+<span class="sd">          batch output column from.</span>
+<span class="sd">        :param string name: Name of the column function to apply to create</span>
+<span class="sd">            a batch column, e.g. &#39;image&#39;</span>
+<span class="sd">            See the following functions for more details:</span>
+<span class="sd">            &#39;image&#39;: nutsflow.batcher.build_image_batch</span>
+<span class="sd">            &#39;number&#39;: nutsflow.batcher.build_number_batch</span>
+<span class="sd">            &#39;vector&#39;: nutsflow.batcher.build_vector_batch</span>
+<span class="sd">            &#39;tensor&#39;: nutsflow.batcher.build_tensor_batch</span>
+<span class="sd">            &#39;one_hot&#39;: nutsflow.batcher.build_one_hot_batch</span>
+<span class="sd">        :param args args: Arguments for column function, e.g. dtype</span>
+<span class="sd">        :param kwargs kwargs: Keyword arguments for column function</span>
+<span class="sd">        :return: instance of BuildBatch</span>
+<span class="sd">        :rtype: BuildBatch</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colspecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
     <span class="k">def</span> <span class="nf">_batch_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
@@ -405,13 +443,18 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">batchsamples</span><span class="p">:</span>
                 <span class="k">break</span>
             <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">batchsamples</span><span class="p">))</span>  <span class="c1"># flip rows to cols</span>
-            <span class="n">batch</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># columns of batch</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>  <span class="c1"># in, out columns of batch</span>
             <span class="k">for</span> <span class="n">colspec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">colspecs</span><span class="p">:</span>
-                <span class="n">col</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">colspec</span>
+                <span class="n">col</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">isinput</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">colspec</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid builder: &#39;</span> <span class="o">+</span> <span class="n">func</span><span class="p">)</span>
-                <span class="n">batch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="p">[</span><span class="n">func</span><span class="p">](</span><span class="n">cols</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
-            <span class="k">yield</span> <span class="n">batch</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+                <span class="n">coldata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="p">[</span><span class="n">func</span><span class="p">](</span><span class="n">cols</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">batch</span><span class="p">[</span><span class="mi">0</span> <span class="k">if</span> <span class="n">isinput</span> <span class="k">else</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coldata</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># no output (prediction phase)</span>
+                <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># flatten and take only inputs</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">:</span>  <span class="c1"># format function for batch given</span>
+                <span class="n">batch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">batch</span>
 
 <div class="viewcode-block" id="BuildBatch.__rrshift__"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.BuildBatch.__rrshift__">[docs]</a>    <span class="k">def</span> <span class="nf">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -430,9 +473,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -442,7 +483,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -463,7 +504,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -481,14 +523,13 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

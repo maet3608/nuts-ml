@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.imageutil &mdash; nutsml 1.0.29 documentation</title>
+  <title>nutsml.imageutil &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -25,25 +25,17 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -65,7 +57,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -108,7 +100,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">nutsml</a>
@@ -116,9 +108,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -147,8 +140,6 @@
     
     
       <li class="wy-breadcrumbs-aside">
-        
-            
         
       </li>
     
@@ -285,7 +276,7 @@
 <span class="sd">    Default order is 1, which performs a linear interpolation of pixel values</span>
 <span class="sd">    when images are rotated, resized and sheared. This is fine for images</span>
 <span class="sd">    but causes unwanted pixel values in masks. This function set the default</span>
-<span class="sd">    order to 9, which disables the interpolation.</span>
+<span class="sd">    order to 0, which disables the interpolation.</span>
 
 <span class="sd">    :param kwargs kwargs: Dictionary with keyword arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -444,7 +435,54 @@
         <span class="k">return</span> <span class="n">crop</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dh</span> <span class="o">+</span> <span class="n">mh</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span> <span class="o">-</span> <span class="n">dh</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="normalize_histo"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.normalize_histo">[docs]</a><span class="k">def</span> <span class="nf">normalize_histo</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+<div class="viewcode-block" id="occlude"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.occlude">[docs]</a><span class="k">def</span> <span class="nf">occlude</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Occlude image with a rectangular region.</span>
+
+<span class="sd">    Occludes an image region with dimensions w,h centered on x,y with the</span>
+<span class="sd">    given color. Invalid x,y coordinates will be clipped to ensure complete</span>
+<span class="sd">    occlusion rectangle is within the image.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; image = np.ones((4, 5)).astype(&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; occlude(image, 2, 2, 2, 3)</span>
+<span class="sd">    array([[1, 1, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 0, 1, 1],</span>
+<span class="sd">           [1, 0, 0, 1, 1],</span>
+<span class="sd">           [1, 0, 0, 1, 1]], dtype=uint8)</span>
+
+<span class="sd">    &gt;&gt;&gt; image = np.ones((4, 4)).astype(&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; occlude(image, 0.5, 0.5, 0.5, 0.5)</span>
+<span class="sd">    array([[1, 1, 1, 1],</span>
+<span class="sd">           [1, 0, 0, 1],</span>
+<span class="sd">           [1, 0, 0, 1],</span>
+<span class="sd">           [1, 1, 1, 1]], dtype=uint8)</span>
+
+<span class="sd">    :param numpy array image: Numpy array.</span>
+<span class="sd">    :param int|float x: x coordinate for center of occlusion region.</span>
+<span class="sd">                        Can be provided as fraction (float) of image width</span>
+<span class="sd">    :param int|float y: y coordinate for center of occlusion region.</span>
+<span class="sd">                        Can be provided as fraction (float) of image height</span>
+<span class="sd">    :param int|float w: width of occlusion region.</span>
+<span class="sd">                        Can be provided as fraction (float) of image width</span>
+<span class="sd">    :param int|float h: height of occlusion region.</span>
+<span class="sd">                        Can be provided as fraction (float) of image height</span>
+<span class="sd">    :param int|tuple color: gray-scale or RGB color of occlusion.</span>
+<span class="sd">    :return: Copy of input image with occluded region.</span>
+<span class="sd">    :rtype: numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">frac</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="n">c</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">else</span> <span class="n">c</span>
+    <span class="n">iw</span><span class="p">,</span> <span class="n">ih</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">frac</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">iw</span><span class="p">),</span> <span class="n">frac</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ih</span><span class="p">)</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">frac</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">iw</span><span class="p">),</span> <span class="n">frac</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">ih</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">h</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">w</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">ih</span> <span class="o">-</span> <span class="n">h</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">iw</span> <span class="o">-</span> <span class="n">w</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">image2</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">image2</span><span class="p">[</span><span class="n">r</span><span class="p">:</span><span class="n">r</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span><span class="n">c</span> <span class="o">+</span> <span class="n">w</span><span class="p">]</span> <span class="o">=</span> <span class="n">color</span>
+    <span class="k">return</span> <span class="n">image2</span></div>
+
+
+<div class="viewcode-block" id="normalize_histo"><a class="viewcode-back" href="../../nutsml.html#nutsml.imageutil.normalize_histo">[docs]</a><span class="k">def</span> <span class="nf">normalize_histo</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform histogram normalization on image.</span>
 
@@ -453,7 +491,6 @@
 <span class="sd">    :return: Normalized image</span>
 <span class="sd">    :rtype: numpy array with range [0,255] and dtype &#39;uint8&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">image</span> <span class="o">=</span> <span class="n">ske</span><span class="o">.</span><span class="n">equalize_hist</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">ske</span><span class="o">.</span><span class="n">equalize_adapthist</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">ske</span><span class="o">.</span><span class="n">adjust_gamma</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">floatimg2uint8</span><span class="p">(</span><span class="n">image</span><span class="p">)</span></div>
@@ -757,11 +794,11 @@
 <span class="sd">    in Proc. of the International Conference on Document Analysis and</span>
 <span class="sd">    Recognition, 2003.</span>
 
-<span class="sd">    :param ndarayy image: Image of shape [h,w] or [h,w,c]</span>
+<span class="sd">    :param ndarray image: Image of shape [h,w] or [h,w,c]</span>
 <span class="sd">    :param float smooth: Smoothes the distortion.</span>
 <span class="sd">    :param float scale: Scales the distortion.</span>
 <span class="sd">    :param int seed: Seed for random number generator. Ensures that for the</span>
-<span class="sd">      same seed images are distorted identically.</span>
+<span class="sd">                     same seed images are distorted identically.</span>
 <span class="sd">    :return: Distorted image with same shape as input image.</span>
 <span class="sd">    :rtype: ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -889,7 +926,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># view_as_windows requires contiguous array, which we ensure here</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">image</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s1">&#39;C_CONTIGUOUS&#39;</span><span class="p">]:</span>
-        <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;image is not contiguous array&#39;</span><span class="p">)</span>
+        <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Image is not contiguous and will be copied!&#39;</span><span class="p">)</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
     <span class="n">is_gray</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span>
@@ -1108,7 +1145,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;circle&#39;</span><span class="p">:</span>
-            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">shape</span><span class="p">)</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;ellipse&#39;</span><span class="p">:</span>
             <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
                                  <span class="n">rotation</span><span class="o">=</span><span class="n">geo</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
@@ -1116,17 +1153,19 @@
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">geo</span>
             <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
             <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
-            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;polyline&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">geo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># closed polyline =&gt; draw fill polygon</span>
                 <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">geo</span><span class="p">)</span>
-                <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+                <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">polyline2coords</span><span class="p">(</span><span class="n">geo</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid kind of annotation: &#39;</span> <span class="o">+</span> <span class="n">kind</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">rr</span><span class="o">.</span><span class="n">size</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">cc</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Annotation outside image! Image resized?&#39;</span><span class="p">)</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s1">&#39;Annotation </span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">geo</span><span class="p">)</span>
+            <span class="n">err_msg</span> <span class="o">+=</span> <span class="s1">&#39;outside image </span><span class="si">{}</span><span class="s1">! Image transformed?&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
         <span class="k">yield</span> <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span></div>
 
 
@@ -1192,9 +1231,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1204,7 +1241,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -1225,7 +1262,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1243,14 +1281,13 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

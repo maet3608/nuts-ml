@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.examples.autoencoder package &mdash; nutsml 1.0.29 documentation</title>
+  <title>nutsml.examples.autoencoder package &mdash; nutsml 1.0.34 documentation</title>
   
 
   
@@ -25,27 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="nutsml 1.0.29 documentation" href="index.html"/>
-        <link rel="up" title="nutsml.examples package" href="nutsml.examples.html"/>
-        <link rel="next" title="nutsml.examples.cifar package" href="nutsml.examples.cifar.html"/>
-        <link rel="prev" title="nutsml.examples package" href="nutsml.examples.html"/> 
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="nutsml.examples.cifar package" href="nutsml.examples.cifar.html" />
+    <link rel="prev" title="nutsml.examples package" href="nutsml.examples.html" /> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -67,7 +59,7 @@
             
             
               <div class="version">
-                1.0.29
+                1.0.34
               </div>
             
           
@@ -138,7 +130,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">nutsml</a>
@@ -146,9 +138,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -199,21 +192,25 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-nutsml.examples.autoencoder.conv_autoencoder">
-<span id="nutsml-examples-autoencoder-conv-autoencoder-module"></span><h2>nutsml.examples.autoencoder.conv_autoencoder module<a class="headerlink" href="#module-nutsml.examples.autoencoder.conv_autoencoder" title="Permalink to this headline">¶</a></h2>
-<p>A simple convolutional autoencoder adapted from
-<a class="reference external" href="https://blog.keras.io/building-autoencoders-in-keras.html">https://blog.keras.io/building-autoencoders-in-keras.html</a></p>
-<dl class="function">
-<dt id="nutsml.examples.autoencoder.conv_autoencoder.create_network">
-<code class="descname">create_network</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/examples/autoencoder/conv_autoencoder.html#create_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.examples.autoencoder.conv_autoencoder.create_network" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<div class="section" id="nutsml-examples-autoencoder-conv-autoencoder-module">
+<h2>nutsml.examples.autoencoder.conv_autoencoder module<a class="headerlink" href="#nutsml-examples-autoencoder-conv-autoencoder-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-nutsml.examples.autoencoder.runner">
 <span id="nutsml-examples-autoencoder-runner-module"></span><h2>nutsml.examples.autoencoder.runner module<a class="headerlink" href="#module-nutsml.examples.autoencoder.runner" title="Permalink to this headline">¶</a></h2>
 <p>Runs training and prediction.</p>
 <p>Trains an autoencoder on MNIST and in the prediction phase shows
 the original image, the decoded images and the difference.</p>
+<dl class="class">
+<dt id="nutsml.examples.autoencoder.runner.Diff">
+<em class="property">class </em><code class="descname">Diff</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/examples/autoencoder/runner.html#Diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.examples.autoencoder.runner.Diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.NutFunction</span></code></p>
+<dl class="method">
+<dt id="nutsml.examples.autoencoder.runner.Diff.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>element</em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.examples.autoencoder.runner.Diff.__call__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="nutsml.examples.autoencoder.runner.create_network">
 <code class="descname">create_network</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/examples/autoencoder/runner.html#create_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.examples.autoencoder.runner.create_network" title="Permalink to this definition">¶</a></dt>
@@ -230,13 +227,13 @@ the original image, the decoded images and the difference.</p>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="nutsml.examples.autoencoder.runner.show_images">
-<code class="descname">show_images</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/examples/autoencoder/runner.html#show_images"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.examples.autoencoder.runner.show_images" title="Permalink to this definition">¶</a></dt>
+<dt id="nutsml.examples.autoencoder.runner.train">
+<code class="descname">train</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/examples/autoencoder/runner.html#train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.examples.autoencoder.runner.train" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="nutsml.examples.autoencoder.runner.train">
-<code class="descname">train</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/examples/autoencoder/runner.html#train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.examples.autoencoder.runner.train" title="Permalink to this definition">¶</a></dt>
+<dt id="nutsml.examples.autoencoder.runner.view">
+<code class="descname">view</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/examples/autoencoder/runner.html#view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.examples.autoencoder.runner.view" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -248,9 +245,7 @@ the original image, the decoded images and the difference.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -269,7 +264,7 @@ the original image, the decoded images and the difference.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Aug 14, 2017.
+      Last updated on Apr 10, 2018.
 
     </p>
   </div> 
@@ -290,7 +285,8 @@ the original image, the decoded images and the difference.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.29',
+            VERSION:'1.0.34',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -308,14 +304,13 @@ the original image, the decoded images and the difference.</p>
     <script type="text/javascript" src="_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          
+          SphinxRtdTheme.Navigation.enableSticky();
+          
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>
