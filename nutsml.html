@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.34 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.0.38 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -59,7 +58,7 @@
             
             
               <div class="version">
-                1.0.34
+                1.0.38
               </div>
             
           
@@ -267,7 +266,7 @@ might which to use the sample image as input and output:</p>
 </pre></div>
 </div>
 <p>A batch typically is of the format [[inputs], [outputs]], e.g. in the
-firs case above [[number, image], [one_hot]], where each of the columns
+first case above [[number, image], [one_hot]], where each of the columns
 is a Numpy array. If a different structure is required a format function
 can be specified. The following example shows how to build a batch as
 as tuple of columns instead of a list.</p>
@@ -285,10 +284,10 @@ as tuple of columns instead of a list.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>batchsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Size of batch = number of rows in batch.</li>
-<li><strong>prefetch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of batches to prefetch. This speeds up
+<li><strong>batchsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Size of batch = number of rows in batch.</li>
+<li><strong>prefetch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of batches to prefetch. This speeds up
 GPU based training, since one batch is built on CPU while the
-another is procesed on the GPU.</li>
+another is processed on the GPU.</li>
 <li><strong>fmt</strong> (<em>function|None</em>) – Function to format output.</li>
 </ul>
 </td>
@@ -320,13 +319,14 @@ output is a list of np.arrays</p>
 <dl class="method">
 <dt id="nutsml.batcher.BuildBatch.by">
 <code class="descname">by</code><span class="sig-paren">(</span><em>col</em>, <em>name</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch.by"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch.by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specify and add batch columns to create</p>
+<dd><p>Specify and add batch columns to create batch.</p>
+<p>DEPRECATED: Use input() and output() instead.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – column of the sample to extract and to create a
+<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – column of the sample to extract and to create a
 batch column from.</li>
 <li><strong>name</strong> (<em>string</em>) – Name of the column function to apply to create
 a batch column, e.g. ‘image’
@@ -360,7 +360,7 @@ See the following functions for more details:
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – column of the sample to extract and to create a
+<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – column of the sample to extract and to create a
 batch input column from.</li>
 <li><strong>name</strong> (<em>string</em>) – Name of the column function to apply to create
 a batch column, e.g. ‘image’
@@ -394,7 +394,7 @@ See the following functions for more details:
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – column of the sample to extract and to create a
+<li><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – column of the sample to extract and to create a
 batch output column from.</li>
 <li><strong>name</strong> (<em>string</em>) – Name of the column function to apply to create
 a batch column, e.g. ‘image’
@@ -418,6 +418,42 @@ See the following functions for more details:
 </tbody>
 </table>
 </dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="nutsml.batcher.Mixup">
+<em class="property">class </em><code class="descname">Mixup</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#Mixup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.Mixup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.NutFunction</span></code></p>
+<p>Mixup produces random interpolations between data and labels.</p>
+<p>Usage:
+… &gt;&gt; BuildBatch() &gt;&gt; Mixup(0.1) &gt;&gt; network.train() &gt;&gt; …</p>
+<p>Implementation based on the following paper:
+mixup: Beyond Empirical Risk Minimization
+<a class="reference external" href="https://arxiv.org/abs/1710.09412">https://arxiv.org/abs/1710.09412</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – Batch consisting of list of input data and list of
+output data, where data must be numeric, e.g. images and
+one-hot-encoded class labels that can be interpolated between.</li>
+<li><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Control parameter for beta distribution the
+interpolation factors are sampled from. Range: [0,…,1]
+For alpha &lt;= 0 no mixup is performed.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nutsml.batcher.Mixup.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>element</em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.batcher.Mixup.__call__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -455,7 +491,7 @@ the number of images in the batch.</p>
 or (w,h). Gray-scale with channel is fine (w,h,1) and also
 alpha channel is fine (w,h,4).</li>
 <li><strong>data type dtype</strong> (<em>numpy</em>) – Data type of batch, e.g. ‘uint8’</li>
-<li><strong>channelfirst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True, channel is added/moved to front.</li>
+<li><strong>channelfirst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If True, channel is added/moved to front.</li>
 </ul>
 </td>
 </tr>
@@ -533,23 +569,36 @@ alpha channel is fine (w,h,4).</li>
 
 <dl class="function">
 <dt id="nutsml.batcher.build_tensor_batch">
-<code class="descname">build_tensor_batch</code><span class="sig-paren">(</span><em>tensors</em>, <em>dtype</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#build_tensor_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.build_tensor_batch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_tensor_batch</code><span class="sig-paren">(</span><em>tensors</em>, <em>dtype</em>, <em>axes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#build_tensor_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.build_tensor_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return batch of tensors.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml.datautil</span> <span class="k">import</span> <span class="n">shapestr</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">build_tensor_batch</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">shapestr</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
-<span class="go">&#39;2x3x3&#39;</span>
+<span class="go">&#39;2x2x3&#39;</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 <span class="go">[[[0 0 0]</span>
-<span class="go">  [0 0 0]</span>
 <span class="go">  [0 0 0]]</span>
 
 <span class="go"> [[1 1 1]</span>
-<span class="go">  [1 1 1]</span>
 <span class="go">  [1 1 1]]]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">build_tensor_batch</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shapestr</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="go">&#39;2x3x2&#39;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="go">[[[0 0]</span>
+<span class="go">  [0 0]</span>
+<span class="go">  [0 0]]</span>
+
+<span class="go"> [[1 1]</span>
+<span class="go">  [1 1]</span>
+<span class="go">  [1 1]]]</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -559,10 +608,12 @@ alpha channel is fine (w,h,4).</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>tensors</strong> (<em>iterable</em>) – Numpy tensors</li>
 <li><strong>data type dtype</strong> (<em>numpy</em>) – Data type of batch, e.g. ‘uint8’</li>
+<li><strong>axes</strong> (<em>tuple|None</em>) – axes order, e.g. to move a channel axis to the
+last position. (see numpy transpose for details)</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">vstack of tensors</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">stack of tensors, with batch axis first.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.array</p>
@@ -632,7 +683,7 @@ Expects one-hot encoded targets and softmax predictions for output.</p>
 <li><strong>iterable</strong> (<em>iterable</em>) – Iterable with samples.</li>
 <li><strong>batcher</strong> (<em>nutsml.BuildBatch</em>) – Batcher used for network training.</li>
 <li><strong>network</strong> (<em>nutsml.Network</em>) – Network used for prediction</li>
-<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Column in sample that contains target values.</li>
+<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Column in sample that contains target values.</li>
 </ul>
 </td>
 </tr>
@@ -662,7 +713,7 @@ Expects one-hot encoded targets and softmax predictions for output.</p>
 <span class="target" id="module-checkpoint"></span><dl class="class">
 <dt id="nutsml.checkpoint.Checkpoint">
 <em class="property">class </em><code class="descname">Checkpoint</code><span class="sig-paren">(</span><em>create_net</em>, <em>parameters</em>, <em>checkpointspath='checkpoints'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/checkpoint.html#Checkpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.checkpoint.Checkpoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A factory for checkpoints to periodically save network weights and other
 hyper/configuration parameters.</p>
 <div class="line-block">
@@ -764,7 +815,7 @@ the most recent checkpoint is used.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">(weightspath, paramspath, configpath) or (None, None, None)</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -780,7 +831,7 @@ the most recent checkpoint is used.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Paths to all folders under the basedir.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)">list</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></td>
 </tr>
 </tbody>
 </table>
@@ -817,7 +868,7 @@ default configuration will be returned.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">whatever self.create_net returns</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)">object</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)">object</a></td>
 </tr>
 </tbody>
 </table>
@@ -831,12 +882,12 @@ default configuration will be returned.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>checkpointname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of checkpoint folder. Path will be
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>checkpointname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of checkpoint folder. Path will be
 self.basepath/checkpointname</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">path to checkpoint folder</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
 </tr>
 </tbody>
 </table>
@@ -852,8 +903,8 @@ self.basepath/checkpointname</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>score</strong> (<em>float|int</em>) – Some score indicating quality of network.</li>
-<li><strong>checkpointname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Name of checkpoint folder.</li>
-<li><strong>isloss</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True, score is a loss and lower is better otherwise
+<li><strong>checkpointname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of checkpoint folder.</li>
+<li><strong>isloss</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True, score is a loss and lower is better otherwise
 higher is better.</li>
 </ul>
 </td>
@@ -861,7 +912,7 @@ higher is better.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">path to checkpoint folder</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)">str</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
 </td>
 </tr>
 </tbody>
@@ -968,10 +1019,10 @@ to class labels.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>column</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of column in sample that contains label.
+<li><strong>column</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of column in sample that contains label.
 If None process labels directly.</li>
 <li><strong>labels</strong> (<em>list|tuple</em>) – List of class labels (strings).</li>
-<li><strong>onehot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: convert class labels to one-hot encoded
+<li><strong>onehot</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: convert class labels to one-hot encoded
 vectors. False, convert to class index.</li>
 </ul>
 </td>
@@ -1003,15 +1054,15 @@ sufficient to provide the values for the partitions wanted.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>iterable</strong> (<em>iterable</em>) – Iterable over samples</li>
-<li><strong>column</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of column to extract</li>
-<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of column values to create partitions for.</li>
+<li><strong>column</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of column to extract</li>
+<li><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of column values to create partitions for.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of partitions</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
 </td>
 </tr>
 </tbody>
@@ -1081,7 +1132,7 @@ generates different number for Python 2.x and 3.x!</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">partitions of iterable with sizes according to provided ratios.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)">list</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)">list</a>, ..)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a>, ..)</p>
 </td>
 </tr>
 </tbody>
@@ -1099,7 +1150,7 @@ generates different number for Python 2.x and 3.x!</li>
 <span class="target" id="module-config"></span><dl class="class">
 <dt id="nutsml.config.Config">
 <em class="property">class </em><code class="descname">Config</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.Config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></p>
 <p>Dictionary that allows access via keys or attributes.</p>
 <p>Used to store and access configuration data.</p>
 <dl class="method">
@@ -1140,17 +1191,17 @@ generates different number for Python 2.x and 3.x!</li>
 
 <dl class="staticmethod">
 <dt id="nutsml.config.Config.isjson">
-<em class="property">static </em><code class="descname">isjson</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#Config.isjson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.Config.isjson" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">isjson</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/config.html#Config.isjson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.config.Config.isjson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return true if filepath ends with ‘.json’.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filepaht</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filepaht</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if filepath points ot JSON file.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
 </tr>
 </tbody>
 </table>
@@ -1169,7 +1220,7 @@ generates different number for Python 2.x and 3.x!</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path to JSON or YAML file.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to JSON or YAML file.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">returns loaded configuration.</td>
 </tr>
@@ -1191,7 +1242,7 @@ generates different number for Python 2.x and 3.x!</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Filepath. Should end with ‘.json’ or ‘.yaml’</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filepath. Should end with ‘.json’ or ‘.yaml’</td>
 </tr>
 </tbody>
 </table>
@@ -1291,7 +1342,7 @@ columns.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>elements</strong> (<em>iterable</em>) – Any iterable</li>
 <li><strong>keyfunc</strong> (<em>function</em>) – Function that returns key to group by</li>
-<li><strong>ordered</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: return OrderedDict else return dict</li>
+<li><strong>ordered</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: return OrderedDict else return dict</li>
 </ul>
 </td>
 </tr>
@@ -1327,8 +1378,8 @@ for that key as value</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>samples</strong> (<em>iterable</em>) – Iterable of samples where each sample has a
 label at a fixed position (labelcol)</li>
-<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of label in sample</li>
-<li><strong>ordered</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: samples are kept in order when grouping.</li>
+<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of label in sample</li>
+<li><strong>ordered</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: samples are kept in order when grouping.</li>
 </ul>
 </td>
 </tr>
@@ -1337,7 +1388,7 @@ samples grouped by label, and labelcnts is a Counter dict
 containing label frequencies.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)">dict</a>, Counter)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>, Counter)</p>
 </td>
 </tr>
 </tbody>
@@ -1361,11 +1412,11 @@ containing label frequencies.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – Any object</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><em>object</em></a>) – Any object</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if x is NaN</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
 </tr>
 </tbody>
 </table>
@@ -1402,10 +1453,10 @@ will generate the same subsample every time.</p>
 <li><strong>samples</strong> (<em>iterable</em>) – Iterable of samples where each sample has a
 label at a fixed position (labelcol). Labels can be any hashable type,
 e.g. int, str, bool</li>
-<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of label in sample</li>
+<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of label in sample</li>
 <li><strong>rand</strong> (<em>Random|None</em>) – Random number generator. If None,
 random.Random(None) is used.</li>
-<li><strong>ordered</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: samples are kept in order when downsampling.</li>
+<li><strong>ordered</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: samples are kept in order when downsampling.</li>
 </ul>
 </td>
 </tr>
@@ -1437,7 +1488,7 @@ random.Random(None) is used.</li>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Shape as string, e.g shape (3,4) becomes 3x4</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
 </tr>
 </tbody>
 </table>
@@ -1470,7 +1521,7 @@ the default (rand=None).</p>
 <li><strong>samples</strong> (<em>iterable</em>) – Iterable of samples where each sample has a
 label at a fixed position (labelcol). Labels can by any hashable type,
 e.g. int, str, bool</li>
-<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of label in sample</li>
+<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of label in sample</li>
 <li><strong>rand</strong> (<em>Random|None</em>) – Random number generator. If None,
 random.Random(None) is used.</li>
 </ul>
@@ -1497,7 +1548,7 @@ random.Random(None) is used.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path of folder to clear.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path of folder to clear.</td>
 </tr>
 </tbody>
 </table>
@@ -1512,15 +1563,15 @@ random.Random(None) is used.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Prefix to add to filename.</li>
-<li><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Extension to append to filename, e.g. ‘jpg’</li>
+<li><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Prefix to add to filename.</li>
+<li><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Extension to append to filename, e.g. ‘jpg’</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Unique filename.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)">str</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
 </td>
 </tr>
 </tbody>
@@ -1537,8 +1588,8 @@ random.Random(None) is used.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path of folders to create, e.g. ‘foo/bar’</li>
-<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – File creation mode, e.g. 0777</li>
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path of folders to create, e.g. ‘foo/bar’</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – File creation mode, e.g. 0777</li>
 </ul>
 </td>
 </tr>
@@ -1558,16 +1609,16 @@ absolute path to a temp file with a unique name.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Prefix to add to filename.</li>
-<li><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Extension to append to filename, e.g. ‘jpg’</li>
-<li><strong>relative</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: return relative path, otherwise absolute path.</li>
+<li><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Prefix to add to filename.</li>
+<li><strong>ext</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Extension to append to filename, e.g. ‘jpg’</li>
+<li><strong>relative</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: return relative path, otherwise absolute path.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Path to file with unique name in temp folder.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)">str</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
 </td>
 </tr>
 </tbody>
@@ -1582,7 +1633,7 @@ absolute path to a temp file with a unique name.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path to file to delete, e.g. ‘foo/bar/file.txt’</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to file to delete, e.g. ‘foo/bar/file.txt’</td>
 </tr>
 </tbody>
 </table>
@@ -1596,7 +1647,7 @@ absolute path to a temp file with a unique name.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path of folders to delete, e.g. ‘foo/bar’</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path of folders to delete, e.g. ‘foo/bar’</td>
 </tr>
 </tbody>
 </table>
@@ -1628,7 +1679,7 @@ absolute path to a temp file with a unique name.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>image</strong> (<em>ndarray</em>) – RBG (h,w,3) or gray-scale image (h,w).</li>
-<li><strong>channelfirst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True, make channel first axis</li>
+<li><strong>channelfirst</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If True, make channel first axis</li>
 </ul>
 </td>
 </tr>
@@ -1709,7 +1760,7 @@ imageutil.annotation2coords</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>annotation</strong> (<em>annotation</em>) – Annotation of an image region such as
 point, circle, rect or polyline</li>
-<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Value to write in mask for regions defined by annotation</li>
+<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Value to write in mask for regions defined by annotation</li>
 <li><strong>array image</strong> (<em>numpy</em>) – Image annotation refers to.
 Returned mask will be of same size.</li>
 </ul>
@@ -1791,7 +1842,7 @@ point, circle, rect or polyline</td>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>centers</strong> (<em>ndarray</em><em>(</em><em>n</em><em>,</em><em>2</em><em>)</em>) – Center points of patches.</li>
 <li><strong>image</strong> (<em>ndarray</em><em>(</em><em>h</em><em>,</em><em>w</em><em>)</em>) – Image the patches should be inside.</li>
-<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
+<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
 </ul>
 </td>
 </tr>
@@ -1824,7 +1875,7 @@ point, circle, rect or polyline</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>brightness</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Brightness [0, 1]</li>
+<li><strong>brightness</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Brightness [0, 1]</li>
 </ul>
 </td>
 </tr>
@@ -1857,7 +1908,7 @@ point, circle, rect or polyline</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>color</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Color [0, 1]</li>
+<li><strong>color</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Color [0, 1]</li>
 </ul>
 </td>
 </tr>
@@ -1890,7 +1941,7 @@ point, circle, rect or polyline</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>contrast</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Contrast [0, 1]</li>
+<li><strong>contrast</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Contrast [0, 1]</li>
 </ul>
 </td>
 </tr>
@@ -1923,7 +1974,7 @@ point, circle, rect or polyline</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>sharpness</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Sharpness [0, …]</li>
+<li><strong>sharpness</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Sharpness [0, …]</li>
 </ul>
 </td>
 </tr>
@@ -1954,10 +2005,10 @@ point, circle, rect or polyline</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array.</li>
-<li><strong>x1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – x-coordinate of left upper corner of crop (inclusive)</li>
-<li><strong>y1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – y-coordinate of left upper corner of crop (inclusive)</li>
-<li><strong>x2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – x-coordinate of right lower corner of crop (exclusive)</li>
-<li><strong>y2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – y-coordinate of right lower corner of crop (exclusive)</li>
+<li><strong>x1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – x-coordinate of left upper corner of crop (inclusive)</li>
+<li><strong>y1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – y-coordinate of left upper corner of crop (inclusive)</li>
+<li><strong>x2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – x-coordinate of right lower corner of crop (exclusive)</li>
+<li><strong>y2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – y-coordinate of right lower corner of crop (exclusive)</li>
 </ul>
 </td>
 </tr>
@@ -1991,8 +2042,8 @@ coordinates are rounded down.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array.</li>
-<li><strong>w</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Width of crop</li>
-<li><strong>h</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Height of crop</li>
+<li><strong>w</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Width of crop</li>
+<li><strong>h</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Height of crop</li>
 </ul>
 </td>
 </tr>
@@ -2046,9 +2097,9 @@ Recognition, 2003.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>image</strong> (<em>ndarray</em>) – Image of shape [h,w] or [h,w,c]</li>
-<li><strong>smooth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Smoothes the distortion.</li>
-<li><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Scales the distortion.</li>
-<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Seed for random number generator. Ensures that for the
+<li><strong>smooth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Smoothes the distortion.</li>
+<li><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Scales the distortion.</li>
+<li><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Seed for random number generator. Ensures that for the
 same seed images are distorted identically.</li>
 </ul>
 </td>
@@ -2117,9 +2168,9 @@ same seed images are distorted identically.</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.
 Can be of shapes MxN, MxNxC.</li>
-<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Shape of patch. #Dimensions must match image.</li>
-<li><strong>r</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Row for center of patch</li>
-<li><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Column for center of patch</li>
+<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Shape of patch. #Dimensions must match image.</li>
+<li><strong>r</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Row for center of patch</li>
+<li><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Column for center of patch</li>
 </ul>
 </td>
 </tr>
@@ -2274,7 +2325,7 @@ Can be of shapes MxN, MxNxC.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>filepath</strong> (<em>string</em>) – Filepath to image file or numpy array.</li>
-<li><strong>as_grey</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – </li>
+<li><strong>as_grey</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – </li>
 </ul>
 </td>
 </tr>
@@ -2309,7 +2360,7 @@ pixel values are in range [0,255] for dtype = uint8</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array mask</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of points to select. If n is larger than the
+<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of points to select. If n is larger than the
 points available only the available points will be returned.</li>
 </ul>
 </td>
@@ -2357,7 +2408,7 @@ points available only the available points will be returned.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>gamma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Factor for gamma adjustment.</li>
+<li><strong>gamma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Factor for gamma adjustment.</li>
 </ul>
 </td>
 </tr>
@@ -2446,8 +2497,8 @@ Image can be gray-scale (no third channel dim) or color.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>image</strong> (<em>ndarray</em>) – Numpy array of shape h,w,c or h,w.</li>
-<li><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Shape of patch (h,w)</li>
-<li><strong>stride</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Step size of grid patches are extracted from</li>
+<li><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Shape of patch (h,w)</li>
+<li><strong>stride</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Step size of grid patches are extracted from</li>
 </ul>
 </td>
 </tr>
@@ -2502,7 +2553,7 @@ Image can be gray-scale (no third channel dim) or color.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>of tuple points</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – Polyline in format [(x1,y1), (x2,y2), …]</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>of tuple points</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – Polyline in format [(x1,y1), (x2,y2), …]</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple with row and column coordinates in numpy arrays</td>
 </tr>
@@ -2568,8 +2619,8 @@ e.g. float32’ or np.uint8</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>w</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Width in pixels.</li>
-<li><strong>h</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Height in pixels.</li>
+<li><strong>w</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Width in pixels.</li>
+<li><strong>h</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Height in pixels.</li>
 <li><strong>kwargs</strong> (<em>kwargs</em>) – Keyword arguments for the underlying scikit-image
 resize function, e.g. order=1 for linear interpolation.</li>
 </ul>
@@ -2631,7 +2682,7 @@ the default ‘order=0’.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Angle in degrees in counter-clockwise direction</li>
+<li><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Angle in degrees in counter-clockwise direction</li>
 <li><strong>kwargs</strong> (<em>kwargs</em>) – Keyword arguments for the underlying scikit-image
 rotate function, e.g. order=1 for linear interpolation.</li>
 </ul>
@@ -2664,12 +2715,12 @@ rotate function, e.g. order=1 for linear interpolation.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>mask</strong> (<em>ndarray</em>) – Mask</li>
-<li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Sample points in mask that have this value.</li>
-<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
-<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of points to sample. If there is not enough points
+<li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Sample points in mask that have this value.</li>
+<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
+<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of points to sample. If there is not enough points
 to sample from a smaller number will be returned. If there are not
 points at all np.empty((0, 2)) will be returned.</li>
-<li><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Numeric label to append to each center point</li>
+<li><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Numeric label to append to each center point</li>
 </ul>
 </td>
 </tr>
@@ -2702,9 +2753,9 @@ shape pshape that is inside the mask.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>mask</strong> (<em>ndarray</em>) – Mask</li>
-<li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Sample points in mask that have this value.</li>
-<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
-<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of points to sample. If there is not enough points
+<li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Sample points in mask that have this value.</li>
+<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
+<li><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of points to sample. If there is not enough points
 to sample from a smaller number will be returned. If there are not
 points at all np.empty((0, 2)) will be returned.</li>
 </ul>
@@ -2740,11 +2791,11 @@ has the given mask value.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>mask</strong> (<em>ndarray</em>) – Mask</li>
-<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
-<li><strong>npos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of positives to sample.</li>
-<li><strong>nneg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of negatives to sample.</li>
-<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Value for positive points in mask</li>
-<li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Value for negative points in mask</li>
+<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
+<li><strong>npos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of positives to sample.</li>
+<li><strong>nneg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of negatives to sample.</li>
+<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Value for positive points in mask</li>
+<li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Value for negative points in mask</li>
 </ul>
 </td>
 </tr>
@@ -2792,11 +2843,11 @@ the image and the mask.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>mask</strong> (<em>ndarray</em>) – Mask</li>
-<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
-<li><strong>npos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of positives to sample.</li>
-<li><strong>nneg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of negatives to sample.</li>
-<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Value for positive points in mask</li>
-<li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Value for negative points in mask</li>
+<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Patch shape of form (h,w)</li>
+<li><strong>npos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of positives to sample.</li>
+<li><strong>nneg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of negatives to sample.</li>
+<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Value for positive points in mask</li>
+<li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Value for negative points in mask</li>
 </ul>
 </td>
 </tr>
@@ -2804,7 +2855,7 @@ the image and the mask.</p>
 has the given mask value (pos, neg) and the label (1, 0)</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a>(image_patch, mask_patch, label)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>(image_patch, mask_patch, label)</p>
 </td>
 </tr>
 </tbody>
@@ -2866,7 +2917,7 @@ order to 0, which disables the interpolation.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>array image</strong> (<em>numpy</em>) – Numpy array with range [0,255] and dtype ‘uint8’.</li>
-<li><strong>shear_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Shear factor [0, 1]</li>
+<li><strong>shear_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Shear factor [0, 1]</li>
 <li><strong>kwargs</strong> (<em>kwargs</em>) – Keyword arguments for the underlying scikit-image
 warp function, e.g. order=1 for linear interpolation.</li>
 </ul>
@@ -2963,10 +3014,10 @@ int: only write the single given column
 tuple: list of column indices</li>
 <li><strong>colnames</strong> (<em>tuple|None</em>) – Column names to write in first line.
 If None no colnames are written.</li>
-<li><strong>reset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True the writing to the log file is reset
+<li><strong>reset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If True the writing to the log file is reset
 if the logger is recreated. Otherwise log data is appended
 to the log file.</li>
-<li><strong>delimiter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Delimiter for columns in log file.</li>
+<li><strong>delimiter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Delimiter for columns in log file.</li>
 </ul>
 </td>
 </tr>
@@ -3040,10 +3091,10 @@ int: only write the single given column
 tuple: list of column indices</li>
 <li><strong>colnames</strong> (<em>tuple|None</em>) – Column names to write in first line.
 If None no colnames are written.</li>
-<li><strong>reset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True the writing to the log file is reset
+<li><strong>reset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If True the writing to the log file is reset
 if the logger is recreated. Otherwise log data is appended
 to the log file.</li>
-<li><strong>delimiter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Delimiter for columns in log file.</li>
+<li><strong>delimiter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Delimiter for columns in log file.</li>
 </ul>
 </td>
 </tr>
@@ -3082,7 +3133,7 @@ Returned when network.evaluate() is called.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>over batches batches</strong> (<em>iterable</em>) – Batches to evaluate</li>
 <li><strong>network</strong> (<em>nutmsml.Network</em>) – </li>
-<li><strong>of functions metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of functions that compute
+<li><strong>of functions metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of functions that compute
 some metric, e.g. accuracy, F1, kappa-score.
 Each metric function must take vectors with true and
 predicted  classes/probabilities and must compute the
@@ -3093,14 +3144,14 @@ targets and predictions.</li>
 <li><strong>predcol</strong> (<em>int|None</em>) – Index of column in prediction to extract
 for evaluation. If None a single prediction output is
 expected.</li>
-<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of batch column that contain targets.</li>
+<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of batch column that contain targets.</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Result(s) of evaluation, e.g. accuracy, precision, …</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)">float</a> or tuple of floats if there is more than one metric</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a> or tuple of floats if there is more than one metric</p>
 </td>
 </tr>
 </tbody>
@@ -3149,11 +3200,11 @@ expected.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of metrics. See EvalNut for details.</li>
+<li><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of metrics. See EvalNut for details.</li>
 <li><strong>predcol</strong> (<em>int|None</em>) – Index of column in prediction to extract
 for evaluation. If None a single prediction output is
 expected.</li>
-<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of batch column that contain targets.</li>
+<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of batch column that contain targets.</li>
 </ul>
 </td>
 </tr>
@@ -3194,7 +3245,7 @@ self.weightspath is used if weightspath is None.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: return individual predictions instead
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: return individual predictions instead
 of batch of prediction</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Typically returns softmax class probabilities.</td>
@@ -3303,11 +3354,11 @@ self.weightspath is used if weightspath is None.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of metrics. See EvalNut for details.</li>
+<li><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of metrics. See EvalNut for details.</li>
 <li><strong>predcol</strong> (<em>int|None</em>) – Index of column in prediction to extract
 for evaluation. If None a single prediction output is
 expected.</li>
-<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of batch column that contain targets.</li>
+<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of batch column that contain targets.</li>
 </ul>
 </td>
 </tr>
@@ -3348,7 +3399,7 @@ self.weightspath is used if weightspath is None.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: return individual predictions instead
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: return individual predictions instead
 of batch of prediction</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Typically returns softmax class probabilities.</td>
@@ -3422,7 +3473,7 @@ self.weightspath is used if weightspath is None.</td>
 <dl class="class">
 <dt id="nutsml.network.Network">
 <em class="property">class </em><code class="descname">Network</code><span class="sig-paren">(</span><em>weightspath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Abstract base class for networks. Allows to wrap existing network APIs
 such as Lasagne or Keras into an API that enables direct usage of the
 network as a Nut in a nuts flow.</p>
@@ -3453,11 +3504,11 @@ and loaded from.</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of metrics. See EvalNut for details.</li>
+<li><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of metrics. See EvalNut for details.</li>
 <li><strong>predcol</strong> (<em>int|None</em>) – Index of column in prediction to extract
 for evaluation. If None a single prediction output is
 expected.</li>
-<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of batch column that contain targets.</li>
+<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of batch column that contain targets.</li>
 </ul>
 </td>
 </tr>
@@ -3498,7 +3549,7 @@ self.weightspath is used if weightspath is None.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: return individual predictions instead
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: return individual predictions instead
 of batch of prediction</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Typically returns softmax class probabilities.</td>
@@ -3524,8 +3575,8 @@ of batch of prediction</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>score</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Score of the network, e.g. loss, accuracy</li>
-<li><strong>isloss</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True means lower score is better, e.g. loss
+<li><strong>score</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Score of the network, e.g. loss, accuracy</li>
+<li><strong>isloss</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True means lower score is better, e.g. loss
 and the network with the lower score score is saved.</li>
 </ul>
 </td>
@@ -3601,7 +3652,7 @@ self.weightspath is used if weightspath is None.</td>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>over batches batches</strong> (<em>iterable</em>) – Batches to create predictions for.</li>
 <li><strong>func</strong> (<em>function</em>) – Prediction function</li>
-<li><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True: flatten output. Instead of returning batch of
+<li><strong>flatten</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True: flatten output. Instead of returning batch of
 predictions return individual predictions</li>
 </ul>
 </td>
@@ -3641,7 +3692,7 @@ predictions return individual predictions</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Result(s) of training/validation function, e.g. loss, accuracy, …</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)">float</a> or array/tuple of floats</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a> or array/tuple of floats</p>
 </td>
 </tr>
 </tbody>
@@ -3711,15 +3762,15 @@ Alternatively an iterator or a function can be provided that
 generates the x-data for the plot, e.g. xcols = itertools.count()
 or xcols = lambda: epoch
 For xcols==None, itertools.count() will be used.</li>
-<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Rows and columns of the plotter layout., e.g.
+<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Rows and columns of the plotter layout., e.g.
 a layout of (2,3) means that 6 plots in the data are
 arranged in 2 rows and 3 columns.
 Number of cols can be None is then derived from ycols</li>
-<li><strong>every_sec</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Plot every given second, e.g. to plot
+<li><strong>every_sec</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Plot every given second, e.g. to plot
 every 2.5 sec every_sec = 2.5</li>
-<li><strong>every_n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Plot every n-th call.</li>
+<li><strong>every_n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Plot every n-th call.</li>
 <li><strong>filterfunc</strong> (<em>function</em>) – Boolean function to filter plot data.</li>
-<li><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Figure size in inch.</li>
+<li><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Figure size in inch.</li>
 <li><strong>filepath</strong> – Path to a file to draw plot to. If provided the
 plot will not appear on the screen.</li>
 </ul>
@@ -3822,7 +3873,7 @@ Function to compute path to image file from sample, e.g.
 lambda sample: ‘tests/data/img_formats/{1}.jpg’.format(<a href="#id7"><span class="problematic" id="id8">*</span></a>sample)
 or
 None, in this case the image id is take as filepath.</li>
-<li><strong>as_grey</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If true, load as grayscale image.</li>
+<li><strong>as_grey</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If true, load as grayscale image.</li>
 <li><strong>dtype</strong> (<em>dtype</em>) – Numpy data type of the image.</li>
 </ul>
 </td>
@@ -3831,7 +3882,7 @@ None, in this case the image id is take as filepath.</li>
 of shape (h, w, c) or (h, w)</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
 </td>
 </tr>
 </tbody>
@@ -3922,17 +3973,17 @@ any Pandas operations can be performed on it.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Path to a table in CSV, TSV, XLSX or
+<li><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to a table in CSV, TSV, XLSX or
 Pandas pickle format. Depending of file extension (e.g. .csv)
 the table format is picked.
 Note tables must have a header with the column names or
 use kwarg header=None</li>
-<li><strong>rows</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) – Rows to filter. Any Pandas filter expression. If
+<li><strong>rows</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Rows to filter. Any Pandas filter expression. If
 rows = None all rows of the table are returned.</li>
-<li><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – List of names for the table columns to return.
+<li><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – List of names for the table columns to return.
 For columns = None all columns are returned.</li>
-<li><strong>dropnan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – If True all rows that contain NaN are dropped.</li>
-<li><strong>replacenan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><em>object</em></a>) – If not False all NaNs are replaced by
+<li><strong>dropnan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If True all rows that contain NaN are dropped.</li>
+<li><strong>replacenan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><em>object</em></a>) – If not False all NaNs are replaced by
 the value of replacenan</li>
 <li><strong>kwargs</strong> (<em>kwargs</em>) – Key word arguments passed on the the Pandas
 methods for data reading, e.g, header=None.
@@ -3968,7 +4019,7 @@ integrate nicely with each other.</p>
 
 <dl class="staticmethod">
 <dt id="nutsml.reader.ReadPandas.isnull">
-<em class="property">static </em><code class="descname">isnull</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#ReadPandas.isnull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.ReadPandas.isnull" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">isnull</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#ReadPandas.isnull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.ReadPandas.isnull" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return true if values is NaN or None.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">)</span>
@@ -3991,7 +4042,7 @@ integrate nicely with each other.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Return true for NaN or None values.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
 </tr>
 </tbody>
 </table>
@@ -4025,7 +4076,7 @@ down-sampling classes or up-sampling classes by duplicating samples.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>over tuples iterable</strong> (<em>iterable</em>) – Iterable of tuples where column
 labelcol contains a sample label that is used for stratification</li>
-<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Column of tuple/samples that contains the label</li>
+<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Column of tuple/samples that contains the label</li>
 <li><strong>mode</strong> (<em>string</em>) – ‘downrnd’ : randomly down-sample
 ‘up’ : up-sample</li>
 <li><strong>container</strong> (<em>container</em>) – Some container, e.g. list, set, dict
@@ -4083,8 +4134,8 @@ in memory.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>over tuples iterable</strong> (<em>iterable</em>) – Iterable of tuples where column
 labelcol contains a sample label that is used for stratification</li>
-<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Column of tuple/samples that contains the label,</li>
-<li><strong>labeldist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) – Dictionary with numbers of different labels,
+<li><strong>labelcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Column of tuple/samples that contains the label,</li>
+<li><strong>labeldist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Dictionary with numbers of different labels,
 e.g. {‘good’:12, ‘bad’:27, ‘ugly’:3}</li>
 <li><strong>rand</strong> (<em>Random|None</em>) – Random number generator used for down-sampling.
 If None, random.Random() is used.</li>
@@ -4130,6 +4181,7 @@ for instance.</p>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;contrast&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">])</span>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;fliplr&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;flipud&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;occlude&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">]))</span>
 </pre></div>
 </div>
@@ -4205,7 +4257,7 @@ random.Random() is used.</li>
 ‘rotate’</li>
 <li><strong>prob</strong> (<em>float|int</em>) – If prob &lt;= 1:  probability [0,1] that the augmentation is applied
 If prob &gt; 1: number of times augmentation is applied.</li>
-<li><strong>of lists ranges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) – <p>Lists with ranges for each argument of
+<li><strong>of lists ranges</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – <p>Lists with ranges for each argument of
 the augmentation, e.g. [0, 360] degrees, where parameters are</p>
 <blockquote>
 <div>randomly sampled from.</div></blockquote>
@@ -4257,8 +4309,8 @@ See imageutil.annotation2coords for details.
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>iterable</strong> (<em>iterable</em>) – Samples with images and annotations</li>
-<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of sample column that contain image</li>
-<li><strong>annocol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of sample column that contain annotation</li>
+<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of sample column that contain image</li>
+<li><strong>annocol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of sample column that contain annotation</li>
 </ul>
 </td>
 </tr>
@@ -4294,13 +4346,13 @@ samples &gt;&gt; sub_mean &gt;&gt; Consume()</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Sample that contains an image (at imagecol).</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Sample that contains an image (at imagecol).</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Sample with image where mean is subtracted.
 Note that image will not be of dtype uint8 and
 in range [0,255] anymore!</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -4322,7 +4374,7 @@ means=None)</dd>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of sample column that contain image</li>
+<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of sample column that contain image</li>
 <li><strong>filepath</strong> (<em>string</em>) – Path to file were mean values are saved
 and loaded from.</li>
 <li><strong>means</strong> (<em>list|tuple</em>) – Mean values can be provided directly.
@@ -4347,7 +4399,7 @@ samples &gt;&gt; sub_mean.train() &gt;&gt; Consume()</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Input samples are returned unchanged</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -4370,13 +4422,13 @@ samples &gt;&gt; sub_mean &gt;&gt; Consume()</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Sample that contains an image (at imagecol).</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Sample that contains an image (at imagecol).</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Sample with image where mean is subtracted.
 Note that image will not be of dtype uint8 and
 in range [0,255] anymore!</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -4394,7 +4446,7 @@ in range [0,255] anymore!</td>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of sample column that contain image</li>
+<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of sample column that contain image</li>
 <li><strong>filepath</strong> (<em>string</em>) – Path to file were mean values are saved
 and loaded from.</li>
 </ul>
@@ -4416,7 +4468,7 @@ samples &gt;&gt; sub_mean.train() &gt;&gt; Consume()</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Input samples are returned unchanged</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -4458,16 +4510,16 @@ and is negative otherwise.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>iterable</strong> (<em>iterable</em>) – Samples with images</li>
-<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of sample column that contain image</li>
-<li><strong>annocol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of sample column that contain annotation</li>
-<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Shape of patch</li>
-<li><strong>npos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of positive patches to sample</li>
+<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of sample column that contain image</li>
+<li><strong>annocol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of sample column that contain annotation</li>
+<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Shape of patch</li>
+<li><strong>npos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of positive patches to sample</li>
 <li><strong>nneg</strong> (<em>int|function</em>) – Number of negative patches to sample or
 a function hat returns the number of negatives
 based on number of positives.</li>
-<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Mask value indicating positives</li>
-<li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Mask value indicating negatives</li>
-<li><strong>retlabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True return label, False return mask patch</li>
+<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Mask value indicating positives</li>
+<li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Mask value indicating negatives</li>
+<li><strong>retlabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True return label, False return mask patch</li>
 </ul>
 </td>
 </tr>
@@ -4531,16 +4583,16 @@ The mask must be of same size as image.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>iterable</strong> (<em>iterable</em>) – Samples with images</li>
-<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of sample column that contain image</li>
-<li><strong>maskcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of sample column that contain mask</li>
-<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Shape of patch</li>
-<li><strong>npos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of positive patches to sample</li>
+<li><strong>imagecol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of sample column that contain image</li>
+<li><strong>maskcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of sample column that contain mask</li>
+<li><strong>pshape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Shape of patch</li>
+<li><strong>npos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of positive patches to sample</li>
 <li><strong>nneg</strong> (<em>int|function</em>) – Number of negative patches to sample or
 a function hat returns the number of negatives
 based on number of positives.</li>
-<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Mask value indicating positives</li>
-<li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Mask value indicating negatives</li>
-<li><strong>retlabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) – True return label, False return mask patch</li>
+<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Mask value indicating positives</li>
+<li><strong>neg</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Mask value indicating negatives</li>
+<li><strong>retlabel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True return label, False return mask patch</li>
 </ul>
 </td>
 </tr>
@@ -4587,8 +4639,8 @@ and masks are replaced by labels [0,1] or mask patches</p>
 <li><strong>imagecols</strong> (<em>int|tuple</em>) – Indices of sample columns that contain
 images, where patches are extracted from.
 Images must be numpy arrays of shape h,w,c or h,w</li>
-<li><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Shape of patch (h,w)</li>
-<li><strong>npatches</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Number of patches to extract (per image)</li>
+<li><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Shape of patch (h,w)</li>
+<li><strong>npatches</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of patches to extract (per image)</li>
 </ul>
 </td>
 </tr>
@@ -4634,8 +4686,8 @@ Images must be numpy arrays of shape h,w,c or h,w</li>
 <li><strong>imagecols</strong> (<em>int|tuple</em>) – Indices of sample columns that contain
 images, where patches are extracted from.
 Images must be numpy arrays of shape h,w,c or h,w</li>
-<li><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Shape of patch (h,w)</li>
-<li><strong>stride</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Step size of grid patches are extracted from</li>
+<li><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Shape of patch (h,w)</li>
+<li><strong>stride</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Step size of grid patches are extracted from</li>
 </ul>
 </td>
 </tr>
@@ -4667,11 +4719,11 @@ Images must be numpy arrays of shape h,w,c or h,w</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Sample</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Sample</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Transformed sample</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -4694,7 +4746,7 @@ result in images with the same properties.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>imagecols</strong> (<em>int|tuple</em>) – Indices of sample columns the transformation
 should be applied to. Can be a single index or a tuple of indices.</li>
-<li><strong>transspec</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Transformation specification. Either a
+<li><strong>transspec</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Transformation specification. Either a
 tuple with the name of the transformation function or a tuple
 with the name, arguments and keyword arguments of the
 transformation function.
@@ -4786,7 +4838,7 @@ height for resize.</li>
 
 <dl class="attribute">
 <dt id="nutsml.transformer.TransformImage.transformations">
-<code class="descname">transformations</code><em class="property"> = {'brightness': &lt;function change_brightness at 0x000000001C19F840&gt;, 'color': &lt;function change_color at 0x000000001C19F950&gt;, 'contrast': &lt;function change_contrast at 0x000000001C19F7B8&gt;, 'crop': &lt;function crop at 0x000000001C19F488&gt;, 'crop_center': &lt;function crop_center at 0x000000001C19F510&gt;, 'crop_square': &lt;function crop_square at 0x000000001C19F598&gt;, 'elastic': &lt;function distort_elastic at 0x000000001C19FE18&gt;, 'fliplr': &lt;function fliplr at 0x000000001C19FD08&gt;, 'flipud': &lt;function flipud at 0x000000001C19FD90&gt;, 'gray2rgb': &lt;function gray2rgb at 0x000000001C19F9D8&gt;, 'identical': &lt;function identical at 0x000000001C19F400&gt;, 'normalize_histo': &lt;function normalize_histo at 0x000000001C19F6A8&gt;, 'occlude': &lt;function occlude at 0x000000001C19F620&gt;, 'rerange': &lt;function rerange at 0x000000001C19F378&gt;, 'resize': &lt;function resize at 0x000000001C19FBF8&gt;, 'rgb2gray': &lt;function rgb2gray at 0x000000001C19FA60&gt;, 'rotate': &lt;function rotate at 0x000000001C19FB70&gt;, 'sharpness': &lt;function change_sharpness at 0x000000001C19F8C8&gt;, 'shear': &lt;function shear at 0x000000001C19FC80&gt;, 'translate': &lt;function translate at 0x000000001C19FAE8&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transformations</code><em class="property"> = {'brightness': &lt;function change_brightness at 0x0000000009310400&gt;, 'color': &lt;function change_color at 0x0000000009310510&gt;, 'contrast': &lt;function change_contrast at 0x0000000009310378&gt;, 'crop': &lt;function crop at 0x0000000009310048&gt;, 'crop_center': &lt;function crop_center at 0x00000000093100D0&gt;, 'crop_square': &lt;function crop_square at 0x0000000009310158&gt;, 'elastic': &lt;function distort_elastic at 0x00000000093109D8&gt;, 'fliplr': &lt;function fliplr at 0x00000000093108C8&gt;, 'flipud': &lt;function flipud at 0x0000000009310950&gt;, 'gray2rgb': &lt;function gray2rgb at 0x0000000009310598&gt;, 'identical': &lt;function identical at 0x0000000009311F28&gt;, 'normalize_histo': &lt;function normalize_histo at 0x0000000009310268&gt;, 'occlude': &lt;function occlude at 0x00000000093101E0&gt;, 'rerange': &lt;function rerange at 0x0000000009311EA0&gt;, 'resize': &lt;function resize at 0x00000000093107B8&gt;, 'rgb2gray': &lt;function rgb2gray at 0x0000000009310620&gt;, 'rotate': &lt;function rotate at 0x0000000009310730&gt;, 'sharpness': &lt;function change_sharpness at 0x0000000009310488&gt;, 'shear': &lt;function shear at 0x0000000009310840&gt;, 'translate': &lt;function translate at 0x00000000093106A8&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -4800,10 +4852,10 @@ height for resize.</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Sample with images</li>
+<li><strong>sample</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Sample with images</li>
 <li><strong>imagecols</strong> (<em>int|tuple</em>) – Indices of sample columns the transformation
 should be applied to. Can be a single index or a tuple of indices.</li>
-<li><strong>spec</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Transformation specification. Either a tuple with
+<li><strong>spec</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Transformation specification. Either a tuple with
 the name of the transformation function or a tuple with the
 name, arguments and keyword arguments of the transformation function.</li>
 </ul>
@@ -4813,7 +4865,7 @@ name, arguments and keyword arguments of the transformation function.</li>
 remain unchained.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
 </td>
 </tr>
 </tbody>
@@ -4902,11 +4954,11 @@ None means all columns. Can be a single index or a tuple of indices.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Data with images at imgcols.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Data with images at imgcols.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">unchanged input data</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -4942,12 +4994,12 @@ e.g. MxNx1 will be converted to MxN.</p>
 <li><strong>imgcols</strong> (<em>int|tuple|None</em>) – Index or tuple of indices of data columns
 containing images (ndarray). Use None if images are provided
 directly, e.g. [img1, img2, …] &gt;&gt; ViewImage(None) &gt;&gt; Consume()</li>
-<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Rows and columns of the viewer layout., e.g.
+<li><strong>layout</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Rows and columns of the viewer layout., e.g.
 a layout of (2,3) means that 6 images in the data are
 arranged in 2 rows and 3 columns.
 Number of cols can be None is then derived from imgcols</li>
-<li><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Figure size in inch.</li>
-<li><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Waiting time in seconds after each plot.
+<li><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Figure size in inch.</li>
+<li><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Waiting time in seconds after each plot.
 Pressing a key skips the waiting time.</li>
 <li><strong>imargs</strong> (<em>kwargs</em>) – Keyword arguments passed on to matplotlib’s
 imshow() function. See
@@ -4984,11 +5036,11 @@ imshow() function. See
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Data with image at imgcol and annotation at annocol.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Data with image at imgcol and annotation at annocol.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">unchanged input data</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></td>
 </tr>
 </tbody>
 </table>
@@ -5016,11 +5068,11 @@ e.g. MxNx1 will be converted to MxN.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>imgcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) – Index of data column that contains the image</li>
+<li><strong>imgcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of data column that contains the image</li>
 <li><strong>annocols</strong> (<em>int|tuple</em>) – Index or tuple of indices specifying the data
 column(s) that contain annotation (labels, or geometry)</li>
-<li><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) – Figure size in inch.</li>
-<li><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.6)"><em>float</em></a>) – Waiting time in seconds after each plot.
+<li><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – Figure size in inch.</li>
+<li><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Waiting time in seconds after each plot.
 Pressing a key skips the waiting time.</li>
 <li><strong>interpolation</strong> (<em>string</em>) – Interpolation for imshow, e.g.
 ‘nearest’, ‘bilinear’, ‘bicubic’. for details see
@@ -5138,7 +5190,7 @@ if None, Enumerate() is used.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 10, 2018.
+      Last updated on Sep 13, 2018.
 
     </p>
   </div> 
@@ -5159,7 +5211,7 @@ if None, Enumerate() is used.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.34',
+            VERSION:'1.0.38',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -5173,16 +5225,11 @@ if None, Enumerate() is used.</li>
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {
-          
-          SphinxRtdTheme.Navigation.enableSticky();
-          
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script> 
 

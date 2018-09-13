@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; nutsml 1.0.34 documentation</title>
+  <title>Overview &mdash; nutsml 1.0.38 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -59,7 +58,7 @@
             
             
               <div class="version">
-                1.0.34
+                1.0.38
               </div>
             
           
@@ -223,6 +222,9 @@ extract patches at random locations from images.</li>
 extract patches in a regular grid from images.</li>
 <li><a class="reference internal" href="nutsml.html#nutsml.transformer.TransformImage" title="nutsml.transformer.TransformImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformImage</span></code></a> :
 transform images, e.g. crop, translate, rotate.</li>
+<li><a class="reference internal" href="nutsml.html#nutsml.batcher.Mixup" title="nutsml.batcher.Mixup"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mixup</span></code></a> :
+mixup augmentation, see
+<a class="reference external" href="https://arxiv.org/abs/1710.09412">mixup: Beyond Empirical Risk Minimization</a></li>
 </ul>
 <p><strong>Boosting</strong></p>
 <ul class="simple">
@@ -267,7 +269,7 @@ log sample columns to file.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 10, 2018.
+      Last updated on Sep 13, 2018.
 
     </p>
   </div> 
@@ -288,7 +290,7 @@ log sample columns to file.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.34',
+            VERSION:'1.0.38',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -302,16 +304,11 @@ log sample columns to file.</li>
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {
-          
-          SphinxRtdTheme.Navigation.enableSticky();
-          
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script> 
 

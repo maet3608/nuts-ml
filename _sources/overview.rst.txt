@@ -92,6 +92,10 @@ Click on a nut name for more details.
 
 - :class:`TransformImage <nutsml.transformer.TransformImage>` :
   transform images, e.g. crop, translate, rotate.
+  
+- :class:`Mixup <nutsml.batcher.Mixup>` :
+  mixup augmentation, see 
+  `mixup: Beyond Empirical Risk Minimization <https://arxiv.org/abs/1710.09412>`_ 
 
 
 **Boosting**

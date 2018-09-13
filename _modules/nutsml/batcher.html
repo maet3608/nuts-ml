@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.batcher &mdash; nutsml 1.0.34 documentation</title>
+  <title>nutsml.batcher &mdash; nutsml 1.0.38 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -57,7 +56,7 @@
             
             
               <div class="version">
-                1.0.34
+                1.0.38
               </div>
             
           
@@ -160,6 +159,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">nutsml.imageutil</span> <span class="k">as</span> <span class="nn">ni</span>
 
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">nut_function</span>
 <span class="kn">from</span> <span class="nn">nutsflow.base</span> <span class="k">import</span> <span class="n">Nut</span>
 <span class="kn">from</span> <span class="nn">nutsflow.iterfunction</span> <span class="k">import</span> <span class="n">take</span><span class="p">,</span> <span class="n">PrefetchIterator</span>
 
@@ -225,32 +225,48 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="build_tensor_batch"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.build_tensor_batch">[docs]</a><span class="k">def</span> <span class="nf">build_tensor_batch</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+<div class="viewcode-block" id="build_tensor_batch"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.build_tensor_batch">[docs]</a><span class="k">def</span> <span class="nf">build_tensor_batch</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return batch of tensors.</span>
 
 <span class="sd">    &gt;&gt;&gt; from nutsml.datautil import shapestr</span>
-<span class="sd">    &gt;&gt;&gt; tensors = [np.zeros((3, 3)), np.ones((3, 3))]</span>
+<span class="sd">    &gt;&gt;&gt; tensors = [np.zeros((2, 3)), np.ones((2, 3))]</span>
 <span class="sd">    &gt;&gt;&gt; batch = build_tensor_batch(tensors, &#39;uint8&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; shapestr(batch)</span>
-<span class="sd">    &#39;2x3x3&#39;</span>
+<span class="sd">    &#39;2x2x3&#39;</span>
 
 <span class="sd">    &gt;&gt;&gt; print(batch)</span>
 <span class="sd">    [[[0 0 0]</span>
-<span class="sd">      [0 0 0]</span>
 <span class="sd">      [0 0 0]]</span>
 <span class="sd">    &lt;BLANKLINE&gt;</span>
 <span class="sd">     [[1 1 1]</span>
-<span class="sd">      [1 1 1]</span>
 <span class="sd">      [1 1 1]]]</span>
+
+
+<span class="sd">    &gt;&gt;&gt; batch = build_tensor_batch(tensors, &#39;uint8&#39;, axes = (1, 0))</span>
+<span class="sd">    &gt;&gt;&gt; shapestr(batch)</span>
+<span class="sd">    &#39;2x3x2&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; print(batch)</span>
+<span class="sd">    [[[0 0]</span>
+<span class="sd">      [0 0]</span>
+<span class="sd">      [0 0]]</span>
+<span class="sd">    &lt;BLANKLINE&gt;</span>
+<span class="sd">     [[1 1]</span>
+<span class="sd">      [1 1]</span>
+<span class="sd">      [1 1]]]</span>
 
 <span class="sd">    :param iterable tensors: Numpy tensors</span>
 <span class="sd">    :param numpy data type dtype: Data type of batch, e.g. &#39;uint8&#39;</span>
-<span class="sd">    :return: vstack of tensors</span>
+<span class="sd">    :param tuple|None axes: axes order, e.g. to move a channel axis to the</span>
+<span class="sd">      last position. (see numpy transpose for details)</span>
+<span class="sd">    :return: stack of tensors, with batch axis first.</span>
 <span class="sd">    :rtype: numpy.array</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">tensors</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No tensors to build batch!&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">axes</span><span class="p">:</span>
+        <span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">axes</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tensors</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
 
 
@@ -340,7 +356,7 @@
 <span class="sd">        &gt;&gt;&gt; batches = samples &gt;&gt; build_batch &gt;&gt; Collect()</span>
 
 <span class="sd">        A batch typically is of the format [[inputs], [outputs]], e.g. in the</span>
-<span class="sd">        firs case above [[number, image], [one_hot]], where each of the columns</span>
+<span class="sd">        first case above [[number, image], [one_hot]], where each of the columns</span>
 <span class="sd">        is a Numpy array. If a different structure is required a format function</span>
 <span class="sd">        can be specified. The following example shows how to build a batch as</span>
 <span class="sd">        as tuple of columns instead of a list.</span>
@@ -356,7 +372,7 @@
 <span class="sd">        :param int batchsize: Size of batch = number of rows in batch.</span>
 <span class="sd">        :param int prefetch: Number of batches to prefetch. This speeds up</span>
 <span class="sd">           GPU based training, since one batch is built on CPU while the</span>
-<span class="sd">           another is procesed on the GPU.</span>
+<span class="sd">           another is processed on the GPU.</span>
 <span class="sd">        :param function|None fmt: Function to format output.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batchsize</span> <span class="o">=</span> <span class="n">batchsize</span>
@@ -371,7 +387,9 @@
 
 <div class="viewcode-block" id="BuildBatch.by"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.BuildBatch.by">[docs]</a>    <span class="k">def</span> <span class="nf">by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Specify and add batch columns to create</span>
+<span class="sd">        Specify and add batch columns to create batch.</span>
+
+<span class="sd">        DEPRECATED: Use input() and output() instead.</span>
 
 <span class="sd">        :param int col: column of the sample to extract and to create a</span>
 <span class="sd">          batch column from.</span>
@@ -388,7 +406,8 @@
 <span class="sd">        :return: instance of BuildBatch</span>
 <span class="sd">        :rtype: BuildBatch</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Use .input() or .output() instead.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;by()&#39; is deprecated. Use input() or output() instead.&quot;</span><span class="p">,</span>
+                      <span class="ne">DeprecationWarning</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">colspecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">col</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -470,6 +489,39 @@
         <span class="n">prefetch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefetch</span>
         <span class="n">batch_gen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_generator</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">PrefetchIterator</span><span class="p">(</span><span class="n">batch_gen</span><span class="p">,</span> <span class="n">prefetch</span><span class="p">)</span> <span class="k">if</span> <span class="n">prefetch</span> <span class="k">else</span> <span class="n">batch_gen</span></div></div>
+
+
+<div class="viewcode-block" id="Mixup"><a class="viewcode-back" href="../../nutsml.html#nutsml.batcher.Mixup">[docs]</a><span class="nd">@nut_function</span>
+<span class="k">def</span> <span class="nf">Mixup</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mixup produces random interpolations between data and labels.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">    ... &gt;&gt; BuildBatch() &gt;&gt; Mixup(0.1) &gt;&gt; network.train() &gt;&gt; ...</span>
+
+<span class="sd">    Implementation based on the following paper:</span>
+<span class="sd">    mixup: Beyond Empirical Risk Minimization</span>
+<span class="sd">    https://arxiv.org/abs/1710.09412</span>
+
+<span class="sd">    :param list batch: Batch consisting of list of input data and list of</span>
+<span class="sd">           output data, where data must be numeric, e.g. images and</span>
+<span class="sd">           one-hot-encoded class labels that can be interpolated between.</span>
+<span class="sd">    :param float alpha: Control parameter for beta distribution the</span>
+<span class="sd">           interpolation factors are sampled from. Range: [0,...,1]</span>
+<span class="sd">           For alpha &lt;= 0 no mixup is performed.</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">alpha</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">batch</span>
+
+    <span class="n">ri</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">ri</span><span class="p">)</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+    <span class="n">mixup</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">data</span><span class="p">:</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">data</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="n">ri</span><span class="p">]</span>
+
+    <span class="n">inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">mixup</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">mixup</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">]</span></div>
 </pre></div>
 
            </div>
@@ -483,7 +535,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Apr 10, 2018.
+      Last updated on Sep 13, 2018.
 
     </p>
   </div> 
@@ -504,7 +556,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.34',
+            VERSION:'1.0.38',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -518,16 +570,11 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {
-          
-          SphinxRtdTheme.Navigation.enableSticky();
-          
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script> 
 
