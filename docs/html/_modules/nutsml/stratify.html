@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nutsml.stratify &mdash; nutsml 1.0.38 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.38
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">nutsml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nutsml.stratify</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for nutsml.stratify</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: stratify</span>
+<span class="sd">   :synopsis: Stratification of sample sets</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+
+<span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rnd</span>
+
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">nut_processor</span><span class="p">,</span> <span class="n">nut_sink</span><span class="p">,</span> <span class="n">Sort</span>
+<span class="kn">from</span> <span class="nn">nutsml.datautil</span> <span class="k">import</span> <span class="n">upsample</span><span class="p">,</span> <span class="n">random_downsample</span>
+
+
+<div class="viewcode-block" id="Stratify"><a class="viewcode-back" href="../../nutsml.html#nutsml.stratify.Stratify">[docs]</a><span class="nd">@nut_processor</span>
+<span class="k">def</span> <span class="nf">Stratify</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">labelcol</span><span class="p">,</span> <span class="n">labeldist</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    iterable &gt;&gt; Stratify(labelcol, labeldist, rand=rnd.Random())</span>
+
+<span class="sd">    Stratifies samples by randomly down-sampling according to the given</span>
+<span class="sd">    label distribution. In detail: samples belonging to the class with the</span>
+<span class="sd">    smallest number of samples are returned with probability one. Samples</span>
+<span class="sd">    from other classes are randomly down-sampled to match the number of</span>
+<span class="sd">    samples in the smallest class.</span>
+
+<span class="sd">    Note that in contrast to SplitRandom, which generates the same random</span>
+<span class="sd">    split per default, Stratify generates different stratifications.</span>
+<span class="sd">    Furthermore, while the downsampling is random the order of samples</span>
+<span class="sd">    remains the same!</span>
+
+<span class="sd">    While labeldist needs to be provided or computed upfront the actual</span>
+<span class="sd">    stratification occurs online and only one sample per time is stored</span>
+<span class="sd">    in memory.</span>
+
+<span class="sd">    &gt;&gt;&gt; from nutsflow import Collect, CountValues</span>
+<span class="sd">    &gt;&gt;&gt; from nutsflow.common import StableRandom</span>
+<span class="sd">    &gt;&gt;&gt; fix = StableRandom(1)  # Stable random numbers for doctest</span>
+
+<span class="sd">    &gt;&gt;&gt; samples = [(&#39;pos&#39;, 1), (&#39;pos&#39;, 1), (&#39;neg&#39;, 0)]</span>
+<span class="sd">    &gt;&gt;&gt; labeldist = samples &gt;&gt; CountValues(1)</span>
+<span class="sd">    &gt;&gt;&gt; samples &gt;&gt; Stratify(1, labeldist, rand=fix) &gt;&gt; Sort()</span>
+<span class="sd">    [(&#39;neg&#39;, 0), (&#39;pos&#39;, 1)]</span>
+
+<span class="sd">    :param iterable over tuples iterable: Iterable of tuples where column</span>
+<span class="sd">       labelcol contains a sample label that is used for stratification</span>
+<span class="sd">    :param int labelcol: Column of tuple/samples that contains the label,</span>
+<span class="sd">    :param dict labeldist: Dictionary with numbers of different labels,</span>
+<span class="sd">       e.g. {&#39;good&#39;:12, &#39;bad&#39;:27, &#39;ugly&#39;:3}</span>
+<span class="sd">    :param Random|None rand: Random number generator used for down-sampling.</span>
+<span class="sd">       If None, random.Random() is used.</span>
+<span class="sd">    :return: Stratified samples</span>
+<span class="sd">    :rtype: Generator over tuples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rand</span> <span class="o">=</span> <span class="n">rnd</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span> <span class="k">if</span> <span class="n">rand</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rand</span>
+    <span class="n">min_n</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">labeldist</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="p">{</span><span class="n">l</span><span class="p">:</span> <span class="n">min_n</span> <span class="o">/</span> <span class="n">n</span> <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">labeldist</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="n">labelcol</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">rand</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">probs</span><span class="p">[</span><span class="n">label</span><span class="p">]:</span>
+            <span class="k">yield</span> <span class="n">sample</span></div>
+
+
+<div class="viewcode-block" id="CollectStratified"><a class="viewcode-back" href="../../nutsml.html#nutsml.stratify.CollectStratified">[docs]</a><span class="nd">@nut_sink</span>
+<span class="k">def</span> <span class="nf">CollectStratified</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">labelcol</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;downrnd&#39;</span><span class="p">,</span> <span class="n">container</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span>
+                      <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    iterable &gt;&gt; CollectStratified(labelcol, mode=&#39;downrnd&#39;,  container=list,</span>
+<span class="sd">                                  rand=rnd.Random())</span>
+
+<span class="sd">    Collects samples in a container and stratifies them by either randomly</span>
+<span class="sd">    down-sampling classes or up-sampling classes by duplicating samples.</span>
+
+<span class="sd">    &gt;&gt;&gt; from nutsflow import Collect</span>
+<span class="sd">    &gt;&gt;&gt; samples = [(&#39;pos&#39;, 1), (&#39;pos&#39;, 1), (&#39;neg&#39;, 0)]</span>
+<span class="sd">    &gt;&gt;&gt; samples &gt;&gt; CollectStratified(1) &gt;&gt; Sort()</span>
+<span class="sd">    [(&#39;neg&#39;, 0), (&#39;pos&#39;, 1)]</span>
+
+<span class="sd">    :param iterable over tuples iterable: Iterable of tuples where column</span>
+<span class="sd">       labelcol contains a sample label that is used for stratification</span>
+<span class="sd">    :param int labelcol: Column of tuple/samples that contains the label</span>
+<span class="sd">    :param string mode:</span>
+<span class="sd">       &#39;downrnd&#39; : randomly down-sample</span>
+<span class="sd">       &#39;up&#39; : up-sample</span>
+<span class="sd">    :param container container: Some container, e.g. list, set, dict</span>
+<span class="sd">           that can be filled from an iterable</span>
+<span class="sd">    :param Random|None rand: Random number generator used for sampling.</span>
+<span class="sd">       If None, random.Random() is used.</span>
+<span class="sd">    :return: Stratified samples</span>
+<span class="sd">    :rtype: List of tuples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rand</span> <span class="o">=</span> <span class="n">rnd</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span> <span class="k">if</span> <span class="n">rand</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rand</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;up&#39;</span><span class="p">:</span>
+        <span class="n">stratified</span> <span class="o">=</span> <span class="n">upsample</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">labelcol</span><span class="p">,</span> <span class="n">rand</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;downrnd&#39;</span><span class="p">:</span>
+        <span class="n">stratified</span> <span class="o">=</span> <span class="n">random_downsample</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">labelcol</span><span class="p">,</span> <span class="n">rand</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown mode: &#39;</span> <span class="o">+</span> <span class="n">mode</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">container</span><span class="p">(</span><span class="n">stratified</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="k">import</span> <span class="n">StableRandom</span>
+    <span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">Random</span>
+
+    <span class="n">rand</span> <span class="o">=</span> <span class="n">Random</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">labelcol</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">labeldist</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">labeldist</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="n">labelcol</span><span class="p">,</span> <span class="n">labeldist</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on Sep 18, 2018.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0.38',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

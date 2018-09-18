@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Loading images &mdash; nutsml 1.0.38 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CIFAR-10 Example" href="example.html" />
+    <link rel="prev" title="Splitting and stratifying" href="split_stratify.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.38
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="introduction.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reading_samples.html">Reading data samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Loading images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example.html">CIFAR-10 Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">nutsml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="introduction.html">Tutorial</a> &raquo;</li>
+        
+      <li>Loading images</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/loading_images.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="loading-images">
+<span id="reader"></span><h1>Loading images<a class="headerlink" href="#loading-images" title="Permalink to this headline">¶</a></h1>
+<p>Typically image data sets are too large to be loaded into memory entirely and
+need to be processed lazily. The common strategy is to use samples that only
+contain file paths (and labels) and load images on demand.</p>
+<p>The <a class="reference external" href="https://maet3608.github.io/nuts-ml/nutsml.html#module-nutsml.reader">ReadImage()</a> nut of <strong>nuts-ml</strong>
+reads images from a given path and returns Numpy arrays. Here a simple example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nut_grayscale.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">item 0: &lt;tuple&gt;</span>
+<span class="go">  0: &lt;ndarray&gt; shape:213x320x3 dtype:uint8 range:0..248</span>
+<span class="go">  1: &lt;str&gt; color</span>
+<span class="go">item 1: &lt;tuple&gt;</span>
+<span class="go">  0: &lt;ndarray&gt; shape:213x320 dtype:uint8 range:18..235</span>
+<span class="go">  1: &lt;str&gt; gray</span>
+</pre></div>
+</div>
+<p>where samples are composed of the image filename and a (class) label (<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">gray</span></code>).
+<code class="docutils literal notranslate"><span class="pre">ReadImage(0,</span> <span class="pre">imagepath)</span></code> takes a sample, extracts the image filename from column 0
+of the sample, constructs the full file path by replacing <code class="docutils literal notranslate"><span class="pre">*</span></code> in  <code class="docutils literal notranslate"><span class="pre">imagepath</span></code> by
+the image name, loads the image and replaces the image name by the actual image data.</p>
+<p>Color images are loaded as Numpy array with shape (H,W,3) and gray scale
+images with shape (H,W) both with data type <code class="docutils literal notranslate"><span class="pre">uint8</span></code>. In this example the images are of
+size 213x320(x3) and <code class="docutils literal notranslate"><span class="pre">range</span></code> list the smallest and largest value of the image.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PrintColType()</span></code> in the above pipeline prints the data types of sample columns. In
+this case, the first sample (<code class="docutils literal notranslate"><span class="pre">item</span> <span class="pre">0</span></code>) is a tuple and contains a Numpy array (the image)
+in column 0 and the class label as a string in column 1.
+Similarly, the second sample (<code class="docutils literal notranslate"><span class="pre">item</span> <span class="pre">1</span></code>) contains the loaded image as a Numpy array
+and the class label.</p>
+<p>TODO
+- ReadLabelDirs
+- ViewImage
+- ViewImageAnnotation</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="example.html" class="btn btn-neutral float-right" title="CIFAR-10 Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="split_stratify.html" class="btn btn-neutral" title="Splitting and stratifying" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, IBM Research Australia.
+      Last updated on Sep 18, 2018.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.38',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
