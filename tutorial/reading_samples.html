@@ -94,7 +94,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#numpy-arrays">Numpy arrays</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#web-files">Web files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#label-directories">Label directories</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#image-data">Image data</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
@@ -283,7 +282,7 @@ Alternatively, we could refactor the code as follows to shorten the pipeline:</p
 </pre></div>
 </div>
 <p>This concludes the basics. In the following examples we will read data sets
-in different formats from the file system.</p>
+in different formats from the file system and the web.</p>
 </div>
 <div class="section" id="txt-files">
 <h2>TXT files<a class="headerlink" href="#txt-files" title="Permalink to this headline">¶</a></h2>
@@ -599,25 +598,6 @@ For instance, converting text files into word count dictionaries.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="image-data">
-<h2>Image data<a class="headerlink" href="#image-data" title="Permalink to this headline">¶</a></h2>
-<p><strong>nuts-ml</strong> was specifically designed for image data. Typically image data sets are too
-large to be loaded into memory entirely and need to be processed lazily. Similarly to
-the code example for <code class="docutils literal notranslate"><span class="pre">ReadLabelDirs</span></code> above the common strategy is to have samples that
-only contain file paths and load the images on demand.</p>
-<p>The <a class="reference external" href="https://maet3608.github.io/nuts-ml/nutsml.html#module-nutsml.reader">ReadImage()</a> nut of <strong>nuts-ml</strong>
-loads images from a given path and returns Numpy arrays of shape (h, w, c) or (h, w)
-for color images or gray scale images respectively. Here a simple example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">imagenames</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nut_color.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;nut_grayscale.jpg&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">imagenames</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">item 0: &lt;tuple&gt;</span>
-<span class="go">  0: &lt;ndarray&gt; shape:213x320x3 dtype:uint8 range:0..248</span>
-<span class="go">item 1: &lt;tuple&gt;</span>
-<span class="go">  0: &lt;ndarray&gt; shape:213x320 dtype:uint8 range:18..235</span>
-</pre></div>
-</div>
-</div>
 </div>
 
 
@@ -641,7 +621,7 @@ for color images or gray scale images respectively. Here a simple example:</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 13, 2018.
+      Last updated on Sep 18, 2018.
 
     </p>
   </div> 

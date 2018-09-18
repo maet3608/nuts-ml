@@ -1495,6 +1495,34 @@ random.Random(None) is used.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="nutsml.datautil.shuffle_sublists">
+<code class="descname">shuffle_sublists</code><span class="sig-paren">(</span><em>sublists</em>, <em>rand</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#shuffle_sublists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.shuffle_sublists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffles the lists within a list but not the list itself.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="k">import</span> <span class="n">StableRandom</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rand</span> <span class="o">=</span> <span class="n">StableRandom</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sublists</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shuffle_sublists</span><span class="p">(</span><span class="n">sublists</span><span class="p">,</span> <span class="n">rand</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sublists</span>
+<span class="go">[[1, 3, 2], [4, 5, 7, 6]]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sublists</strong> – A list containing lists</li>
+<li><strong>rand</strong> (<em>Random</em>) – A random number generator.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="nutsml.datautil.upsample">
 <code class="descname">upsample</code><span class="sig-paren">(</span><em>samples</em>, <em>labelcol</em>, <em>rand=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#upsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.upsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Up-sample sample set.</p>
@@ -4112,7 +4140,9 @@ smallest number of samples are returned with probability one. Samples
 from other classes are randomly down-sampled to match the number of
 samples in the smallest class.</p>
 <p>Note that in contrast to SplitRandom, which generates the same random
-split per default, Stratify generates different stratifications.</p>
+split per default, Stratify generates different stratifications.
+Furthermore, while the downsampling is random the order of samples
+remains the same!</p>
 <p>While labeldist needs to be provided or computed upfront the actual
 stratification occurs online and only one sample per time is stored
 in memory.</p>
@@ -4838,7 +4868,7 @@ height for resize.</li>
 
 <dl class="attribute">
 <dt id="nutsml.transformer.TransformImage.transformations">
-<code class="descname">transformations</code><em class="property"> = {'brightness': &lt;function change_brightness at 0x0000000009310400&gt;, 'color': &lt;function change_color at 0x0000000009310510&gt;, 'contrast': &lt;function change_contrast at 0x0000000009310378&gt;, 'crop': &lt;function crop at 0x0000000009310048&gt;, 'crop_center': &lt;function crop_center at 0x00000000093100D0&gt;, 'crop_square': &lt;function crop_square at 0x0000000009310158&gt;, 'elastic': &lt;function distort_elastic at 0x00000000093109D8&gt;, 'fliplr': &lt;function fliplr at 0x00000000093108C8&gt;, 'flipud': &lt;function flipud at 0x0000000009310950&gt;, 'gray2rgb': &lt;function gray2rgb at 0x0000000009310598&gt;, 'identical': &lt;function identical at 0x0000000009311F28&gt;, 'normalize_histo': &lt;function normalize_histo at 0x0000000009310268&gt;, 'occlude': &lt;function occlude at 0x00000000093101E0&gt;, 'rerange': &lt;function rerange at 0x0000000009311EA0&gt;, 'resize': &lt;function resize at 0x00000000093107B8&gt;, 'rgb2gray': &lt;function rgb2gray at 0x0000000009310620&gt;, 'rotate': &lt;function rotate at 0x0000000009310730&gt;, 'sharpness': &lt;function change_sharpness at 0x0000000009310488&gt;, 'shear': &lt;function shear at 0x0000000009310840&gt;, 'translate': &lt;function translate at 0x00000000093106A8&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transformations</code><em class="property"> = {'brightness': &lt;function change_brightness at 0x000000000970F488&gt;, 'color': &lt;function change_color at 0x000000000970F598&gt;, 'contrast': &lt;function change_contrast at 0x000000000970F400&gt;, 'crop': &lt;function crop at 0x000000000970F0D0&gt;, 'crop_center': &lt;function crop_center at 0x000000000970F158&gt;, 'crop_square': &lt;function crop_square at 0x000000000970F1E0&gt;, 'elastic': &lt;function distort_elastic at 0x000000000970FA60&gt;, 'fliplr': &lt;function fliplr at 0x000000000970F950&gt;, 'flipud': &lt;function flipud at 0x000000000970F9D8&gt;, 'gray2rgb': &lt;function gray2rgb at 0x000000000970F620&gt;, 'identical': &lt;function identical at 0x000000000970F048&gt;, 'normalize_histo': &lt;function normalize_histo at 0x000000000970F2F0&gt;, 'occlude': &lt;function occlude at 0x000000000970F268&gt;, 'rerange': &lt;function rerange at 0x000000000970AF28&gt;, 'resize': &lt;function resize at 0x000000000970F840&gt;, 'rgb2gray': &lt;function rgb2gray at 0x000000000970F6A8&gt;, 'rotate': &lt;function rotate at 0x000000000970F7B8&gt;, 'sharpness': &lt;function change_sharpness at 0x000000000970F510&gt;, 'shear': &lt;function shear at 0x000000000970F8C8&gt;, 'translate': &lt;function translate at 0x000000000970F730&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -5190,7 +5220,7 @@ if None, Enumerate() is used.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 13, 2018.
+      Last updated on Sep 18, 2018.
 
     </p>
   </div> 

@@ -21,9 +21,9 @@ of a classifier on CIFAR-10 data can be found in the last Section
    example
    
 
-
 .. comment::
-   image_processing
+   transformation
+   augmentation
    batching
    network
    logging

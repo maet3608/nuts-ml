@@ -164,7 +164,38 @@
             
   <div class="section" id="loading-images">
 <span id="reader"></span><h1>Loading images<a class="headerlink" href="#loading-images" title="Permalink to this headline">¶</a></h1>
-<p>TODO</p>
+<p>Typically image data sets are too large to be loaded into memory entirely and
+need to be processed lazily. The common strategy is to use samples that only
+contain file paths (and labels) and load images on demand.</p>
+<p>The <a class="reference external" href="https://maet3608.github.io/nuts-ml/nutsml.html#module-nutsml.reader">ReadImage()</a> nut of <strong>nuts-ml</strong>
+reads images from a given path and returns Numpy arrays. Here a simple example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nut_grayscale.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">item 0: &lt;tuple&gt;</span>
+<span class="go">  0: &lt;ndarray&gt; shape:213x320x3 dtype:uint8 range:0..248</span>
+<span class="go">  1: &lt;str&gt; color</span>
+<span class="go">item 1: &lt;tuple&gt;</span>
+<span class="go">  0: &lt;ndarray&gt; shape:213x320 dtype:uint8 range:18..235</span>
+<span class="go">  1: &lt;str&gt; gray</span>
+</pre></div>
+</div>
+<p>where samples are composed of the image filename and a (class) label (<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">gray</span></code>).
+<code class="docutils literal notranslate"><span class="pre">ReadImage(0,</span> <span class="pre">imagepath)</span></code> takes a sample, extracts the image filename from column 0
+of the sample, constructs the full file path by replacing <code class="docutils literal notranslate"><span class="pre">*</span></code> in  <code class="docutils literal notranslate"><span class="pre">imagepath</span></code> by
+the image name, loads the image and replaces the image name by the actual image data.</p>
+<p>Color images are loaded as Numpy array with shape (H,W,3) and gray scale
+images with shape (H,W) both with data type <code class="docutils literal notranslate"><span class="pre">uint8</span></code>. In this example the images are of
+size 213x320(x3) and <code class="docutils literal notranslate"><span class="pre">range</span></code> list the smallest and largest value of the image.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PrintColType()</span></code> in the above pipeline prints the data types of sample columns. In
+this case, the first sample (<code class="docutils literal notranslate"><span class="pre">item</span> <span class="pre">0</span></code>) is a tuple and contains a Numpy array (the image)
+in column 0 and the class label as a string in column 1.
+Similarly, the second sample (<code class="docutils literal notranslate"><span class="pre">item</span> <span class="pre">1</span></code>) contains the loaded image as a Numpy array
+and the class label.</p>
+<p>TODO
+- ReadLabelDirs
+- ViewImage
+- ViewImageAnnotation</p>
 </div>
 
 
@@ -188,7 +219,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 13, 2018.
+      Last updated on Sep 18, 2018.
 
     </p>
   </div> 

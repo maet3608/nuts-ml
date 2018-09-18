@@ -161,7 +161,7 @@
 
 <span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">nut_function</span><span class="p">,</span> <span class="n">nut_sink</span><span class="p">,</span> <span class="n">NutFunction</span>
 <span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="k">import</span> <span class="n">StableRandom</span>
-<span class="kn">from</span> <span class="nn">nutsml.datautil</span> <span class="k">import</span> <span class="n">group_by</span>
+<span class="kn">from</span> <span class="nn">nutsml.datautil</span> <span class="k">import</span> <span class="n">group_by</span><span class="p">,</span> <span class="n">shuffle_sublists</span>
 
 
 <div class="viewcode-block" id="CheckNaN"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.CheckNaN">[docs]</a><span class="nd">@nut_function</span>
@@ -216,88 +216,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">groups</span> <span class="o">=</span> <span class="n">group_by</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">sample</span><span class="p">:</span> <span class="n">sample</span><span class="p">[</span><span class="n">column</span><span class="p">])</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">groups</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">[])</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="SplitRandom"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.SplitRandom">[docs]</a><span class="nd">@nut_sink</span>
-<span class="k">def</span> <span class="nf">SplitRandom</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Randomly split iterable into partitions.</span>
-
-<span class="sd">    For the same input data the same split is created every time and is stable</span>
-<span class="sd">    across different Python version 2.x or 3.x. A random number generator</span>
-<span class="sd">    can be provided to create varying splits.</span>
-
-<span class="sd">    &gt;&gt;&gt; train, val = range(10) &gt;&gt; SplitRandom(ratio=0.7)</span>
-<span class="sd">    &gt;&gt;&gt; train, val</span>
-<span class="sd">    ([6, 3, 1, 7, 0, 2, 4], [5, 9, 8])</span>
-
-<span class="sd">    &gt;&gt;&gt; range(10) &gt;&gt; SplitRandom(ratio=0.7)  # Same split again</span>
-<span class="sd">    [[6, 3, 1, 7, 0, 2, 4], [5, 9, 8]]</span>
-
-<span class="sd">    &gt;&gt;&gt; train, val, test = range(10) &gt;&gt; SplitRandom(ratio=(0.6, 0.3, 0.1))</span>
-<span class="sd">    &gt;&gt;&gt; train, val, test</span>
-<span class="sd">    ([6, 1, 4, 0, 3, 2], [8, 7, 9], [5])</span>
-
-<span class="sd">    &gt;&gt;&gt; data = zip(&#39;aabbccddee&#39;, range(10))</span>
-<span class="sd">    &gt;&gt;&gt; same_letter = lambda t: t[0]</span>
-<span class="sd">    &gt;&gt;&gt; train, val = data &gt;&gt; SplitRandom(ratio=0.6, constraint=same_letter)</span>
-<span class="sd">    &gt;&gt;&gt; train</span>
-<span class="sd">    [(&#39;a&#39;, 1), (&#39;a&#39;, 0), (&#39;d&#39;, 7), (&#39;b&#39;, 2), (&#39;d&#39;, 6), (&#39;b&#39;, 3)]</span>
-<span class="sd">    &gt;&gt;&gt; val</span>
-<span class="sd">    [(&#39;c&#39;, 5), (&#39;e&#39;, 8), (&#39;e&#39;, 9), (&#39;c&#39;, 4)]</span>
-
-<span class="sd">    :param iterable iterable: Iterable over anything. Will be consumed!</span>
-<span class="sd">    :param float|tuple ratio: Ratio of two partition e.g. a ratio of 0.7</span>
-<span class="sd">            means 70%, 30% split.</span>
-<span class="sd">            Alternatively a list or ratios can be provided, e.g.</span>
-<span class="sd">            ratio=(0.6, 0.3, 0.1). Note that ratios must sum up to one.</span>
-<span class="sd">    :param function|None constraint: Function that returns key the elements of</span>
-<span class="sd">        the iterable are grouped by before partitioning. Useful to ensure</span>
-<span class="sd">        that a partition contains related elements, e.g. left and right eye</span>
-<span class="sd">        images are not scattered across partitions.</span>
-<span class="sd">        Note that constrains have precedence over ratios.</span>
-<span class="sd">    :param Random|None rand: Random number generator. The default None</span>
-<span class="sd">            ensures that the same split is created every time SplitRandom</span>
-<span class="sd">            is called. This is important when continuing an interrupted</span>
-<span class="sd">            training session or running the same training on machines with</span>
-<span class="sd">            different Python versions. Note that Python&#39;s random.Random(0)</span>
-<span class="sd">            generates different number for Python 2.x and 3.x!</span>
-<span class="sd">    :return: partitions of iterable with sizes according to provided ratios.</span>
-<span class="sd">    :rtype: (list, list, ...)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">rand</span> <span class="o">=</span> <span class="n">StableRandom</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">rand</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rand</span>
-    <span class="n">samples</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
-        <span class="n">ratios</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">ratios</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Ratios must sum up to one: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ratios</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ratios</span> <span class="o">=</span> <span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span>
-    <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ratios</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">constraint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">groups</span> <span class="o">=</span> <span class="p">[[</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">samples</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>  <span class="c1"># in case of numpy arrays</span>
-        <span class="c1"># sort and covert to list to make stable across python 2.x, 3.x</span>
-        <span class="n">groups</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">group_by</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">constraint</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-    <span class="n">rand</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
-    <span class="n">groups</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
-    <span class="n">splits</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="n">split</span><span class="p">):</span>
-        <span class="n">rand</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">split</span><span class="p">)</span>
-        <span class="n">splits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="n">split</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
-            <span class="n">split</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
-                <span class="n">append</span><span class="p">(</span><span class="n">split</span><span class="p">)</span>
-                <span class="k">break</span>
-    <span class="n">append</span><span class="p">([</span><span class="n">e</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="p">])</span>  <span class="c1"># append remaining groups</span>
-    <span class="k">return</span> <span class="n">splits</span></div>
 
 
 <div class="viewcode-block" id="ConvertLabel"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.ConvertLabel">[docs]</a><span class="k">class</span> <span class="nc">ConvertLabel</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
@@ -377,6 +295,86 @@
             <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">outsample</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">y</span></div></div>
+
+
+<div class="viewcode-block" id="SplitRandom"><a class="viewcode-back" href="../../nutsml.html#nutsml.common.SplitRandom">[docs]</a><span class="nd">@nut_sink</span>
+<span class="k">def</span> <span class="nf">SplitRandom</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Randomly split iterable into partitions.</span>
+
+<span class="sd">    For the same input data the same split is created every time and is stable</span>
+<span class="sd">    across different Python version 2.x or 3.x. A random number generator</span>
+<span class="sd">    can be provided to create varying splits.</span>
+
+<span class="sd">    &gt;&gt;&gt; train, val = range(10) &gt;&gt; SplitRandom(ratio=0.7)</span>
+<span class="sd">    &gt;&gt;&gt; train, val</span>
+<span class="sd">    ([6, 3, 1, 7, 0, 2, 4], [5, 9, 8])</span>
+
+<span class="sd">    &gt;&gt;&gt; range(10) &gt;&gt; SplitRandom(ratio=0.7)  # Same split again</span>
+<span class="sd">    [[6, 3, 1, 7, 0, 2, 4], [5, 9, 8]]</span>
+
+<span class="sd">    &gt;&gt;&gt; train, val, test = range(10) &gt;&gt; SplitRandom(ratio=(0.6, 0.3, 0.1))</span>
+<span class="sd">    &gt;&gt;&gt; train, val, test</span>
+<span class="sd">    ([6, 1, 4, 0, 3, 2], [8, 7, 9], [5])</span>
+
+<span class="sd">    &gt;&gt;&gt; data = zip(&#39;aabbccddee&#39;, range(10))</span>
+<span class="sd">    &gt;&gt;&gt; same_letter = lambda t: t[0]</span>
+<span class="sd">    &gt;&gt;&gt; train, val = data &gt;&gt; SplitRandom(ratio=0.6, constraint=same_letter)</span>
+<span class="sd">    &gt;&gt;&gt; train</span>
+<span class="sd">    [(&#39;a&#39;, 1), (&#39;a&#39;, 0), (&#39;d&#39;, 7), (&#39;b&#39;, 2), (&#39;d&#39;, 6), (&#39;b&#39;, 3)]</span>
+<span class="sd">    &gt;&gt;&gt; val</span>
+<span class="sd">    [(&#39;c&#39;, 5), (&#39;e&#39;, 8), (&#39;e&#39;, 9), (&#39;c&#39;, 4)]</span>
+
+<span class="sd">    :param iterable iterable: Iterable over anything. Will be consumed!</span>
+<span class="sd">    :param float|tuple ratio: Ratio of two partition e.g. a ratio of 0.7</span>
+<span class="sd">            means 70%, 30% split.</span>
+<span class="sd">            Alternatively a list or ratios can be provided, e.g.</span>
+<span class="sd">            ratio=(0.6, 0.3, 0.1). Note that ratios must sum up to one.</span>
+<span class="sd">    :param function|None constraint: Function that returns key the elements of</span>
+<span class="sd">        the iterable are grouped by before partitioning. Useful to ensure</span>
+<span class="sd">        that a partition contains related elements, e.g. left and right eye</span>
+<span class="sd">        images are not scattered across partitions.</span>
+<span class="sd">        Note that constrains have precedence over ratios.</span>
+<span class="sd">    :param Random|None rand: Random number generator. The default None</span>
+<span class="sd">            ensures that the same split is created every time SplitRandom</span>
+<span class="sd">            is called. This is important when continuing an interrupted</span>
+<span class="sd">            training session or running the same training on machines with</span>
+<span class="sd">            different Python versions. Note that Python&#39;s random.Random(0)</span>
+<span class="sd">            generates different number for Python 2.x and 3.x!</span>
+<span class="sd">    :return: partitions of iterable with sizes according to provided ratios.</span>
+<span class="sd">    :rtype: (list, list, ...)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rand</span> <span class="o">=</span> <span class="n">StableRandom</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">rand</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rand</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
+        <span class="n">ratios</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">ratios</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Ratios must sum up to one: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ratios</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ratios</span> <span class="o">=</span> <span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ratio</span><span class="p">)</span>
+    <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ratios</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">constraint</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="p">[[</span><span class="n">s</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">group_by</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">constraint</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">groups</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>  <span class="c1"># sort to make stable across python 2.x, 3.x</span>
+
+    <span class="n">rand</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+    <span class="n">splits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">split</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">:</span>
+            <span class="n">split</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+                <span class="n">splits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split</span><span class="p">)</span>
+                <span class="k">break</span>
+    <span class="n">splits</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">e</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="p">])</span>  <span class="c1"># append remaining groups</span>
+    <span class="n">shuffle_sublists</span><span class="p">(</span><span class="n">splits</span><span class="p">,</span> <span class="n">rand</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">splits</span></div>
 </pre></div>
 
            </div>
@@ -390,7 +388,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 13, 2018.
+      Last updated on Sep 18, 2018.
 
     </p>
   </div> 

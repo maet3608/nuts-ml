@@ -120,7 +120,7 @@ Alternatively, we could refactor the code as follows to shorten the pipeline:
    [(2, 'EVEN')]
 
 This concludes the basics. In the following examples we will read data sets 
-in different formats from the file system.     
+in different formats from the file system and the web.     
    
 
 TXT files
@@ -455,30 +455,12 @@ For instance, converting text files into word count dictionaries.
   samples = ReadLabelDirs('books', '*.txt')
   word_counts = samples >> Process() >> Collect()
         
-  
-  
-Image data
-----------   
 
-**nuts-ml** was specifically designed for image data. Typically image data sets are too
-large to be loaded into memory entirely and need to be processed lazily. Similarly to
-the code example for ``ReadLabelDirs`` above the common strategy is to have samples that
-only contain file paths and load the images on demand.
 
-The `ReadImage()
-<https://maet3608.github.io/nuts-ml/nutsml.html#module-nutsml.reader>`_ nut of **nuts-ml**
-loads images from a given path and returns Numpy arrays of shape (h, w, c) or (h, w) 
-for color images or gray scale images respectively. Here a simple example:
 
-  >>> imagepath = 'tests/data/img_formats/*'
-  >>> imagenames = ['nut_color.jpg', 'nut_grayscale.jpg']
-  >>> imagenames >> ReadImage(None, imagepath) >> PrintColType() >> Consume()
-  item 0: <tuple>
-    0: <ndarray> shape:213x320x3 dtype:uint8 range:0..248
-  item 1: <tuple>
-    0: <ndarray> shape:213x320 dtype:uint8 range:18..235
-    
-    
+
+
+
     
 
     
