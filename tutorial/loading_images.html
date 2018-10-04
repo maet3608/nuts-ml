@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CIFAR-10 Example" href="example.html" />
+    <link rel="next" title="Viewing Images" href="view_images.html" />
     <link rel="prev" title="Splitting and stratifying" href="split_stratify.html" /> 
 
   
@@ -90,7 +90,15 @@
 <li class="toctree-l2"><a class="reference internal" href="reading_samples.html">Reading data samples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Loading images</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example.html">CIFAR-10 Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_images.html">Viewing Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_images.html">Transforming images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="augment_images.html">Augmenting images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batching.html">Building Batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Training networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cifar10_example.html">CIFAR-10 Example</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
@@ -164,13 +172,15 @@
             
   <div class="section" id="loading-images">
 <span id="reader"></span><h1>Loading images<a class="headerlink" href="#loading-images" title="Permalink to this headline">¶</a></h1>
-<p>Typically image data sets are too large to be loaded into memory entirely and
-need to be processed lazily. The common strategy is to use samples that only
-contain file paths (and labels) and load images on demand.</p>
-<p>The <a class="reference external" href="https://maet3608.github.io/nuts-ml/nutsml.html#module-nutsml.reader">ReadImage()</a> nut of <strong>nuts-ml</strong>
+<p>Many image data sets are too large to be loaded into memory entirely and
+need to be processed lazily. This is the main reason for using <strong>nuts-ml</strong>.
+Otherwise, pre-processing data sets via <a class="reference external" href="http://scikit-learn.org">scikit-learn</a>
+or <a class="reference external" href="http://www.numpy.org/">NumPy</a> is more efficient and simpler.</p>
+<p>The common strategy in <strong>nuts-ml</strong> to deal with large image data is to use samples
+that contain image file paths and meta-data such as labels, and load images on demand.
+For instance, the <a class="reference external" href="https://maet3608.github.io/nuts-ml/nutsml.html#module-nutsml.reader">ReadImage()</a> nut
 reads images from a given path and returns Numpy arrays. Here a simple example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nut_grayscale.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;gray&#39;</span><span class="p">)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 <span class="go">item 0: &lt;tuple&gt;</span>
 <span class="go">  0: &lt;ndarray&gt; shape:213x320x3 dtype:uint8 range:0..248</span>
@@ -180,22 +190,44 @@ reads images from a given path and returns Numpy arrays. Here a simple example</
 <span class="go">  1: &lt;str&gt; gray</span>
 </pre></div>
 </div>
-<p>where samples are composed of the image filename and a (class) label (<code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">gray</span></code>).
+<p>where samples are composed of the image filename and a (class) label (‘color’, ‘gray’).
 <code class="docutils literal notranslate"><span class="pre">ReadImage(0,</span> <span class="pre">imagepath)</span></code> takes a sample, extracts the image filename from column 0
 of the sample, constructs the full file path by replacing <code class="docutils literal notranslate"><span class="pre">*</span></code> in  <code class="docutils literal notranslate"><span class="pre">imagepath</span></code> by
 the image name, loads the image and replaces the image name by the actual image data.</p>
-<p>Color images are loaded as Numpy array with shape (H,W,3) and gray scale
-images with shape (H,W) both with data type <code class="docutils literal notranslate"><span class="pre">uint8</span></code>. In this example the images are of
-size 213x320(x3) and <code class="docutils literal notranslate"><span class="pre">range</span></code> list the smallest and largest value of the image.</p>
-<p><code class="docutils literal notranslate"><span class="pre">PrintColType()</span></code> in the above pipeline prints the data types of sample columns. In
-this case, the first sample (<code class="docutils literal notranslate"><span class="pre">item</span> <span class="pre">0</span></code>) is a tuple and contains a Numpy array (the image)
-in column 0 and the class label as a string in column 1.
+<p>Color images are loaded as Numpy array with shape <code class="docutils literal notranslate"><span class="pre">(H,</span> <span class="pre">W,</span> <span class="pre">3)</span></code> and gray scale
+images with shape <code class="docutils literal notranslate"><span class="pre">(H,</span> <span class="pre">W)</span></code> both with data type <code class="docutils literal notranslate"><span class="pre">uint8</span></code>. In this example
+the images are of size 213x320(x3) and <code class="docutils literal notranslate"><span class="pre">range</span></code> list the smallest and
+largest value of the image – as printed by <code class="docutils literal notranslate"><span class="pre">PrintColType()</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PrintColType()</span></code> displays the data types of sample columns. Here, the first sample
+(<code class="docutils literal notranslate"><span class="pre">item</span> <span class="pre">0</span></code>) is a tuple and contains a Numpy array (the loaded image) in column 0
+and the class label as a string in column 1.
 Similarly, the second sample (<code class="docutils literal notranslate"><span class="pre">item</span> <span class="pre">1</span></code>) contains the loaded image as a Numpy array
 and the class label.</p>
-<p>TODO
-- ReadLabelDirs
-- ViewImage
-- ViewImageAnnotation</p>
+<p>Sometimes it is useful to directly load images that are not part of a sample.
+Setting the column to <code class="docutils literal notranslate"><span class="pre">None</span></code> in <code class="docutils literal notranslate"><span class="pre">ReadImage()</span></code> enables this:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">ReadImage()</span></code> still returns tuples with the image as element <code class="docutils literal notranslate"><span class="pre">(&lt;image&gt;,)</span></code>
+and not just the images.</p>
+<p>Instead of providing a base image path and image file names within samples it is
+also possible to directly provide the full file path within the sample:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>Furthermore <code class="docutils literal notranslate"><span class="pre">ReadImage()</span></code> allows to read multiple images at the same time,
+e.g. for samples that contain an image and mask. In the following example we
+read color images and their gray-scale version as pairs</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ReadImage((0,1),</span> <span class="pre">...)</span></code> specifies that the image names are in columns
+0 and 1 of the samples. Note that we moved the common prefix <code class="docutils literal notranslate"><span class="pre">nut_</span></code> of the
+image file names to the image path.</p>
+<p>The printout of <code class="docutils literal notranslate"><span class="pre">PrintColType</span></code> confirms that we loaded
+color images with 3 color channels (shape:213x320x3) and gray-scale images
+that have no channel axis (shape:213x320).</p>
+<p>The next section will show how to display loaded images conveniently.</p>
 </div>
 
 
@@ -206,7 +238,7 @@ and the class label.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="example.html" class="btn btn-neutral float-right" title="CIFAR-10 Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="view_images.html" class="btn btn-neutral float-right" title="Viewing Images" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="split_stratify.html" class="btn btn-neutral" title="Splitting and stratifying" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -219,7 +251,7 @@ and the class label.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 18, 2018.
+      Last updated on Oct 04, 2018.
 
     </p>
   </div> 

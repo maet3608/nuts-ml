@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Plotting &mdash; nutsml 1.0.38 documentation</title>
+  <title>Plotting data &mdash; nutsml 1.0.38 documentation</title>
   
 
   
@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuration files" href="configuration.html" />
+    <link rel="prev" title="Logging data" href="logging.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -80,11 +82,25 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="introduction.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reading_samples.html">Reading data samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading_images.html">Loading images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_images.html">Viewing Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_images.html">Transforming images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="augment_images.html">Augmenting images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batching.html">Building Batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Training networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Plotting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cifar10_example.html">CIFAR-10 Example</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nutsml.html">nutsml package</a></li>
@@ -133,7 +149,9 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Plotting</li>
+          <li><a href="introduction.html">Tutorial</a> &raquo;</li>
+        
+      <li>Plotting data</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -152,9 +170,62 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="plotting">
-<h1>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h1>
-<p>TODO</p>
+  <div class="section" id="plotting-data">
+<h1>Plotting data<a class="headerlink" href="#plotting-data" title="Permalink to this headline">¶</a></h1>
+<p>Often we want to plot loss or accuracy of a network training over time
+to get an impression of convergence speed. <strong>nuts-ml</strong> provides a simple
+plotting nut to facilitate this need. The following example demonstrates
+the basic usage by plotting a quadratic function</p>
+<blockquote>
+<div><div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">PlotLines</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../_images/plot_squares.png" src="../_images/plot_squares.png" />
+</div></blockquote>
+<p>Note that the plot updates live with each sample read from <code class="docutils literal notranslate"><span class="pre">samples</span></code> and closes
+immediately once the plotting is finished. Since the samples are just numbers
+we specify <code class="docutils literal notranslate"><span class="pre">None</span></code> as column index in <code class="docutils literal notranslate"><span class="pre">PlotLines</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PlotLines</span></code> allows to plot multiple sample columns. In this next example we
+plot <code class="docutils literal notranslate"><span class="pre">`2*x</span></code> and <code class="docutils literal notranslate"><span class="pre">x**2</span></code> and specify the corresponding sample columns
+<code class="docutils literal notranslate"><span class="pre">(0,1)</span></code> in <code class="docutils literal notranslate"><span class="pre">PlotLines</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">PlotLines</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">titles</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;2x&#39;</span><span class="p">,</span><span class="s1">&#39;x**2&#39;</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We want the two plots of the figure to appear in one column
+(instead of next to each other) and therefore set the <code class="docutils literal notranslate"><span class="pre">layout</span></code>
+to 2 rows and 1 column. <code class="docutils literal notranslate"><span class="pre">titles</span></code> allows to set titles for the individual plots.</p>
+<blockquote>
+<div><img alt="../_images/plot_samples.png" src="../_images/plot_samples.png" />
+</div></blockquote>
+<p>Let us conclude this section with a more complex example. The following
+code sketch plots the loss and accuracy of a network training per batch
+and per epoch. The generated figures are written to image files in PNG
+format instead of being displayed:</p>
+<blockquote>
+<div><div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_batch</span> <span class="o">=</span> <span class="n">PlotLines</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">every_sec</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;batch.png&#39;</span><span class="p">)</span>
+<span class="n">plot_epoch</span> <span class="o">=</span> <span class="n">PlotLines</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;epoch.png&#39;</span><span class="p">)</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
+    <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span>
+                     <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">plot_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
+    <span class="n">plot_epoch</span><span class="p">(</span> <span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">mean</span><span class="p">(</span><span class="n">t_loss</span><span class="p">),</span> <span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For a large train set many batches will be created and losses computed.
+We are only interested in a subset of those and set <code class="docutils literal notranslate"><span class="pre">every_sec=5</span></code>
+to plot batch-wise loss and accuracy every 5 seconds. Alternatively
+we could specify <code class="docutils literal notranslate"><span class="pre">every_n=10</span></code> to plot for every 10-th batch.</p>
+<p>When plotting the mean loss and average per epoch via <code class="docutils literal notranslate"><span class="pre">plot_epoch</span></code>
+we provide a tuple of format <code class="docutils literal notranslate"><span class="pre">(&lt;epoch&gt;,</span> <span class="pre">&lt;mean</span> <span class="pre">loss&gt;,</span> <span class="pre">&lt;mean</span> <span class="pre">acc&gt;)</span></code>.
+We want the x-axis to show the epoch and the y-axes to show loss
+and accuracy. The column indices specified in <code class="docutils literal notranslate"><span class="pre">PlotLines</span></code>
+for the y-axes are therefore <code class="docutils literal notranslate"><span class="pre">(1,2)</span></code> and the values for the x-axis
+are in column 0 of the samples. Run <code class="docutils literal notranslate"><span class="pre">help(PlotLines)</span></code> for more
+details and the description of other parameters.</p>
 </div>
 
 
@@ -163,13 +234,22 @@
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="logging.html" class="btn btn-neutral" title="Logging data" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 18, 2018.
+      Last updated on Oct 04, 2018.
 
     </p>
   </div> 

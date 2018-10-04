@@ -17,17 +17,19 @@ of a classifier on CIFAR-10 data can be found in the last Section
    
    reading_samples
    split_stratify
-   loading_images   
-   example
+   loading_images
+   view_images 
+   transform_images
+   augment_images 
+   batching
+   network
+   logging   
+   plotting
+   configuration
+   cifar10_example
    
 
 .. comment::
-   transformation
-   augmentation
-   batching
-   network
-   logging
-   plotting
-   configuration
+   
    checkpointing
    custom_nuts   

@@ -248,20 +248,6 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown mode: &#39;</span> <span class="o">+</span> <span class="n">mode</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">container</span><span class="p">(</span><span class="n">stratified</span><span class="p">)</span></div>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="o">*</span>
-    <span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="o">*</span>
-    <span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="k">import</span> <span class="n">StableRandom</span>
-    <span class="kn">from</span> <span class="nn">random</span> <span class="k">import</span> <span class="n">Random</span>
-
-    <span class="n">rand</span> <span class="o">=</span> <span class="n">Random</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">labelcol</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">10</span>
-    <span class="n">labeldist</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">labeldist</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="n">labelcol</span><span class="p">,</span> <span class="n">labeldist</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 </pre></div>
 
            </div>
@@ -275,7 +261,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 18, 2018.
+      Last updated on Oct 04, 2018.
 
     </p>
   </div> 

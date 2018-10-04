@@ -29,7 +29,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FAQ" href="../faq.html" />
-    <link rel="prev" title="Loading images" href="loading_images.html" /> 
+    <link rel="prev" title="Configuration files" href="configuration.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -90,6 +90,14 @@
 <li class="toctree-l2"><a class="reference internal" href="reading_samples.html">Reading data samples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
 <li class="toctree-l2"><a class="reference internal" href="loading_images.html">Loading images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_images.html">Viewing Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_images.html">Transforming images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="augment_images.html">Augmenting images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batching.html">Building Batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Training networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">CIFAR-10 Example</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#task">Task</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#network">Network</a></li>
@@ -168,7 +176,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/tutorial/example.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/tutorial/cifar10_example.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -284,19 +292,20 @@ by running the following flow
 </div>
 <p>which takes the first three samples and prints for each sample
 the data type and content information for the sample columns</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">0</span><span class="o">-</span><span class="mi">255</span>
-<span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">6</span>
-
-<span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">5</span><span class="o">-</span><span class="mi">254</span>
-<span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">9</span>
-
-<span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">20</span><span class="o">-</span><span class="mi">255</span>
-<span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">9</span>
+<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">item</span> <span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">tuple</span><span class="o">&gt;</span>
+  <span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">0</span><span class="o">-</span><span class="mi">255</span>
+  <span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">6</span>
+<span class="n">item</span> <span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">tuple</span><span class="o">&gt;</span>
+  <span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">5</span><span class="o">-</span><span class="mi">254</span>
+  <span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">9</span>
+<span class="n">item</span> <span class="mi">2</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">tuple</span><span class="o">&gt;</span>
+  <span class="mi">0</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="n">shape</span><span class="p">:</span><span class="mi">32</span><span class="n">x32x3</span> <span class="n">dtype</span><span class="p">:</span><span class="n">uint8</span> <span class="nb">range</span><span class="p">:</span><span class="mi">20</span><span class="o">-</span><span class="mi">255</span>
+  <span class="mi">1</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="mi">9</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The standard formats for image data in <strong>nuts-ml</strong> are Numpy arrays
+<p class="last">The standard formats for image data in <strong>nuts-ml</strong> are NumPy arrays
 of shape <code class="docutils literal notranslate"><span class="pre">(h,w,3)</span></code> for RGB images, <code class="docutils literal notranslate"><span class="pre">(h,w)</span></code> for gray-scale images
 and <code class="docutils literal notranslate"><span class="pre">(h,w,4)</span></code> for RGBA image.</p>
 </div>
@@ -365,7 +374,7 @@ in 20% more training data.</p>
 </div>
 <div class="section" id="transformation">
 <h3>Transformation<a class="headerlink" href="#transformation" title="Permalink to this headline">¶</a></h3>
-<p>Images returned by <code class="docutils literal notranslate"><span class="pre">load_samples()</span></code> are Numpy arrays with integers in range
+<p>Images returned by <code class="docutils literal notranslate"><span class="pre">load_samples()</span></code> are NumPy arrays with integers in range
 <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">255]</span></code>. The network, however, expects floating point numbers (<code class="docutils literal notranslate"><span class="pre">float32</span></code>)
 in range <code class="docutils literal notranslate"><span class="pre">[0,1]</span></code>. We therefore transform images by <em>reranging</em></p>
 <div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rerange</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
@@ -402,8 +411,8 @@ uniformly sampled from.</p>
 with their corresponding class labels. <code class="docutils literal notranslate"><span class="pre">BuildBatch(batchsize)</span></code>
 is used to build these batches. The following example creates a batcher that
 extracts images from column 0 of the samples and class labels from column 1.
-Class labels are encode as one-hot vectors, while images are represented as
-Numpy arrays with dtype <code class="docutils literal notranslate"><span class="pre">float32</span></code>.</p>
+Class labels are encode as one-hot vectors, while images within the batch
+are represented as NumPy arrays with dtype <code class="docutils literal notranslate"><span class="pre">float32</span></code>.</p>
 <div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NUM_CLASSES</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">BATCH_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
 
@@ -588,7 +597,7 @@ filename can be seen in <a class="reference external" href="https://github.com/m
 and predict labels for new images. Here an example</p>
 <div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;images/*.png&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
 
-<span class="n">build_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">pred_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
 
 <span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">pred_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span> <span class="o">&gt;&gt;</span>
                <span class="n">Map</span><span class="p">(</span><span class="n">ArgMax</span><span class="p">())</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">())</span>
@@ -674,7 +683,7 @@ The entire code can be found in <a class="reference external" href="https://gith
         <a href="../faq.html" class="btn btn-neutral float-right" title="FAQ" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="loading_images.html" class="btn btn-neutral" title="Loading images" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="configuration.html" class="btn btn-neutral" title="Configuration files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -684,7 +693,7 @@ The entire code can be found in <a class="reference external" href="https://gith
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 18, 2018.
+      Last updated on Oct 04, 2018.
 
     </p>
   </div> 

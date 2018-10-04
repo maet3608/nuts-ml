@@ -181,7 +181,7 @@
     <span class="k">return</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">x</span></div>
 
 
-<div class="viewcode-block" id="shapestr"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.shapestr">[docs]</a><span class="k">def</span> <span class="nf">shapestr</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+<div class="viewcode-block" id="shapestr"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.shapestr">[docs]</a><span class="k">def</span> <span class="nf">shapestr</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">with_dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return string representation of array shape.</span>
 
@@ -190,11 +190,19 @@
 <span class="sd">    &gt;&gt;&gt; shapestr(a)</span>
 <span class="sd">    &#39;3x4&#39;</span>
 
+<span class="sd">    &gt;&gt;&gt; a = np.zeros((3,4), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; shapestr(a, True)</span>
+<span class="sd">    &#39;3x4:uint8&#39;</span>
+
 <span class="sd">    :param ndarray array: Numpy array</span>
+<span class="sd">    :param bool with_dtype: Append dtype of array to shape string</span>
 <span class="sd">    :return: Shape as string, e.g shape (3,4) becomes 3x4</span>
 <span class="sd">    :rtype: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
+    <span class="n">sstr</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">))</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">with_dtype</span><span class="p">:</span>
+        <span class="n">sstr</span> <span class="o">+=</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sstr</span></div>
 
 
 <div class="viewcode-block" id="upsample"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.upsample">[docs]</a><span class="k">def</span> <span class="nf">upsample</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">labelcol</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -385,7 +393,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 18, 2018.
+      Last updated on Oct 04, 2018.
 
     </p>
   </div> 

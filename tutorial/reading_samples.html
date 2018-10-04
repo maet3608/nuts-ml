@@ -91,14 +91,22 @@
 <li class="toctree-l3"><a class="reference internal" href="#basics">Basics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#txt-files">TXT files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#csv-files">CSV files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#numpy-arrays">Numpy arrays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numpy-arrays">NumPy arrays</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#web-files">Web files</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#label-directories">Label directories</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
 <li class="toctree-l2"><a class="reference internal" href="loading_images.html">Loading images</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example.html">CIFAR-10 Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_images.html">Viewing Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_images.html">Transforming images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="augment_images.html">Augmenting images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batching.html">Building Batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Training networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cifar10_example.html">CIFAR-10 Example</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
@@ -184,12 +192,11 @@ of arbitrarily large data sets. It largely relies on <strong>nuts-flow</strong>,
 documented <a class="reference external" href="https://maet3608.github.io/nuts-flow/">here</a>. In the following
 a short introduction of the basic principles.</p>
 <p>We start by importing <strong>nuts-flow</strong> and <strong>nuts-ml</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="o">*</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>and create a tiny, in-memory example data set:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;odd&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;even&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;odd&#39;</span><span class="p">)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>Data pipelines in <strong>nuts-ml</strong> require a <a class="reference external" href="https://maet3608.github.io/nuts-flow/overview.html">sink</a> that pulls the data. The two most common ones are
@@ -204,19 +211,16 @@ not processing anything at all and only the generator (stemming from <code class
 </pre></div>
 </div>
 <p>Adding a <code class="docutils literal notranslate"><span class="pre">Collect()</span></code> results in the processing of the data and gives us what we want:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="go">[(1, &#39;odd&#39;), (2, &#39;even&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>The same pipeline using <code class="docutils literal notranslate"><span class="pre">Consume()</span></code> returns nothing</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>but we can verify that samples are processed by inserting a
 <a class="reference external" href="https://maet3608.github.io/nuts-flow/nutsflow.html#nutsflow.function.Print">Print</a> nut:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">(1, &#39;odd&#39;)</span>
-<span class="go">(2, &#39;even&#39;)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>A broken pipeline or a pipeline without sink is a common problem that can be debugged
@@ -225,60 +229,37 @@ easily by inserting <code class="docutils literal notranslate"><span class="pre"
 <a class="reference external" href="https://maet3608.github.io/nuts-flow/nutsflow.html#nutsflow.processor.Map">Map</a>.</p>
 <p>As the name indicates, <code class="docutils literal notranslate"><span class="pre">Filter</span></code> is used to filter samples based on a provided
 boolean function:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">Filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;odd&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">(1, &#39;odd&#39;)</span>
-<span class="go">(3, &#39;odd&#39;)</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>or maybe more clearly with additional printing</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">is_odd</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">return</span> <span class="n">sample</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;odd&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">(</span><span class="s1">&#39;before: </span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Filter</span><span class="p">(</span><span class="n">is_odd</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">(</span><span class="s1">&#39;after : </span><span class="si">{}</span><span class="s1">,</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">before: 1,odd</span>
-<span class="go">after : 1,odd</span>
-<span class="go">before: 2,even</span>
-<span class="go">before: 3,odd</span>
-<span class="go">after : 3,odd</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">Map</span></code> applies a function to the samples of a data set, e.g.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">add_two</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="n">number</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">sample</span>
-<span class="gp">... </span>    <span class="k">return</span> <span class="n">number</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">label</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">Map</span><span class="p">(</span><span class="n">add_two</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="go">[(3, &#39;odd&#39;), (4, &#39;even&#39;), (5, &#39;odd&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>There is a convenience nut <a class="reference external" href="https://maet3608.github.io/nuts-flow/nutsflow.html#nutsflow.processor.MapCol">MapCol</a>
 that maps a function to a specific column (or columns) of a sample. This allows us
 to write more succinctly</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">add_two</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">number</span><span class="p">:</span> <span class="n">number</span> <span class="o">+</span> <span class="mi">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">MapCol</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">add_two</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="go">[(3, &#39;odd&#39;), (4, &#39;even&#39;), (5, &#39;odd&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>For simple expressions a Scala like syntax can be used to further shorten the code:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">MapCol</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">_</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="go">[(3, &#39;odd&#39;), (4, &#39;even&#39;), (5, &#39;odd&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>Let’s combine what we learned and construct a pipeline that extracts the first number
 in the data set that is even and converts the labels to upper case.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">to_upper</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="n">label</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">is_even</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">number</span><span class="p">:</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">first_even</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">FilterCol</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_even</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
-<span class="gp">... </span><span class="n">MapCol</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">to_upper</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">())</span>
-<span class="go">[(2, &#39;EVEN&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>Here we used <a class="reference external" href="https://maet3608.github.io/nuts-flow/nutsflow.html#nutsflow.processor.FilterCol">FilterCol</a>
 instead of <code class="docutils literal notranslate"><span class="pre">Filter</span></code> to filter for the contents in column <code class="docutils literal notranslate"><span class="pre">0</span></code> (the numbers) of
 the samples. Note that we wrap the pipeline into brackets allowing it to run over multiple lines.
 Alternatively, we could refactor the code as follows to shorten the pipeline:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">to_upper</span> <span class="o">=</span> <span class="n">MapCol</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">label</span><span class="p">:</span> <span class="n">label</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">is_even</span> <span class="o">=</span> <span class="n">FilterCol</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">number</span><span class="p">:</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">first_even</span> <span class="o">=</span> <span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">is_even</span> <span class="o">&gt;&gt;</span> <span class="n">to_upper</span> <span class="o">&gt;&gt;</span> <span class="n">Head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="go">[(2, &#39;EVEN&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>This concludes the basics. In the following examples we will read data sets
@@ -297,11 +278,7 @@ in different formats from the file system and the web.</p>
 </div>
 <p>We can loads the file content with Python’s <code class="docutils literal notranslate"><span class="pre">open</span></code> function that returns an
 iterator over the lines and collect them in a <code class="docutils literal notranslate"><span class="pre">list</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="o">*</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tests/data/and.txt&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="go">[&#39;x1,x2,y\n&#39;, &#39;0,0,no\n&#39;, &#39;0,1,no\n&#39;, &#39;1,0,no\n&#39;, &#39;1,1,yes&#39;]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>Of course, <code class="docutils literal notranslate"><span class="pre">open('tests/data/and.txt').readlines()</span></code> would have achieved the same.
@@ -314,20 +291,14 @@ its components:</p>
 </div>
 <p>This as a <code class="docutils literal notranslate"><span class="pre">Map</span></code> because it will be applied to each line of the file.
 Let us try it out by reading the header of the file</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tests/data/and.txt&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lines</span> <span class="o">&gt;&gt;</span> <span class="n">split</span> <span class="o">&gt;&gt;</span> <span class="n">Head</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="go">[[&#39;x1&#39;, &#39;x2&#39;, &#39;y&#39;]]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">Head(n)</span></code> is a sink that collects the first <code class="docutils literal notranslate"><span class="pre">n</span></code> lines in a list (here only one line).
 As expected, we get the header with the column names.
 Since <code class="docutils literal notranslate"><span class="pre">open</span></code> returns an iterator <code class="docutils literal notranslate"><span class="pre">lines</span></code> is ready to deliver the remaining
 lines of the file. For instance, we could now write</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lines</span> <span class="o">&gt;&gt;</span> <span class="n">split</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">[&#39;0&#39;, &#39;0&#39;, &#39;no&#39;]</span>
-<span class="go">[&#39;0&#39;, &#39;1&#39;, &#39;no&#39;]</span>
-<span class="go">[&#39;1&#39;, &#39;0&#39;, &#39;no&#39;]</span>
-<span class="go">[&#39;1&#39;, &#39;1&#39;, &#39;yes&#39;]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>which prints out the samples following the header.
@@ -336,9 +307,7 @@ returns nothing. Good for debugging but not suitable for further processing.
 We therefore rerun the code and collect the samples in a list. But careful!
 The <code class="docutils literal notranslate"><span class="pre">lines</span></code> iterator has been consumed. We have to reopen the file to
 restart the iterator:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tests/data/and.txt&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lines</span> <span class="o">&gt;&gt;</span> <span class="n">Drop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">split</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="go">[[&#39;0&#39;, &#39;0&#39;, &#39;no&#39;], [&#39;0&#39;, &#39;1&#39;, &#39;no&#39;], [&#39;1&#39;, &#39;0&#39;, &#39;no&#39;], [&#39;1&#39;, &#39;1&#39;, &#39;yes&#39;]]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>We use <code class="docutils literal notranslate"><span class="pre">Collect</span></code> to collect the samples and <code class="docutils literal notranslate"><span class="pre">Drop(1)</span></code> means that we
@@ -346,12 +315,7 @@ skip the header line when reading the file.</p>
 <p>Next we need to convert the strings containing numbers to actual numbers.
 <code class="docutils literal notranslate"><span class="pre">MapCol</span></code> can be used to map Python’s <code class="docutils literal notranslate"><span class="pre">int</span></code> function on specific columns of the
 samples; here columns <code class="docutils literal notranslate"><span class="pre">0</span></code> and  <code class="docutils literal notranslate"><span class="pre">1</span></code> of the samples contain integers:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;tests/data/and.txt&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">to_int</span> <span class="o">=</span> <span class="n">MapCol</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">int</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">skip_header</span> <span class="o">=</span> <span class="n">Drop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="n">lines</span> <span class="o">&gt;&gt;</span> <span class="n">skip_header</span> <span class="o">&gt;&gt;</span> <span class="n">split</span> <span class="o">&gt;&gt;</span> <span class="n">to_int</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
-<span class="go">[(0, 0, &#39;no&#39;), (0, 1, &#39;no&#39;), (1, 0, &#39;no&#39;), (1, 1, &#39;yes&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>Of course we had to reload <code class="docutils literal notranslate"><span class="pre">lines</span></code> again and just for readability gave the
@@ -444,35 +408,20 @@ Python has a dedicated <a class="reference external" href="https://docs.python.o
 <strong>nuts-flow</strong> provides a <a class="reference external" href="https://github.com/maet3608/nuts-flow/blob/master/nutsflow/source.py">ReadCSV</a> nut,
 and <strong>nuts-ml</strong> has the even more powerful <a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/reader.py">ReadPandas</a>
 nut. For instance, we could write</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/and.csv&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">ReadCSV</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">skipheader</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fmtfunc</span><span class="o">=</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">int</span><span class="p">,</span><span class="nb">str</span><span class="p">))</span> <span class="k">as</span> <span class="n">reader</span><span class="p">:</span>
-<span class="gp">&gt;&gt;&gt; </span>   <span class="n">samples</span> <span class="o">=</span> <span class="n">reader</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
-<span class="go">[(0, 0, &#39;no&#39;), (0, 1, &#39;no&#39;), (1, 0, &#39;no&#39;), (1, 1, &#39;yes&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>which also properly closes the data file – a detail we have neglected before.
 The code becomes even simpler with the <code class="docutils literal notranslate"><span class="pre">ReadPandas</span></code> nut but note that this
 nut reads all data in memory:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="n">ReadPandas</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/and.csv&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
-<span class="go">[(0, 0, &#39;no&#39;), (0, 1, &#39;no&#39;), (1, 0, &#39;no&#39;), (1, 1, &#39;yes&#39;)]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>The advantage is that it drops the header, splits the lines and
 converts numbers to integers automatically. <code class="docutils literal notranslate"><span class="pre">ReadPandas</span></code> furthermore
 can read TSV (Tab Separated Values) files and other format. Finally,
 <code class="docutils literal notranslate"><span class="pre">ReadPandas</span></code> can easily extract or reorder columns or filter rows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/and.csv&#39;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">(&#39;no&#39;, 0)</span>
-<span class="go">(&#39;no&#39;, 0)</span>
-<span class="go">(&#39;no&#39;, 1)</span>
-<span class="go">(&#39;yes&#39;, 1)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="s1">&#39;x1&gt;0&#39;</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rows</span> <span class="o">=</span> <span class="s1">&#39;x1&gt;0&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/and.csv&#39;</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 <span class="go">(&#39;no&#39;, 1)</span>
 <span class="go">(&#39;yes&#39;, 1)</span>
@@ -480,20 +429,14 @@ can read TSV (Tab Separated Values) files and other format. Finally,
 </div>
 </div>
 <div class="section" id="numpy-arrays">
-<h2>Numpy arrays<a class="headerlink" href="#numpy-arrays" title="Permalink to this headline">¶</a></h2>
-<p>To use Numpy arrays as data sources we need to wrap them into an iterator.
+<h2>NumPy arrays<a class="headerlink" href="#numpy-arrays" title="Permalink to this headline">¶</a></h2>
+<p>To use NumPy arrays as data sources we need to wrap them into an iterator.
 In the following example we create an identity matrix, iterate over the rows,
 and print them:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">iter</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">[1.0, 0.0, 0.0, 0.0]</span>
-<span class="go">[0.0, 1.0, 0.0, 0.0]</span>
-<span class="go">[0.0, 0.0, 1.0, 0.0]</span>
-<span class="go">[0.0, 0.0, 0.0, 1.0]</span>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<p>Note that Numpy arrays larger than memory can be loaded and then processed with
+<p>Note that NumPy arrays larger than memory can be loaded and then processed with
 <a class="reference external" href="https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.load.html">np.load(filename, mmap_mode=’r’)</a>.</p>
 </div>
 <div class="section" id="web-files">
@@ -621,7 +564,7 @@ For instance, converting text files into word count dictionaries.</p>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 18, 2018.
+      Last updated on Oct 04, 2018.
 
     </p>
   </div> 

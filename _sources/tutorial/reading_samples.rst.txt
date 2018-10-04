@@ -20,11 +20,13 @@ a short introduction of the basic principles.
  
 We start by importing **nuts-flow** and **nuts-ml** 
 
+.. doctest::
   >>> from nutsflow import *
   >>> from nutsml import *  
   
 and create a tiny, in-memory example data set:
   
+.. doctest::  
   >>> data = [(1,'odd'), (2, 'even'), (3, 'odd')]
   
 Data pipelines in **nuts-ml** require a `sink <https://maet3608.github.io/nuts-flow/overview.html>`_ that pulls the data. The two most common ones are 
@@ -41,16 +43,19 @@ not processing anything at all and only the generator (stemming from ``Take()``)
   
 Adding a ``Collect()`` results in the processing of the data and gives us what we want:
 
+.. doctest::
   >>> data >> Take(2) >> Collect()
   [(1, 'odd'), (2, 'even')]
   
 The same pipeline using ``Consume()`` returns nothing
 
+.. doctest::
   >>> data >> Take(2) >> Consume()
   
 but we can verify that samples are processed by inserting a 
 `Print <https://maet3608.github.io/nuts-flow/nutsflow.html#nutsflow.function.Print>`_ nut:
 
+.. doctest::
   >>> data >> Print() >> Take(2) >> Consume()
   (1, 'odd')
   (2, 'even')
@@ -63,12 +68,14 @@ easily by inserting ``Print()`` functions. Two other very common and important f
 As the name indicates, ``Filter`` is used to filter samples based on a provided
 boolean function:
 
+.. doctest::
   >>> data >> Filter(lambda s: s[1] == 'odd') >> Print() >> Consume()
   (1, 'odd')
   (3, 'odd')
   
 or maybe more clearly with additional printing
 
+.. doctest::
   >>> def is_odd(sample):
   ...     return sample[1] == 'odd'
   >>> data >> Print('before: {},{}') >> Filter(is_odd) >> Print('after : {},{}') >> Consume()
@@ -80,6 +87,7 @@ or maybe more clearly with additional printing
   
 ``Map`` applies a function to the samples of a data set, e.g.
 
+.. doctest::
   >>> def add_two(sample):
   ...     number, label = sample
   ...     return number + 2, label
@@ -90,18 +98,21 @@ There is a convenience nut `MapCol <https://maet3608.github.io/nuts-flow/nutsflo
 that maps a function to a specific column (or columns) of a sample. This allows us
 to write more succinctly
   
+.. doctest::  
    >>> add_two = lambda number: number + 2
    >>> data >> MapCol(0, add_two) >> Collect()
    [(3, 'odd'), (4, 'even'), (5, 'odd')]
    
 For simple expressions a Scala like syntax can be used to further shorten the code:
 
+.. doctest::
    >>> data >> MapCol(0, _ + 2) >> Collect()
    [(3, 'odd'), (4, 'even'), (5, 'odd')]
    
 Let's combine what we learned and construct a pipeline that extracts the first number
 in the data set that is even and converts the labels to upper case. 
 
+.. doctest::
    >>> to_upper = lambda label: label.upper()
    >>> is_even = lambda number: number % 2 == 0
    >>> first_even = (data >> FilterCol(0, is_even) >> 
@@ -114,6 +125,7 @@ instead of ``Filter`` to filter for the contents in column ``0`` (the numbers) o
 the samples. Note that we wrap the pipeline into brackets allowing it to run over multiple lines.
 Alternatively, we could refactor the code as follows to shorten the pipeline:
 
+.. doctest::
    >>> to_upper = MapCol(1, lambda label: label.upper())
    >>> is_even = FilterCol(0, lambda number: number % 2 == 0)
    >>> first_even = data >> is_even >> to_upper >> Head(1)
@@ -140,8 +152,8 @@ Let us start with reading data from a simple text file. Here a tiny example file
 We can loads the file content with Python's ``open`` function that returns an 
 iterator over the lines and collect them in a ``list``  
 
+.. doctest::
   >>> from nutsflow import *
-
   >>> open('tests/data/and.txt') >> Collect()
   ['x1,x2,y\n', '0,0,no\n', '0,1,no\n', '1,0,no\n', '1,1,yes']
   
@@ -156,6 +168,7 @@ its components:
 This as a ``Map`` because it will be applied to each line of the file. 
 Let us try it out by reading the header of the file
 
+.. doctest::
   >>> lines = open('tests/data/and.txt')
   >>> lines >> split >> Head(1)
   [['x1', 'x2', 'y']]
@@ -165,6 +178,7 @@ As expected, we get the header with the column names.
 Since ``open`` returns an iterator ``lines`` is ready to deliver the remaining
 lines of the file. For instance, we could now write
 
+.. doctest::
   >>> lines >> split >> Print() >> Consume()
   ['0', '0', 'no']
   ['0', '1', 'no']
@@ -178,6 +192,7 @@ We therefore rerun the code and collect the samples in a list. But careful!
 The ``lines`` iterator has been consumed. We have to reopen the file to
 restart the iterator:
 
+.. doctest::
   >>> lines = open('tests/data/and.txt')
   >>> lines >> Drop(1) >> split >> Collect()
   [['0', '0', 'no'], ['0', '1', 'no'], ['1', '0', 'no'], ['1', '1', 'yes']]
@@ -189,6 +204,7 @@ Next we need to convert the strings containing numbers to actual numbers.
 ``MapCol`` can be used to map Python's ``int`` function on specific columns of the 
 samples; here columns ``0`` and  ``1`` of the samples contain integers:
 
+.. doctest::
   >>> lines = open('tests/data/and.txt')
   >>> to_int = MapCol((0, 1), int)
   >>> skip_header = Drop(1)
@@ -293,6 +309,7 @@ Python has a dedicated `CSV library
 and **nuts-ml** has the even more powerful `ReadPandas <https://github.com/maet3608/nuts-ml/blob/master/nutsml/reader.py>`_
 nut. For instance, we could write
 
+.. doctest::
   >>> filepath = 'tests/data/and.csv'
   >>> with ReadCSV(filepath, skipheader=1, fmtfunc=(int,int,str)) as reader:
   >>>    samples = reader >> Collect()
@@ -303,6 +320,7 @@ which also properly closes the data file -- a detail we have neglected before.
 The code becomes even simpler with the ``ReadPandas`` nut but note that this
 nut reads all data in memory:
   
+.. doctest::  
   >>> from nutsml import ReadPandas
   >>> samples = ReadPandas('tests/data/and.csv') >> Collect()
   >>> print(samples)  
@@ -313,6 +331,7 @@ converts numbers to integers automatically. ``ReadPandas`` furthermore
 can read TSV (Tab Separated Values) files and other format. Finally,
 ``ReadPandas`` can easily extract or reorder columns or filter rows:
 
+.. doctest::
   >>> columns = ['y', 'x1']
   >>> ReadPandas('tests/data/and.csv', columns=columns) >> Print() >> Consume()
   ('no', 0)
@@ -326,13 +345,14 @@ can read TSV (Tab Separated Values) files and other format. Finally,
   ('yes', 1)
 
   
-Numpy arrays
+NumPy arrays
 ------------  
   
-To use Numpy arrays as data sources we need to wrap them into an iterator.
+To use NumPy arrays as data sources we need to wrap them into an iterator.
 In the following example we create an identity matrix, iterate over the rows, 
 and print them:
   
+.. doctest::  
   >>> import numpy as np
   >>> data = np.eye(4)
   >>> iter(data) >> Print() >> Consume()
@@ -341,7 +361,7 @@ and print them:
   [0.0, 0.0, 1.0, 0.0]
   [0.0, 0.0, 0.0, 1.0]
 
-Note that Numpy arrays larger than memory can be loaded and then processed with 
+Note that NumPy arrays larger than memory can be loaded and then processed with 
 `np.load(filename, mmap_mode='r') <https://docs.scipy.org/doc/numpy-1.14.0/reference/generated/numpy.load.html>`_.
   
   

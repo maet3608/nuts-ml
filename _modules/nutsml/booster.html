@@ -171,7 +171,7 @@
 <span class="sd">    Expects one-hot encoded targets and softmax predictions for output.</span>
 
 <span class="sd">    | network = Network()</span>
-<span class="sd">    | build_batch = BuildBatch(BATCHSIZE, colspec)</span>
+<span class="sd">    | build_batch = BuildBatch(BATCHSIZE)</span>
 <span class="sd">    | boost = Boost(build_batch, network)</span>
 <span class="sd">    | samples &gt;&gt; boost &gt;&gt; build_batch &gt;&gt; network.train() &gt;&gt; Consume()</span>
 
@@ -208,7 +208,7 @@
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 18, 2018.
+      Last updated on Oct 04, 2018.
 
     </p>
   </div> 

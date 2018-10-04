@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logging &mdash; nutsml 1.0.38 documentation</title>
+  <title>Logging data &mdash; nutsml 1.0.38 documentation</title>
   
 
   
@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Plotting data" href="plotting.html" />
+    <link rel="prev" title="Training networks" href="network.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -80,11 +82,25 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="introduction.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reading_samples.html">Reading data samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading_images.html">Loading images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_images.html">Viewing Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_images.html">Transforming images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="augment_images.html">Augmenting images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batching.html">Building Batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Training networks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Logging data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cifar10_example.html">CIFAR-10 Example</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../nutsml.html">nutsml package</a></li>
@@ -133,7 +149,9 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Logging</li>
+          <li><a href="introduction.html">Tutorial</a> &raquo;</li>
+        
+      <li>Logging data</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -152,9 +170,83 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="logging">
-<h1>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h1>
-<p>TODO</p>
+  <div class="section" id="logging-data">
+<h1>Logging data<a class="headerlink" href="#logging-data" title="Permalink to this headline">¶</a></h1>
+<p>Apart from printing loss, accuracy and other metrics during training it is
+often useful to log these numbers to a file. <strong>nuts-ml</strong> provides logging
+functionality within and outside of data pipelines via <code class="docutils literal notranslate"><span class="pre">LogToFile</span></code>.
+The following example demonstrates the basics. We have a list of samples
+that we log to a CSV file:</p>
+<blockquote>
+<div><div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/temp_logfile.csv&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">logtofile</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="go">1,2,3</span>
+<span class="go">4,5,6</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">LogToFile</span></code> allows to extract sample columns to log and to
+specify column names for the log file. In this next example we also show
+how to manually close and delete a created log file:</p>
+<blockquote>
+<div><div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;3rd&#39;</span><span class="p">,</span> <span class="s1">&#39;1st&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="go">3rd,1st</span>
+<span class="go">3,1</span>
+<span class="go">6,4</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>In this more complex code sketch we will use <code class="docutils literal notranslate"><span class="pre">LogToFile</span></code> within a training a loop
+and log loss and accuracy per batch, and epoch, mean loss and mean accuracy per
+epoch:</p>
+<blockquote>
+<div><div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">log_batch</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="s1">&#39;batchlog.csv&#39;</span><span class="p">,</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="s1">&#39;acc&#39;</span><span class="p">])</span>
+<span class="n">log_epoch</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="s1">&#39;epochlog.csv&#39;</span><span class="p">,</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="s1">&#39;acc&#39;</span><span class="p">])</span>
+<span class="n">mean</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
+    <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span>
+                     <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">log_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
+    <span class="n">log_epoch</span><span class="p">(</span> <span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">mean</span><span class="p">(</span><span class="n">t_loss</span><span class="p">),</span> <span class="n">mean</span><span class="p">(</span><span class="n">t_acc</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="n">log_batch</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">log_epoch</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The output of <code class="docutils literal notranslate"><span class="pre">network.train()</span></code> is a NumPy array, containing
+the loss and accuracy per mini-batch (these are the outputs that Keras produces
+during training). Note that we call <code class="docutils literal notranslate"><span class="pre">log_epoch</span></code> explicitly (outside of the pipeline)
+and can simply provide the values to log as a tuple, list or array. Of course,
+the number of values must match the number column names defined.
+The same syntactical feature is used for <code class="docutils literal notranslate"><span class="pre">Mean</span></code> here. For instance, the following
+three constructs are equivalent:</p>
+<blockquote>
+<div><div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Mean</span><span class="p">()([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mean</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mean</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Similar to logging we can also plot data. This is the topic of the next section.</p>
 </div>
 
 
@@ -163,13 +255,22 @@
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="plotting.html" class="btn btn-neutral float-right" title="Plotting data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="network.html" class="btn btn-neutral" title="Training networks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Sep 18, 2018.
+      Last updated on Oct 04, 2018.
 
     </p>
   </div> 
