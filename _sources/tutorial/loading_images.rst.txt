@@ -15,7 +15,10 @@ For instance, the `ReadImage()
 reads images from a given path and returns Numpy arrays. Here a simple example
   
 .. doctest::  
+
   >>> samples = [('nut_color.jpg', 'color'), ('nut_grayscale.jpg', 'gray')]
+    
+.. doctest::
   
   >>> imagepath = 'tests/data/img_formats/*'
   >>> samples >> ReadImage(0, imagepath) >> PrintColType() >> Consume()  
@@ -46,6 +49,7 @@ Sometimes it is useful to directly load images that are not part of a sample.
 Setting the column to ``None`` in ``ReadImage()`` enables this:
 
 .. doctest::
+
   >>> images = ['nut_color', 'nut_grayscale']
   >>> imagepath = 'tests/data/img_formats/*.jpg'
   >>> images >> ReadImage(None, imagepath) >> PrintColType() >> Consume()
@@ -61,6 +65,7 @@ Instead of providing a base image path and image file names within samples it is
 also possible to directly provide the full file path within the sample:
 
 .. doctest::
+
    >>> images = ['tests/data/img_formats/nut_color.gif']
    >>> images >> ReadImage(None) >> PrintColType() >> Consume()
    item 0: <tuple>
@@ -71,6 +76,7 @@ e.g. for samples that contain an image and mask. In the following example we
 read color images and their gray-scale version as pairs
 
 .. doctest::
+
   >>> samples = [('color.jpg', 'grayscale.jpg'), ('color.png', 'grayscale.png')]
   >>> imagepath = 'tests/data/img_formats/nut_*'
   >>> samples >> ReadImage((0,1), imagepath) >> PrintColType() >> Consume()  

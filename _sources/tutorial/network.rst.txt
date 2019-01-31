@@ -90,7 +90,7 @@ for training and validation:
       print("train acc   :", t_acc >> Mean())
       
       v_loss, v_acc = (val_samples >> read_image >> transform >> 
-                       build_batch >> network.train() >> Unzip())
+                       build_batch >> network.validate() >> Unzip())
       print("val loss  :", v_loss >> Mean())
       print("val acc   :", v_acc >> Mean())
       

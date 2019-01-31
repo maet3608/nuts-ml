@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.38 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.0.40 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.0.38
+                1.0.40
               </div>
             
           
@@ -672,14 +672,15 @@ last position. (see numpy transpose for details)</li>
 <dt id="nutsml.booster.Boost">
 <em class="property">class </em><code class="descname">Boost</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/booster.html#Boost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.booster.Boost" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.Nut</span></code></p>
-<p>iterable &gt;&gt; Boost(batcher, network, targetcol=-1)</p>
+<p>iterable &gt;&gt; Boost(batcher, network, rand=None)</p>
 <p>Boost samples with high softmax probability for incorrect class.
 Expects one-hot encoded targets and softmax predictions for output.</p>
+<p>NOTE: prefetching of batches must be disabled when using boosting!</p>
 <div class="line-block">
 <div class="line">network = Network()</div>
-<div class="line">build_batch = BuildBatch(BATCHSIZE)</div>
+<div class="line">build_batch = BuildBatch(BATCHSIZE, prefetch=0).input(…).output(…)</div>
 <div class="line">boost = Boost(build_batch, network)</div>
-<div class="line">samples &gt;&gt; boost &gt;&gt; build_batch &gt;&gt; network.train() &gt;&gt; Consume()</div>
+<div class="line">samples &gt;&gt; … ?&gt;&gt; boost &gt;&gt; build_batch &gt;&gt; network.train() &gt;&gt; Consume()</div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -689,7 +690,8 @@ Expects one-hot encoded targets and softmax predictions for output.</p>
 <li><strong>iterable</strong> (<em>iterable</em>) – Iterable with samples.</li>
 <li><strong>batcher</strong> (<em>nutsml.BuildBatch</em>) – Batcher used for network training.</li>
 <li><strong>network</strong> (<em>nutsml.Network</em>) – Network used for prediction</li>
-<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Column in sample that contains target values.</li>
+<li><strong>rand</strong> (<em>Random|None</em>) – Random number generator used for down-sampling.
+If None, random.Random() is used.</li>
 </ul>
 </td>
 </tr>
@@ -707,11 +709,6 @@ Expects one-hot encoded targets and softmax predictions for output.</p>
 <dd></dd></dl>
 
 </dd></dl>
-
-<dl class="function">
-<dt id="nutsml.booster.random">
-<code class="descname">random</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; x in the interval [0, 1).<a class="headerlink" href="#nutsml.booster.random" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 <div class="section" id="module-nutsml.checkpoint">
@@ -3189,7 +3186,6 @@ targets and predictions.</li>
 <li><strong>predcol</strong> (<em>int|None</em>) – Index of column in prediction to extract
 for evaluation. If None a single prediction output is
 expected.</li>
-<li><strong>targetcol</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Index of batch column that contain targets.</li>
 </ul>
 </td>
 </tr>
@@ -3235,7 +3231,7 @@ expected.</li>
 
 <dl class="method">
 <dt id="nutsml.network.KerasNetwork.evaluate">
-<code class="descname">evaluate</code><span class="sig-paren">(</span><em>metrics</em>, <em>predcol=None</em>, <em>targetcol=-1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.evaluate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">evaluate</code><span class="sig-paren">(</span><em>metrics</em>, <em>predcol=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.evaluate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.evaluate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate performance of network for given metrices</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">acc</span><span class="p">,</span> <span class="n">f1</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">evaluate</span><span class="p">([</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">])</span>  
 </pre></div>
@@ -3960,11 +3956,11 @@ of shape (h, w, c) or (h, w)</p>
 where the folder name represents the class label and the files in
 the folder the data samples (images, documents, …) for that class.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Collect</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Sort</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read</span> <span class="o">=</span> <span class="n">ReadLabelDirs</span><span class="p">(</span><span class="s1">&#39;tests/data/labeldirs&#39;</span><span class="p">,</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="n">read</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="n">read</span> <span class="o">&gt;&gt;</span> <span class="n">Sort</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -4162,7 +4158,7 @@ If None, random.Random() is used.</li>
 <dt id="nutsml.stratify.Stratify">
 <em class="property">class </em><code class="descname">Stratify</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/stratify.html#Stratify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.stratify.Stratify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.Nut</span></code></p>
-<p>iterable &gt;&gt; Stratify(labelcol, labeldist, rand=rnd.Random())</p>
+<p>iterable &gt;&gt; Stratify(labelcol, labeldist, rand=None)</p>
 <p>Stratifies samples by randomly down-sampling according to the given
 label distribution. In detail: samples belonging to the class with the
 smallest number of samples are returned with probability one. Samples
@@ -4897,7 +4893,7 @@ height for resize.</li>
 
 <dl class="attribute">
 <dt id="nutsml.transformer.TransformImage.transformations">
-<code class="descname">transformations</code><em class="property"> = {'brightness': &lt;function change_brightness at 0x0000000009331510&gt;, 'color': &lt;function change_color at 0x0000000009331620&gt;, 'contrast': &lt;function change_contrast at 0x0000000009331488&gt;, 'crop': &lt;function crop at 0x0000000009331158&gt;, 'crop_center': &lt;function crop_center at 0x00000000093311E0&gt;, 'crop_square': &lt;function crop_square at 0x0000000009331268&gt;, 'elastic': &lt;function distort_elastic at 0x0000000009331AE8&gt;, 'fliplr': &lt;function fliplr at 0x00000000093319D8&gt;, 'flipud': &lt;function flipud at 0x0000000009331A60&gt;, 'gray2rgb': &lt;function gray2rgb at 0x00000000093316A8&gt;, 'identical': &lt;function identical at 0x00000000093310D0&gt;, 'normalize_histo': &lt;function normalize_histo at 0x0000000009331378&gt;, 'occlude': &lt;function occlude at 0x00000000093312F0&gt;, 'rerange': &lt;function rerange at 0x0000000009331048&gt;, 'resize': &lt;function resize at 0x00000000093318C8&gt;, 'rgb2gray': &lt;function rgb2gray at 0x0000000009331730&gt;, 'rotate': &lt;function rotate at 0x0000000009331840&gt;, 'sharpness': &lt;function change_sharpness at 0x0000000009331598&gt;, 'shear': &lt;function shear at 0x0000000009331950&gt;, 'translate': &lt;function translate at 0x00000000093317B8&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">transformations</code><em class="property"> = {'brightness': &lt;function change_brightness at 0x00000000096360D0&gt;, 'color': &lt;function change_color at 0x00000000096361E0&gt;, 'contrast': &lt;function change_contrast at 0x0000000009636048&gt;, 'crop': &lt;function crop at 0x000000000962CC80&gt;, 'crop_center': &lt;function crop_center at 0x000000000962CD08&gt;, 'crop_square': &lt;function crop_square at 0x000000000962CD90&gt;, 'elastic': &lt;function distort_elastic at 0x00000000096366A8&gt;, 'fliplr': &lt;function fliplr at 0x0000000009636598&gt;, 'flipud': &lt;function flipud at 0x0000000009636620&gt;, 'gray2rgb': &lt;function gray2rgb at 0x0000000009636268&gt;, 'identical': &lt;function identical at 0x000000000962CBF8&gt;, 'normalize_histo': &lt;function normalize_histo at 0x000000000962CEA0&gt;, 'occlude': &lt;function occlude at 0x000000000962CE18&gt;, 'rerange': &lt;function rerange at 0x000000000962CB70&gt;, 'resize': &lt;function resize at 0x0000000009636488&gt;, 'rgb2gray': &lt;function rgb2gray at 0x00000000096362F0&gt;, 'rotate': &lt;function rotate at 0x0000000009636400&gt;, 'sharpness': &lt;function change_sharpness at 0x0000000009636158&gt;, 'shear': &lt;function shear at 0x0000000009636510&gt;, 'translate': &lt;function translate at 0x0000000009636378&gt;}</em><a class="headerlink" href="#nutsml.transformer.TransformImage.transformations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -5249,7 +5245,7 @@ if None, Enumerate() is used.</li>
   <div role="contentinfo">
     <p>
         &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Oct 04, 2018.
+      Last updated on Jan 31, 2019.
 
     </p>
   </div> 
@@ -5270,7 +5266,7 @@ if None, Enumerate() is used.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.38',
+            VERSION:'1.0.40',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

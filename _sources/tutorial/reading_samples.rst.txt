@@ -21,12 +21,14 @@ a short introduction of the basic principles.
 We start by importing **nuts-flow** and **nuts-ml** 
 
 .. doctest::
+
   >>> from nutsflow import *
   >>> from nutsml import *  
   
 and create a tiny, in-memory example data set:
   
-.. doctest::  
+.. doctest::
+ 
   >>> data = [(1,'odd'), (2, 'even'), (3, 'odd')]
   
 Data pipelines in **nuts-ml** require a `sink <https://maet3608.github.io/nuts-flow/overview.html>`_ that pulls the data. The two most common ones are 
@@ -38,24 +40,29 @@ there are many `others <https://maet3608.github.io/nuts-flow/overview.html>`_.
 As an example we take the first two samples of the data set. Without a sink the pipeline is
 not processing anything at all and only the generator (stemming from ``Take()``) is returned.
 
+.. doctest:: 
+
   >>> data >> Take(2)
   itertools.islice at 0xbf160e8>
   
 Adding a ``Collect()`` results in the processing of the data and gives us what we want:
 
 .. doctest::
+
   >>> data >> Take(2) >> Collect()
   [(1, 'odd'), (2, 'even')]
   
 The same pipeline using ``Consume()`` returns nothing
 
 .. doctest::
+
   >>> data >> Take(2) >> Consume()
   
 but we can verify that samples are processed by inserting a 
 `Print <https://maet3608.github.io/nuts-flow/nutsflow.html#nutsflow.function.Print>`_ nut:
 
 .. doctest::
+
   >>> data >> Print() >> Take(2) >> Consume()
   (1, 'odd')
   (2, 'even')
@@ -69,6 +76,7 @@ As the name indicates, ``Filter`` is used to filter samples based on a provided
 boolean function:
 
 .. doctest::
+
   >>> data >> Filter(lambda s: s[1] == 'odd') >> Print() >> Consume()
   (1, 'odd')
   (3, 'odd')
@@ -76,6 +84,7 @@ boolean function:
 or maybe more clearly with additional printing
 
 .. doctest::
+
   >>> def is_odd(sample):
   ...     return sample[1] == 'odd'
   >>> data >> Print('before: {},{}') >> Filter(is_odd) >> Print('after : {},{}') >> Consume()
@@ -88,6 +97,7 @@ or maybe more clearly with additional printing
 ``Map`` applies a function to the samples of a data set, e.g.
 
 .. doctest::
+
   >>> def add_two(sample):
   ...     number, label = sample
   ...     return number + 2, label
@@ -98,7 +108,8 @@ There is a convenience nut `MapCol <https://maet3608.github.io/nuts-flow/nutsflo
 that maps a function to a specific column (or columns) of a sample. This allows us
 to write more succinctly
   
-.. doctest::  
+.. doctest::
+ 
    >>> add_two = lambda number: number + 2
    >>> data >> MapCol(0, add_two) >> Collect()
    [(3, 'odd'), (4, 'even'), (5, 'odd')]
@@ -106,6 +117,7 @@ to write more succinctly
 For simple expressions a Scala like syntax can be used to further shorten the code:
 
 .. doctest::
+
    >>> data >> MapCol(0, _ + 2) >> Collect()
    [(3, 'odd'), (4, 'even'), (5, 'odd')]
    
@@ -113,6 +125,7 @@ Let's combine what we learned and construct a pipeline that extracts the first n
 in the data set that is even and converts the labels to upper case. 
 
 .. doctest::
+
    >>> to_upper = lambda label: label.upper()
    >>> is_even = lambda number: number % 2 == 0
    >>> first_even = (data >> FilterCol(0, is_even) >> 
@@ -126,6 +139,7 @@ the samples. Note that we wrap the pipeline into brackets allowing it to run ove
 Alternatively, we could refactor the code as follows to shorten the pipeline:
 
 .. doctest::
+
    >>> to_upper = MapCol(1, lambda label: label.upper())
    >>> is_even = FilterCol(0, lambda number: number % 2 == 0)
    >>> first_even = data >> is_even >> to_upper >> Head(1)
@@ -143,19 +157,20 @@ Let us start with reading data from a simple text file. Here a tiny example file
 
 .. code::
 
-  x1,x2,y
-  0,0,no
-  0,1,no
-  1,0,no
-  1,1,yes
+      x1,x2,y
+      0,0,no
+      0,1,no
+      1,0,no
+      1,1,yes
   
 We can loads the file content with Python's ``open`` function that returns an 
 iterator over the lines and collect them in a ``list``  
 
 .. doctest::
-  >>> from nutsflow import *
-  >>> open('tests/data/and.txt') >> Collect()
-  ['x1,x2,y\n', '0,0,no\n', '0,1,no\n', '1,0,no\n', '1,1,yes']
+
+      >>> from nutsflow import *
+      >>> open('tests/data/and.txt') >> Collect()
+      ['x1,x2,y\n', '0,0,no\n', '0,1,no\n', '1,0,no\n', '1,1,yes']
   
 Of course, ``open('tests/data/and.txt').readlines()`` would have achieved the same.
 However, samples as strings are not very useful. We would like samples to be
@@ -163,12 +178,15 @@ represented as tuples or lists containing column values. First, we therefore def
 nut function that strips white spaces from lines and splits a line into
 its components:
 
->>> split = Map(lambda line : line.strip().split(','))
+.. doctest::
+
+  >>> split = Map(lambda line : line.strip().split(','))
 
 This as a ``Map`` because it will be applied to each line of the file. 
 Let us try it out by reading the header of the file
 
-.. doctest::
+.. code::
+
   >>> lines = open('tests/data/and.txt')
   >>> lines >> split >> Head(1)
   [['x1', 'x2', 'y']]
@@ -178,7 +196,8 @@ As expected, we get the header with the column names.
 Since ``open`` returns an iterator ``lines`` is ready to deliver the remaining
 lines of the file. For instance, we could now write
 
-.. doctest::
+.. code::
+
   >>> lines >> split >> Print() >> Consume()
   ['0', '0', 'no']
   ['0', '1', 'no']
@@ -193,6 +212,7 @@ The ``lines`` iterator has been consumed. We have to reopen the file to
 restart the iterator:
 
 .. doctest::
+
   >>> lines = open('tests/data/and.txt')
   >>> lines >> Drop(1) >> split >> Collect()
   [['0', '0', 'no'], ['0', '1', 'no'], ['1', '0', 'no'], ['1', '1', 'yes']]
@@ -205,6 +225,7 @@ Next we need to convert the strings containing numbers to actual numbers.
 samples; here columns ``0`` and  ``1`` of the samples contain integers:
 
 .. doctest::
+
   >>> lines = open('tests/data/and.txt')
   >>> to_int = MapCol((0, 1), int)
   >>> skip_header = Drop(1)
@@ -252,12 +273,16 @@ As a final example, we will convert the class labels that are currently strings 
 integer numbers -- usually needed for training a machine learning classifier. 
 We could define the following nut and add it to the pipeline:
    
+.. doctest::
+   
   >>> label2int = MapCol(2, lambda label: 1 if label=='yes' else 0)
   >>> open('tests/data/and.txt') >> skip_header >> split >> to_int >> label2int >> Collect()
   [(0, 0, 0), (0, 1, 0), (1, 0, 0), (1, 1, 1)] 
   
 However, **nutsml** already has the `ConvertLabel <https://maet3608.github.io/nuts-ml/nutsml.html#nutsml.common.ConvertLabel>`_ nut
 and we can simply write instead:
+
+.. doctest::
 
   >>> labels = ['no', 'yes']
   >>> convert = ConvertLabel(2, labels)
@@ -271,6 +296,8 @@ and we can simply write instead:
 Using `ConvertLabel` has the additional advantage that the conversion back from 
 integers to strings is trivial:
   
+.. code::
+  
   >>> samples >> convert >> Print() >> Consume()
   (0, 0, 'no')
   (0, 1, 'no')
@@ -282,6 +309,8 @@ the class label (here column 2) and a list of labels. If the class label is a st
 converts to an integer and vice versa.  `ConvertLabel` can also convert to one-hot-encoded
 vectors and back:
 
+.. doctest::
+
   >>> convert = ConvertLabel(2, labels, onehot=True)
   >>> samples = (open('tests/data/and.txt') >> skip_header >> split >> to_int >> 
   ... convert >> Print() >> Collect())
@@ -289,7 +318,9 @@ vectors and back:
   (0, 1, [1, 0])
   (1, 0, [1, 0])
   (1, 1, [0, 1])
-  
+      
+.. doctest::
+      
   >>> samples >> convert >> Print() >> Consume()
   (0, 0, 'no')
   (0, 1, 'no')
@@ -310,6 +341,7 @@ and **nuts-ml** has the even more powerful `ReadPandas <https://github.com/maet3
 nut. For instance, we could write
 
 .. doctest::
+
   >>> filepath = 'tests/data/and.csv'
   >>> with ReadCSV(filepath, skipheader=1, fmtfunc=(int,int,str)) as reader:
   >>>    samples = reader >> Collect()
@@ -320,7 +352,8 @@ which also properly closes the data file -- a detail we have neglected before.
 The code becomes even simpler with the ``ReadPandas`` nut but note that this
 nut reads all data in memory:
   
-.. doctest::  
+.. doctest::
+ 
   >>> from nutsml import ReadPandas
   >>> samples = ReadPandas('tests/data/and.csv') >> Collect()
   >>> print(samples)  
@@ -332,13 +365,16 @@ can read TSV (Tab Separated Values) files and other format. Finally,
 ``ReadPandas`` can easily extract or reorder columns or filter rows:
 
 .. doctest::
+
   >>> columns = ['y', 'x1']
   >>> ReadPandas('tests/data/and.csv', columns=columns) >> Print() >> Consume()
   ('no', 0)
   ('no', 0)
   ('no', 1)
   ('yes', 1)
-  
+      
+.. doctest::
+      
   >>> rows = 'x1>0'
   >>> ReadPandas('tests/data/and.csv', rows, columns) >> Print() >> Consume()  
   ('no', 1)
@@ -352,7 +388,8 @@ To use NumPy arrays as data sources we need to wrap them into an iterator.
 In the following example we create an identity matrix, iterate over the rows, 
 and print them:
   
-.. doctest::  
+.. doctest::
+ 
   >>> import numpy as np
   >>> data = np.eye(4)
   >>> iter(data) >> Print() >> Consume()
@@ -374,11 +411,15 @@ In the following example, however, we download and process the `Iris data set <h
 line by line. First, we open the URL to the data set located on the UCI
 machine learning server:
 
+.. doctest::
+
   >>> import urllib
   >>> url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
   >>> lines = urllib.request.urlopen
 
 We now can inspect the first two lines of the data set:
+
+.. doctest::
   
   >>> lines(url) >> Head(2)
   [b'5.1,3.5,1.4,0.2,Iris-setosa\n',
@@ -389,6 +430,8 @@ collects the first two lines. You will notice that (since Py3K) the lines are in
 The following code convert lines to strings, strips the the newline, and splits at comma
 to give as samples with columns:
 
+.. doctest::
+
   >>> to_columns = Map(lambda l: l.decode('utf-8').strip().split(','))
   >>> lines(url) >> to_columns >> Head(2)
   [['5.1', '3.5', '1.4', '0.2', 'Iris-setosa'],
@@ -396,6 +439,8 @@ to give as samples with columns:
 
 The four numeric features in columns 0 to 3 of the samples are still strings but we want floats.
 Mapping the ``float`` function on those columns will do it:
+
+.. doctest::
 
   >>> to_float = MapCol((0,1,2,3), float)
   >>> lines(url) >> to_columns >> to_float >> Head(2)
@@ -405,6 +450,8 @@ Mapping the ``float`` function on those columns will do it:
 Finally, we are going to replace the class labels (e.g. ``'Iris-setosa'``) by
 numeric class indices. We could look the the names of the classes up, but
 being lazy we extract them directly via
+
+.. doctest::
 
   >>> skip_empty = Filter(lambda cols: len(cols) == 5)
   >>> labels = lines(url) >> to_columns >> skip_empty >> Get(4) >> Dedupe() >> Collect()
@@ -417,6 +464,8 @@ empty line at the end.
 We now can use the extracted ``labels`` and the ``ConvertLabel`` nut to convert 
 the class labels in column 4 from strings to class indices. For showcasing, we
 download the entire data set put print only every 20-th sample.
+
+.. doctest::
   
   >>> (lines(url) >> to_columns >> skip_empty >> to_float >> 
   ...  ConvertLabel(4, labels) >> Print(every_n=20) >> Consume())
@@ -452,6 +501,8 @@ that are arranged in the following file structure
 <https://maet3608.github.io/nuts-ml/nutsml.html#module-nutsml.reader>`_ nut. The
 following code demonstrates its usage:
 
+.. doctest::
+
   >>> samples = ReadLabelDirs('books', '*.txt')
   >>> samples >> Take(3) >> Print() >> Consume()
   ('books/0/text0.txt', '0')
@@ -463,7 +514,7 @@ However, we could easily implement a ``Process`` nut that loads and processes
 the text files individually without loading all texts in memory at once.
 For instance, converting text files into word count dictionaries.
 
-.. code:: 
+.. code:: Python
 
   @nut_function
   def Process(sample):

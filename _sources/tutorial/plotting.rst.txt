@@ -6,7 +6,7 @@ to get an impression of convergence speed. **nuts-ml** provides a simple
 plotting nut to facilitate this need. The following example demonstrates
 the basic usage by plotting a quadratic function
 
- .. code:: Python
+.. doctest::
 
    >>> samples = (x**2 for x in range(100))
    >>> samples >> PlotLines(None) >> Consume()
@@ -22,6 +22,8 @@ we specify ``None`` as column index in ``PlotLines``.
 plot ```2*x`` and ``x**2`` and specify the corresponding sample columns
 ``(0,1)`` in ``PlotLines``:
 
+.. doctest::
+
    >>> samples = ((2*x, x**2) for x in range(100))
    >>> samples >> PlotLines((0,1), layout=(2,1), titles=('2x','x**2')) >> Consume()
    
@@ -36,7 +38,7 @@ code sketch plots the loss and accuracy of a network training per batch
 and per epoch. The generated figures are written to image files in PNG
 format instead of being displayed:
 
- .. code:: Python
+.. code:: Python
  
     plot_batch = PlotLines((0,1), every_sec=5, filepath='batch.png')
     plot_epoch = PlotLines((1,2), 0, layout=(2,1), filepath='epoch.png')
