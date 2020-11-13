@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.transformer &mdash; nutsml 1.0.40 documentation</title>
+  <title>nutsml.transformer &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,32 +17,34 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -56,7 +58,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -155,7 +157,7 @@
 <span class="sd">.. module:: transformer</span>
 <span class="sd">   :synopsis: Data and image transformations</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">path</span>
@@ -163,8 +165,8 @@
 <span class="kn">import</span> <span class="nn">nutsml.datautil</span> <span class="k">as</span> <span class="nn">ut</span>
 <span class="kn">import</span> <span class="nn">nutsml.imageutil</span> <span class="k">as</span> <span class="nn">ni</span>
 
-<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="n">Nut</span><span class="p">,</span> <span class="n">NutFunction</span><span class="p">,</span> <span class="n">nut_processor</span>
-<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="k">import</span> <span class="n">as_tuple</span><span class="p">,</span> <span class="n">as_set</span>
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Nut</span><span class="p">,</span> <span class="n">NutFunction</span><span class="p">,</span> <span class="n">nut_processor</span>
+<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">as_tuple</span><span class="p">,</span> <span class="n">as_set</span>
 
 
 <span class="c1"># map transformation to specified sample columns</span>
@@ -210,6 +212,7 @@
         <span class="s1">&#39;sharpness&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">change_sharpness</span><span class="p">,</span>
         <span class="s1">&#39;brightness&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">change_brightness</span><span class="p">,</span>
         <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">change_color</span><span class="p">,</span>
+        <span class="s1">&#39;edges&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">extract_edges</span><span class="p">,</span>
         <span class="s1">&#39;fliplr&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">fliplr</span><span class="p">,</span>
         <span class="s1">&#39;flipud&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">flipud</span><span class="p">,</span>
         <span class="s1">&#39;shear&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">shear</span><span class="p">,</span>
@@ -217,7 +220,7 @@
         <span class="s1">&#39;occlude&#39;</span><span class="p">:</span> <span class="n">ni</span><span class="o">.</span><span class="n">occlude</span><span class="p">,</span>
     <span class="p">}</span>
 
-<div class="viewcode-block" id="TransformImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        samples &gt;&gt; TransformImage(imagecols)</span>
 
@@ -263,6 +266,7 @@
 <span class="sd">        | :func:`sharpness &lt;nutsml.imageutil.sharpness&gt;` (sharpness)</span>
 <span class="sd">        | :func:`brightness &lt;nutsml.imageutil.brightness&gt;` (brightness)</span>
 <span class="sd">        | :func:`color &lt;nutsml.imageutil.color&gt;` (color)</span>
+<span class="sd">        | :func:`edges &lt;nutsml.imageutil.extract_edges&gt;` (sigma)</span>
 <span class="sd">        | :func:`fliplr &lt;nutsml.imageutil.fliplr&gt;`</span>
 <span class="sd">        | :func:`flipud &lt;nutsml.imageutil.flipud&gt;`</span>
 <span class="sd">        | :func:`shear &lt;nutsml.imageutil.shear&gt;` (shear_factor)</span>
@@ -293,7 +297,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">transformations</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformation</span></div>
 
-<div class="viewcode-block" id="TransformImage.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+<div class="viewcode-block" id="TransformImage.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.TransformImage.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply transformation to sample.</span>
 
@@ -311,7 +315,7 @@
 <span class="sd">    Random augmentation of images in samples</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AugmentImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AugmentImage.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        samples &gt;&gt; AugmentImage(imagecols, rand=None)</span>
 
@@ -384,7 +388,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">augmentations</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">ranges</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
-<div class="viewcode-block" id="AugmentImage.__rrshift__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.__rrshift__">[docs]</a>    <span class="k">def</span> <span class="nf">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+<div class="viewcode-block" id="AugmentImage.__rrshift__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.AugmentImage.__rrshift__">[docs]</a>    <span class="k">def</span> <span class="fm">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply augmentation to samples in iterable.</span>
 
@@ -433,12 +437,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">colset</span> <span class="o">=</span> <span class="n">as_set</span><span class="p">(</span><span class="n">imagecols</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">sample</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-        <span class="n">patches</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">col_map</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">patch_iter</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+        <span class="n">patch_iters</span> <span class="o">=</span> <span class="n">ut</span><span class="o">.</span><span class="n">col_map</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">imagecols</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">patch_iter</span><span class="p">,</span> <span class="n">pshape</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">enum_iter</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">patches</span><span class="p">)</span>
-            <span class="n">patched</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colset</span> <span class="k">else</span> <span class="n">p</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">enum_iter</span><span class="p">)</span>
+            <span class="n">patched</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">patch_iters</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">patched</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colset</span> <span class="k">else</span> <span class="n">p</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                    <span class="k">pass</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">patched</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">patched</span>
+                <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">patched</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">break</span>  <span class="c1"># one or all patch iterators are depleted</span></div>
 
@@ -641,7 +649,7 @@
 <span class="sd">    Compute, save mean over images and subtract from images.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ImageMean.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageMean.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;image_means.npy&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageMean.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageMean.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;image_means.npy&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">         samples &gt;&gt; ImageMean(imagecol, filepath=&#39;image_means.npy&#39;)</span>
 
@@ -656,7 +664,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">if</span> <span class="n">hasfile</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
 
-<div class="viewcode-block" id="ImageMean.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageMean.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageMean.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageMean.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Subtract mean from images in samples.</span>
 
@@ -710,7 +718,7 @@
 <span class="sd">    Compute, save per-channel means over images and subtract from images.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ImageChannelMean.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageChannelMean.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;image_channel_means.npy&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="ImageChannelMean.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageChannelMean.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imagecol</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s1">&#39;image_channel_means.npy&#39;</span><span class="p">,</span>
                  <span class="n">means</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">         samples &gt;&gt; ImageChannelMean(imagecol,</span>
@@ -734,7 +742,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">if</span> <span class="n">hasfile</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span></div>
 
-<div class="viewcode-block" id="ImageChannelMean.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageChannelMean.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
+<div class="viewcode-block" id="ImageChannelMean.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.transformer.ImageChannelMean.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Subtract per-channel mean from images in samples.</span>
 
@@ -797,8 +805,10 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -814,32 +824,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

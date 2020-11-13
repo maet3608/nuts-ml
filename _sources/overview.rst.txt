@@ -18,6 +18,9 @@ Click on a nut name for more details.
 - :class:`DplyToList <nutsml.reader.DplyToList>` :
   convert DplyDataframe to list.
 
+- :class:`ReadNumpy <nutsml.reader.ReadNumpy>` :
+  load numpy array from file system.
+  
 - :class:`ReadImage <nutsml.reader.ReadImage>` :
   load image as numpy array from file system.
 
@@ -30,7 +33,7 @@ Click on a nut name for more details.
 
 **Data writing**
 
-- :class:`WriteImage <nutsml.writer.XWriteImageXX>` :
+- :class:`WriteImage <nutsml.writer.WriteImage>` :
   write images to file system.
 
 
@@ -38,6 +41,9 @@ Click on a nut name for more details.
 
 - :class:`PrintColType <nutsml.viewer.PrintColType>` :
   print type and other information for sample columns.
+  
+- :class:`PrintType <nutsml.viewer.PrintType>` :
+  print type and other information for structured data.  
 
 - :class:`ViewImage <nutsml.viewer.ViewImage>` :
   display image in window.

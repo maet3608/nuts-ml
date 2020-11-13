@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; nutsml 1.0.40 documentation</title>
+  <title>Overview &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Tutorial" href="tutorial/introduction.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -159,92 +161,96 @@
 <p>Click on a nut name for more details.</p>
 <p><strong>Network wrapping</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.network.KerasNetwork" title="nutsml.network.KerasNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">KerasNetwork</span></code></a> :
-wrapper for Keras networks.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.network.LasagneNetwork" title="nutsml.network.LasagneNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">LasagneNetwork</span></code></a> :
-wrapper for Lasagne networks.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.network.KerasNetwork" title="nutsml.network.KerasNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">KerasNetwork</span></code></a> :
+wrapper for Keras networks.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.network.LasagneNetwork" title="nutsml.network.LasagneNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">LasagneNetwork</span></code></a> :
+wrapper for Lasagne networks.</p></li>
 </ul>
 <p><strong>Data reading</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.reader.DplyToList" title="nutsml.reader.DplyToList"><code class="xref py py-class docutils literal notranslate"><span class="pre">DplyToList</span></code></a> :
-convert DplyDataframe to list.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.reader.ReadImage" title="nutsml.reader.ReadImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadImage</span></code></a> :
-load image as numpy array from file system.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.reader.ReadLabelDirs" title="nutsml.reader.ReadLabelDirs"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadLabelDirs</span></code></a> :
-read file paths from label directories.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.reader.ReadPandas" title="nutsml.reader.ReadPandas"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadPandas</span></code></a> :
-read data as Pandas table from file system.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.DplyToList" title="nutsml.reader.DplyToList"><code class="xref py py-class docutils literal notranslate"><span class="pre">DplyToList</span></code></a> :
+convert DplyDataframe to list.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadNumpy" title="nutsml.reader.ReadNumpy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadNumpy</span></code></a> :
+load numpy array from file system.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadImage" title="nutsml.reader.ReadImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadImage</span></code></a> :
+load image as numpy array from file system.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadLabelDirs" title="nutsml.reader.ReadLabelDirs"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadLabelDirs</span></code></a> :
+read file paths from label directories.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadPandas" title="nutsml.reader.ReadPandas"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadPandas</span></code></a> :
+read data as Pandas table from file system.</p></li>
 </ul>
 <p><strong>Data writing</strong></p>
 <ul class="simple">
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">WriteImage</span></code> :
-write images to file system.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.writer.WriteImage" title="nutsml.writer.WriteImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">WriteImage</span></code></a> :
+write images to file system.</p></li>
 </ul>
 <p><strong>Data viewing</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.viewer.PrintColType" title="nutsml.viewer.PrintColType"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrintColType</span></code></a> :
-print type and other information for sample columns.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.viewer.ViewImage" title="nutsml.viewer.ViewImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewImage</span></code></a> :
-display image in window.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.viewer.ViewImageAnnotation" title="nutsml.viewer.ViewImageAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewImageAnnotation</span></code></a> :
-display image and annotation in window.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.viewer.PrintColType" title="nutsml.viewer.PrintColType"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrintColType</span></code></a> :
+print type and other information for sample columns.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.viewer.PrintType" title="nutsml.viewer.PrintType"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrintType</span></code></a> :
+print type and other information for structured data.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.viewer.ViewImage" title="nutsml.viewer.ViewImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewImage</span></code></a> :
+display image in window.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.viewer.ViewImageAnnotation" title="nutsml.viewer.ViewImageAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewImageAnnotation</span></code></a> :
+display image and annotation in window.</p></li>
 </ul>
 <p><strong>Sample processing</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.common.ConvertLabel" title="nutsml.common.ConvertLabel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConvertLabel</span></code></a> :
-convert between string labels and integer class ids.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.common.CheckNaN" title="nutsml.common.CheckNaN"><code class="xref py py-class docutils literal notranslate"><span class="pre">CheckNaN</span></code></a> :
-raise exception if data contains NaNs.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.common.PartitionByCol" title="nutsml.common.PartitionByCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionByCol</span></code></a> :
-partition samples depending on column value.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.common.SplitRandom" title="nutsml.common.SplitRandom"><code class="xref py py-class docutils literal notranslate"><span class="pre">SplitRandom</span></code></a> :
-randomly split iterable into partitions, e.g. training, validation, test.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.stratify.Stratify" title="nutsml.stratify.Stratify"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stratify</span></code></a> :
-stratifies samples by down-sampling or up-sampling.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.common.ConvertLabel" title="nutsml.common.ConvertLabel"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConvertLabel</span></code></a> :
+convert between string labels and integer class ids.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.common.CheckNaN" title="nutsml.common.CheckNaN"><code class="xref py py-class docutils literal notranslate"><span class="pre">CheckNaN</span></code></a> :
+raise exception if data contains NaNs.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.common.PartitionByCol" title="nutsml.common.PartitionByCol"><code class="xref py py-class docutils literal notranslate"><span class="pre">PartitionByCol</span></code></a> :
+partition samples depending on column value.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.common.SplitRandom" title="nutsml.common.SplitRandom"><code class="xref py py-class docutils literal notranslate"><span class="pre">SplitRandom</span></code></a> :
+randomly split iterable into partitions, e.g. training, validation, test.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.stratify.Stratify" title="nutsml.stratify.Stratify"><code class="xref py py-class docutils literal notranslate"><span class="pre">Stratify</span></code></a> :
+stratifies samples by down-sampling or up-sampling.</p></li>
 </ul>
 <p><strong>Transforming &amp; Augmenting</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.transformer.AugmentImage" title="nutsml.transformer.AugmentImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">AugmentImage</span></code></a> :
-augment images using random transformations, e.g. rotation.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageAnnotationToMask" title="nutsml.transformer.ImageAnnotationToMask"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageAnnotationToMask</span></code></a> :
-return bit mask for geometric image annotation.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageChannelMean" title="nutsml.transformer.ImageChannelMean"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageChannelMean</span></code></a> :
-compute per-channel means over images and subtract from images.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageMean" title="nutsml.transformer.ImageMean"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageMean</span></code></a> :
-compute mean over images and subtract from images.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.transformer.ImagePatchesByAnnotation" title="nutsml.transformer.ImagePatchesByAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImagePatchesByAnnotation</span></code></a> :
-randomly sample patches from image based on geometric annotation.</li>
-<li><code class="xref py py-class docutils literal notranslate"><span class="pre">ImagePatchesByMask</span></code> :
-randomly sample patches from image based on annotation mask.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.transformer.RandomImagePatches" title="nutsml.transformer.RandomImagePatches"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomImagePatches</span></code></a> :
-extract patches at random locations from images.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.transformer.RegularImagePatches" title="nutsml.transformer.RegularImagePatches"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegularImagePatches</span></code></a> :
-extract patches in a regular grid from images.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.transformer.TransformImage" title="nutsml.transformer.TransformImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformImage</span></code></a> :
-transform images, e.g. crop, translate, rotate.</li>
-<li><a class="reference internal" href="nutsml.html#nutsml.batcher.Mixup" title="nutsml.batcher.Mixup"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mixup</span></code></a> :
+<li><p><a class="reference internal" href="nutsml.html#nutsml.transformer.AugmentImage" title="nutsml.transformer.AugmentImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">AugmentImage</span></code></a> :
+augment images using random transformations, e.g. rotation.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageAnnotationToMask" title="nutsml.transformer.ImageAnnotationToMask"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageAnnotationToMask</span></code></a> :
+return bit mask for geometric image annotation.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageChannelMean" title="nutsml.transformer.ImageChannelMean"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageChannelMean</span></code></a> :
+compute per-channel means over images and subtract from images.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.transformer.ImageMean" title="nutsml.transformer.ImageMean"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImageMean</span></code></a> :
+compute mean over images and subtract from images.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.transformer.ImagePatchesByAnnotation" title="nutsml.transformer.ImagePatchesByAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ImagePatchesByAnnotation</span></code></a> :
+randomly sample patches from image based on geometric annotation.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ImagePatchesByMask</span></code> :
+randomly sample patches from image based on annotation mask.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.transformer.RandomImagePatches" title="nutsml.transformer.RandomImagePatches"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomImagePatches</span></code></a> :
+extract patches at random locations from images.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.transformer.RegularImagePatches" title="nutsml.transformer.RegularImagePatches"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegularImagePatches</span></code></a> :
+extract patches in a regular grid from images.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.transformer.TransformImage" title="nutsml.transformer.TransformImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformImage</span></code></a> :
+transform images, e.g. crop, translate, rotate.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.batcher.Mixup" title="nutsml.batcher.Mixup"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mixup</span></code></a> :
 mixup augmentation, see
-<a class="reference external" href="https://arxiv.org/abs/1710.09412">mixup: Beyond Empirical Risk Minimization</a></li>
+<a class="reference external" href="https://arxiv.org/abs/1710.09412">mixup: Beyond Empirical Risk Minimization</a></p></li>
 </ul>
 <p><strong>Boosting</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.booster.Boost" title="nutsml.booster.Boost"><code class="xref py py-class docutils literal notranslate"><span class="pre">Boost</span></code></a> :
-boost samples with high confidence for incorrect class.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.booster.Boost" title="nutsml.booster.Boost"><code class="xref py py-class docutils literal notranslate"><span class="pre">Boost</span></code></a> :
+boost samples with high confidence for incorrect class.</p></li>
 </ul>
 <p><strong>Batching</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.batcher.BuildBatch" title="nutsml.batcher.BuildBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">BuildBatch</span></code></a> :
-build batches for GPU-based training.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.batcher.BuildBatch" title="nutsml.batcher.BuildBatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">BuildBatch</span></code></a> :
+build batches for GPU-based training.</p></li>
 </ul>
 <p><strong>Plotting</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.plotter.PlotLines" title="nutsml.plotter.PlotLines"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlotLines</span></code></a> :
-plot lines for selected data columns, e.g. accuracy, loss.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.plotter.PlotLines" title="nutsml.plotter.PlotLines"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlotLines</span></code></a> :
+plot lines for selected data columns, e.g. accuracy, loss.</p></li>
 </ul>
 <p><strong>Logging</strong></p>
 <ul class="simple">
-<li><a class="reference internal" href="nutsml.html#nutsml.logger.LogToFile" title="nutsml.logger.LogToFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogToFile</span></code></a> :
-log sample columns to file.</li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.logger.LogToFile" title="nutsml.logger.LogToFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogToFile</span></code></a> :
+log sample columns to file.</p></li>
 </ul>
 </div>
 
@@ -259,7 +265,7 @@ log sample columns to file.</li>
         <a href="tutorial/introduction.html" class="btn btn-neutral float-right" title="Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -268,8 +274,10 @@ log sample columns to file.</li>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -285,32 +293,16 @@ log sample columns to file.</li>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

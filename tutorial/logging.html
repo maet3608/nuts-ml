@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logging data &mdash; nutsml 1.0.40 documentation</title>
+  <title>Logging data &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Plotting data" href="plotting.html" />
     <link rel="prev" title="Training networks" href="network.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -177,35 +179,35 @@ often useful to log these numbers to a file. <strong>nuts-ml</strong> provides l
 functionality within and outside of data pipelines via <code class="docutils literal notranslate"><span class="pre">LogToFile</span></code>.
 The following example demonstrates the basics. We have a list of samples
 that we log to a CSV file:</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/temp_logfile.csv&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">logtofile</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/temp_logfile.csv&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">with</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">logtofile</span><span class="p">:</span>
+<span class="o">...</span>     <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="go">1,2,3</span>
-<span class="go">4,5,6</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span>
+<span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">LogToFile</span></code> allows to extract sample columns to log and to
 specify column names for the log file. In this next example we also show
 how to manually close and delete a created log file:</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;3rd&#39;</span><span class="p">,</span> <span class="s1">&#39;1st&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;3rd&#39;</span><span class="p">,</span> <span class="s1">&#39;1st&#39;</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="go">3rd,1st</span>
-<span class="go">3,1</span>
-<span class="go">6,4</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="mi">3</span><span class="n">rd</span><span class="p">,</span><span class="mi">1</span><span class="n">st</span>
+<span class="mi">3</span><span class="p">,</span><span class="mi">1</span>
+<span class="mi">6</span><span class="p">,</span><span class="mi">4</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">logtofile</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">logtofile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">logtofile</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>In this more complex code sketch we will use <code class="docutils literal notranslate"><span class="pre">LogToFile</span></code> within a training a loop
 and log loss and accuracy per batch, and epoch, mean loss and mean accuracy per
 epoch:</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">log_batch</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="s1">&#39;batchlog.csv&#39;</span><span class="p">,</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="s1">&#39;acc&#39;</span><span class="p">])</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">log_batch</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="s1">&#39;batchlog.csv&#39;</span><span class="p">,</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="s1">&#39;acc&#39;</span><span class="p">])</span>
 <span class="n">log_epoch</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="s1">&#39;epochlog.csv&#39;</span><span class="p">,</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="s1">&#39;acc&#39;</span><span class="p">])</span>
 <span class="n">mean</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">()</span>
 
@@ -225,15 +227,15 @@ and can simply provide the values to log as a tuple, list or array. Of course,
 the number of values must match the number column names defined.
 The same syntactical feature is used for <code class="docutils literal notranslate"><span class="pre">Mean</span></code> here. For instance, the following
 three constructs are equivalent:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">()</span>
 <span class="go">2.0</span>
 </pre></div>
 </div>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Mean</span><span class="p">()([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Mean</span><span class="p">()([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="go">2.0</span>
 </pre></div>
 </div>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mean</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">()</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mean</span> <span class="o">=</span> <span class="n">Mean</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mean</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 <span class="go">2.0</span>
 </pre></div>
@@ -252,7 +254,7 @@ three constructs are equivalent:</p>
         <a href="plotting.html" class="btn btn-neutral float-right" title="Plotting data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="network.html" class="btn btn-neutral" title="Training networks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="network.html" class="btn btn-neutral float-left" title="Training networks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -261,8 +263,10 @@ three constructs are equivalent:</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -278,32 +282,16 @@ three constructs are equivalent:</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

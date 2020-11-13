@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Splitting and stratifying &mdash; nutsml 1.0.40 documentation</title>
+  <title>Splitting and stratifying &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Loading images" href="loading_images.html" />
     <link rel="prev" title="Reading data samples" href="reading_samples.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -184,8 +186,8 @@ of class labels are common preprocessing tasks for machine learning.</p>
 <p>We start with a toy example, and randomly split a list of numbers
 ranging from 0 to 9 into a training and a testing set with a size ratio
 of 70%:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
 <span class="go"> [6, 3, 1, 7, 0, 2, 4]</span>
 <span class="go"> [5, 9, 8]</span>
 </pre></div>
@@ -195,23 +197,23 @@ is required at the end of the pipeline. <code class="docutils literal notranslat
 containing the split data sets.
 Often a three-fold split into a training, validation and testing set
 is needed and this is easily done as well:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
 <span class="go">([6, 1, 4, 0, 3, 2], [8, 7, 9], [5])</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">SplitRandom()</span></code> randomizes the order of the samples in the split but
 uses the same seed for the randomization for each call. You can provide a
 random number generator to create seed-dependent splits, e.g.</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">StableRandom</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">StableRandom</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rand</span> <span class="o">=</span> <span class="n">StableRandom</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="n">rand</span><span class="p">)</span>
 <span class="go">[[6, 3, 1, 7, 0, 2, 4], [5, 9, 8]]</span>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Python’s pseudo random number generator <code class="docutils literal notranslate"><span class="pre">random.Random(0)</span></code> returns different
+<p class="admonition-title">Note</p>
+<p>Python’s pseudo random number generator <code class="docutils literal notranslate"><span class="pre">random.Random(0)</span></code> returns different
 number sequences for Python 2.x and 3.x – with the same seed! If you need
 repeatable results across Python versions, e.g. for unit testing,
 use <code class="docutils literal notranslate"><span class="pre">StableRandom()</span></code>.</p>
@@ -221,7 +223,7 @@ in medical data sets records originating from the same patient should not be
 distributed across sets, since this would bias the results. <code class="docutils literal notranslate"><span class="pre">SplitRandom()</span></code>
 supports a <code class="docutils literal notranslate"><span class="pre">constraint</span></code> function and in the following example we ensure that
 numbers with the same parity are not scattered across splits:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">same_parity</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">same_parity</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="n">same_parity</span><span class="p">)</span>
 <span class="go">[[0, 2, 6, 8, 4], [3, 1, 7, 5, 9]]</span>
 </pre></div>
@@ -229,13 +231,13 @@ numbers with the same parity are not scattered across splits:</p>
 <p>Note that the constraint has precedence over the ratio. For instance, for a ratio of <code class="docutils literal notranslate"><span class="pre">0.7</span></code> the constraint holds (even or odd numbers are not scattered over splits) but
 the first split contains all samples and the second split is empty, violating
 the <code class="docutils literal notranslate"><span class="pre">0.7</span></code> ratio of split sizes:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="n">same_parity</span><span class="p">)</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">constraint</span><span class="o">=</span><span class="n">same_parity</span><span class="p">)</span>
 <span class="go">[[0, 5, 2, 6, 4, 9, 8, 7, 3, 1], []]</span>
 </pre></div>
 </div>
 <p>Let’s close with a more realistic example. We load the <a class="reference external" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris flower data set</a> and split it into
 training and testing sets:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/iris.csv&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/iris.csv&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
 <span class="go">(74, 75)</span>
 </pre></div>
@@ -243,8 +245,8 @@ training and testing sets:</p>
 <p>As you can see, with a split ratio of <code class="docutils literal notranslate"><span class="pre">0.5</span></code> training and test are roughly
 about the same size.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last"><code class="docutils literal notranslate"><span class="pre">SplitRandom()</span></code> loads all samples into memory. Splitting therefore has to
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">SplitRandom()</span></code> loads all samples into memory. Splitting therefore has to
 occur before large data object (e.g. images) belonging to samples are
 loaded.</p>
 </div>
@@ -261,17 +263,17 @@ labels.</p>
 belonging to the <code class="docutils literal notranslate"><span class="pre">good</span></code> class and 100 samples for the <code class="docutils literal notranslate"><span class="pre">bad</span></code> class.
 <code class="docutils literal notranslate"><span class="pre">CountValues()</span></code> returns a dictionary with the sample frequencies for the
 class labels:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">100</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">100</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">labelcol</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">labeldist</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">labeldist</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">labeldist</span><span class="p">)</span>
 <span class="go">{&#39;good&#39;: 10, &#39;bad&#39;: 100}</span>
 </pre></div>
 </div>
 <p>Obviously, this is a very unbalanced data set. After stratification the samples
 frequencies are much more balanced:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stratified</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="n">labelcol</span><span class="p">,</span> <span class="n">labeldist</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">stratified</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">))</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stratified</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="n">labelcol</span><span class="p">,</span> <span class="n">labeldist</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">stratified</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">))</span>
 <span class="go">{&#39;good&#39;: 10, &#39;bad&#39;: 9}</span>
 </pre></div>
 </div>
@@ -280,8 +282,8 @@ as input and down-sampling is based on the sample frequencies in <code class="do
 If the label distribution is known upfront, it can provided directly and
 there is no need to call <code class="docutils literal notranslate"><span class="pre">CountValues()</span></code>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last"><code class="docutils literal notranslate"><span class="pre">Stratify()</span></code> randomly selects samples but does not change the order
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">Stratify()</span></code> randomly selects samples but does not change the order
 of samples. Use <code class="docutils literal notranslate"><span class="pre">Shuffle</span></code> to ensure random ordering, e.g.
 <code class="docutils literal notranslate"><span class="pre">Stratify()</span> <span class="pre">&gt;&gt;</span> <span class="pre">Shuffle(1000)</span> <span class="pre">&gt;&gt;</span> <span class="pre">Collect()</span></code>.</p>
 </div>
@@ -291,7 +293,7 @@ of samples. Use <code class="docutils literal notranslate"><span class="pre">Shu
 <p>In this example we combine loading, splitting and stratification of sample data.
 We take only 120 of the 150 samples of the <a class="reference external" href="https://en.wikipedia.org/wiki/Iris_flower_data_set">Iris flower data set</a> to create an
 artificially unbalanced sample set:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/iris.csv&#39;</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/iris.csv&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ReadPandas</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">labelcol</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">train</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">)</span>
@@ -299,7 +301,7 @@ artificially unbalanced sample set:</p>
 </pre></div>
 </div>
 <p>Next we stratify and shuffle the training data:</p>
-<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">labeldist</span> <span class="o">=</span> <span class="n">train</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">)</span>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">labeldist</span> <span class="o">=</span> <span class="n">train</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">train</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="n">labelcol</span><span class="p">,</span> <span class="n">labeldist</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">CountValues</span><span class="p">(</span><span class="n">labelcol</span><span class="p">)</span>
 <span class="go">{&#39;Iris-setosa&#39;: 23, &#39;Iris-virginica&#39;: 16, &#39;Iris-versicolor&#39;: 16}</span>
 </pre></div>
@@ -308,7 +310,7 @@ artificially unbalanced sample set:</p>
 samples in memory and shuffles them to  perform a (partial) randomization of the
 sample order. Typically we would perform stratification and shuffling in the
 training loop. Here a template example:</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ReadPandas</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">((</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">ReadPandas</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">((</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
 
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
     <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">train</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="n">labelcol</span><span class="p">,</span> <span class="n">labeldist</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
@@ -337,7 +339,7 @@ of the tutorial.</p>
         <a href="loading_images.html" class="btn btn-neutral float-right" title="Loading images" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="reading_samples.html" class="btn btn-neutral" title="Reading data samples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="reading_samples.html" class="btn btn-neutral float-left" title="Reading data samples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -346,8 +348,10 @@ of the tutorial.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -363,32 +367,16 @@ of the tutorial.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
@@ -9,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; nutsml 1.0.40 documentation</title>
+  <title>Index &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -18,32 +17,34 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -57,7 +58,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -186,8 +187,6 @@
       <ul>
         <li><a href="nutsml.html#nutsml.common.ConvertLabel.__call__">(ConvertLabel method)</a>
 </li>
-        <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.Diff.__call__">(Diff method)</a>
-</li>
         <li><a href="nutsml.html#nutsml.reader.DplyToList.__call__">(DplyToList method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.transformer.ImageChannelMean.__call__">(ImageChannelMean method)</a>
@@ -202,7 +201,11 @@
 </li>
         <li><a href="nutsml.html#nutsml.viewer.PrintColType.__call__">(PrintColType method)</a>
 </li>
+        <li><a href="nutsml.html#nutsml.viewer.PrintType.__call__">(PrintType method)</a>
+</li>
         <li><a href="nutsml.html#nutsml.reader.ReadImage.__call__">(ReadImage method)</a>
+</li>
+        <li><a href="nutsml.html#nutsml.reader.ReadNumpy.__call__">(ReadNumpy method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.transformer.TransformImage.__call__">(TransformImage method)</a>
 </li>
@@ -241,6 +244,10 @@
         <li><a href="nutsml.html#nutsml.plotter.PlotLines.__init__">(PlotLines method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.viewer.PrintColType.__init__">(PrintColType method)</a>
+</li>
+        <li><a href="nutsml.html#nutsml.viewer.PrintType.__init__">(PrintType method)</a>
+</li>
+        <li><a href="nutsml.html#nutsml.network.PytorchNetwork.__init__">(PytorchNetwork method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.reader.ReadPandas.__init__">(ReadPandas method)</a>
 </li>
@@ -313,20 +320,32 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.html#module-batcher">batcher (module)</a>
+      <li>
+    batcher
+
+      <ul>
+        <li><a href="nutsml.html#module-batcher">module</a>
+</li>
+      </ul></li>
+      <li><a href="nutsml.html#nutsml.datautil.batchstr">batchstr() (in module nutsml.datautil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.booster.Boost">Boost (class in nutsml.booster)</a>
 </li>
-      <li><a href="nutsml.html#module-booster">booster (module)</a>
+      <li>
+    booster
+
+      <ul>
+        <li><a href="nutsml.html#module-booster">module</a>
 </li>
+      </ul></li>
       <li><a href="nutsml.html#nutsml.batcher.build_image_batch">build_image_batch() (in module nutsml.batcher)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.batcher.build_number_batch">build_number_batch() (in module nutsml.batcher)</a>
 </li>
       <li><a href="nutsml.html#nutsml.batcher.build_one_hot_batch">build_one_hot_batch() (in module nutsml.batcher)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.batcher.build_tensor_batch">build_tensor_batch() (in module nutsml.batcher)</a>
 </li>
       <li><a href="nutsml.html#nutsml.batcher.build_vector_batch">build_vector_batch() (in module nutsml.batcher)</a>
@@ -359,29 +378,40 @@
 </li>
       <li><a href="nutsml.html#nutsml.common.CheckNaN">CheckNaN (class in nutsml.common)</a>
 </li>
-      <li><a href="nutsml.html#nutsml.checkpoint.Checkpoint">Checkpoint (class in nutsml.checkpoint)</a>
+      <li>
+    checkpoint
+
+      <ul>
+        <li><a href="nutsml.html#module-checkpoint">module</a>
 </li>
-      <li><a href="nutsml.html#module-checkpoint">checkpoint (module)</a>
+      </ul></li>
+      <li><a href="nutsml.html#nutsml.checkpoint.Checkpoint">Checkpoint (class in nutsml.checkpoint)</a>
 </li>
       <li><a href="nutsml.html#nutsml.fileutil.clear_folder">clear_folder() (in module nutsml.fileutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.logger.LogToFile.close">close() (LogToFile method)</a>
 </li>
-      <li><a href="nutsml.examples.cifar.html#module-cnn_predict">cnn_predict (module)</a>, <a href="nutsml.examples.mnist.html#module-cnn_predict">[1]</a>
-</li>
-      <li><a href="nutsml.examples.mnist.html#module-cnn_train">cnn_train (module)</a>
-</li>
       <li><a href="nutsml.html#nutsml.datautil.col_map">col_map() (in module nutsml.datautil)</a>
-</li>
-      <li><a href="nutsml.html#nutsml.stratify.CollectStratified">CollectStratified (class in nutsml.stratify)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.html#module-common">common (module)</a>
+      <li><a href="nutsml.html#nutsml.stratify.CollectStratified">CollectStratified (class in nutsml.stratify)</a>
 </li>
+      <li>
+    common
+
+      <ul>
+        <li><a href="nutsml.html#module-common">module</a>
+</li>
+      </ul></li>
+      <li>
+    config
+
+      <ul>
+        <li><a href="nutsml.html#module-config">module</a>
+</li>
+      </ul></li>
       <li><a href="nutsml.html#nutsml.config.Config">Config (class in nutsml.config)</a>
-</li>
-      <li><a href="nutsml.html#module-config">config (module)</a>
 </li>
       <li><a href="nutsml.html#nutsml.common.ConvertLabel">ConvertLabel (class in nutsml.common)</a>
 </li>
@@ -389,16 +419,6 @@
 </li>
       <li><a href="nutsml.html#nutsml.fileutil.create_folders">create_folders() (in module nutsml.fileutil)</a>
 </li>
-      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.create_network">create_network() (in module nutsml.examples.autoencoder.runner)</a>
-
-      <ul>
-        <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.create_network">(in module nutsml.examples.cifar.cnn_train)</a>
-</li>
-        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.cnn_train.create_network">(in module nutsml.examples.mnist.cnn_train)</a>
-</li>
-        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.mlp_train.create_network">(in module nutsml.examples.mnist.mlp_train)</a>
-</li>
-      </ul></li>
       <li><a href="nutsml.html#nutsml.fileutil.create_temp_filepath">create_temp_filepath() (in module nutsml.fileutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.crop">crop() (in module nutsml.imageutil)</a>
@@ -415,19 +435,22 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.checkpoint.Checkpoint.datapaths">datapaths() (Checkpoint method)</a>
 </li>
-      <li><a href="nutsml.html#module-datautil">datautil (module)</a>
+      <li>
+    datautil
+
+      <ul>
+        <li><a href="nutsml.html#module-datautil">module</a>
 </li>
+      </ul></li>
       <li><a href="nutsml.html#nutsml.logger.LogToFile.delete">delete() (LogToFile method)</a>
 </li>
       <li><a href="nutsml.html#nutsml.fileutil.delete_file">delete_file() (in module nutsml.fileutil)</a>
 </li>
-      <li><a href="nutsml.html#nutsml.fileutil.delete_folders">delete_folders() (in module nutsml.fileutil)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.html#nutsml.fileutil.delete_temp_data">delete_temp_data() (in module nutsml.fileutil)</a>
+      <li><a href="nutsml.html#nutsml.fileutil.delete_folders">delete_folders() (in module nutsml.fileutil)</a>
 </li>
-      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.Diff">Diff (class in nutsml.examples.autoencoder.runner)</a>
+      <li><a href="nutsml.html#nutsml.fileutil.delete_temp_data">delete_temp_data() (in module nutsml.fileutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.checkpoint.Checkpoint.dirs">dirs() (Checkpoint method)</a>
 </li>
@@ -454,9 +477,13 @@
 </li>
         <li><a href="nutsml.html#nutsml.network.Network.evaluate">(Network method)</a>
 </li>
+        <li><a href="nutsml.html#nutsml.network.PytorchNetwork.evaluate">(PytorchNetwork method)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#nutsml.imageutil.extract_edges">extract_edges() (in module nutsml.imageutil)</a>
+</li>
       <li><a href="nutsml.html#nutsml.imageutil.extract_patch">extract_patch() (in module nutsml.imageutil)</a>
 </li>
   </ul></td>
@@ -465,12 +492,17 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.html#module-fileutil">fileutil (module)</a>
+      <li>
+    fileutil
+
+      <ul>
+        <li><a href="nutsml.html#module-fileutil">module</a>
 </li>
-      <li><a href="nutsml.html#nutsml.imageutil.fliplr">fliplr() (in module nutsml.imageutil)</a>
-</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="nutsml.html#nutsml.imageutil.fliplr">fliplr() (in module nutsml.imageutil)</a>
+</li>
       <li><a href="nutsml.html#nutsml.imageutil.flipud">flipud() (in module nutsml.imageutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.floatimg2uint8">floatimg2uint8() (in module nutsml.imageutil)</a>
@@ -505,12 +537,17 @@
 </li>
       <li><a href="nutsml.html#nutsml.transformer.ImagePatchesByAnnotation">ImagePatchesByAnnotation (class in nutsml.transformer)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.transformer.ImagePatchesByMask">ImagePatchesByMask (class in nutsml.transformer)</a>
 </li>
-      <li><a href="nutsml.html#module-imageutil">imageutil (module)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    imageutil
+
+      <ul>
+        <li><a href="nutsml.html#module-imageutil">module</a>
 </li>
+      </ul></li>
       <li><a href="nutsml.html#nutsml.batcher.BuildBatch.input">input() (BuildBatch method)</a>
 </li>
       <li><a href="nutsml.html#nutsml.config.Config.isjson">isjson() (Config static method)</a>
@@ -518,6 +555,8 @@
       <li><a href="nutsml.html#nutsml.datautil.isnan">isnan() (in module nutsml.datautil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.reader.ReadPandas.isnull">isnull() (ReadPandas static method)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.datautil.istensor">istensor() (in module nutsml.datautil)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -547,22 +586,6 @@
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.load_image">load_image() (in module nutsml.imageutil)</a>
 </li>
-      <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.load_names">load_names() (in module nutsml.examples.cifar.cnn_train)</a>
-</li>
-      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.load_samples">load_samples() (in module nutsml.examples.autoencoder.runner)</a>
-
-      <ul>
-        <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.load_samples">(in module nutsml.examples.cifar.cnn_train)</a>
-</li>
-        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.cnn_train.load_samples">(in module nutsml.examples.mnist.cnn_train)</a>
-</li>
-        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.mlp_train.load_samples">(in module nutsml.examples.mnist.mlp_train)</a>
-</li>
-        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.write_images.load_samples">(in module nutsml.examples.mnist.write_images)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.network.KerasNetwork.load_weights">load_weights() (KerasNetwork method)</a>
 
       <ul>
@@ -570,11 +593,20 @@
 </li>
         <li><a href="nutsml.html#nutsml.network.Network.load_weights">(Network method)</a>
 </li>
+        <li><a href="nutsml.html#nutsml.network.PytorchNetwork.load_weights">(PytorchNetwork method)</a>
+</li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="nutsml.html#nutsml.logger.LogCols">LogCols (class in nutsml.logger)</a>
 </li>
-      <li><a href="nutsml.html#module-logger">logger (module)</a>
+      <li>
+    logger
+
+      <ul>
+        <li><a href="nutsml.html#module-logger">module</a>
 </li>
+      </ul></li>
       <li><a href="nutsml.html#nutsml.logger.LogToFile">LogToFile (class in nutsml.logger)</a>
 </li>
   </ul></td>
@@ -591,104 +623,224 @@
 </li>
       <li><a href="nutsml.html#nutsml.batcher.Mixup">Mixup (class in nutsml.batcher)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.examples.mnist.html#module-mlp_precit">mlp_precit (module)</a>
+      <li>
+    module
+
+      <ul>
+        <li><a href="nutsml.html#module-batcher">batcher</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-mlp_predict">mlp_predict (module)</a>
+        <li><a href="nutsml.html#module-booster">booster</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-mlp_train">mlp_train (module)</a>
+        <li><a href="nutsml.html#module-checkpoint">checkpoint</a>
 </li>
-      <li><a href="nutsml.examples.cifar.html#module-mlp_view_misclassified">mlp_view_misclassified (module)</a>
+        <li><a href="nutsml.html#module-common">common</a>
 </li>
+        <li><a href="nutsml.html#module-config">config</a>
+</li>
+        <li><a href="nutsml.html#module-datautil">datautil</a>
+</li>
+        <li><a href="nutsml.html#module-fileutil">fileutil</a>
+</li>
+        <li><a href="nutsml.html#module-imageutil">imageutil</a>
+</li>
+        <li><a href="nutsml.html#module-logger">logger</a>
+</li>
+        <li><a href="nutsml.html#module-network">network</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml">nutsml</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.batcher">nutsml.batcher</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.booster">nutsml.booster</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.checkpoint">nutsml.checkpoint</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.common">nutsml.common</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.config">nutsml.config</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.datautil">nutsml.datautil</a>
+</li>
+        <li><a href="nutsml.examples.html#module-nutsml.examples">nutsml.examples</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.fileutil">nutsml.fileutil</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.imageutil">nutsml.imageutil</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.logger">nutsml.logger</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.network">nutsml.network</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.plotter">nutsml.plotter</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.reader">nutsml.reader</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.stratify">nutsml.stratify</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.transformer">nutsml.transformer</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.viewer">nutsml.viewer</a>
+</li>
+        <li><a href="nutsml.html#module-nutsml.writer">nutsml.writer</a>
+</li>
+        <li><a href="nutsml.html#module-plotter">plotter</a>
+</li>
+        <li><a href="nutsml.html#module-reader">reader</a>
+</li>
+        <li><a href="nutsml.html#module-stratify">stratify</a>
+</li>
+        <li><a href="nutsml.html#module-transformer">transformer</a>
+</li>
+        <li><a href="nutsml.html#module-viewer">viewer</a>
+</li>
+        <li><a href="nutsml.html#module-writer">writer</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.html#nutsml.network.Network">Network (class in nutsml.network)</a>
+      <li>
+    network
+
+      <ul>
+        <li><a href="nutsml.html#module-network">module</a>
 </li>
-      <li><a href="nutsml.html#module-network">network (module)</a>
+      </ul></li>
+      <li><a href="nutsml.html#nutsml.network.Network">Network (class in nutsml.network)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.normalize_histo">normalize_histo() (in module nutsml.imageutil)</a>
 </li>
-      <li><a href="nutsml.html#module-nutsml">nutsml (module)</a>
+      <li>
+    nutsml
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml">module</a>
 </li>
-      <li><a href="nutsml.html#module-nutsml.batcher">nutsml.batcher (module)</a>
+      </ul></li>
+      <li>
+    nutsml.batcher
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.batcher">module</a>
 </li>
-      <li><a href="nutsml.html#module-nutsml.booster">nutsml.booster (module)</a>
+      </ul></li>
+      <li>
+    nutsml.booster
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.booster">module</a>
 </li>
-      <li><a href="nutsml.html#module-nutsml.checkpoint">nutsml.checkpoint (module)</a>
+      </ul></li>
+      <li>
+    nutsml.checkpoint
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.checkpoint">module</a>
 </li>
-      <li><a href="nutsml.html#module-nutsml.common">nutsml.common (module)</a>
+      </ul></li>
+      <li>
+    nutsml.common
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.common">module</a>
 </li>
-      <li><a href="nutsml.html#module-nutsml.config">nutsml.config (module)</a>
+      </ul></li>
+      <li>
+    nutsml.config
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.config">module</a>
 </li>
-      <li><a href="nutsml.html#module-nutsml.datautil">nutsml.datautil (module)</a>
+      </ul></li>
+      <li>
+    nutsml.datautil
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.datautil">module</a>
 </li>
-      <li><a href="nutsml.examples.html#module-nutsml.examples">nutsml.examples (module)</a>
+      </ul></li>
+      <li>
+    nutsml.examples
+
+      <ul>
+        <li><a href="nutsml.examples.html#module-nutsml.examples">module</a>
 </li>
-      <li><a href="nutsml.examples.autoencoder.html#module-nutsml.examples.autoencoder">nutsml.examples.autoencoder (module)</a>
-</li>
-      <li><a href="nutsml.examples.autoencoder.html#module-nutsml.examples.autoencoder.runner">nutsml.examples.autoencoder.runner (module)</a>
-</li>
-      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar">nutsml.examples.cifar (module)</a>
-</li>
-      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.cnn_classify">nutsml.examples.cifar.cnn_classify (module)</a>
-</li>
-      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.cnn_train">nutsml.examples.cifar.cnn_train (module)</a>
-</li>
-      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.read_images">nutsml.examples.cifar.read_images (module)</a>
-</li>
-      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.view_augmented_images">nutsml.examples.cifar.view_augmented_images (module)</a>
-</li>
-      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.view_data">nutsml.examples.cifar.view_data (module)</a>
-</li>
-      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.view_train_images">nutsml.examples.cifar.view_train_images (module)</a>
-</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.examples.cifar.html#module-nutsml.examples.cifar.write_images">nutsml.examples.cifar.write_images (module)</a>
+      <li>
+    nutsml.fileutil
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.fileutil">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist">nutsml.examples.mnist (module)</a>
+      </ul></li>
+      <li>
+    nutsml.imageutil
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.imageutil">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.cnn_classify">nutsml.examples.mnist.cnn_classify (module)</a>
+      </ul></li>
+      <li>
+    nutsml.logger
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.logger">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.cnn_train">nutsml.examples.mnist.cnn_train (module)</a>
+      </ul></li>
+      <li>
+    nutsml.network
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.network">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_classify">nutsml.examples.mnist.mlp_classify (module)</a>
+      </ul></li>
+      <li>
+    nutsml.plotter
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.plotter">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_train">nutsml.examples.mnist.mlp_train (module)</a>
+      </ul></li>
+      <li>
+    nutsml.reader
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.reader">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.mlp_view_misclassified">nutsml.examples.mnist.mlp_view_misclassified (module)</a>
+      </ul></li>
+      <li>
+    nutsml.stratify
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.stratify">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.read_images">nutsml.examples.mnist.read_images (module)</a>
+      </ul></li>
+      <li>
+    nutsml.transformer
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.transformer">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.view_train_images">nutsml.examples.mnist.view_train_images (module)</a>
+      </ul></li>
+      <li>
+    nutsml.viewer
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.viewer">module</a>
 </li>
-      <li><a href="nutsml.examples.mnist.html#module-nutsml.examples.mnist.write_images">nutsml.examples.mnist.write_images (module)</a>
+      </ul></li>
+      <li>
+    nutsml.writer
+
+      <ul>
+        <li><a href="nutsml.html#module-nutsml.writer">module</a>
 </li>
-      <li><a href="nutsml.html#module-nutsml.fileutil">nutsml.fileutil (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.imageutil">nutsml.imageutil (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.logger">nutsml.logger (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.network">nutsml.network (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.plotter">nutsml.plotter (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.reader">nutsml.reader (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.stratify">nutsml.stratify (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.transformer">nutsml.transformer (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.viewer">nutsml.viewer (module)</a>
-</li>
-      <li><a href="nutsml.html#module-nutsml.writer">nutsml.writer (module)</a>
-</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -715,18 +867,23 @@
 </li>
       <li><a href="nutsml.html#nutsml.plotter.PlotLines">PlotLines (class in nutsml.plotter)</a>
 </li>
-      <li><a href="nutsml.html#module-plotter">plotter (module)</a>
-</li>
-      <li><a href="nutsml.html#nutsml.imageutil.polyline2coords">polyline2coords() (in module nutsml.imageutil)</a>
-</li>
-      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.predict">predict() (in module nutsml.examples.autoencoder.runner)</a>
+      <li>
+    plotter
 
       <ul>
-        <li><a href="nutsml.html#nutsml.network.KerasNetwork.predict">(KerasNetwork method)</a>
+        <li><a href="nutsml.html#module-plotter">module</a>
 </li>
+      </ul></li>
+      <li><a href="nutsml.html#nutsml.imageutil.polyline2coords">polyline2coords() (in module nutsml.imageutil)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.network.KerasNetwork.predict">predict() (KerasNetwork method)</a>
+
+      <ul>
         <li><a href="nutsml.html#nutsml.network.LasagneNetwork.predict">(LasagneNetwork method)</a>
 </li>
         <li><a href="nutsml.html#nutsml.network.Network.predict">(Network method)</a>
+</li>
+        <li><a href="nutsml.html#nutsml.network.PytorchNetwork.predict">(PytorchNetwork method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -740,8 +897,14 @@
 </li>
         <li><a href="nutsml.html#nutsml.network.Network.print_layers">(Network method)</a>
 </li>
+        <li><a href="nutsml.html#nutsml.network.PytorchNetwork.print_layers">(PytorchNetwork method)</a>
+</li>
       </ul></li>
       <li><a href="nutsml.html#nutsml.viewer.PrintColType">PrintColType (class in nutsml.viewer)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.viewer.PrintType">PrintType (class in nutsml.viewer)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.network.PytorchNetwork">PytorchNetwork (class in nutsml.network)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -753,19 +916,26 @@
 </li>
       <li><a href="nutsml.html#nutsml.transformer.RandomImagePatches">RandomImagePatches (class in nutsml.transformer)</a>
 </li>
-      <li><a href="nutsml.examples.cifar.html#module-read_images">read_images (module)</a>, <a href="nutsml.examples.mnist.html#module-read_images">[1]</a>
+      <li>
+    reader
+
+      <ul>
+        <li><a href="nutsml.html#module-reader">module</a>
 </li>
-      <li><a href="nutsml.html#module-reader">reader (module)</a>
+      </ul></li>
+      <li><a href="nutsml.html#nutsml.fileutil.reader_filepath">reader_filepath() (in module nutsml.fileutil)</a>
 </li>
       <li><a href="nutsml.html#nutsml.reader.ReadImage">ReadImage (class in nutsml.reader)</a>
 </li>
       <li><a href="nutsml.html#nutsml.reader.ReadLabelDirs">ReadLabelDirs (class in nutsml.reader)</a>
 </li>
-      <li><a href="nutsml.html#nutsml.reader.ReadPandas">ReadPandas (class in nutsml.reader)</a>
+      <li><a href="nutsml.html#nutsml.reader.ReadNumpy">ReadNumpy (class in nutsml.reader)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.html#nutsml.transformer.TransformImage.register">register() (nutsml.transformer.TransformImage class method)</a>
+      <li><a href="nutsml.html#nutsml.reader.ReadPandas">ReadPandas (class in nutsml.reader)</a>
+</li>
+      <li><a href="nutsml.html#nutsml.transformer.TransformImage.register">register() (TransformImage class method)</a>
 </li>
       <li><a href="nutsml.html#nutsml.transformer.RegularImagePatches">RegularImagePatches (class in nutsml.transformer)</a>
 </li>
@@ -814,6 +984,8 @@
 </li>
         <li><a href="nutsml.html#nutsml.network.Network.save_weights">(Network method)</a>
 </li>
+        <li><a href="nutsml.html#nutsml.network.PytorchNetwork.save_weights">(PytorchNetwork method)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -829,9 +1001,16 @@
 </li>
       <li><a href="nutsml.html#nutsml.common.SplitRandom">SplitRandom (class in nutsml.common)</a>
 </li>
+      <li>
+    stratify
+
+      <ul>
+        <li><a href="nutsml.html#module-stratify">module</a>
+</li>
+      </ul></li>
       <li><a href="nutsml.html#nutsml.stratify.Stratify">Stratify (class in nutsml.stratify)</a>
 </li>
-      <li><a href="nutsml.html#module-stratify">stratify (module)</a>
+      <li><a href="nutsml.html#nutsml.datautil.stype">stype() (in module nutsml.datautil)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -852,13 +1031,7 @@
 </li>
         <li><a href="nutsml.html#nutsml.network.Network.train">(Network method)</a>
 </li>
-        <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.train">(in module nutsml.examples.autoencoder.runner)</a>
-</li>
-        <li><a href="nutsml.examples.cifar.html#nutsml.examples.cifar.cnn_train.train">(in module nutsml.examples.cifar.cnn_train)</a>
-</li>
-        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.cnn_train.train">(in module nutsml.examples.mnist.cnn_train)</a>
-</li>
-        <li><a href="nutsml.examples.mnist.html#nutsml.examples.mnist.mlp_train.train">(in module nutsml.examples.mnist.mlp_train)</a>
+        <li><a href="nutsml.html#nutsml.network.PytorchNetwork.train">(PytorchNetwork method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -867,8 +1040,13 @@
 </li>
       <li><a href="nutsml.html#nutsml.transformer.TransformImage.transformations">transformations (TransformImage attribute)</a>
 </li>
-      <li><a href="nutsml.html#module-transformer">transformer (module)</a>
+      <li>
+    transformer
+
+      <ul>
+        <li><a href="nutsml.html#module-transformer">module</a>
 </li>
+      </ul></li>
       <li><a href="nutsml.html#nutsml.transformer.TransformImage">TransformImage (class in nutsml.transformer)</a>
 </li>
       <li><a href="nutsml.html#nutsml.imageutil.translate">translate() (in module nutsml.imageutil)</a>
@@ -894,19 +1072,18 @@
 </li>
         <li><a href="nutsml.html#nutsml.network.Network.validate">(Network method)</a>
 </li>
+        <li><a href="nutsml.html#nutsml.network.PytorchNetwork.validate">(PytorchNetwork method)</a>
+</li>
       </ul></li>
-      <li><a href="nutsml.examples.autoencoder.html#nutsml.examples.autoencoder.runner.view">view() (in module nutsml.examples.autoencoder.runner)</a>
-</li>
-      <li><a href="nutsml.examples.cifar.html#module-view_augmented_images">view_augmented_images (module)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.examples.cifar.html#module-view_data">view_data (module)</a>
+      <li>
+    viewer
+
+      <ul>
+        <li><a href="nutsml.html#module-viewer">module</a>
 </li>
-      <li><a href="nutsml.examples.cifar.html#module-view_train_images">view_train_images (module)</a>, <a href="nutsml.examples.mnist.html#module-view_train_images">[1]</a>
-</li>
-      <li><a href="nutsml.html#module-viewer">viewer (module)</a>
-</li>
+      </ul></li>
       <li><a href="nutsml.html#nutsml.viewer.ViewImage">ViewImage (class in nutsml.viewer)</a>
 </li>
       <li><a href="nutsml.html#nutsml.viewer.ViewImageAnnotation">ViewImageAnnotation (class in nutsml.viewer)</a>
@@ -917,14 +1094,17 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.examples.cifar.html#module-write_images">write_images (module)</a>, <a href="nutsml.examples.mnist.html#module-write_images">[1]</a>
+      <li><a href="nutsml.html#nutsml.writer.WriteImage">WriteImage (class in nutsml.writer)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="nutsml.html#nutsml.writer.WriteImage">WriteImage (class in nutsml.writer)</a>
+      <li>
+    writer
+
+      <ul>
+        <li><a href="nutsml.html#module-writer">module</a>
 </li>
-      <li><a href="nutsml.html#module-writer">writer (module)</a>
-</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -940,8 +1120,10 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -957,32 +1139,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

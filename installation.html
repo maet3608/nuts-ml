@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; nutsml 1.0.40 documentation</title>
+  <title>Installation &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Overview" href="overview.html" />
     <link rel="prev" title="Introduction" href="introduction.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -166,15 +168,15 @@
 <div class="section" id="standard">
 <h2>Standard<a class="headerlink" href="#standard" title="Permalink to this headline">¶</a></h2>
 <p>Installation via <code class="docutils literal notranslate"><span class="pre">pip</span></code> from <a class="reference external" href="https://pypi.python.org/pypi">PyPi</a></p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>
 <span class="n">cd</span> <span class="n">my_python_path</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nutsml</span>
 <span class="n">pytest</span>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>If you don’t know where your <code class="docutils literal notranslate"><span class="pre">site-packages</span></code> are, run the following code</p>
-<div class="code last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import site; print(site.getsitepackages())&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import site; print(site.getsitepackages())&quot;</span>
 <span class="p">[</span><span class="s1">&#39;C:</span><span class="se">\\</span><span class="s1">Maet</span><span class="se">\\</span><span class="s1">Software</span><span class="se">\\</span><span class="s1">Anaconda&#39;</span><span class="p">,</span> <span class="s1">&#39;C:</span><span class="se">\\</span><span class="s1">Maet</span><span class="se">\\</span><span class="s1">Software</span><span class="se">\\</span><span class="s1">Anaconda</span><span class="se">\\</span><span class="s1">lib</span><span class="se">\\</span><span class="s1">site-packages&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -185,8 +187,8 @@
 <p>Ensure that nutsflow and nutsml can be imported and work.
 Open Python shell via <a href="#id1"><span class="problematic" id="id2">``</span></a>python` and enter the following
 code</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="k">import</span> <span class="o">*</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="k">import</span> <span class="o">*</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;neg&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
 <span class="go">[(&#39;neg&#39;, 0), (&#39;pos&#39;, 1)]</span>
@@ -197,7 +199,7 @@ code</p>
 <h2>Bleeding-edge<a class="headerlink" href="#bleeding-edge" title="Permalink to this headline">¶</a></h2>
 <p>If you want the bleeding-edge version, install via
 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> from <a class="reference external" href="https://github.com/">GitHub</a></p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">maet3608</span><span class="o">/</span><span class="n">nuts</span><span class="o">-</span><span class="n">ml</span><span class="o">.</span><span class="n">git</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">maet3608</span><span class="o">/</span><span class="n">nuts</span><span class="o">-</span><span class="n">ml</span><span class="o">.</span><span class="n">git</span>
 <span class="n">cd</span> <span class="n">nuts</span><span class="o">-</span><span class="n">ml</span>
 <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
 <span class="n">pytest</span>
@@ -207,11 +209,11 @@ code</p>
 <div class="section" id="upgrade">
 <h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this headline">¶</a></h2>
 <p>For upgrading an existing installation run</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>  <span class="o">--</span><span class="n">upgrade</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>  <span class="o">--</span><span class="n">upgrade</span>
 </pre></div>
 </div>
 <p>or if installed via <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> and <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">nuts</span><span class="o">-</span><span class="n">ml</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">nuts</span><span class="o">-</span><span class="n">ml</span>
 <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span> <span class="o">--</span><span class="n">force</span>
 </pre></div>
 </div>
@@ -219,24 +221,24 @@ code</p>
 <div class="section" id="virtual-environment">
 <h2>Virtual environment<a class="headerlink" href="#virtual-environment" title="Permalink to this headline">¶</a></h2>
 <p>Create virtual environment</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenv</span>
 <span class="n">cd</span> <span class="n">my_projects</span>
 <span class="n">virtualenv</span> <span class="n">vnuts</span>
 </pre></div>
 </div>
 <p>Activate/deactivate  environment</p>
 <p><strong>Linux, Mac</strong></p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>$ source vnuts/bin/activate
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source vnuts/bin/activate
 $ deactivate
 </pre></div>
 </div>
 <p><strong>Windows</strong></p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">vnuts</span>\<span class="n">Scripts</span>\<span class="n">activate</span><span class="o">.</span><span class="n">bat</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">vnuts</span>\<span class="n">Scripts</span>\<span class="n">activate</span><span class="o">.</span><span class="n">bat</span>
 <span class="o">&gt;</span> <span class="n">vnuts</span>\<span class="n">Scripts</span>\<span class="n">deactivate</span><span class="o">.</span><span class="n">bat</span>
 </pre></div>
 </div>
 <p>Install <strong>nuts-ml</strong> in virtual environment (here for Linux/Mac)</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">vnuts</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">source</span> <span class="n">vnuts</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">activate</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>
 </pre></div>
 </div>
@@ -254,7 +256,7 @@ $ deactivate
         <a href="overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -263,8 +265,10 @@ $ deactivate
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -280,32 +284,16 @@ $ deactivate
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

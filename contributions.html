@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Contributions &mdash; nutsml 1.0.40 documentation</title>
+  <title>Contributions &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="nutsml package" href="nutsml.html" />
     <link rel="prev" title="FAQ" href="faq.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -171,7 +173,7 @@ errors.</p>
 </div>
 <div class="section" id="unit-tests">
 <h2>Unit tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h2>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd nutsml
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd nutsml
 $ pytest
 
 ============================= test session starts =============================
@@ -217,7 +219,7 @@ tests\nutsml\test_writer.py .
 </pre></div>
 </div>
 <p>We are aiming at a code coverage of 100%. Run <code class="docutils literal notranslate"><span class="pre">pytest</span> <span class="pre">--cov</span></code> for verification.</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd nutsml
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd nutsml
 $ pytest --cov
 
 ---------- coverage: platform win32, python 2.7.13-final-0 -----------
@@ -246,7 +248,7 @@ TOTAL                     729      0   100%
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
 <p>Update Sphinx/HTML documentation as follows</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">sphinx</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">sphinx</span>
 <span class="n">make</span> <span class="n">clean</span>
 <span class="n">make</span> <span class="n">html</span>
 <span class="n">make</span> <span class="n">test</span>
@@ -284,7 +286,7 @@ is a <em>function</em> (e.g. <code class="docutils literal notranslate"><span cl
         <a href="nutsml.html" class="btn btn-neutral float-right" title="nutsml package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="faq.html" class="btn btn-neutral" title="FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="faq.html" class="btn btn-neutral float-left" title="FAQ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -293,8 +295,10 @@ is a <em>function</em> (e.g. <code class="docutils literal notranslate"><span cl
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -310,32 +314,16 @@ is a <em>function</em> (e.g. <code class="docutils literal notranslate"><span cl
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

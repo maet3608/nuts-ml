@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsflow.factory &mdash; nutsml 1.0.40 documentation</title>
+  <title>nutsflow.factory &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,32 +17,34 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -56,7 +58,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -155,9 +157,9 @@
 <span class="sd">.. module:: factory</span>
 <span class="sd">   :synopsis: Functions and decorators to construct nuts.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
-<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">Nut</span><span class="p">,</span> <span class="n">NutSink</span><span class="p">,</span> <span class="n">NutSource</span><span class="p">,</span> <span class="n">NutFunction</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">Nut</span><span class="p">,</span> <span class="n">NutSink</span><span class="p">,</span> <span class="n">NutSource</span><span class="p">,</span> <span class="n">NutFunction</span>
 
 
 <span class="k">def</span> <span class="nf">_arg_insert</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -192,7 +194,7 @@
     <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">base_class</span><span class="p">):</span>
         <span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
 
-        <span class="k">def</span> <span class="nf">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">_arg_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">iterpos</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -214,7 +216,7 @@
     <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">Nut</span><span class="p">):</span>
         <span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
 
-        <span class="k">def</span> <span class="nf">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
                 <span class="n">args</span> <span class="o">=</span> <span class="n">_arg_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">))</span> <span class="o">!=</span> <span class="n">invert</span><span class="p">:</span>
@@ -293,7 +295,7 @@
     <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
         <span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
 
-        <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
@@ -323,7 +325,7 @@
     <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">NutSource</span><span class="p">):</span>
         <span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
 
-        <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
@@ -386,8 +388,10 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -403,32 +407,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

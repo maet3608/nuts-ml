@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Viewing Images &mdash; nutsml 1.0.40 documentation</title>
+  <title>Viewing Images &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Transforming images" href="transform_images.html" />
     <link rel="prev" title="Loading images" href="loading_images.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -175,7 +177,7 @@
 <p><strong>nuts-ml</strong> provides functions to show images on the fly. The following
 example reads two images using <code class="docutils literal notranslate"><span class="pre">ReadImage</span></code> and then displays the loaded
 images in column 0 of the samples via <code class="docutils literal notranslate"><span class="pre">ViewImage</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nut_monochrome.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;mono&#39;</span><span class="p">)]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nut_monochrome.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;mono&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ViewImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
@@ -186,7 +188,7 @@ images in column 0 of the samples via <code class="docutils literal notranslate"
 an output mask for segmentation tasks. <code class="docutils literal notranslate"><span class="pre">ViewImage</span></code> allows to display the
 multiple images of a sample at the same time by providing the column indices
 (here 0 and 1) of the sample that contain the images:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;color.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;monochrome.jpg&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;color.png&#39;</span><span class="p">,</span> <span class="s1">&#39;monochrome.png&#39;</span><span class="p">)]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;color.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;monochrome.jpg&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;color.png&#39;</span><span class="p">,</span> <span class="s1">&#39;monochrome.png&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/nut_*&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ViewImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
@@ -195,7 +197,7 @@ multiple images of a sample at the same time by providing the column indices
 <p>Per default multiple images are display in a single row. The parameter <code class="docutils literal notranslate"><span class="pre">layout</span></code>
 allows to specify the rows and columns the images are arranged in,
 e.g. a layout of (2,1) states that 2 images are to be arranged in 2 rows and 1 column:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
 <span class="gp">... </span> <span class="n">ViewImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
 <span class="go">(&#39;color.jpg&#39;, &#39;monochrome.jpg&#39;)</span>
 <span class="go">(&#39;color.png&#39;, &#39;monochrome.png&#39;)</span>
@@ -206,7 +208,7 @@ e.g. a layout of (2,1) states that 2 images are to be arranged in 2 rows and 1 c
 In addition to a column index for the image (imgcol) it also takes an index
 for the sample column that contains the class label (here 1) and the
 viewer displays the image with an overlay-ed text for the label:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nut_monochrome&#39;</span><span class="p">,</span> <span class="s1">&#39;mono&#39;</span><span class="p">)]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;nut_monochrome&#39;</span><span class="p">,</span> <span class="s1">&#39;mono&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*.gif&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ViewImageAnnotation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
@@ -227,7 +229,7 @@ and augmentation.</p>
         <a href="transform_images.html" class="btn btn-neutral float-right" title="Transforming images" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="loading_images.html" class="btn btn-neutral" title="Loading images" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="loading_images.html" class="btn btn-neutral float-left" title="Loading images" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -236,8 +238,10 @@ and augmentation.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -253,32 +257,16 @@ and augmentation.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

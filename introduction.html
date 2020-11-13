@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; nutsml 1.0.40 documentation</title>
+  <title>Introduction &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" />
     <link rel="prev" title="Welcome to nuts-ml" href="index.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -163,14 +165,14 @@
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>Deep-learning code is characterized by</p>
 <ul class="simple">
-<li>data pre-processing on CPU and training on GPU</li>
-<li>mix of common and task-specific pre-processing steps</li>
-<li>training in epochs</li>
-<li>mini-batches of training data</li>
-<li>data transformation such as scaling, cropping and others</li>
-<li>data augmentation to increase amount of training data</li>
-<li>check-pointing of network weights</li>
-<li>logging of training progress</li>
+<li><p>data pre-processing on CPU and training on GPU</p></li>
+<li><p>mix of common and task-specific pre-processing steps</p></li>
+<li><p>training in epochs</p></li>
+<li><p>mini-batches of training data</p></li>
+<li><p>data transformation such as scaling, cropping and others</p></li>
+<li><p>data augmentation to increase amount of training data</p></li>
+<li><p>check-pointing of network weights</p></li>
+<li><p>logging of training progress</p></li>
 </ul>
 <p><em>nuts-ml</em> provides generic components, so called <em>nuts</em> that implement
 these functions and can be arranged in task-specific data
@@ -180,7 +182,7 @@ unstructured code often found for data pre-processing.</p>
 <p>Below an (incomplete) example of a typical pipeline for network training
 with <strong>nuts-ml</strong>. The <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> operator defines the flow of data through the
 pipeline</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">t_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">PrintProgress</span><span class="p">(</span><span class="n">train_samples</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                            <span class="n">augment</span> <span class="o">&gt;&gt;</span> <span class="n">rerange</span> <span class="o">&gt;&gt;</span> <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
                            <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())</span>
 <span class="nb">print</span> <span class="s2">&quot;training loss  :&quot;</span><span class="p">,</span> <span class="n">t_loss</span>
@@ -192,18 +194,18 @@ pipeline</p>
 by the following components</p>
 <img alt="_images/pipeline.gif" src="_images/pipeline.gif" />
 <ul class="simple">
-<li><em>Reader</em>: sample data stored in CSV files, <a class="reference external" href="http://pandas.pydata.org/">Pandas</a>
-tables, databases or other data sources is read,</li>
-<li><em>Splitter</em>: samples are split into training, validation and sets, and stratified
-if necessary,</li>
-<li><em>Loader</em>: image data is loaded for each sample when needed,</li>
-<li><em>Transformer</em>: images are transformed, e.g. cropped or resized,</li>
-<li><em>Augmenter</em>: images are augmented to increase data size by random rotations,
-flipping, changes to contrast, or others,</li>
-<li><em>Batcher</em>: the transformed and augmented images are organized in mini-batches
-for GPU processing,</li>
-<li><em>Network</em>: a neural network is trained and evaluated on the GPU,</li>
-<li><em>Logger</em>: the network performance (loss, accuracy, …) is logged or plotted.</li>
+<li><p><em>Reader</em>: sample data stored in CSV files, <a class="reference external" href="http://pandas.pydata.org/">Pandas</a>
+tables, databases or other data sources is read,</p></li>
+<li><p><em>Splitter</em>: samples are split into training, validation and sets, and stratified
+if necessary,</p></li>
+<li><p><em>Loader</em>: image data is loaded for each sample when needed,</p></li>
+<li><p><em>Transformer</em>: images are transformed, e.g. cropped or resized,</p></li>
+<li><p><em>Augmenter</em>: images are augmented to increase data size by random rotations,
+flipping, changes to contrast, or others,</p></li>
+<li><p><em>Batcher</em>: the transformed and augmented images are organized in mini-batches
+for GPU processing,</p></li>
+<li><p><em>Network</em>: a neural network is trained and evaluated on the GPU,</p></li>
+<li><p><em>Logger</em>: the network performance (loss, accuracy, …) is logged or plotted.</p></li>
 </ul>
 <p>Depending on the specific application, the mode (training, testing, evaluation, …)
 or data type (image, video, text) some of the processing steps will differ, others
@@ -219,13 +221,13 @@ which itself is largely based on Python iterators and the
 <p><strong>nuts-flow</strong> wraps iterators and itertool functions into <em>nuts</em> that provide a
 <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> operator, which enables the composition of iterators in pipelines.
 For instance, a nested itertool expression such as the following</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">islice</span><span class="p">(</span><span class="n">ifilter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span> <span class="mi">3</span><span class="p">))</span>  
-<span class="go">[6, 7, 8]</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">islice</span><span class="p">(</span><span class="n">ifilter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">,</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># doctest: +SKIP</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>can be flattened and more clearly written with <strong>nuts-flow</strong> as</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Filter</span><span class="p">(</span><span class="n">_</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
-<span class="go">[6, 7, 8]</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">Range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Filter</span><span class="p">(</span><span class="n">_</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  <span class="c1"># doctest: +SKIP</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
 </pre></div>
 </div>
 <p><strong>nuts-ml</strong> extends <strong>nuts-flow</strong> with nuts specifically designed for machine learning
@@ -235,7 +237,7 @@ evaluation and check-pointing.</p>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rerange</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">rerange</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rerange&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
 <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">NUM_CLASSES</span><span class="p">))</span>
@@ -279,7 +281,7 @@ See the <a class="reference internal" href="tutorial/cifar10_example.html#cifar-
         <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to nuts-ml" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to nuts-ml" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -288,8 +290,10 @@ See the <a class="reference internal" href="tutorial/cifar10_example.html#cifar-
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -305,32 +309,16 @@ See the <a class="reference internal" href="tutorial/cifar10_example.html#cifar-
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

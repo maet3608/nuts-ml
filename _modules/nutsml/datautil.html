@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.datautil &mdash; nutsml 1.0.40 documentation</title>
+  <title>nutsml.datautil &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,32 +17,34 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -56,7 +58,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -159,8 +161,8 @@
 <span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rnd</span>
 <span class="kn">import</span> <span class="nn">collections</span> <span class="k">as</span> <span class="nn">cl</span>
 
-<span class="kn">from</span> <span class="nn">six</span> <span class="k">import</span> <span class="n">iteritems</span>
-<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="k">import</span> <span class="n">as_set</span>
+<span class="kn">from</span> <span class="nn">six</span> <span class="kn">import</span> <span class="n">iteritems</span>
+<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">as_set</span>
 
 
 <div class="viewcode-block" id="isnan"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.isnan">[docs]</a><span class="k">def</span> <span class="nf">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -179,6 +181,27 @@
 <span class="sd">    :rtype: bool</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="istensor"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.istensor">[docs]</a><span class="k">def</span> <span class="nf">istensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return true if x has shape, dtype, min and max.</span>
+
+<span class="sd">    Will be true for Numpy and PyTorch tensors.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; M = np.zeros((2,3))</span>
+<span class="sd">    &gt;&gt;&gt; istensor(M)</span>
+<span class="sd">    True</span>
+
+<span class="sd">    &gt;&gt;&gt; istensor([1,2,3])</span>
+<span class="sd">    False</span>
+
+<span class="sd">    :param object x: Any object</span>
+<span class="sd">    :param list[str] attrs: Object attributes that &#39;define&#39; a tensor.</span>
+<span class="sd">    :return: True if x is some tensor object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="shapestr"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.shapestr">[docs]</a><span class="k">def</span> <span class="nf">shapestr</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">with_dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -203,6 +226,84 @@
     <span class="k">if</span> <span class="n">with_dtype</span><span class="p">:</span>
         <span class="n">sstr</span> <span class="o">+=</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sstr</span></div>
+
+
+<div class="viewcode-block" id="stype"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.stype">[docs]</a><span class="k">def</span> <span class="nf">stype</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return string representation of structured objects.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; a = np.zeros((3,4), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; b = np.zeros((1,2), dtype=&#39;float32&#39;)</span>
+
+<span class="sd">    &gt;&gt;&gt; stype(a)</span>
+<span class="sd">    &#39;&lt;ndarray&gt; 3x4:uint8&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; stype(b)</span>
+<span class="sd">    &#39;&lt;ndarray&gt; 1x2:float32&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; stype([a, (b, b)])</span>
+<span class="sd">    &#39;[&lt;ndarray&gt; 3x4:uint8, (&lt;ndarray&gt; 1x2:float32, &lt;ndarray&gt; 1x2:float32)]&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; stype([1, 2.0, [a], [b]])</span>
+<span class="sd">    &#39;[&lt;int&gt; 1, &lt;float&gt; 2.0, [&lt;ndarray&gt; 3x4:uint8], [&lt;ndarray&gt; 1x2:float32]]&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; stype({&#39;a&#39;:a, &#39;b&#39;:b, &#39;c&#39;:True})</span>
+<span class="sd">    &#39;{a:&lt;ndarray&gt; 3x4:uint8, b:&lt;ndarray&gt; 1x2:float32, c:&lt;bool&gt; True}&#39;</span>
+
+<span class="sd">    &gt;&gt;&gt; from collections import namedtuple</span>
+<span class="sd">    &gt;&gt;&gt; Sample = namedtuple(&#39;Sample&#39;, &#39;x,y&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; sample = Sample(a, 1)</span>
+<span class="sd">    &gt;&gt;&gt; stype(sample)</span>
+<span class="sd">    &#39;Sample(x=&lt;ndarray&gt; 3x4:uint8, y=&lt;int&gt; 1)&#39;</span>
+
+<span class="sd">    :param object obj: Any object</span>
+<span class="sd">    :return: String representation of object where arrays are replace by their</span>
+<span class="sd">             shape and dtype descriptions</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">typename</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">typestr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">typename</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&gt; &#39;</span>
+    <span class="n">expr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">kv</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="n">stype</span><span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">mklist</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stype</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">)</span>
+    <span class="n">mkset</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stype</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+    <span class="n">mkdict</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expr</span><span class="p">(</span><span class="n">kv</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="n">mkfields</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expr</span><span class="p">(</span><span class="n">kv</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">_fields</span><span class="p">,</span> <span class="n">obj</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">istensor</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">]):</span>
+        <span class="k">return</span> <span class="n">typestr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="n">shapestr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="n">mklist</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;_fields&#39;</span><span class="p">):</span>  <span class="c1"># namedtuple</span>
+            <span class="k">return</span> <span class="n">typename</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">mkfields</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+        <span class="k">return</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">mklist</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;{&#39;</span> <span class="o">+</span> <span class="n">mkset</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;{&#39;</span> <span class="o">+</span> <span class="n">mkdict</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span>
+
+    <span class="k">return</span> <span class="n">typestr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="batchstr"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.batchstr">[docs]</a><span class="k">def</span> <span class="nf">batchstr</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">with_dtype</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return string representation of a batch/list of arrays.</span>
+
+<span class="sd">    See shapestr(array) for details of array representation.</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; a = np.zeros((3,4), dtype=&#39;uint8&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; b = np.zeros((1,2,2), dtype=&#39;float16&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; batchstr([a, b])</span>
+<span class="sd">    &#39;[3x4:uint8, 1x2x2:float16]&#39;</span>
+
+<span class="sd">    :param list batch: Iterable over numpy arrays</span>
+<span class="sd">    :param bool with_dtype: Append dtype of array to shape string</span>
+<span class="sd">    :return: String representation of the batch</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">shapestr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">with_dtype</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span></div>
 
 
 <div class="viewcode-block" id="upsample"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.upsample">[docs]</a><span class="k">def</span> <span class="nf">upsample</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">labelcol</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -392,8 +493,10 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -409,32 +512,16 @@
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

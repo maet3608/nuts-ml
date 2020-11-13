@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Training networks &mdash; nutsml 1.0.40 documentation</title>
+  <title>Training networks &mdash; nutsml 1.0.46 documentation</title>
   
 
   
@@ -17,34 +17,36 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Logging data" href="logging.html" />
     <link rel="prev" title="Building Batches" href="batching.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -58,7 +60,7 @@
             
             
               <div class="version">
-                1.0.40
+                1.0.46
               </div>
             
           
@@ -174,7 +176,7 @@
 <h1>Training networks<a class="headerlink" href="#training-networks" title="Permalink to this headline">¶</a></h1>
 <p>In this section we will learn how to feed mini-batches into a network for training or
 inference. Let us assume we have some Keras model of a classification network</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Convolution2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">input_shape</span><span class="o">=</span><span class="n">INPUT_SHAPE</span><span class="p">))</span>
 <span class="o">...</span>
 <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">NUM_CLASSES</span><span class="p">))</span>
@@ -185,17 +187,17 @@ inference. Let us assume we have some Keras model of a classification network</p
 </div>
 <p>and let us further assume we have a pipeline that generates mini-batches as
 described in the previous section</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">batches</span> <span class="o">=</span> <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">batches</span> <span class="o">=</span> <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span>
 </pre></div>
 </div>
 <p>we then could train the model (for a single epoch) using the
 <code class="docutils literal notranslate"><span class="pre">train_on_batch</span></code> method provided by Keras</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
     <span class="n">model</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">(</span><span class="o">*</span><span class="n">batch</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>or a bit more explicitly</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="ow">in</span> <span class="n">batches</span><span class="p">:</span>
     <span class="n">model</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -207,14 +209,14 @@ to print the shape of the generated batches.</p>
 <p>Keras supports another method for training, <code class="docutils literal notranslate"><span class="pre">fit_generator</span></code>, which expects an
 infinite stream of mini-batches. This can easily be achieve by adding a <code class="docutils literal notranslate"><span class="pre">Cycle</span></code>
 nut after the loading of the training samples:</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">batches</span> <span class="o">=</span> <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Cycle</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">batches</span> <span class="o">=</span> <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Cycle</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit_generator</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>However, the easiest way to train a Keras network is to take advantage of the
 <code class="docutils literal notranslate"><span class="pre">KerasNetwork</span></code> wrapper provided by <strong>nuts-ml</strong>. It takes a Keras model and
 wraps it into a nut that can directly be plugged into a pipeline:</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">KerasNetwork</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">KerasNetwork</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -223,7 +225,7 @@ above, <code class="docutils literal notranslate"><span class="pre">train_on_bat
 <code class="docutils literal notranslate"><span class="pre">network.train()</span></code> trains the network and emits the loss and any specified metric
 (e.g. accuracy in this example) per mini-batch. We can collect this output and
 report average loss and accuracy per epoch.</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">KerasNetwork</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">KerasNetwork</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
     <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;train loss  :&quot;</span><span class="p">,</span> <span class="n">t_loss</span> <span class="o">&gt;&gt;</span> <span class="n">Mean</span><span class="p">())</span>
@@ -234,7 +236,7 @@ report average loss and accuracy per epoch.</p>
 on a validation set. The data preprocessing pipelines in both cases are very similar
 but typically we do not augment when validating. In the following, a code sketch
 for training and validation:</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">KerasNetwork</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">network</span> <span class="o">=</span> <span class="n">KerasNetwork</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
     <span class="n">t_loss</span><span class="p">,</span> <span class="n">t_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span>
                      <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Unzip</span><span class="p">())</span>
@@ -253,7 +255,7 @@ when validating.</p>
 however, needs to be computed on a per-sample bases. <strong>nuts-ml</strong> provides <code class="docutils literal notranslate"><span class="pre">evaluate()</span></code>
 for this purpose. For instance, the code sketch below calls <code class="docutils literal notranslate"><span class="pre">network.evaluate()</span></code>
 to compute the <code class="docutils literal notranslate"><span class="pre">categorical_accuracy</span></code> over all test samples</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">e_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">e_acc</span> <span class="o">=</span> <span class="p">(</span><span class="n">test_samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span>
          <span class="n">network</span><span class="o">.</span><span class="n">evaluate</span><span class="p">([</span><span class="n">categorical_accuracy</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;evaluation acc  :&quot;</span><span class="p">,</span> <span class="n">e_acc</span><span class="p">)</span>
 </pre></div>
@@ -266,7 +268,7 @@ from training, validation and evaluation in that we don’t know the target/outp
 – those we want to infer. Consequently, the mini-batches need to be constructed
 without outputs and then can be feed into the <a href="#id1"><span class="problematic" id="id2">``</span></a>predict() function, that returns
 the softmax vectors:</p>
-<div class="code Python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build_pred_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">build_pred_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 
 <span class="n">predictions</span> <span class="o">=</span> <span class="p">(</span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">build_pred_batch</span> <span class="o">&gt;&gt;</span>
                <span class="n">network</span><span class="o">.</span><span class="n">predict</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Map</span><span class="p">(</span><span class="n">ArgMax</span><span class="p">())</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">())</span>
@@ -288,7 +290,7 @@ easily could convert the class indices to labels using <code class="docutils lit
         <a href="logging.html" class="btn btn-neutral float-right" title="Logging data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="batching.html" class="btn btn-neutral" title="Building Batches" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="batching.html" class="btn btn-neutral float-left" title="Building Batches" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -297,8 +299,10 @@ easily could convert the class indices to labels using <code class="docutils lit
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017, IBM Research Australia.
-      Last updated on Jan 31, 2019.
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Nov 13, 2020.
+      </span>
 
     </p>
   </div> 
@@ -314,32 +318,16 @@ easily could convert the class indices to labels using <code class="docutils lit
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.0.40',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>
