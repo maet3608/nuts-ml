@@ -231,14 +231,36 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut processors.</span>
 
-<span class="sd">    Example on how to define a custom processor nut:</span>
+<span class="sd">    Examples on how to define a custom processor nut.</span>
+<span class="sd">    Note that a processor reads an iterable and must return</span>
+<span class="sd">    an iterable/generator</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_processor</span>
+<span class="sd">      def Twice(iterable):</span>
+<span class="sd">          for e in iterable:</span>
+<span class="sd">              yield e</span>
+<span class="sd">              yield e</span>
+
+<span class="sd">      [1, 2, 3] &gt;&gt; Twice() &gt;&gt; Collect()  --&gt; [1, 1, 2, 2, 3, 3]</span>
+
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_processor</span>
+<span class="sd">      def Odd(iterable):</span>
+<span class="sd">          return (e for e in iterable if e % 2)</span>
+
+<span class="sd">      [1, 2, 3, 4, 5] &gt;&gt; Odd() &gt;&gt; Collect()  --&gt; [1, 3, 5]</span>
+
 
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_processor</span>
 <span class="sd">      def Clone(iterable, n):</span>
 <span class="sd">          for e in iterable:</span>
-<span class="sd">              for _ in xrange(p):</span>
+<span class="sd">              for _ in range(p):</span>
 <span class="sd">                  yield e</span>
 
 <span class="sd">      [1, 2, 3] &gt;&gt; Clone(2) &gt;&gt; Collect()  --&gt; [1, 1, 2, 2, 3, 3]</span>
@@ -260,10 +282,32 @@
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_sink</span>
-<span class="sd">      def Collect(iterable, container):</span>
+<span class="sd">      def ToList(iterable):</span>
+<span class="sd">          return list(iterable)</span>
+
+<span class="sd">      range(5) &gt;&gt; ToList()  --&gt;   [0, 1, 2, 3, 4]</span>
+
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_sink</span>
+<span class="sd">      def MyCollect(iterable, container):</span>
 <span class="sd">          return container(iterable)</span>
 
-<span class="sd">      xrange(5) &gt;&gt; Collect(tuple)  --&gt;   (0, 1, 2, 3, 4)</span>
+<span class="sd">      range(5) &gt;&gt; MyCollect(tuple)  --&gt;   (0, 1, 2, 3, 4)</span>
+
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_sink</span>
+<span class="sd">      def MyProd(iterable):</span>
+<span class="sd">          p = 1</span>
+<span class="sd">          for e in iterable:</span>
+<span class="sd">              p *= e</span>
+<span class="sd">          return p</span>
+
+<span class="sd">      [1, 2, 3] &gt;&gt; MyProd()  --&gt; 12</span>
+
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :param iterpos: Position of iterable in function arguments</span>
@@ -307,15 +351,26 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut sources.</span>
 
-<span class="sd">    Example on how to define a custom source nut:</span>
+<span class="sd">    Example on how to define a custom source nut. Note that a source</span>
+<span class="sd">    must return an iterable/generator and does not read any input.</span>
 
 <span class="sd">    .. code::</span>
 
 <span class="sd">      @nut_source</span>
-<span class="sd">      def Range(start, end):</span>
-<span class="sd">          return xrange(start, end)</span>
+<span class="sd">      def MyRange(start, end):</span>
+<span class="sd">          return range(start, end)</span>
 
-<span class="sd">      Range(0, 5) &gt;&gt; Collect()  --&gt; [0, 1, 2, 3, 4]</span>
+<span class="sd">      MyRange(0, 5) &gt;&gt; Collect()  --&gt; [0, 1, 2, 3, 4]</span>
+
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_source</span>
+<span class="sd">      def MyRange2(start, end):</span>
+<span class="sd">          for i in range(start, end):</span>
+<span class="sd">              yield i * 2</span>
+
+<span class="sd">      MyRange2(0, 5) &gt;&gt; Collect()  --&gt; [0, 2, 4, 6, 8]</span>
 
 <span class="sd">    :param function func: Function to decorate</span>
 <span class="sd">    :return: Nut source for given function</span>
@@ -339,6 +394,15 @@
 
 <span class="sd">    Also see nut_filerfalse().</span>
 <span class="sd">    Example on how to define a custom filter nut:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_filter</span>
+<span class="sd">      def Positive(x):</span>
+<span class="sd">          return x &gt; 0</span>
+
+<span class="sd">      [-1, 1, -2, 2] &gt;&gt; Positive() &gt;&gt; Collect()  --&gt; [1, 2]</span>
+
 
 <span class="sd">    .. code::</span>
 
@@ -390,7 +454,7 @@
     <p>
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 13, 2020.
+        Last updated on Nov 16, 2020.
       </span>
 
     </p>

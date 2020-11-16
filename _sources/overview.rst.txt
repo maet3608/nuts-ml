@@ -65,6 +65,9 @@ Click on a nut name for more details.
 
 - :class:`SplitRandom <nutsml.common.SplitRandom>` :
   randomly split iterable into partitions, e.g. training, validation, test.
+  
+- :class:`SplitLeaveOneOut <nutsml.common.SplitLeaveOneOut>` :
+  split iterable into leave-one-out train and test sets.  
 
 - :class:`Stratify <nutsml.stratify.Stratify>` :
   stratifies samples by down-sampling or up-sampling.
