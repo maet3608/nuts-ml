@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.datautil &mdash; nutsml 1.0.46 documentation</title>
+  <title>nutsml.datautil &mdash; nutsml 1.1.0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.0.46
+                1.1.0
               </div>
             
           
@@ -204,6 +204,7 @@
     <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">)</span></div>
 
 
+
 <div class="viewcode-block" id="shapestr"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.shapestr">[docs]</a><span class="k">def</span> <span class="nf">shapestr</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">with_dtype</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return string representation of array shape.</span>
@@ -265,10 +266,11 @@
     <span class="n">typename</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="n">typestr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;&lt;&#39;</span> <span class="o">+</span> <span class="n">typename</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&gt; &#39;</span>
     <span class="n">expr</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">kv</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="n">stype</span><span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">mklist</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stype</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">)</span>
-    <span class="n">mkset</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stype</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
-    <span class="n">mkdict</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expr</span><span class="p">(</span><span class="n">kv</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
-    <span class="n">mkfields</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expr</span><span class="p">(</span><span class="n">kv</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">_fields</span><span class="p">,</span> <span class="n">obj</span><span class="p">))</span>
+    <span class="n">alist</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">mklist</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">alist</span><span class="p">(</span><span class="n">stype</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">)</span>
+    <span class="n">mkset</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">alist</span><span class="p">(</span><span class="n">stype</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+    <span class="n">mkdict</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">alist</span><span class="p">(</span><span class="n">expr</span><span class="p">(</span><span class="n">kv</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="n">mkfields</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">alist</span><span class="p">(</span><span class="n">expr</span><span class="p">(</span><span class="n">kv</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">_fields</span><span class="p">,</span> <span class="n">obj</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">istensor</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="s1">&#39;dtype&#39;</span><span class="p">]):</span>
         <span class="k">return</span> <span class="n">typestr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="n">shapestr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -284,26 +286,6 @@
         <span class="k">return</span> <span class="s1">&#39;{&#39;</span> <span class="o">+</span> <span class="n">mkdict</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span>
 
     <span class="k">return</span> <span class="n">typestr</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="batchstr"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.batchstr">[docs]</a><span class="k">def</span> <span class="nf">batchstr</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">with_dtype</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return string representation of a batch/list of arrays.</span>
-
-<span class="sd">    See shapestr(array) for details of array representation.</span>
-
-<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">    &gt;&gt;&gt; a = np.zeros((3,4), dtype=&#39;uint8&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; b = np.zeros((1,2,2), dtype=&#39;float16&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; batchstr([a, b])</span>
-<span class="sd">    &#39;[3x4:uint8, 1x2x2:float16]&#39;</span>
-
-<span class="sd">    :param list batch: Iterable over numpy arrays</span>
-<span class="sd">    :param bool with_dtype: Append dtype of array to shape string</span>
-<span class="sd">    :return: String representation of the batch</span>
-<span class="sd">    :rtype: str</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">shapestr</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">with_dtype</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span></div>
 
 
 <div class="viewcode-block" id="upsample"><a class="viewcode-back" href="../../nutsml.html#nutsml.datautil.upsample">[docs]</a><span class="k">def</span> <span class="nf">upsample</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">labelcol</span><span class="p">,</span> <span class="n">rand</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -495,7 +477,7 @@
     <p>
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 16, 2020.
+        Last updated on Nov 18, 2020.
       </span>
 
     </p>

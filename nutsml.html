@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.0.46 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.1.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0.46
+                1.1.0
               </div>
             
           
@@ -235,54 +235,60 @@
 <span id="nutsml-batcher-module"></span><h2>nutsml.batcher module<a class="headerlink" href="#module-nutsml.batcher" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-batcher"></span><dl class="py class">
 <dt id="nutsml.batcher.BuildBatch">
-<em class="property">class </em><code class="sig-name descname">BuildBatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batchsize</span></em>, <em class="sig-param"><span class="n">prefetch</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">BuildBatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batchsize</span></em>, <em class="sig-param"><span class="n">prefetch</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.Nut</span></code></p>
 <p>Build batches for GPU-based neural network training.</p>
 <dl class="py method">
 <dt id="nutsml.batcher.BuildBatch.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batchsize</span></em>, <em class="sig-param"><span class="n">prefetch</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>iterable &gt;&gt; BuildBatch(batchsize, prefetch=1, verbose=False)</p>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batchsize</span></em>, <em class="sig-param"><span class="n">prefetch</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterable &gt;&gt; BuildBatch(batchsize, prefetch=1)</p>
 <p>Take samples in iterable, extract specified columns, convert
 column data to numpy arrays of various types, aggregate converted
 samples into a batch.</p>
-<p>The following example use the verbose flag to print the shape of
+<p>The format of a batch is a list of lists: [[inputs], [outputs]]
+where inputs and outputs are Numpy arrays.</p>
+<p>The following example uses PrintType() to print the shape of
 the batches constructed. This is useful for development and debugging
-but should be disabled (verbose=False) in production.</p>
+but should be removed in production.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Collect</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">class_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">class_ids</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="kn">import</span> <span class="n">PrintType</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">batchsize</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">class_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">class_ids</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">batchsize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">... </span>               <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
 <span class="gp">... </span>               <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="gp">... </span>               <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="go">[[2:float32, 2x1x5x3:uint8], [2x3:uint8]]</span>
-<span class="go">[[1:float32, 1x1x5x3:uint8], [1x3:uint8]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[[&lt;ndarray&gt; 2:float32, &lt;ndarray&gt; 2x1x5x3:uint8], [&lt;ndarray&gt; 2x3:uint8]]</span>
+<span class="go">[[&lt;ndarray&gt; 1:float32, &lt;ndarray&gt; 1x1x5x3:uint8], [&lt;ndarray&gt; 1x3:uint8]]</span>
 </pre></div>
 </div>
+<p>In the example above, we have multiple inputs and a single output,
+and the batch is of format [[number, image], [one_hot]], where each
+data element a Numpy array with the shown shape and dtype.</p>
 <p>Sample columns can be ignored or reused. Assuming an autoencoder, one
-might which to use the sample image as input and output:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+might whish to reuse the sample image as input and output:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">... </span>               <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="gp">... </span>               <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
-<span class="go">[[2x1x5x3:uint8], [2x1x5x3:uint8]]</span>
-<span class="go">[[1x1x5x3:uint8], [1x1x5x3:uint8]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[[&lt;ndarray&gt; 2x1x5x3:uint8], [&lt;ndarray&gt; 2x1x5x3:uint8]]</span>
+<span class="go">[[&lt;ndarray&gt; 1x1x5x3:uint8], [&lt;ndarray&gt; 1x1x5x3:uint8]]</span>
 </pre></div>
 </div>
-<p>A training batch is of the format [[inputs], [outputs]], e.g. in the
-first case above [[number, image], [one_hot]], where each of the columns
-is a Numpy array. If no output/target is provided, as in the prediction
-phase, the batch format is just [inputs].</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">build_pred_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<p>In the prediction phase no target outputs are needed. If the batch
+contains only inputs, the batch format is just [inputs].</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">build_pred_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">... </span>                    <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_pred_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
-<span class="go">[2x1x5x3:uint8]</span>
-<span class="go">[1x1x5x3:uint8]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batches</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_pred_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[&lt;ndarray&gt; 2x1x5x3:uint8]</span>
+<span class="go">[&lt;ndarray&gt; 1x1x5x3:uint8]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -315,37 +321,6 @@ output is a list of np.arrays</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>list of np.array if fmt=None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="nutsml.batcher.BuildBatch.by">
-<code class="sig-name descname">by</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#BuildBatch.by"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.BuildBatch.by" title="Permalink to this definition">¶</a></dt>
-<dd><p>Specify and add batch columns to create batch.</p>
-<p>DEPRECATED: Use input() and output() instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – column of the sample to extract and to create a
-batch column from.</p></li>
-<li><p><strong>name</strong> (<em>string</em>) – Name of the column function to apply to create
-a batch column, e.g. ‘image’
-See the following functions for more details:
-‘image’: nutsflow.batcher.build_image_batch
-‘number’: nutsflow.batcher.build_number_batch
-‘vector’: nutsflow.batcher.build_vector_batch
-‘tensor’: nutsflow.batcher.build_tensor_batch
-‘one_hot’: nutsflow.batcher.build_one_hot_batch</p></li>
-<li><p><strong>args</strong> (<em>args</em>) – Arguments for column function, e.g. dtype</p></li>
-<li><p><strong>kwargs</strong> (<em>kwargs</em>) – Keyword arguments for column function</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>instance of BuildBatch</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#nutsml.batcher.BuildBatch" title="nutsml.batcher.BuildBatch">BuildBatch</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1102,15 +1077,15 @@ does not change consider NutFunction instead.</p>
 and returns a generator over the leave-one-out splits.
 The splits are stable across Python version 2.x or 3.x
 and deterministic.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">console</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">console</span>  <span class="c1"># just for printing</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">SplitLeaveOneOut</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="n">console</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
-<span class="go">[2, 3]   [1]</span>
-<span class="go">[1, 3]   [2]</span>
-<span class="go">[1, 2]   [3]</span>
+<span class="go">[2, 3]    [1]</span>
+<span class="go">[1, 3]    [2]</span>
+<span class="go">[1, 2]    [3]</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
@@ -1384,34 +1359,6 @@ accessed by key or attribute, e.g. cfg.filepath or cfg.[‘filepath’]</p>
 <div class="section" id="module-nutsml.datautil">
 <span id="nutsml-datautil-module"></span><h2>nutsml.datautil module<a class="headerlink" href="#module-nutsml.datautil" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-datautil"></span><dl class="py function">
-<dt id="nutsml.datautil.batchstr">
-<code class="sig-name descname">batchstr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch</span></em>, <em class="sig-param"><span class="n">with_dtype</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#batchstr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.batchstr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return string representation of a batch/list of arrays.</p>
-<p>See shapestr(array) for details of array representation.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">batchstr</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">])</span>
-<span class="go">&#39;[3x4:uint8, 1x2x2:float16]&#39;</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Iterable over numpy arrays</p></li>
-<li><p><strong>with_dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Append dtype of array to shape string</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>String representation of the batch</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="nutsml.datautil.col_map">
 <code class="sig-name descname">col_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample</span></em>, <em class="sig-param"><span class="n">columns</span></em>, <em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#col_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.col_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Map function to given columns of sample and keep other columns</p>
@@ -3382,7 +3329,7 @@ self.weightspath is used if weightspath is None.</p>
 <dt id="nutsml.network.KerasNetwork.train">
 <code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#KerasNetwork.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.KerasNetwork.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train network</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_losses</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_losses</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span> 
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -3515,7 +3462,7 @@ self.weightspath is used if weightspath is None.</p>
 <dt id="nutsml.network.LasagneNetwork.train">
 <code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#LasagneNetwork.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.LasagneNetwork.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train network</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_losses</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_losses</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span> 
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -3660,7 +3607,7 @@ self.weightspath is used if weightspath is None.</p>
 <dt id="nutsml.network.Network.train">
 <code class="sig-name descname">train</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#Network.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.Network.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train network</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_losses</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_losses</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span> 
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -3848,7 +3795,7 @@ self.weightspath is used if weightspath is None.</p>
 <dt id="nutsml.network.PytorchNetwork.train">
 <code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/network.html#PytorchNetwork.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.network.PytorchNetwork.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>Train network</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_losses</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train_losses</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">batcher</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span> 
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -5634,7 +5581,7 @@ if None, Enumerate() is used.</p></li>
     <p>
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 16, 2020.
+        Last updated on Nov 18, 2020.
       </span>
 
     </p>

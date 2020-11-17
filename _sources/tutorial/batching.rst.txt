@@ -34,24 +34,17 @@ variable batch sizes.
    batch is processed by the network on the GPU. This parallelism can result
    in a hanging pipeline if there is no network to process the batches.   
    If the code example above does not work for you, use 
-   ``BuildBatch(2, prefetch=0)`` or ``BuildBatch(2, verbose=True)`` instead!
+   ``BuildBatch(2, prefetch=0)`` instead!
 
 Training batches contain inputs and possibly outputs/targets. The general format 
 of training batches generated  by ``BuildBatch`` is a list composed of two sublists
-containing NumPy arrays. The first sublist contains the input data and 
+containing Numpy arrays. The first sublist contains the input data and 
 the second list contains the output data for the network:
 
 .. code:: Python
 
    [[<in_ndarray>, ...], [<out_ndarray>, ...]]
       
-If there is no output/target data specified, e.g. for the prediction/inference phase,  
-the generated batch is a list of inputs only:
-
-.. code:: Python
-
-   [<in_ndarray>, ...]
-
 In the next example we generate batches with inputs and outputs. Each sample of the
 (training) data set contains two numbers, the first as input and the second as output 
 (e.g. class label):
@@ -108,10 +101,11 @@ inputs and one-hot encoded outputs for the class indices:
    
 As you can see, the class index is converted into a one-hot encoded vector of
 length two and input data is converted to float vectors. For larger data, printing
-out batches for debugging is not informative but ``BuildBatch`` provides a
-``verbose`` flag that prints the shape and data type of the generated NumPy arrays
+out batches for debugging is not informative. We can use 
+`PrintType()  <https://github.com/maet3608/nuts-ml/blob/master/nutsml/common/viewer.py>`_
+to print the shape and data type of the generated NumPy arrays 
 within the batch data structure.
-The same code above but with ``verbose=True`` and the ``Print`` removed, produces
+The same code above but with ``Print`` replaced by ``PrintType``, produces
 much more readable output:
 
 .. code:: Python
@@ -119,9 +113,9 @@ much more readable output:
   >>> build_batch = (BuildBatch(2, verbose=True)
   ...                .input(0, 'vector', 'float32')
   ...                .output(1, 'one_hot', 'uint8', N_CLASSES))
-  >>> samples >> build_batch >> Consume()
-  [[2x3:float32], [2x2:uint8]]
-  [[1x3:float32], [1x2:uint8]]
+  >>> samples >> build_batch >> PrintType() >> Consume()
+  [[<ndarray> 2x3:float32], [<ndarray> 2x2:uint8]]
+  [[<ndarray> 1x3:float32], [<ndarray> 1x2:uint8]]
   
 As a last example, let us work with some image data. We create a sample set
 with only three images, labeled 'good' or 'bad'. We read these images, convert
@@ -136,13 +130,13 @@ the string labels in sample column 1 to one-hot encoded vectors and build batche
   ...            ('nut_monochrome.gif', 'bad')]  
   >>> read_image = ReadImage(0, 'tests/data/img_formats/*')
   >>> to_rgb = TransformImage(0).by('gray2rgb')  
-  >>> convert_label = ConvertLabel(LABELS, 1)
-  >>> build_batch = (BuildBatch(2, verbose=True)
+  >>> convert_label = ConvertLabel(1, LABELS)
+  >>> build_batch = (BuildBatch(2)
   ...                .input(0, 'image', 'float32')
   ...                .output(1, 'one_hot', 'uint8', N_CLASSES))  
-  >>> samples >> read_image >> to_rgb >> convert_label >> build_batch >> Consume()    
-  [[2x213x320x3:float32], [2x2:uint8]]
-  [[1x213x320x3:float32], [1x2:uint8]]
+  >>> samples >> read_image >> to_rgb >> convert_label >> build_batch >> PrintType() >> Consume()      
+  [[<ndarray> 2x213x320x3:float32], [<ndarray> 2x2:uint8]]
+  [[<ndarray> 1x213x320x3:float32], [<ndarray> 1x2:uint8]]  
 
 Note that we are reading a mixture of RGB and grayscale images with differing
 numbers of (color) channels that cannot be combined in a batch. We use the
@@ -163,9 +157,9 @@ axis right after the batch axis and before the image row and colum axes:
   >>> build_batch = (BuildBatch(2, verbose=True)
   ...                .input(0, 'image', 'float32', channelfirst=True)
   ...                .output(1, 'one_hot', 'uint8', N_CLASSES))  
-  >>> samples >> read_image >> to_rgb >> convert_label >> build_batch >> Consume()    
-  [[2x3x213x320:float32], [2x2:uint8]]
-  [[1x3x213x320:float32], [1x2:uint8]]
+  >>> samples >> read_image >> to_rgb >> convert_label >> build_batch >> Consume()      
+  [[<ndarray> 2x3x213x320:float32], [<ndarray> 2x2:uint8]]
+  [[<ndarray> 1x3x213x320:float32], [<ndarray> 1x2:uint8]] 
   
 For more complex scenarios (e.g. 3D input data) have a look at the tensor formatter
 (``help(batcher.build_tensor_batch)``), which allows you to construct batches from

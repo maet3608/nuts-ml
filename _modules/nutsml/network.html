@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.network &mdash; nutsml 1.0.46 documentation</title>
+  <title>nutsml.network &mdash; nutsml 1.1.0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.0.46
+                1.1.0
               </div>
             
           
@@ -164,8 +164,10 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
+<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">itemize</span>
 <span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="p">(</span><span class="n">nut_processor</span><span class="p">,</span> <span class="n">nut_sink</span><span class="p">,</span> <span class="n">nut_function</span><span class="p">,</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Map</span><span class="p">,</span>
                       <span class="n">Flatten</span><span class="p">,</span> <span class="n">Get</span><span class="p">,</span> <span class="n">Print</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">nutsml.viewer</span> <span class="kn">import</span> <span class="n">PrintType</span>
 
 
 <div class="viewcode-block" id="TrainValNut"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.TrainValNut">[docs]</a><span class="nd">@nut_processor</span>
@@ -279,7 +281,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Train network</span>
 
-<span class="sd">        &gt;&gt;&gt; train_losses = samples &gt;&gt; batcher &gt;&gt; network.train() &gt;&gt; Collect()  # doctest: +SKIP</span>
+<span class="sd">        &gt;&gt;&gt; train_losses = samples &gt;&gt; batcher &gt;&gt; network.train() &gt;&gt; Collect() # doctest: +SKIP</span>
 
 <span class="sd">        :return: Typically returns training loss per batch.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -479,8 +481,17 @@
         <span class="n">Network</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weightspath</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span></div>
 
+    <span class="c1"># Since Keras with tensorflow 2.x the function train_on_batch()</span>
+    <span class="c1"># does not accept a batch format of [[inputs],[outputs]] anymore,</span>
+    <span class="c1"># while other similar function such as test_on_batch, predict_on_batch</span>
+    <span class="c1"># are still fine with it. Therefore only fixing for train_on_batch</span>
+    <span class="c1"># where sublist are removed if inputs and/or outputs are single items.</span>
+    <span class="k">def</span> <span class="nf">_train_on_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_batches</span><span class="p">,</span> <span class="n">y_batches</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">x_batches</span><span class="p">,</span> <span class="n">y_batches</span> <span class="o">=</span> <span class="n">itemize</span><span class="p">(</span><span class="n">x_batches</span><span class="p">),</span> <span class="n">itemize</span><span class="p">(</span><span class="n">y_batches</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">(</span><span class="n">x_batches</span><span class="p">,</span> <span class="n">y_batches</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
 <div class="viewcode-block" id="KerasNetwork.train"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.train">[docs]</a>    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">TrainValNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train_on_batch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">TrainValNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_train_on_batch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="KerasNetwork.validate"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">TrainValNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">test_on_batch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -489,13 +500,8 @@
         <span class="k">return</span> <span class="n">PredictNut</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict_on_batch</span><span class="p">,</span> <span class="n">flatten</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="KerasNetwork.evaluate"><a class="viewcode-back" href="../../nutsml.html#nutsml.network.KerasNetwork.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">predcol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span> <span class="nn">keras</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">K</span>
-
         <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">):</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">metric</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">targets</span><span class="p">),</span> <span class="n">K</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">preds</span><span class="p">))</span>
-            <span class="n">is_theano</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">backend</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;theano&#39;</span>
-            <span class="n">sess</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">is_theano</span> <span class="k">else</span> <span class="n">K</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span> <span class="k">if</span> <span class="n">is_theano</span> <span class="k">else</span> <span class="n">result</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">sess</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">metric</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
             <span class="n">is_vector</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_vector</span> <span class="k">else</span> <span class="n">result</span><span class="p">)</span>
 
@@ -540,16 +546,17 @@
 
     <span class="k">def</span> <span class="nf">_to_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batches</span><span class="p">,</span> <span class="n">flatten</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convert collection of batches into Pytorch tensors.</span>
+<span class="sd">        Convert batches into Pytorch tensors.</span>
 
-<span class="sd">        :param iter batches: Collection of batches.</span>
+<span class="sd">        :param list|ndarray batches: Numpy array or list of arrays.</span>
 <span class="sd">        :param bool flatten: If true and batch contains only one column</span>
 <span class="sd">               return single tensor instead of list of tensors.</span>
-<span class="sd">        :return: List of batches as Pytorch tensors or a single tensor</span>
+<span class="sd">        :return: List of batches as PyTorch tensors or a single tensor</span>
 <span class="sd">        :rtype: [tensors] or tensor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">torch</span>
         <span class="n">T</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">batches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_list</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
         <span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">T</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">batches</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">str</span><span class="p">)]</span>
         <span class="k">if</span> <span class="n">flatten</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -569,8 +576,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs a single gradient step on a batch.</span>
 
-<span class="sd">        :param [ndarray] x_batches: List of input batches</span>
-<span class="sd">        :param [ndarray] y_batches: List of output/target batches</span>
+<span class="sd">        :param ndarray|[ndarray] x_batches: Input batch or list of batches</span>
+<span class="sd">        :param ndarray|[ndarray] y_batches: Output batch or list of batches</span>
 <span class="sd">        :return: losses. If there is multiple outputs then a list with</span>
 <span class="sd">                the losses for each output and the mean over these losses</span>
 <span class="sd">                is returned. Otherwise a single float with the loss is returned.</span>
@@ -685,7 +692,7 @@
     <p>
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 16, 2020.
+        Last updated on Nov 18, 2020.
       </span>
 
     </p>

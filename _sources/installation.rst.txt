@@ -28,13 +28,13 @@ Verification
 ------------
   
 Ensure that nutsflow and nutsml can be imported and work.
-Open Python shell via ``python` and enter the following
+Open Python shell via ``python`` and enter the following
 code
 
 >>> from nutsflow import *
 >>> from nutsml import *
 >>> samples = [('pos', 1), ('pos', 1), ('neg', 0)]
->>> samples >> Stratify(1) >> Collect()
+>>> samples >> CollectStratified(1) >> Sort()
 [('neg', 0), ('pos', 1)]
   
   
@@ -59,7 +59,7 @@ For upgrading an existing installation run
 
 .. code::
   
-  pip install nutsml  --upgrade
+  pip install nutsml --upgrade
 
 or if installed via ``git clone`` and ``setup.py``
 

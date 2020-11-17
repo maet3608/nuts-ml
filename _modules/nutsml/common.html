@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.common &mdash; nutsml 1.0.46 documentation</title>
+  <title>nutsml.common &mdash; nutsml 1.1.0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.0.46
+                1.1.0
               </div>
             
           
@@ -393,14 +393,14 @@
 <span class="sd">    The splits are stable across Python version 2.x or 3.x</span>
 <span class="sd">    and deterministic.</span>
 
-<span class="sd">    &gt;&gt;&gt; from nutsflow.common import console</span>
+<span class="sd">    &gt;&gt;&gt; from nutsflow.common import console  # just for printing</span>
 
 <span class="sd">    &gt;&gt;&gt; samples = [1, 2, 3]</span>
 <span class="sd">    &gt;&gt;&gt; for train, test in samples &gt;&gt; SplitLeaveOneOut():</span>
 <span class="sd">    ...     console(train, &#39;  &#39;, test)</span>
-<span class="sd">    [2, 3]   [1]</span>
-<span class="sd">    [1, 3]   [2]</span>
-<span class="sd">    [1, 2]   [3]</span>
+<span class="sd">    [2, 3]    [1]</span>
+<span class="sd">    [1, 3]    [2]</span>
+<span class="sd">    [1, 2]    [3]</span>
 
 <span class="sd">    &gt;&gt;&gt; samples = [(1, 1), (2, 0), (2, 4), (1, 3), (3, 0)]</span>
 <span class="sd">    &gt;&gt;&gt; splits = samples &gt;&gt; SplitLeaveOneOut(lambda x: x[0])</span>
@@ -440,7 +440,7 @@
     <p>
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 16, 2020.
+        Last updated on Nov 18, 2020.
       </span>
 
     </p>

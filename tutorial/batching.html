@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Building Batches &mdash; nutsml 1.0.46 documentation</title>
+  <title>Building Batches &mdash; nutsml 1.1.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0.46
+                1.1.0
               </div>
             
           
@@ -202,18 +202,13 @@ variable batch sizes.</p>
 batch is processed by the network on the GPU. This parallelism can result
 in a hanging pipeline if there is no network to process the batches.
 If the code example above does not work for you, use
-<code class="docutils literal notranslate"><span class="pre">BuildBatch(2,</span> <span class="pre">prefetch=0)</span></code> or <code class="docutils literal notranslate"><span class="pre">BuildBatch(2,</span> <span class="pre">verbose=True)</span></code> instead!</p>
+<code class="docutils literal notranslate"><span class="pre">BuildBatch(2,</span> <span class="pre">prefetch=0)</span></code> instead!</p>
 </div>
 <p>Training batches contain inputs and possibly outputs/targets. The general format
 of training batches generated  by <code class="docutils literal notranslate"><span class="pre">BuildBatch</span></code> is a list composed of two sublists
-containing NumPy arrays. The first sublist contains the input data and
+containing Numpy arrays. The first sublist contains the input data and
 the second list contains the output data for the network:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="o">&lt;</span><span class="n">in_ndarray</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">out_ndarray</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span>
-</pre></div>
-</div>
-<p>If there is no output/target data specified, e.g. for the prediction/inference phase,
-the generated batch is a list of inputs only:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">&lt;</span><span class="n">in_ndarray</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>In the next example we generate batches with inputs and outputs. Each sample of the
@@ -266,17 +261,18 @@ inputs and one-hot encoded outputs for the class indices:</p>
 </div>
 <p>As you can see, the class index is converted into a one-hot encoded vector of
 length two and input data is converted to float vectors. For larger data, printing
-out batches for debugging is not informative but <code class="docutils literal notranslate"><span class="pre">BuildBatch</span></code> provides a
-<code class="docutils literal notranslate"><span class="pre">verbose</span></code> flag that prints the shape and data type of the generated NumPy arrays
+out batches for debugging is not informative. We can use
+<a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/common/viewer.py">PrintType()</a>
+to print the shape and data type of the generated NumPy arrays
 within the batch data structure.
-The same code above but with <code class="docutils literal notranslate"><span class="pre">verbose=True</span></code> and the <code class="docutils literal notranslate"><span class="pre">Print</span></code> removed, produces
+The same code above but with <code class="docutils literal notranslate"><span class="pre">Print</span></code> replaced by <code class="docutils literal notranslate"><span class="pre">PrintType</span></code>, produces
 much more readable output:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="o">...</span>                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vector&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
 <span class="o">...</span>                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">N_CLASSES</span><span class="p">))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="p">[[</span><span class="mi">2</span><span class="n">x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
-<span class="p">[[</span><span class="mi">1</span><span class="n">x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>As a last example, let us work with some image data. We create a sample set
@@ -289,13 +285,13 @@ the string labels in sample column 1 to one-hot encoded vectors and build batche
 <span class="o">...</span>            <span class="p">(</span><span class="s1">&#39;nut_monochrome.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">)]</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">read_image</span> <span class="o">=</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;gray2rgb&#39;</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">=</span> <span class="n">ConvertLabel</span><span class="p">(</span><span class="n">LABELS</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">=</span> <span class="n">ConvertLabel</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">LABELS</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="o">...</span>                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
 <span class="o">...</span>                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">N_CLASSES</span><span class="p">))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="p">[[</span><span class="mi">2</span><span class="n">x213x320x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
-<span class="p">[[</span><span class="mi">1</span><span class="n">x213x320x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x213x320x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x213x320x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>Note that we are reading a mixture of RGB and grayscale images with differing
@@ -314,8 +310,8 @@ axis right after the batch axis and before the image row and colum axes:</p>
 <span class="o">...</span>                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="n">channelfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="o">...</span>                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">N_CLASSES</span><span class="p">))</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="p">[[</span><span class="mi">2</span><span class="n">x3x213x320</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
-<span class="p">[[</span><span class="mi">1</span><span class="n">x3x213x320</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x3x213x320</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x3x213x320</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>For more complex scenarios (e.g. 3D input data) have a look at the tensor formatter
@@ -357,7 +353,7 @@ How to plug in a network for training and inference is the topic of the next sec
     <p>
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 16, 2020.
+        Last updated on Nov 18, 2020.
       </span>
 
     </p>

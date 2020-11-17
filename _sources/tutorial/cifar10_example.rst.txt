@@ -28,7 +28,7 @@ In the following we will show how to use **nuts-flow/ml** and `Keras <https://ke
 to train a Convolutional Neural Network (CNN) on the CIFAR-10 data. For readability some 
 code will be omitted (e.g. import statements) but the complete code and more examples 
 can be found under
-`nutsml/examples <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py>`_.
+`nutsml/examples <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples>`_.
 
 
 
@@ -36,7 +36,7 @@ Network
 -------
 
 The network architecture for the CNN is a slightly modified version of the Keras
-`cifar10_cnn.py <https://github.com/fchollet/keras/blob/master/examples/cifar10_cnn.py>`_ 
+`CNN <https://www.kaggle.com/amyjang/tensorflow-cifar10-cnn-tutorial#3.-CNN>`_ 
 example (Keras version 2.x) with the notable exception of the last line, 
 where the model is wrapped in a ``KerasNetwork``.
 
@@ -94,20 +94,20 @@ Loading data
 In many image processing applications the complete set of training images 
 is too large to fit in memory and images are loaded in a streamed fashion. 
 See `read_images.py 
-<https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/read_images.py>`_ 
+<https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/keras_/cifar/read_images.py>`_ 
 for an example that loads images sequentially.
 
 CIFAR-10, however, is small benchmark data set and fits in memory. We therefore 
-take advantage of the function ``cifar10.load_data()`` provided by
-`Keras <https://github.com/fchollet/keras/blob/master/keras/datasets/cifar10.py>`_,
+take advantage of the function ``cifar10.load_data()`` provided by Keras,
 and load all images in memory but rearrange the data slightly
 
 .. code:: Python
 
   def load_samples():
+      from tensorflow.python.keras.datasets import cifar10
       (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-      train_samples = zip(x_train, map(int, y_train))
-      test_samples = zip(x_test, map(int, y_test))
+      train_samples = list(zip(x_train, map(int, y_train)))
+      test_samples = list(zip(x_test, map(int, y_test)))
       return train_samples, test_samples
 
 Specifically, we convert class labels from floats to integers, 
@@ -116,7 +116,7 @@ Sample are then tuples of format ``(image, label)``, where the image is a
 Numpy array of shape ``(32,32,3)``, and the label is an integer between 0 and 9, 
 indicating the class. We can verify the type and shape of the samples 
 by running the following flow
-(`complete code here <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/view_data.py>`_ )
+(`complete code here <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/keras_/cifar/view_data.py>`_ )
 
 .. code:: Python
 
@@ -211,7 +211,7 @@ probability 1.0 (all of them), flipping images horizontally for 10%
 of the samples (``p = 0.1``),  and randomly changing the brightness 
 in range ``[0.7, 1.3]``, again with 10% probability ``p``. We could have
 a look at the augmented images and their labels using the following flow
-(`complete code here <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/view_augmented_images.py>`_ )
+(`complete code here <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/keras_/cifar/view_augmented_images.py>`_ )
 
 .. code:: Python
 
@@ -443,7 +443,7 @@ reads the image from the file system, and returns tuples of shape ``(image,)``,
 where images are numpy arrays. We can then display the image with ``ViewImage``, 
 where ``0`` indicates the column in the input sample that contains the image
 and ``pause=1`` forces a pause of one second between images.
-See `cifar/read_images.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/read_images.py>`_ for a complete code example.
+See `cifar/read_images.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/keras_/cifar/read_images.py>`_ for a complete code example.
 
 A common method to organize image data for network training on the file system 
 is to store them in sub-folders named after the class labels, for instance
@@ -494,7 +494,7 @@ would create the following files
   ./images/img19.png
 
 A more complex example that includes the class label of an image in its
-filename can be seen in `cifar/write_images.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/write_images.py>`_ .
+filename can be seen in `cifar/write_images.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/keras_/cifar/write_images.py>`_ .
 
 
 Prediction
@@ -529,7 +529,7 @@ we use ``Map(ArgMax())`` to get the class index. If you want the class index
 together with the class probability ``Map(ArgMax(retvalue=True))`` can be 
 called instead.
 
-`cifar/cnn_classify.py  <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_classify.py>`_ contains a more complex example that displays the image
+`cifar/cnn_classify.py  <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/keras_/cifar/cnn_classify.py>`_ contains a more complex example that displays the image
 with the true and predicted class names.
 
 
@@ -537,7 +537,7 @@ Code
 ----
 
 Here is the complete code (without imports) for the network training.
-The entire code can be found in `cifar/cnn_train.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/cifar/cnn_train.py>`_. 
+The entire code can be found in `cifar/cnn_train.py <https://github.com/maet3608/nuts-ml/blob/master/nutsml/examples/keras_/cifar/cnn_train.py>`_. 
 
 .. code:: Python
 

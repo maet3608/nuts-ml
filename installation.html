@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; nutsml 1.0.46 documentation</title>
+  <title>Installation &mdash; nutsml 1.1.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.0.46
+                1.1.0
               </div>
             
           
@@ -185,12 +185,12 @@
 <div class="section" id="verification">
 <h2>Verification<a class="headerlink" href="#verification" title="Permalink to this headline">¶</a></h2>
 <p>Ensure that nutsflow and nutsml can be imported and work.
-Open Python shell via <a href="#id1"><span class="problematic" id="id2">``</span></a>python` and enter the following
+Open Python shell via <code class="docutils literal notranslate"><span class="pre">python</span></code> and enter the following
 code</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;neg&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">CollectStratified</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Sort</span><span class="p">()</span>
 <span class="go">[(&#39;neg&#39;, 0), (&#39;pos&#39;, 1)]</span>
 </pre></div>
 </div>
@@ -209,7 +209,7 @@ code</p>
 <div class="section" id="upgrade">
 <h2>Upgrade<a class="headerlink" href="#upgrade" title="Permalink to this headline">¶</a></h2>
 <p>For upgrading an existing installation run</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span>  <span class="o">--</span><span class="n">upgrade</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nutsml</span> <span class="o">--</span><span class="n">upgrade</span>
 </pre></div>
 </div>
 <p>or if installed via <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> and <code class="docutils literal notranslate"><span class="pre">setup.py</span></code></p>
@@ -267,7 +267,7 @@ $ deactivate
     <p>
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 16, 2020.
+        Last updated on Nov 18, 2020.
       </span>
 
     </p>
