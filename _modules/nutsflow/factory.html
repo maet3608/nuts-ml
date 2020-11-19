@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -48,7 +49,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> nutsml
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> nutsml
           
 
           
@@ -75,6 +76,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -95,6 +97,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -133,7 +136,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="../../index.html">Docs</a> &raquo;</li>
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
@@ -159,9 +162,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
-<span class="kn">import</span> <span class="nn">functools</span>
-
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">Nut</span><span class="p">,</span> <span class="n">NutSink</span><span class="p">,</span> <span class="n">NutSource</span><span class="p">,</span> <span class="n">NutFunction</span>
+<span class="kn">from</span> <span class="nn">nutsflow.base</span> <span class="kn">import</span> <span class="n">Nut</span><span class="p">,</span> <span class="n">NutSink</span><span class="p">,</span> <span class="n">NutSource</span><span class="p">,</span> <span class="n">NutFunction</span>
 
 
 <span class="k">def</span> <span class="nf">_arg_insert</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -194,14 +195,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">base_class</span><span class="p">):</span>
-        <span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
-
         <span class="k">def</span> <span class="fm">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">_arg_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">iterpos</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="fm">__rrshift__</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Wrapper</span>
 
 
@@ -216,8 +217,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">Nut</span><span class="p">):</span>
-        <span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
-
         <span class="k">def</span> <span class="fm">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
                 <span class="n">args</span> <span class="o">=</span> <span class="n">_arg_insert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
@@ -226,6 +225,78 @@
 
     <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
     <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="fm">__rrshift__</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Wrapper</span>
+
+
+<span class="k">def</span> <span class="nf">nut_function</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for Nut functions.</span>
+
+<span class="sd">    Example on how to define a custom function nut:</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_function</span>
+<span class="sd">      def TimesN(x, n):</span>
+<span class="sd">          return x * n</span>
+
+<span class="sd">      [1, 2, 3] &gt;&gt; TimesN(2) &gt;&gt; Collect()  --&gt;  [2, 4, 6]</span>
+
+<span class="sd">    :param function func: Function to decorate</span>
+<span class="sd">    :return: Nut function for given function</span>
+<span class="sd">    :rtype: NutFunction</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="fm">__call__</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Wrapper</span>
+
+
+<span class="k">def</span> <span class="nf">nut_source</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for Nut sources.</span>
+
+<span class="sd">    Example on how to define a custom source nut. Note that a source</span>
+<span class="sd">    must return an iterable/generator and does not read any input.</span>
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_source</span>
+<span class="sd">      def MyRange(start, end):</span>
+<span class="sd">          return range(start, end)</span>
+
+<span class="sd">      MyRange(0, 5) &gt;&gt; Collect()  --&gt; [0, 1, 2, 3, 4]</span>
+
+
+<span class="sd">    .. code::</span>
+
+<span class="sd">      @nut_source</span>
+<span class="sd">      def MyRange2(start, end):</span>
+<span class="sd">          for i in range(start, end):</span>
+<span class="sd">              yield i * 2</span>
+
+<span class="sd">      MyRange2(0, 5) &gt;&gt; Collect()  --&gt; [0, 2, 4, 6, 8]</span>
+
+<span class="sd">    :param function func: Function to decorate</span>
+<span class="sd">    :return: Nut source for given function</span>
+<span class="sd">    :rtype: NutSource</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">NutSource</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span>
+    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
     <span class="k">return</span> <span class="n">Wrapper</span>
 
 
@@ -319,77 +390,6 @@
     <span class="k">return</span> <span class="n">_create_nut_wrapper</span><span class="p">(</span><span class="n">NutSink</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">iterpos</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">nut_function</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Decorator for Nut functions.</span>
-
-<span class="sd">    Example on how to define a custom function nut:</span>
-
-<span class="sd">    .. code::</span>
-
-<span class="sd">      @nut_function</span>
-<span class="sd">      def TimesN(x, n):</span>
-<span class="sd">          return x * n</span>
-
-<span class="sd">      [1, 2, 3] &gt;&gt; TimesN(2) &gt;&gt; Collect()  --&gt;  [2, 4, 6]</span>
-
-<span class="sd">    :param function func: Function to decorate</span>
-<span class="sd">    :return: Nut function for given function</span>
-<span class="sd">    :rtype: NutFunction</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
-        <span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
-
-        <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
-    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span>
-    <span class="k">return</span> <span class="n">Wrapper</span>
-
-
-<span class="k">def</span> <span class="nf">nut_source</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Decorator for Nut sources.</span>
-
-<span class="sd">    Example on how to define a custom source nut. Note that a source</span>
-<span class="sd">    must return an iterable/generator and does not read any input.</span>
-
-<span class="sd">    .. code::</span>
-
-<span class="sd">      @nut_source</span>
-<span class="sd">      def MyRange(start, end):</span>
-<span class="sd">          return range(start, end)</span>
-
-<span class="sd">      MyRange(0, 5) &gt;&gt; Collect()  --&gt; [0, 1, 2, 3, 4]</span>
-
-
-<span class="sd">    .. code::</span>
-
-<span class="sd">      @nut_source</span>
-<span class="sd">      def MyRange2(start, end):</span>
-<span class="sd">          for i in range(start, end):</span>
-<span class="sd">              yield i * 2</span>
-
-<span class="sd">      MyRange2(0, 5) &gt;&gt; Collect()  --&gt; [0, 2, 4, 6, 8]</span>
-
-<span class="sd">    :param function func: Function to decorate</span>
-<span class="sd">    :return: Nut source for given function</span>
-<span class="sd">    :rtype: NutSource</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">class</span> <span class="nc">Wrapper</span><span class="p">(</span><span class="n">NutSource</span><span class="p">):</span>
-        <span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
-
-        <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
-
-    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
-    <span class="n">Wrapper</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__module__</span>
-    <span class="k">return</span> <span class="n">Wrapper</span>
-
-
 <span class="k">def</span> <span class="nf">nut_filter</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator for Nut filters.</span>
@@ -454,9 +454,10 @@
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 18, 2020.
+        Last updated on Nov 20, 2020.
       </span>
 
     </p>
@@ -471,7 +472,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

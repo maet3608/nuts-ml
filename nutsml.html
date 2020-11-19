@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -12,12 +11,18 @@
   
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,10 +34,6 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="nutsml.examples package" href="nutsml.examples.html" />
@@ -50,7 +51,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> nutsml
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> nutsml
           
 
           
@@ -77,6 +78,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -121,6 +123,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -159,7 +162,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>nutsml package</li>
     
@@ -415,22 +418,7 @@ For alpha &lt;= 0 no mixup is performed.</p></li>
 <dl class="py method">
 <dt id="nutsml.batcher.Mixup.__call__">
 <code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">element</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.batcher.Mixup.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override this method to transform the elements of an iterable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>element</strong> – Element the function is applied to.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A transformed element</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>any</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -668,25 +656,7 @@ If None, random.Random() is used.</p></li>
 <dl class="py method">
 <dt id="nutsml.booster.Boost.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.booster.Boost.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -931,22 +901,7 @@ samples &gt;&gt; network.train() &gt;&gt; CheckNan() &gt;&gt; log &gt;&gt; Consu
 <dl class="py method">
 <dt id="nutsml.common.CheckNaN.__call__">
 <code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">element</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.common.CheckNaN.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override this method to transform the elements of an iterable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>element</strong> – Element the function is applied to.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A transformed element</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>any</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1046,25 +1001,7 @@ sufficient to provide the values for the partitions wanted.</p>
 <dl class="py method">
 <dt id="nutsml.common.PartitionByCol.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.common.PartitionByCol.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1115,25 +1052,7 @@ is based on. If None, the sample itself serves as key.</p></li>
 <dl class="py method">
 <dt id="nutsml.common.SplitLeaveOneOut.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.common.SplitLeaveOneOut.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -1200,25 +1119,7 @@ generates different number for Python 2.x and 3.x!</p></li>
 <dl class="py method">
 <dt id="nutsml.common.SplitRandom.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.common.SplitRandom.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -2581,7 +2482,7 @@ Can be provided as fraction (float) of image height</p></li>
 
 <dl class="py function">
 <dt id="nutsml.imageutil.patch_iter">
-<code class="sig-name descname">patch_iter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">shape</span><span class="o">=</span><span class="default_value">3, 3</span></em>, <em class="sig-param"><span class="n">stride</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#patch_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.patch_iter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">patch_iter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">shape</span><span class="o">=</span><span class="default_value">(3, 3)</span></em>, <em class="sig-param"><span class="n">stride</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/imageutil.html#patch_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.imageutil.patch_iter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts patches from images with given shape.</p>
 <p>Patches are extracted in a regular grid with the given stride,
 starting in the left upper corner and then row-wise.
@@ -3201,25 +3102,7 @@ expected.</p></li>
 <dl class="py method">
 <dt id="nutsml.network.EvalNut.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.network.EvalNut.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -3658,25 +3541,7 @@ predictions return individual predictions</p></li>
 <dl class="py method">
 <dt id="nutsml.network.PredictNut.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.network.PredictNut.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -3845,25 +3710,7 @@ self.weightspath is used if weightspath is None.</p>
 <dl class="py method">
 <dt id="nutsml.network.TrainValNut.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.network.TrainValNut.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -3979,22 +3826,7 @@ plot will not appear on the screen.</p></li>
 <dl class="py method">
 <dt id="nutsml.reader.DplyToList.__call__">
 <code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">element</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.reader.DplyToList.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override this method to transform the elements of an iterable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>element</strong> – Element the function is applied to.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A transformed element</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>any</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4024,15 +3856,15 @@ sample) still tuples with the loaded image are returned.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">img_samples</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*.jpg&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*.gif&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;nut_color&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;nut_grayscale&#39;</span><span class="p">)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">imagepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 <span class="go">item 0: &lt;tuple&gt;</span>
 <span class="go">  0: &lt;int&gt; 1</span>
-<span class="go">  1: &lt;ndarray&gt; shape:213x320x3 dtype:uint8 range:0..248</span>
+<span class="go">  1: &lt;ndarray&gt; shape:213x320x3 dtype:uint8 range:0..255</span>
 <span class="go">item 1: &lt;tuple&gt;</span>
 <span class="go">  0: &lt;int&gt; 2</span>
-<span class="go">  1: &lt;ndarray&gt; shape:213x320 dtype:uint8 range:18..235</span>
+<span class="go">  1: &lt;ndarray&gt; shape:213x320 dtype:uint8 range:20..235</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pathfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">sample</span><span class="p">:</span> <span class="s1">&#39;tests/data/img_formats/</span><span class="si">{1}</span><span class="s1">.jpg&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">sample</span><span class="p">)</span>
@@ -4071,22 +3903,7 @@ of shape (h, w, c) or (h, w)</p>
 <dl class="py method">
 <dt id="nutsml.reader.ReadImage.__call__">
 <code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">element</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.reader.ReadImage.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override this method to transform the elements of an iterable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>element</strong> – Element the function is applied to.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A transformed element</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>any</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4191,22 +4008,7 @@ None, in this case the file id/name is taken as the filepath.</p></li>
 <dl class="py method">
 <dt id="nutsml.reader.ReadNumpy.__call__">
 <code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">element</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.reader.ReadNumpy.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override this method to transform the elements of an iterable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>element</strong> – Element the function is applied to.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A transformed element</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>any</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4357,25 +4159,7 @@ If None, random.Random() is used.</p></li>
 <dl class="py method">
 <dt id="nutsml.stratify.CollectStratified.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.stratify.CollectStratified.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4429,25 +4213,7 @@ If None, random.Random() is used.</p></li>
 <dl class="py method">
 <dt id="nutsml.stratify.Stratify.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.stratify.Stratify.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4607,25 +4373,7 @@ See imageutil.annotation2coords for details.
 <dl class="py method">
 <dt id="nutsml.transformer.ImageAnnotationToMask.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.transformer.ImageAnnotationToMask.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4817,25 +4565,7 @@ and masks are replaced by labels [0,1] or mask patches</p>
 <dl class="py method">
 <dt id="nutsml.transformer.ImagePatchesByAnnotation.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.transformer.ImagePatchesByAnnotation.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4904,25 +4634,7 @@ and masks are replaced by labels [0,1] or mask patches</p>
 <dl class="py method">
 <dt id="nutsml.transformer.ImagePatchesByMask.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.transformer.ImagePatchesByMask.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -4965,25 +4677,7 @@ Images must be numpy arrays of shape h,w,c or h,w</p></li>
 <dl class="py method">
 <dt id="nutsml.transformer.RandomImagePatches.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.transformer.RandomImagePatches.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -5026,25 +4720,7 @@ Images must be numpy arrays of shape h,w,c or h,w</p></li>
 <dl class="py method">
 <dt id="nutsml.transformer.RegularImagePatches.__rrshift__">
 <code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#nutsml.transformer.RegularImagePatches.__rrshift__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chaining operator for Nuts. Needs to be overridden!</p>
-<p>Takes an input iterable and produces some output iterable.
-If the number of elements in the input and the output iterable
-does not change consider NutFunction instead.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>iterable</strong> (<em>iterable</em>) – Iterable to process.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Iterable</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>iterable</p>
-</dd>
-<dt class="field-even">Raise</dt>
-<dd class="field-even"><p>NotImplementedError if not implemented.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -5334,7 +5010,7 @@ None means all columns. Can be a single index or a tuple of indices.</p>
 
 <dl class="py class">
 <dt id="nutsml.viewer.ViewImage">
-<em class="property">class </em><code class="sig-name descname">ViewImage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">imgcols</span></em>, <em class="sig-param"><span class="n">layout</span><span class="o">=</span><span class="default_value">1, None</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pause</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">axis_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">labels_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">every_sec</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">every_n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">imargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">ViewImage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">imgcols</span></em>, <em class="sig-param"><span class="n">layout</span><span class="o">=</span><span class="default_value">(1, None)</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pause</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">axis_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">labels_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">every_sec</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">every_n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">imargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.NutFunction</span></code></p>
 <p>Display images in window.</p>
 <dl class="py method">
@@ -5356,7 +5032,7 @@ None means all columns. Can be a single index or a tuple of indices.</p>
 
 <dl class="py method">
 <dt id="nutsml.viewer.ViewImage.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">imgcols</span></em>, <em class="sig-param"><span class="n">layout</span><span class="o">=</span><span class="default_value">1, None</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pause</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">axis_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">labels_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">every_sec</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">every_n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">imargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImage.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">imgcols</span></em>, <em class="sig-param"><span class="n">layout</span><span class="o">=</span><span class="default_value">(1, None)</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pause</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">axis_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">labels_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">every_sec</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">every_n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">imargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImage.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImage.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>iterable &gt;&gt; ViewImage(imgcols, layout=(1, None), figsize=None,
 <a href="#id17"><span class="problematic" id="id18">**</span></a>plotargs)</p>
 <div class="line-block">
@@ -5579,9 +5255,10 @@ if None, Enumerate() is used.</p></li>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 18, 2020.
+        Last updated on Nov 20, 2020.
       </span>
 
     </p>
@@ -5596,7 +5273,6 @@ if None, Enumerate() is used.</p></li>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
