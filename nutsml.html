@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml package &mdash; nutsml 1.1.0 documentation</title>
+  <title>nutsml package &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -253,8 +253,7 @@ where inputs and outputs are Numpy arrays.</p>
 <p>The following example uses PrintType() to print the shape of
 the batches constructed. This is useful for development and debugging
 but should be removed in production.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Collect</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="kn">import</span> <span class="n">PrintType</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">PrintType</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">4.1</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">]</span>
@@ -425,7 +424,7 @@ it will be added/moved to front otherwise the channel comes last.
 All images in batch will have a channel axis. Batch is of shape
 (n, c, h, w) or (n, h, w, c) depending on channelfirst, where n is
 the number of images in the batch.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml.datautil</span> <span class="kn">import</span> <span class="n">shapestr</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">shapestr</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">build_image_batch</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">shapestr</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
@@ -518,7 +517,7 @@ alpha channel is fine (w,h,4).</p></li>
 <dt id="nutsml.batcher.build_tensor_batch">
 <code class="sig-name descname">build_tensor_batch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tensors</span></em>, <em class="sig-param"><span class="n">dtype</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">expand</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#build_tensor_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.build_tensor_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return batch of tensors.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml.datautil</span> <span class="kn">import</span> <span class="n">shapestr</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">shapestr</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">build_tensor_batch</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">shapestr</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
@@ -585,7 +584,7 @@ last position. (see numpy transpose for details)</p></li>
 <dt id="nutsml.batcher.build_vector_batch">
 <code class="sig-name descname">build_vector_batch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vectors</span></em>, <em class="sig-param"><span class="n">dtype</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/batcher.html#build_vector_batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.batcher.build_vector_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return batch of vectors.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml.datautil</span> <span class="kn">import</span> <span class="n">shapestr</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">shapestr</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">batch</span> <span class="o">=</span> <span class="n">build_vector_batch</span><span class="p">(</span><span class="n">vectors</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">shapestr</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
@@ -1317,60 +1316,6 @@ containing label frequencies.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="nutsml.datautil.isnan">
-<code class="sig-name descname">isnan</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#isnan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.isnan" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if something is NaN.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">isnan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">)</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">isnan</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="go">False</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – Any object</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if x is NaN</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="nutsml.datautil.istensor">
-<code class="sig-name descname">istensor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">attrs</span><span class="o">=</span><span class="default_value">['shape', 'dtype', 'min', 'max']</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#istensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.istensor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return true if x has shape, dtype, min and max.</p>
-<p>Will be true for Numpy and PyTorch tensors.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">istensor</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
-<span class="go">True</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">istensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-<span class="go">False</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – Any object</p></li>
-<li><p><strong>attrs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>]</em>) – Object attributes that ‘define’ a tensor.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True if x is some tensor object.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="nutsml.datautil.random_downsample">
 <code class="sig-name descname">random_downsample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">samples</span></em>, <em class="sig-param"><span class="n">labelcol</span></em>, <em class="sig-param"><span class="n">rand</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ordered</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#random_downsample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.random_downsample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomly down-sample samples.</p>
@@ -1415,37 +1360,6 @@ random.Random(None) is used.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="nutsml.datautil.shapestr">
-<code class="sig-name descname">shapestr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array</span></em>, <em class="sig-param"><span class="n">with_dtype</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#shapestr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.shapestr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return string representation of array shape.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">shapestr</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="go">&#39;3x4&#39;</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">shapestr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-<span class="go">&#39;3x4:uint8&#39;</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>array</strong> (<em>ndarray</em>) – Numpy array</p></li>
-<li><p><strong>with_dtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Append dtype of array to shape string</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Shape as string, e.g shape (3,4) becomes 3x4</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="nutsml.datautil.shuffle_sublists">
 <code class="sig-name descname">shuffle_sublists</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sublists</span></em>, <em class="sig-param"><span class="n">rand</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#shuffle_sublists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.shuffle_sublists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shuffles the lists within a list but not the list itself.</p>
@@ -1465,56 +1379,6 @@ random.Random(None) is used.</p></li>
 <li><p><strong>sublists</strong> – A list containing lists</p></li>
 <li><p><strong>rand</strong> (<em>Random</em>) – A random number generator.</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="nutsml.datautil.stype">
-<code class="sig-name descname">stype</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/datautil.html#stype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.datautil.stype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return string representation of structured objects.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stype</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="go">&#39;&lt;ndarray&gt; 3x4:uint8&#39;</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stype</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="go">&#39;&lt;ndarray&gt; 1x2:float32&#39;</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stype</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">)])</span>
-<span class="go">&#39;[&lt;ndarray&gt; 3x4:uint8, (&lt;ndarray&gt; 1x2:float32, &lt;ndarray&gt; 1x2:float32)]&#39;</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stype</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="p">[</span><span class="n">a</span><span class="p">],</span> <span class="p">[</span><span class="n">b</span><span class="p">]])</span>
-<span class="go">&#39;[&lt;int&gt; 1, &lt;float&gt; 2.0, [&lt;ndarray&gt; 3x4:uint8], [&lt;ndarray&gt; 1x2:float32]]&#39;</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stype</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="n">a</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="n">b</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">})</span>
-<span class="go">&#39;{a:&lt;ndarray&gt; 3x4:uint8, b:&lt;ndarray&gt; 1x2:float32, c:&lt;bool&gt; True}&#39;</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Sample</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Sample&#39;</span><span class="p">,</span> <span class="s1">&#39;x,y&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stype</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
-<span class="go">&#39;Sample(x=&lt;ndarray&gt; 3x4:uint8, y=&lt;int&gt; 1)&#39;</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – Any object</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>String representation of object where arrays are replace by their
-shape and dtype descriptions</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -3750,27 +3614,6 @@ plot will not appear on the screen.</p></li>
 <div class="section" id="module-nutsml.reader">
 <span id="nutsml-reader-module"></span><h2>nutsml.reader module<a class="headerlink" href="#module-nutsml.reader" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-reader"></span><dl class="py function">
-<dt id="nutsml.reader.DplyToList">
-<code class="sig-name descname">DplyToList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dplyframe</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#DplyToList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.DplyToList" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert DplyDataframe to list.</p>
-<p>See: <a class="reference external" href="https://github.com/dodger487/dplython">https://github.com/dodger487/dplython</a></p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span><span class="o">.</span><span class="n">dplyr</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">DplyToList</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>  
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>dplyframe</strong> (<em>DplyDataframe</em>) – Dataframe.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of dataframe rows</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list of tuples</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="nutsml.reader.ReadImage">
 <code class="sig-name descname">ReadImage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample</span></em>, <em class="sig-param"><span class="n">columns</span></em>, <em class="sig-param"><span class="n">pathfunc</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">as_grey</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">'uint8'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#ReadImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.ReadImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load images from filesystem for samples.</p>
@@ -3806,7 +3649,7 @@ sample) still tuples with the loaded image are returned.</p>
 <span class="go">  1: &lt;ndarray&gt; shape:213x320 dtype:uint8 range:20..235</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pathfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">sample</span><span class="p">:</span> <span class="s1">&#39;tests/data/img_formats/</span><span class="si">{1}</span><span class="s1">.jpg&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">sample</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pathfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s1">&#39;tests/data/img_formats/</span><span class="si">{1}</span><span class="s1">.jpg&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">img_samples</span> <span class="o">=</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pathfunc</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -3887,8 +3730,7 @@ Default is ‘_*’ which excludes all label folders prefixed with ‘_’.</p><
 <dd><p>Load numpy arrays from filesystem.</p>
 <p>Note that the loaded numpy array replace the file name|path in the
 sample.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Consume</span><span class="p">,</span> <span class="n">Collect</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsml</span> <span class="kn">import</span> <span class="n">PrintType</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Consume</span><span class="p">,</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">PrintType</span>
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tests/data/img_arrays/nut_color.jpg.npy&#39;</span><span class="p">]</span>
@@ -3941,41 +3783,55 @@ None, in this case the file id/name is taken as the filepath.</p></li>
 
 <dl class="py class">
 <dt id="nutsml.reader.ReadPandas">
-<em class="property">class </em><code class="sig-name descname">ReadPandas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath</span></em>, <em class="sig-param"><span class="n">rows</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">columns</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dropnan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">replacenan</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#ReadPandas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.ReadPandas" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-name descname">ReadPandas</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath</span></em>, <em class="sig-param"><span class="n">rows</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">colnames</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dropnan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">replacenan</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rowname</span><span class="o">=</span><span class="default_value">'Row'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#ReadPandas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.ReadPandas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.NutSource</span></code></p>
 <p>Read data as Pandas table from file system.</p>
 <dl class="py method">
 <dt id="nutsml.reader.ReadPandas.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath</span></em>, <em class="sig-param"><span class="n">rows</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">columns</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dropnan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">replacenan</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#ReadPandas.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.ReadPandas.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath</span></em>, <em class="sig-param"><span class="n">rows</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">colnames</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dropnan</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">replacenan</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rowname</span><span class="o">=</span><span class="default_value">'Row'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#ReadPandas.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.ReadPandas.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create reader for Pandas tables.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Collect</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/pandas_table.csv&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
-<span class="go">[(1.0, 4.0), (3.0, 6.0)]</span>
+<p>The reader returns the table contents as an interator over named tuples,
+where the column names are derived from the table columns. The order
+and selection of columns can be changed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Collect</span><span class="p">,</span> <span class="n">Consume</span><span class="p">,</span> <span class="n">Print</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/pandas_table.csv&#39;</span>
 </pre></div>
 </div>
-<p>Note that samples.dataframe contains the original Pandas dataframe and
-any Pandas operations can be performed on it.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/pandas_table.csv&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-<span class="go">   col1  col2</span>
-<span class="go">0     1   4.0</span>
-<span class="go">1     2   NaN</span>
-<span class="go">2     3   6.0</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">Row(col1=1.0, col2=4.0)</span>
+<span class="go">Row(col1=3.0, col2=6.0)</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="n">ReadPandas</span><span class="p">(</span><span class="s1">&#39;tests/data/pandas_table.csv&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="go">[&#39;col1&#39;, &#39;col2&#39;]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">ReadPandas</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">dropnan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rowname</span><span class="o">=</span><span class="s1">&#39;Sample&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+<span class="gp">... </span><span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
+<span class="go">Sample(col1=1.0, col2=4.0)</span>
+<span class="go">Sample(col1=2.0, col2=nan)</span>
+<span class="go">Sample(col1=3.0, col2=6.0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">replacenan</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">Row(col1=1.0, col2=4.0)</span>
+<span class="go">Row(col1=2.0, col2=None)</span>
+<span class="go">Row(col1=3.0, col2=6.0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">,</span> <span class="s1">&#39;col1&#39;</span><span class="p">]</span>   <span class="c1"># swap order</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">colnames</span><span class="o">=</span><span class="n">colnames</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">Row(col2=4.0, col1=1.0)</span>
+<span class="go">Row(col2=6.0, col1=3.0)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ReadPandas</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="s1">&#39;col1 &gt; 1&#39;</span><span class="p">,</span> <span class="n">replacenan</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<span class="go">[Row(col1=2.0, col2=0), Row(col1=3.0, col2=6.0)]</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Path to a table in CSV, TSV, XLSX or
-Pandas pickle format. Depending of file extension (e.g. .csv)
+Pandas pickle format. Depending on file extension (e.g. .csv)
 the table format is picked.
-Note tables must have a header with the column names or
-use kwarg header=None</p></li>
+Note tables must have a header with the column names.</p></li>
 <li><p><strong>rows</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Rows to filter. Any Pandas filter expression. If
 rows = None all rows of the table are returned.</p></li>
 <li><p><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – List of names for the table columns to return.
@@ -3983,30 +3839,11 @@ For columns = None all columns are returned.</p></li>
 <li><p><strong>dropnan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If True all rows that contain NaN are dropped.</p></li>
 <li><p><strong>replacenan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – If not False all NaNs are replaced by
 the value of replacenan</p></li>
+<li><p><strong>rowname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of named tuple return as rows.</p></li>
 <li><p><strong>kwargs</strong> (<em>kwargs</em>) – Key word arguments passed on the the Pandas
 methods for data reading, e.g, header=None.
-See  pandas/pandas/io/parsers.py for detais</p></li>
+See pandas/pandas/io/parsers.py for detais</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="nutsml.reader.ReadPandas.dply">
-<code class="sig-name descname">dply</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/reader.html#ReadPandas.dply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.reader.ReadPandas.dply" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return dplyr frame for the read table.</p>
-<p>dplyr is an R inspired wrapper to process Pandas tables in a
-flow-like manner. See <a class="reference external" href="https://github.com/dodger487/dplython">https://github.com/dodger487/dplython</a> and
-<a class="reference external" href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html">https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html</a>
-for more details about dplyr.</p>
-<p>dplyr and nuts-ml use the same syntax (&gt;&gt;) for chaining functions and
-integrate nicely with each other.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>dplyr dataframe instead of Pandas dataframe.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>DplyFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -4763,137 +4600,6 @@ remain unchained.</p>
 <div class="section" id="module-nutsml.viewer">
 <span id="nutsml-viewer-module"></span><h2>nutsml.viewer module<a class="headerlink" href="#module-nutsml.viewer" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="module-viewer"></span><dl class="py class">
-<dt id="nutsml.viewer.PrintColType">
-<em class="property">class </em><code class="sig-name descname">PrintColType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cols</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintColType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintColType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.NutFunction</span></code></p>
-<dl class="py method">
-<dt id="nutsml.viewer.PrintColType.__call__">
-<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintColType.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintColType.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print data info.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>any</em>) – Any type of iterable</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>data unchanged</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>same as data</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="nutsml.viewer.PrintColType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cols</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintColType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintColType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>iterable &gt;&gt; PrintColType()</p>
-<p>Print type and other information for columns in data.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Consume</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">item 0: &lt;tuple&gt;</span>
-<span class="go">  0: &lt;ndarray&gt; shape:10x20x3 dtype:float64 range:0.0..0.0</span>
-<span class="go">  1: &lt;int&gt; 1</span>
-<span class="go">item 1: &lt;tuple&gt;</span>
-<span class="go">  0: &lt;str&gt; text</span>
-<span class="go">  1: &lt;int&gt; 2</span>
-<span class="go">item 2: &lt;int&gt;</span>
-<span class="go">  0: &lt;int&gt; 3</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">item 0: &lt;tuple&gt;</span>
-<span class="go">  1: &lt;int&gt; 2</span>
-<span class="go">item 1: &lt;tuple&gt;</span>
-<span class="go">  1: &lt;int&gt; 4</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>cols</strong> (<em>int|tuple|None</em>) – Indices of columnbs to show info for.
-None means all columns. Can be a single index or a tuple of indices.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>input data unchanged</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>same as data</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt id="nutsml.viewer.PrintType">
-<em class="property">class </em><code class="sig-name descname">PrintType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.NutFunction</span></code></p>
-<dl class="py method">
-<dt id="nutsml.viewer.PrintType.__call__">
-<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintType.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintType.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print data info.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – Any object.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>data unchanged</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>same as object</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="nutsml.viewer.PrintType.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#PrintType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.PrintType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>iterable &gt;&gt; PrintType()</p>
-<p>Print type and shape information for structured data.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">Consume</span><span class="p">,</span> <span class="n">Take</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="mf">1.1</span><span class="p">,</span> <span class="p">[[</span><span class="n">a</span><span class="p">],</span> <span class="mi">2</span><span class="p">]]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">(&lt;ndarray&gt; 3x4:uint8, &lt;ndarray&gt; 1x2:float32)</span>
-<span class="go">&lt;float&gt; 1.1</span>
-<span class="go">[[&lt;ndarray&gt; 3x4:uint8], &lt;int&gt; 2]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">(</span><span class="s1">&#39;dtype:&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">dtype: (&lt;ndarray&gt; 3x4:uint8, &lt;ndarray&gt; 1x2:float32)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Sample</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Sample&#39;</span><span class="p">,</span> <span class="s1">&#39;x,y&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">Sample</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">Sample</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
-<span class="go">Sample(x=&lt;ndarray&gt; 3x4:uint8, y=&lt;int&gt; 1)</span>
-<span class="go">Sample(x=&lt;ndarray&gt; 1x2:float32, y=&lt;int&gt; 2)</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Prefix text printed before type</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>input data unchanged</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>same as data</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt id="nutsml.viewer.ViewImage">
 <em class="property">class </em><code class="sig-name descname">ViewImage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">imgcols</span></em>, <em class="sig-param"><span class="n">layout</span><span class="o">=</span><span class="default_value">(1, None)</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pause</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">axis_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">labels_off</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">titles</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">every_sec</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">every_n</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">imargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/nutsml/viewer.html#ViewImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#nutsml.viewer.ViewImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">nutsflow.base.NutFunction</span></code></p>
@@ -5143,7 +4849,7 @@ if None, Enumerate() is used.</p></li>
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

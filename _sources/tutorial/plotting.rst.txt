@@ -3,23 +3,25 @@ Plotting data
 
 Often we want to plot loss or accuracy of a network training over time
 to get an impression of convergence speed. **nuts-ml** provides a simple
-plotting nut to facilitate this need. The following example demonstrates
-the basic usage by plotting a quadratic function
+plotting nut to facilitate this need. The following code example 
+demonstrates the basic usage by plotting a squared numbers
 
 .. doctest::
 
    >>> samples = (x**2 for x in range(100))
    >>> samples >> PlotLines(None) >> Consume()
    
+and here the output plot:   
    
  .. image:: pics/plot_squares.png
 
+
 Note that the plot updates live with each sample read from ``samples`` and closes 
 immediately once the plotting is finished. Since the samples are just numbers 
-we specify ``None`` as column index in ``PlotLines``.
+(and not tuples) we specify ``None`` as column index in ``PlotLines``.
 
 ``PlotLines`` allows to plot multiple sample columns. In this next example we
-plot ```2*x`` and ``x**2`` and specify the corresponding sample columns
+plot ``2*x`` and ``x**2`` and specify the corresponding sample columns
 ``(0,1)`` in ``PlotLines``:
 
 .. doctest::
@@ -33,7 +35,7 @@ to 2 rows and 1 column. ``titles`` allows to set titles for the individual plots
 
  .. image:: pics/plot_samples.png
 
-Let us conclude this section with a more complex example. The following
+Let us conclude this section with a more realistic example. The following
 code sketch plots the loss and accuracy of a network training per batch
 and per epoch. The generated figures are written to image files in PNG
 format instead of being displayed:

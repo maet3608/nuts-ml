@@ -157,7 +157,7 @@ axis right after the batch axis and before the image row and colum axes:
   >>> build_batch = (BuildBatch(2, verbose=True)
   ...                .input(0, 'image', 'float32', channelfirst=True)
   ...                .output(1, 'one_hot', 'uint8', N_CLASSES))  
-  >>> samples >> read_image >> to_rgb >> convert_label >> build_batch >> Consume()      
+  >>> samples >> read_image >> to_rgb >> convert_label >> build_batch >> PrintType() >> Consume()      
   [[<ndarray> 2x3x213x320:float32], [<ndarray> 2x2:uint8]]
   [[<ndarray> 1x3x213x320:float32], [<ndarray> 1x2:uint8]] 
   

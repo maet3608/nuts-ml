@@ -16,8 +16,8 @@ of 70%:
 
   >>> train, test = range(10) >> SplitRandom(ratio=0.7)
   >>> print('\n', train, '\n', test)
-   [6, 3, 1, 7, 0, 2, 4] 
-   [5, 9, 8]
+  [6, 3, 1, 7, 0, 2, 4] 
+  [5, 9, 8]
 
 Note that ``SplitRandom()`` is a sink and no ``Collect()`` or ``Consume()``
 is required at the end of the pipeline. ``SplitRandom()`` returns a tuple 
@@ -37,10 +37,10 @@ random number generator to create seed-dependent splits, e.g.
    
 .. doctest:: 
   
-   >>> from nutsflow.common import StableRandom
-   >>> rand = StableRandom(seed=0)
-   >>> range(10) >> SplitRandom(ratio=0.7, rand=rand)
-   [[6, 3, 1, 7, 0, 2, 4], [5, 9, 8]]
+  >>> from nutsflow.common import StableRandom
+  >>> rand = StableRandom(seed=0)
+  >>> range(10) >> SplitRandom(ratio=0.7, rand=rand)
+  [[6, 3, 1, 7, 0, 2, 4], [5, 9, 8]]
 
    
 .. note::
@@ -92,6 +92,18 @@ about the same size.
    occur before large data object (e.g. images) belonging to samples are
    loaded.
   
+If your data set is very small, you likely will need a leave-one-out split, 
+which can be performed via ``SplitLeaveOneOut()``:
+
+.. doctest::
+
+  >>> samples = [1, 2, 3]
+  >>> for train, test in samples >> SplitLeaveOneOut():
+  ...     print(train, ' : ', test)
+  [2, 3]  :  [1]
+  [1, 3]  :  [2]
+  [1, 2]  :  [3]
+  
   
 
 Stratifying data
@@ -117,7 +129,7 @@ class labels:
   >>> print(labeldist)
   {'good': 10, 'bad': 100}
   
-Obviously, this is a very unbalanced data set. After stratification the samples
+Obviously, this is a strongly unbalanced data set. After stratification the samples
 frequencies are much more balanced: 
 
 .. doctest::

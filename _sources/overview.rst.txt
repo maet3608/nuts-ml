@@ -3,11 +3,22 @@ Overview
 
 Click on a nut name for more details.
 
+**nuts-ml** is based on `nuts-flow <https://github.com/maet3608/nuts-flow>`_,
+which provides additional nuts, see 
+`nuts-flow overview <https://maet3608.github.io/nuts-flow/overview.html>`_.
+
+All ``nutsflow`` functions can be imported from ``nutsml`` as well,
+e.g. ``from nutsflow import Collect`` or ``from nutsml import Collect``
+both work.
+
 
 **Network wrapping**
 
 - :class:`KerasNetwork <nutsml.network.KerasNetwork>` :
   wrapper for Keras networks.
+  
+- :class:`PytorchNetwork <nutsml.network.PytorchNetwork>` :
+  wrapper for Pytorch networks.  
 
 - :class:`LasagneNetwork <nutsml.network.LasagneNetwork>` :
   wrapper for Lasagne networks.
@@ -15,21 +26,18 @@ Click on a nut name for more details.
 
 **Data reading**
 
-- :class:`DplyToList <nutsml.reader.DplyToList>` :
-  convert DplyDataframe to list.
+- :class:`ReadLabelDirs <nutsml.reader.ReadLabelDirs>` :
+  read file paths from label directories.
+
+- :class:`ReadPandas <nutsml.reader.ReadPandas>` :
+  read data via Pandas from file system.
 
 - :class:`ReadNumpy <nutsml.reader.ReadNumpy>` :
   load numpy array from file system.
   
 - :class:`ReadImage <nutsml.reader.ReadImage>` :
   load image as numpy array from file system.
-
-- :class:`ReadLabelDirs <nutsml.reader.ReadLabelDirs>` :
-  read file paths from label directories.
-
-- :class:`ReadPandas <nutsml.reader.ReadPandas>` :
-  read data as Pandas table from file system.
-
+  
 
 **Data writing**
 
@@ -39,17 +47,26 @@ Click on a nut name for more details.
 
 **Data viewing**
 
-- :class:`PrintColType <nutsml.viewer.PrintColType>` :
-  print type and other information for sample columns.
-  
-- :class:`PrintType <nutsml.viewer.PrintType>` :
-  print type and other information for structured data.  
-
 - :class:`ViewImage <nutsml.viewer.ViewImage>` :
   display image in window.
 
 - :class:`ViewImageAnnotation <nutsml.viewer.ViewImageAnnotation>` :
   display image and annotation in window.
+
+
+**Data printing** (from nuts-flow)
+
+- :class:`Print <nutsflow.function.Print>` :
+  print data to console. 
+  
+- :class:`PrintType <nutsflow.function.PrintType>` :
+  print data type
+
+- :class:`PrintColType <nutsflow.function.PrintColType>` :
+  print column data, eg. tuples    
+ 
+- :class:`PrintProgress <nutsflow.processor.PrintProgress>` :
+  print progress on iterable.
 
 
 **Sample processing**

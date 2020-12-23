@@ -7,9 +7,12 @@ Welcome to nuts-ml
    :align: center
 
 **nuts-ml** is a data pre-processing library for GPU-based deep learning
-that provides common pre-processing functions as independent, reusable units. 
-These so called 'nuts' can be freely arranged to build data flows that 
-are efficient, easy to read and modify.
+that provides common pre-processing functions as independent, reusable units.
+Similar to the data loading and transformation pipelines in PyTorch or
+Tensorflow but framework-agnostic and more flexible.
+
+These units are called *nuts* and can be freely arranged to build data flows 
+that are efficient, easy to read and modify.
 The following example gives a taste of a **nuts-ml** data-flow that
 trains a network on image data and prints training loss and accuracy
 
@@ -19,7 +22,7 @@ trains a network on image data and prints training loss and accuracy
       Shuffle(100) >> build_batch >> network.train() >>  
       Print('train loss:{} acc:{}') >> Consume())
 
-It is very easy to extend **nuts-ml** with your own
+It is easy to extend **nuts-ml** with your own
 `custom nuts <https://maet3608.github.io/nuts-flow/tutorial/custom_nuts.html>`_ .
 For instance, a nut that filters out (almost) black images could be implemented
 as

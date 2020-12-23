@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.imageutil &mdash; nutsml 1.1.0 documentation</title>
+  <title>nutsml.imageutil &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -173,7 +173,7 @@
 <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">plp</span>
 
 <span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="nb">range</span><span class="p">,</span> <span class="nb">map</span>
-<span class="kn">from</span> <span class="nn">.datautil</span> <span class="kn">import</span> <span class="n">shapestr</span><span class="p">,</span> <span class="n">isnan</span>
+<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">shapestr</span><span class="p">,</span> <span class="n">isnan</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageEnhance</span> <span class="k">as</span> <span class="n">ie</span>
 <span class="kn">from</span> <span class="nn">skimage.color</span> <span class="kn">import</span> <span class="n">rgb2gray</span>
 <span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">feature</span>
@@ -1170,14 +1170,14 @@
                 <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;circle&#39;</span><span class="p">:</span>
             <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+            <span class="c1">#rr, cc = skd.disc((geo[1], geo[0]), geo[2], shape=shape)</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;ellipse&#39;</span><span class="p">:</span>
             <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
                                  <span class="n">rotation</span><span class="o">=</span><span class="n">geo</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;rect&#39;</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">geo</span>
-            <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span>
-            <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span>
-            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">polygon</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">skd</span><span class="o">.</span><span class="n">rectangle</span><span class="p">((</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">w</span><span class="p">),</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">rr</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">),</span> <span class="n">cc</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;polyline&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">geo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">geo</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># closed polyline =&gt; draw fill polygon</span>
                 <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">geo</span><span class="p">)</span>
@@ -1267,7 +1267,7 @@
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

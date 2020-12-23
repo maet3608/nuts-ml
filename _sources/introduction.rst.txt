@@ -27,7 +27,7 @@ pipeline
   t_loss = (train_samples >> PrintProgress(train_samples) >>
                              augment >> rerange >> Shuffle(100) >>
                              build_batch >> network.train() >> Mean())
-  print "training loss  :", t_loss
+  print("training loss  :", t_loss)
 
 
 
@@ -82,14 +82,14 @@ For instance, a nested itertool expression such as the following
 
 .. code:: Python
 
-  >>> list(islice(ifilter(lambda x: x > 5, xrange(10)), 3))  # doctest: +SKIP
+  >>> list(islice(ifilter(lambda x: x > 5, range(10)), 3))  
   [6, 7, 8]
 
 can be flattened and more clearly written with **nuts-flow** as
 
 .. code:: Python
 
-  >>> Range(10) >> Filter(_ > 5) >> Take(3) >> Collect()  # doctest: +SKIP
+  >>> Range(10) >> Filter(_ > 5) >> Take(3) >> Collect()  
   [6, 7, 8]
 
 **nuts-ml** extends **nuts-flow** with nuts specifically designed for machine learning 
@@ -120,9 +120,14 @@ Example
   train_samples, test_samples = load_samples()
 
   for epoch in range(NUM_EPOCHS):
-      t_loss, t_acc = (train_samples >> PrintProgress(train_samples) >>
-                       augment >> rerange >> Shuffle(100) >>
-                       build_batch >> network.train() >> Unzip())
+      t_loss, t_acc = (train_samples >> 
+                       PrintProgress(train_samples) >>
+                       augment >> 
+                       rerange >> 
+                       Shuffle(100) >>
+                       build_batch >> 
+                       network.train() >> 
+                       Unzip())
       print("train loss :", t_loss >> Mean())
       print("train acc  :", 100 * (t_acc >> Mean()))
 

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Plotting data &mdash; nutsml 1.1.0 documentation</title>
+  <title>Plotting data &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -179,20 +179,21 @@
 <h1>Plotting data<a class="headerlink" href="#plotting-data" title="Permalink to this headline">¶</a></h1>
 <p>Often we want to plot loss or accuracy of a network training over time
 to get an impression of convergence speed. <strong>nuts-ml</strong> provides a simple
-plotting nut to facilitate this need. The following example demonstrates
-the basic usage by plotting a quadratic function</p>
-<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="go">  &gt;&gt;&gt; samples = (x**2 for x in range(100))</span>
-<span class="go">  &gt;&gt;&gt; samples &gt;&gt; PlotLines(None) &gt;&gt; Consume()</span>
-
-
-<span class="go">.. image:: pics/plot_squares.png</span>
+plotting nut to facilitate this need. The following code example
+demonstrates the basic usage by plotting a squared numbers</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">PlotLines</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>and here the output plot:</p>
+<blockquote>
+<div><img alt="../_images/plot_squares.png" src="../_images/plot_squares.png" />
+</div></blockquote>
 <p>Note that the plot updates live with each sample read from <code class="docutils literal notranslate"><span class="pre">samples</span></code> and closes
 immediately once the plotting is finished. Since the samples are just numbers
-we specify <code class="docutils literal notranslate"><span class="pre">None</span></code> as column index in <code class="docutils literal notranslate"><span class="pre">PlotLines</span></code>.</p>
+(and not tuples) we specify <code class="docutils literal notranslate"><span class="pre">None</span></code> as column index in <code class="docutils literal notranslate"><span class="pre">PlotLines</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">PlotLines</span></code> allows to plot multiple sample columns. In this next example we
-plot <code class="docutils literal notranslate"><span class="pre">`2*x</span></code> and <code class="docutils literal notranslate"><span class="pre">x**2</span></code> and specify the corresponding sample columns
+plot <code class="docutils literal notranslate"><span class="pre">2*x</span></code> and <code class="docutils literal notranslate"><span class="pre">x**2</span></code> and specify the corresponding sample columns
 <code class="docutils literal notranslate"><span class="pre">(0,1)</span></code> in <code class="docutils literal notranslate"><span class="pre">PlotLines</span></code>:</p>
 <div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">PlotLines</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">titles</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;2x&#39;</span><span class="p">,</span><span class="s1">&#39;x**2&#39;</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
@@ -204,7 +205,7 @@ to 2 rows and 1 column. <code class="docutils literal notranslate"><span class="
 <blockquote>
 <div><img alt="../_images/plot_samples.png" src="../_images/plot_samples.png" />
 </div></blockquote>
-<p>Let us conclude this section with a more complex example. The following
+<p>Let us conclude this section with a more realistic example. The following
 code sketch plots the loss and accuracy of a network training per batch
 and per epoch. The generated figures are written to image files in PNG
 format instead of being displayed:</p>
@@ -254,7 +255,7 @@ details and the description of other parameters.</p>
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

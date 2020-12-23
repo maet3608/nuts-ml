@@ -40,11 +40,11 @@ or a bit more explicitly
 Note that ``batches`` is a generator and not a list of batches -- there is no
 consumer such as ``Consume`` or ``Collect()`` at the end of the pipeline. 
 Also we have to ensure that the shape of the batches matches the ``INPUT_SHAPE`` 
-of the model -- a common problem. Use the ``verbose==True`` flag of ``BuildBatch`` 
-to print the shape of the generated batches.
+of the model -- a common problem. Use ``PrintType()`` to print the shape of the 
+generated batches.
 
 Keras supports another method for training, ``fit_generator``, which expects an
-infinite stream of mini-batches. This can easily be achieve by adding a ``Cycle``
+infinite stream of mini-batches. This can easily be achieved by adding a ``Cycle``
 nut after the loading of the training samples:        
                 
 .. code:: Python
@@ -108,14 +108,14 @@ to compute the ``categorical_accuracy`` over all test samples
            network.evaluate([categorical_accuracy])
   print("evaluation acc  :", e_acc)
 
-This code typically would run out of the epoch loop when the network training is complete.
+This code typically would run after the epoch loop when the network training is complete.
 Note that ``evaluate`` is a sink (no ``Collect`` needed) and returns a single number per metric (no averaging required).
 
 Finally, once we trained the network and are happy with the classification accuracy
 we would like to use the network for inference/prediction. Prediction is different
 from training, validation and evaluation in that we don't know the target/output values
 -- those we want to infer. Consequently, the mini-batches need to be constructed
-without outputs and then can be feed into the ``predict() function, that returns
+without outputs and then can be feed into the ``predict()`` function, that returns
 the softmax vectors:
 
 .. code:: Python

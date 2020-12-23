@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>nutsml.viewer &mdash; nutsml 1.1.0 documentation</title>
+  <title>nutsml.viewer &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -170,116 +170,9 @@
 <span class="kn">import</span> <span class="nn">nutsml.imageutil</span> <span class="k">as</span> <span class="nn">iu</span>
 
 <span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="nb">range</span>
-<span class="kn">from</span> <span class="nn">.datautil</span> <span class="kn">import</span> <span class="n">shapestr</span><span class="p">,</span> <span class="n">istensor</span><span class="p">,</span> <span class="n">stype</span>
 <span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">NutFunction</span><span class="p">,</span> <span class="n">nut_function</span>
-<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">as_tuple</span><span class="p">,</span> <span class="n">as_set</span>
+<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">as_tuple</span><span class="p">,</span> <span class="n">as_set</span><span class="p">,</span> <span class="n">stype</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-
-<div class="viewcode-block" id="PrintColType"><a class="viewcode-back" href="../../nutsml.html#nutsml.viewer.PrintColType">[docs]</a><span class="k">class</span> <span class="nc">PrintColType</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
-<div class="viewcode-block" id="PrintColType.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.viewer.PrintColType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        iterable &gt;&gt; PrintColType()</span>
-
-<span class="sd">        Print type and other information for columns in data.</span>
-
-<span class="sd">        &gt;&gt;&gt; from nutsflow import Consume</span>
-
-<span class="sd">        &gt;&gt;&gt; data = [(np.zeros((10, 20, 3)), 1), (&#39;text&#39;, 2), 3]</span>
-<span class="sd">        &gt;&gt;&gt; data &gt;&gt; PrintColType() &gt;&gt; Consume()</span>
-<span class="sd">        item 0: &lt;tuple&gt;</span>
-<span class="sd">          0: &lt;ndarray&gt; shape:10x20x3 dtype:float64 range:0.0..0.0</span>
-<span class="sd">          1: &lt;int&gt; 1</span>
-<span class="sd">        item 1: &lt;tuple&gt;</span>
-<span class="sd">          0: &lt;str&gt; text</span>
-<span class="sd">          1: &lt;int&gt; 2</span>
-<span class="sd">        item 2: &lt;int&gt;</span>
-<span class="sd">          0: &lt;int&gt; 3</span>
-
-<span class="sd">        &gt;&gt;&gt; [(1, 2), (3, 4)] &gt;&gt; PrintColType(1) &gt;&gt; Consume()</span>
-<span class="sd">        item 0: &lt;tuple&gt;</span>
-<span class="sd">          1: &lt;int&gt; 2</span>
-<span class="sd">        item 1: &lt;tuple&gt;</span>
-<span class="sd">          1: &lt;int&gt; 4</span>
-
-<span class="sd">        :param int|tuple|None cols: Indices of columnbs to show info for.</span>
-<span class="sd">            None means all columns. Can be a single index or a tuple of indices.</span>
-<span class="sd">        :return: input data unchanged</span>
-<span class="sd">        :rtype: same as data</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cnt</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></div>
-
-<div class="viewcode-block" id="PrintColType.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.viewer.PrintColType.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Print data info.</span>
-
-<span class="sd">        :param any data: Any type of iterable </span>
-<span class="sd">        :return: data unchanged</span>
-<span class="sd">        :rtype: same as data</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">cols</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">as_tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;item </span><span class="si">{}</span><span class="s1">: &lt;</span><span class="si">{}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cnt</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">as_tuple</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">cols</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;  </span><span class="si">{}</span><span class="s1">: &lt;</span><span class="si">{}</span><span class="s1">&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">istensor</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;shape:</span><span class="si">{}</span><span class="s1"> dtype:</span><span class="si">{}</span><span class="s1"> range:</span><span class="si">{}</span><span class="s1">..</span><span class="si">{}</span><span class="s1">&#39;</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">shapestr</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">e</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">e</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="n">data</span></div></div>
-
-
-<div class="viewcode-block" id="PrintType"><a class="viewcode-back" href="../../nutsml.html#nutsml.viewer.PrintType">[docs]</a><span class="k">class</span> <span class="nc">PrintType</span><span class="p">(</span><span class="n">NutFunction</span><span class="p">):</span>
-<div class="viewcode-block" id="PrintType.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.viewer.PrintType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        iterable &gt;&gt; PrintType()</span>
-
-<span class="sd">        Print type and shape information for structured data.</span>
-
-<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
-<span class="sd">        &gt;&gt;&gt; from nutsflow import Consume, Take</span>
-
-<span class="sd">        &gt;&gt;&gt; a = np.zeros((3, 4), dtype=&#39;uint8&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; b = np.zeros((1, 2), dtype=&#39;float32&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; data = [(a, b), 1.1, [[a], 2]]</span>
-<span class="sd">        &gt;&gt;&gt; data &gt;&gt; PrintType() &gt;&gt; Consume()</span>
-<span class="sd">        (&lt;ndarray&gt; 3x4:uint8, &lt;ndarray&gt; 1x2:float32)</span>
-<span class="sd">        &lt;float&gt; 1.1</span>
-<span class="sd">        [[&lt;ndarray&gt; 3x4:uint8], &lt;int&gt; 2]</span>
-
-<span class="sd">        &gt;&gt;&gt; data &gt;&gt; Take(1) &gt;&gt; PrintType(&#39;dtype:&#39;) &gt;&gt; Consume()</span>
-<span class="sd">        dtype: (&lt;ndarray&gt; 3x4:uint8, &lt;ndarray&gt; 1x2:float32)</span>
-
-<span class="sd">        &gt;&gt;&gt; from collections import namedtuple</span>
-<span class="sd">        &gt;&gt;&gt; Sample = namedtuple(&#39;Sample&#39;, &#39;x,y&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; sample = Sample(a, 1)</span>
-<span class="sd">        &gt;&gt;&gt; data = [Sample(a, 1), Sample(b, 2)]</span>
-<span class="sd">        &gt;&gt;&gt; data &gt;&gt; PrintType() &gt;&gt; Consume()</span>
-<span class="sd">        Sample(x=&lt;ndarray&gt; 3x4:uint8, y=&lt;int&gt; 1)</span>
-<span class="sd">        Sample(x=&lt;ndarray&gt; 1x2:float32, y=&lt;int&gt; 2)</span>
-
-<span class="sd">        :param str text: Prefix text printed before type</span>
-<span class="sd">        :return: input data unchanged</span>
-<span class="sd">        :rtype: same as data</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span></div>
-
-<div class="viewcode-block" id="PrintType.__call__"><a class="viewcode-back" href="../../nutsml.html#nutsml.viewer.PrintType.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Print data info.</span>
-
-<span class="sd">        :param object data: Any object.</span>
-<span class="sd">        :return: data unchanged</span>
-<span class="sd">        :rtype: same as object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">stype</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">data</span></div></div>
 
 
 <span class="c1"># TODO: Fix deprecation warning</span>
@@ -380,8 +273,8 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__should_view</span><span class="p">():</span>
             <span class="k">return</span> <span class="n">data</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># reset counter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># reset timer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imgcols</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">)):</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -393,7 +286,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">titles</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">titles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
             <span class="n">img</span> <span class="o">=</span> <span class="n">data</span> <span class="k">if</span> <span class="n">imgcol</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">data</span><span class="p">[</span><span class="n">imgcol</span><span class="p">]</span>
-            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>  <span class="c1"># remove single-dim axis, e.g. MxNx1</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">imargs</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">waitforbuttonpress</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pause</span><span class="p">)</span>  <span class="c1"># or plt.pause(self.pause)</span>
@@ -437,7 +330,6 @@
 <span class="sd">        :param kwargs annoargs: Keyword arguments for visual properties of</span>
 <span class="sd">               annotation, e.g.  edgecolor=&#39;y&#39;, linewidth=1</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">set_window_title</span><span class="p">(</span><span class="s1">&#39;ViewImageAnnotation&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
@@ -465,7 +357,6 @@
 <span class="sd">        :return: unchanged input data</span>
 <span class="sd">        :rtype: tuple</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">imgcol</span><span class="p">])</span>
         <span class="n">ax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
@@ -504,7 +395,7 @@
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

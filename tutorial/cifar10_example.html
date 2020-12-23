@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CIFAR-10 Example &mdash; nutsml 1.1.0 documentation</title>
+  <title>CIFAR-10 Example &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -317,7 +317,7 @@ and <code class="docutils literal notranslate"><span class="pre">(h,w,4)</span><
 <p>Not only can we inspect the type of the data but we can also have a look
 at the images themselves</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">train_samples</span><span class="p">,</span> <span class="n">test_samples</span> <span class="o">=</span> <span class="n">load_samples</span><span class="p">()</span>
-<span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintColType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">ViewImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Take</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">ViewImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 </pre></div>
 </div>
 <img alt="../_images/viewimage_cifar10.png" src="../_images/viewimage_cifar10.png" />
@@ -338,7 +338,7 @@ with the following <strong>nuts-flow</strong></p>
 </pre></div>
 </div>
 <p>The flow <em>augments</em> the training images by random transformations,
-<em>re-ranges</em> pixel values to [0,1], <em>shuffles</em> the samples, <em>builds</em>
+<em>re-ranges</em> pixel values to [0, 1], <em>shuffles</em> the samples, <em>builds</em>
 mini-batches, <em>trains</em> the network and <em>consumes</em> outputs of the training
 (losses, accuracies).</p>
 <p><code class="docutils literal notranslate"><span class="pre">Consume</span></code> and <code class="docutils literal notranslate"><span class="pre">Shuffle</span></code> are <em>nuts</em> from <strong>nuts-flow</strong>. Image augmentation,
@@ -433,8 +433,8 @@ for one epoch</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">Consume()</span></code> or some other data sink is needed. Without a consumer at the end of the
-pipeline no data is processed.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Consume()</span></code>, <code class="docutils literal notranslate"><span class="pre">Collect()</span></code>, <code class="docutils literal notranslate"><span class="pre">Unzip()</span></code> or some other data sink is needed.
+Without a consumer at the end of the pipeline no data is processed.</p>
 </div>
 <p>Usually it is a good idea to shuffle the data (especially after augmentation) to ensure
 that each mini-batch contains a nice distribution of different class examples.
@@ -480,7 +480,7 @@ set the remainder.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">SplitRandom()</span></code> can split into more than two sets and can take constraints
-into account.</p>
+into account and <code class="docutils literal notranslate"><span class="pre">SplitLeaveOneOut()</span></code> performs leave-one-out splits.</p>
 </div>
 <p>The performance of the network on the validation data can then be computed analogous
 to the way the training results were computed. Important differences are
@@ -600,7 +600,7 @@ filename can be seen in <a class="reference external" href="https://github.com/m
 <h2>Prediction<a class="headerlink" href="#prediction" title="Permalink to this headline">¶</a></h2>
 <p>After having trained and evaluated a network we usually want to apply it
 and predict labels for new images. Here an example</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;images/*.png&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;images/*.png&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ReadImage</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
 <span class="n">pred_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
 
@@ -700,7 +700,7 @@ The entire code can be found in <a class="reference external" href="https://gith
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

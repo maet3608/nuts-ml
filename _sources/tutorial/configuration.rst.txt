@@ -8,7 +8,7 @@ create, access and update a configuration dictionary:
 
  .. doctest::
   
-    >>> from nutsml.config import Config
+    >>> from nutsml import Config
     >>> cfg = Config({'epochs':100, 'layer1':{'stride':2, 'filters':32}})
     
  .. doctest:: 

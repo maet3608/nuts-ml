@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; nutsml 1.1.0 documentation</title>
+  <title>Overview &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -162,25 +162,31 @@
   <div class="section" id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <p>Click on a nut name for more details.</p>
+<p><strong>nuts-ml</strong> is based on <a class="reference external" href="https://github.com/maet3608/nuts-flow">nuts-flow</a>,
+which provides additional nuts, see
+<a class="reference external" href="https://maet3608.github.io/nuts-flow/overview.html">nuts-flow overview</a>.</p>
+<p>All <code class="docutils literal notranslate"><span class="pre">nutsflow</span></code> functions can be imported from <code class="docutils literal notranslate"><span class="pre">nutsml</span></code> as well,
+e.g. <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">nutsflow</span> <span class="pre">import</span> <span class="pre">Collect</span></code> or <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">nutsml</span> <span class="pre">import</span> <span class="pre">Collect</span></code>
+both work.</p>
 <p><strong>Network wrapping</strong></p>
 <ul class="simple">
 <li><p><a class="reference internal" href="nutsml.html#nutsml.network.KerasNetwork" title="nutsml.network.KerasNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">KerasNetwork</span></code></a> :
 wrapper for Keras networks.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.network.PytorchNetwork" title="nutsml.network.PytorchNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">PytorchNetwork</span></code></a> :
+wrapper for Pytorch networks.</p></li>
 <li><p><a class="reference internal" href="nutsml.html#nutsml.network.LasagneNetwork" title="nutsml.network.LasagneNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">LasagneNetwork</span></code></a> :
 wrapper for Lasagne networks.</p></li>
 </ul>
 <p><strong>Data reading</strong></p>
 <ul class="simple">
-<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.DplyToList" title="nutsml.reader.DplyToList"><code class="xref py py-class docutils literal notranslate"><span class="pre">DplyToList</span></code></a> :
-convert DplyDataframe to list.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadLabelDirs" title="nutsml.reader.ReadLabelDirs"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadLabelDirs</span></code></a> :
+read file paths from label directories.</p></li>
+<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadPandas" title="nutsml.reader.ReadPandas"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadPandas</span></code></a> :
+read data via Pandas from file system.</p></li>
 <li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadNumpy" title="nutsml.reader.ReadNumpy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadNumpy</span></code></a> :
 load numpy array from file system.</p></li>
 <li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadImage" title="nutsml.reader.ReadImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadImage</span></code></a> :
 load image as numpy array from file system.</p></li>
-<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadLabelDirs" title="nutsml.reader.ReadLabelDirs"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadLabelDirs</span></code></a> :
-read file paths from label directories.</p></li>
-<li><p><a class="reference internal" href="nutsml.html#nutsml.reader.ReadPandas" title="nutsml.reader.ReadPandas"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadPandas</span></code></a> :
-read data as Pandas table from file system.</p></li>
 </ul>
 <p><strong>Data writing</strong></p>
 <ul class="simple">
@@ -189,14 +195,21 @@ write images to file system.</p></li>
 </ul>
 <p><strong>Data viewing</strong></p>
 <ul class="simple">
-<li><p><a class="reference internal" href="nutsml.html#nutsml.viewer.PrintColType" title="nutsml.viewer.PrintColType"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrintColType</span></code></a> :
-print type and other information for sample columns.</p></li>
-<li><p><a class="reference internal" href="nutsml.html#nutsml.viewer.PrintType" title="nutsml.viewer.PrintType"><code class="xref py py-class docutils literal notranslate"><span class="pre">PrintType</span></code></a> :
-print type and other information for structured data.</p></li>
 <li><p><a class="reference internal" href="nutsml.html#nutsml.viewer.ViewImage" title="nutsml.viewer.ViewImage"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewImage</span></code></a> :
 display image in window.</p></li>
 <li><p><a class="reference internal" href="nutsml.html#nutsml.viewer.ViewImageAnnotation" title="nutsml.viewer.ViewImageAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ViewImageAnnotation</span></code></a> :
 display image and annotation in window.</p></li>
+</ul>
+<p><strong>Data printing</strong> (from nuts-flow)</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Print</span></code> :
+print data to console.</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PrintType</span></code> :
+print data type</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PrintColType</span></code> :
+print column data, eg. tuples</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">PrintProgress</span></code> :
+print progress on iterable.</p></li>
 </ul>
 <p><strong>Sample processing</strong></p>
 <ul class="simple">
@@ -282,7 +295,7 @@ log sample columns to file.</p></li>
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

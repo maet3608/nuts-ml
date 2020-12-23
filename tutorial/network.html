@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Training networks &mdash; nutsml 1.1.0 documentation</title>
+  <title>Training networks &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -207,10 +207,10 @@ described in the previous section</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">batches</span></code> is a generator and not a list of batches – there is no
 consumer such as <code class="docutils literal notranslate"><span class="pre">Consume</span></code> or <code class="docutils literal notranslate"><span class="pre">Collect()</span></code> at the end of the pipeline.
 Also we have to ensure that the shape of the batches matches the <code class="docutils literal notranslate"><span class="pre">INPUT_SHAPE</span></code>
-of the model – a common problem. Use the <code class="docutils literal notranslate"><span class="pre">verbose==True</span></code> flag of <code class="docutils literal notranslate"><span class="pre">BuildBatch</span></code>
-to print the shape of the generated batches.</p>
+of the model – a common problem. Use <code class="docutils literal notranslate"><span class="pre">PrintType()</span></code> to print the shape of the
+generated batches.</p>
 <p>Keras supports another method for training, <code class="docutils literal notranslate"><span class="pre">fit_generator</span></code>, which expects an
-infinite stream of mini-batches. This can easily be achieve by adding a <code class="docutils literal notranslate"><span class="pre">Cycle</span></code>
+infinite stream of mini-batches. This can easily be achieved by adding a <code class="docutils literal notranslate"><span class="pre">Cycle</span></code>
 nut after the loading of the training samples:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">batches</span> <span class="o">=</span> <span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Cycle</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit_generator</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
@@ -263,13 +263,13 @@ to compute the <code class="docutils literal notranslate"><span class="pre">cate
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;evaluation acc  :&quot;</span><span class="p">,</span> <span class="n">e_acc</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This code typically would run out of the epoch loop when the network training is complete.
+<p>This code typically would run after the epoch loop when the network training is complete.
 Note that <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> is a sink (no <code class="docutils literal notranslate"><span class="pre">Collect</span></code> needed) and returns a single number per metric (no averaging required).</p>
 <p>Finally, once we trained the network and are happy with the classification accuracy
 we would like to use the network for inference/prediction. Prediction is different
 from training, validation and evaluation in that we don’t know the target/output values
 – those we want to infer. Consequently, the mini-batches need to be constructed
-without outputs and then can be feed into the <a href="#id1"><span class="problematic" id="id2">``</span></a>predict() function, that returns
+without outputs and then can be feed into the <code class="docutils literal notranslate"><span class="pre">predict()</span></code> function, that returns
 the softmax vectors:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">build_pred_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="n">BATCH_SIZE</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 
@@ -305,7 +305,7 @@ easily could convert the class indices to labels using <code class="docutils lit
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

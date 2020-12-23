@@ -34,7 +34,7 @@ where samples are composed of the image filename and a (class) label ('color', '
 of the sample, constructs the full file path by replacing ``*`` in  ``imagepath`` by
 the image name, loads the image and replaces the image name by the actual image data.
     
-Color images are loaded as Numpy array with shape ``(H, W, 3)`` and gray scale 
+Color images are loaded as Numpy arrays with shape ``(H, W, 3)`` and gray scale 
 images with shape ``(H, W)`` both with data type ``uint8``. In this example 
 the images are of size 213x320(x3) and ``range`` list the smallest and 
 largest value of the image -- as printed by ``PrintColType()``.
@@ -45,21 +45,22 @@ and the class label as a string in column 1.
 Similarly, the second sample (``item 1``) contains the loaded image as a Numpy array
 and the class label. 
 
-Sometimes it is useful to directly load images that are not part of a sample.
-Setting the column to ``None`` in ``ReadImage()`` enables this:
+If the image filepaths are directly provided - and not stored in a column of a tuple -,
+setting the column to ``None`` in ``ReadImage()`` enables loading those images:
+
 
 .. doctest::
 
-  >>> images = ['nut_color', 'nut_grayscale']
+  >>> imagenames = ['nut_color', 'nut_grayscale']
   >>> imagepath = 'tests/data/img_formats/*.jpg'
-  >>> images >> ReadImage(None, imagepath) >> PrintColType() >> Consume()
+  >>> imagenames >> ReadImage(None, imagepath) >> PrintColType() >> Consume()
   item 0: <tuple>
     0: <ndarray> shape:213x320x3 dtype:uint8 range:0..248
   item 1: <tuple>
     0: <ndarray> shape:213x320 dtype:uint8 range:18..235  
     
-Note that ``ReadImage()`` still returns tuples with the image as element ``(<image>,)``
-and not just the images. 
+Note that ``ReadImage()`` still returns tuples, though, with the image as 
+element in column 0 ``(<image>,)`` and not just the images. 
 
 Instead of providing a base image path and image file names within samples it is
 also possible to directly provide the full file path within the sample:
@@ -72,28 +73,24 @@ also possible to directly provide the full file path within the sample:
      0: <ndarray> shape:213x320x3 dtype:uint8 range:0..255
      
 Furthermore ``ReadImage()`` allows to read multiple images at the same time,
-e.g. for samples that contain an image and mask. In the following example we
+e.g. for samples that contain an image and a mask. In the following example we
 read color images and their gray-scale version as pairs
 
 .. doctest::
 
   >>> samples = [('color.jpg', 'grayscale.jpg'), ('color.png', 'grayscale.png')]
   >>> imagepath = 'tests/data/img_formats/nut_*'
-  >>> samples >> ReadImage((0,1), imagepath) >> PrintColType() >> Consume()  
-  item 0: <tuple>
-    0: <ndarray> shape:213x320x3 dtype:uint8 range:0..248
-    1: <ndarray> shape:213x320 dtype:uint8 range:18..235
-  item 1: <tuple>
-    0: <ndarray> shape:213x320x3 dtype:uint8 range:0..246
-    1: <ndarray> shape:213x320 dtype:uint8 range:20..235   
+  >>> samples >> ReadImage((0,1), imagepath) >> PrintType() >> Consume()  
+  (<ndarray> 213x320x3:uint8, <ndarray> 213x320:uint8)
+  (<ndarray> 213x320x3:uint8, <ndarray> 213x320:uint8) 
      
 where ``ReadImage((0,1), ...)`` specifies that the image names are in columns
 0 and 1 of the samples. Note that we moved the common prefix ``nut_`` of the
 image file names to the image path.
      
-The printout of ``PrintColType`` confirms that we loaded
+The printout of ``PrintType`` confirms that we loaded
 color images with 3 color channels (shape:213x320x3) and gray-scale images
-that have no channel axis (shape:213x320).
+that have no channel axis (shape:213x320) as pairs in tuple format.
      
 The next section will show how to display loaded images conveniently.     
      

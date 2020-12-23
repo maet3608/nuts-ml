@@ -151,7 +151,7 @@ at the images themselves
 .. code:: Python
 
   train_samples, test_samples = load_samples()
-  train_samples >> Take(3) >> PrintColType() >> ViewImage(0) >> Consume()
+  train_samples >> Take(3) >> PrintType() >> ViewImage(0) >> Consume()
 
 .. image:: ../pics/viewimage_cifar10.png
 
@@ -177,7 +177,7 @@ with the following **nuts-flow**
                 >> build_batch >> network.train() >> Consume()
 
 The flow *augments* the training images by random transformations,
-*re-ranges* pixel values to [0,1], *shuffles* the samples, *builds*
+*re-ranges* pixel values to [0, 1], *shuffles* the samples, *builds*
 mini-batches, *trains* the network and *consumes* outputs of the training 
 (losses, accuracies).
 
@@ -294,8 +294,8 @@ for one epoch
 
 .. note::
 
-  ``Consume()`` or some other data sink is needed. Without a consumer at the end of the 
-  pipeline no data is processed.
+  ``Consume()``, ``Collect()``, ``Unzip()`` or some other data sink is needed. 
+  Without a consumer at the end of the pipeline no data is processed.
 
 Usually it is a good idea to shuffle the data (especially after augmentation) to ensure 
 that each mini-batch contains a nice distribution of different class examples. 
@@ -350,7 +350,7 @@ set the remainder.
 .. note::
   
   ``SplitRandom()`` can split into more than two sets and can take constraints
-  into account.
+  into account and ``SplitLeaveOneOut()`` performs leave-one-out splits.
 
 The performance of the network on the validation data can then be computed analogous 
 to the way the training results were computed. Important differences are 
@@ -505,7 +505,7 @@ and predict labels for new images. Here an example
 
 .. code:: Python
 
-  samples = glob('images/*.png') >> ReadImage(None) >> Collect()
+  samples = glob('images/*.png') >> ReadImage(None)
 
   pred_batch = BuildBatch(BATCH_SIZE).input(0, 'image', 'float32')
 

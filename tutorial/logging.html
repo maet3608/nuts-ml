@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Logging data &mdash; nutsml 1.1.0 documentation</title>
+  <title>Logging data &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -195,11 +195,11 @@ that we log to a CSV file:</p>
 <p><code class="docutils literal notranslate"><span class="pre">LogToFile</span></code> allows to extract sample columns to log and to
 specify column names for the log file. In this next example we also show
 how to manually close and delete a created log file:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;3rd&#39;</span><span class="p">,</span> <span class="s1">&#39;1st&#39;</span><span class="p">])</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">=</span> <span class="n">LogToFile</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colnames</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">])</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">logtofile</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="mi">3</span><span class="n">rd</span><span class="p">,</span><span class="mi">1</span><span class="n">st</span>
+<span class="n">A</span><span class="p">,</span><span class="n">B</span>
 <span class="mi">3</span><span class="p">,</span><span class="mi">1</span>
 <span class="mi">6</span><span class="p">,</span><span class="mi">4</span>
 
@@ -269,7 +269,7 @@ three constructs are equivalent:</p>
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

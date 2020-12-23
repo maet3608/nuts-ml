@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to nuts-ml &mdash; nutsml 1.1.0 documentation</title>
+  <title>Welcome to nuts-ml &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -163,8 +163,10 @@
 <img alt="_images/nutsml_logo.gif" class="align-center" src="_images/nutsml_logo.gif" />
 <p><strong>nuts-ml</strong> is a data pre-processing library for GPU-based deep learning
 that provides common pre-processing functions as independent, reusable units.
-These so called ‘nuts’ can be freely arranged to build data flows that
-are efficient, easy to read and modify.
+Similar to the data loading and transformation pipelines in PyTorch or
+Tensorflow but framework-agnostic and more flexible.</p>
+<p>These units are called <em>nuts</em> and can be freely arranged to build data flows
+that are efficient, easy to read and modify.
 The following example gives a taste of a <strong>nuts-ml</strong> data-flow that
 trains a network on image data and prints training loss and accuracy</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">Stratify</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span>
@@ -172,7 +174,7 @@ trains a network on image data and prints training loss and accuracy</p>
    <span class="n">Print</span><span class="p">(</span><span class="s1">&#39;train loss:</span><span class="si">{}</span><span class="s1"> acc:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>It is very easy to extend <strong>nuts-ml</strong> with your own
+<p>It is easy to extend <strong>nuts-ml</strong> with your own
 <a class="reference external" href="https://maet3608.github.io/nuts-flow/tutorial/custom_nuts.html">custom nuts</a> .
 For instance, a nut that filters out (almost) black images could be implemented
 as</p>
@@ -235,7 +237,7 @@ for an overall impression of the available functionality.</p>
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>

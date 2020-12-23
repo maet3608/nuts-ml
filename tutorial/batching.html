@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Building Batches &mdash; nutsml 1.1.0 documentation</title>
+  <title>Building Batches &mdash; nutsml 1.2.1 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.1.0
+                1.2.1
               </div>
             
           
@@ -312,7 +312,7 @@ axis right after the batch axis and before the image row and colum axes:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="o">...</span>                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="n">channelfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="o">...</span>                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">N_CLASSES</span><span class="p">))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
 <span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x3x213x320</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
 <span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x3x213x320</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
 </pre></div>
@@ -357,7 +357,7 @@ How to plug in a network for training and inference is the topic of the next sec
         
         &copy; Copyright 2017, IBM Research Australia
       <span class="lastupdated">
-        Last updated on Nov 24, 2020.
+        Last updated on Dec 23, 2020.
       </span>
 
     </p>
