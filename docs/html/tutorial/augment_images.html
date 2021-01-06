@@ -1,0 +1,324 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Augmenting images &mdash; nutsml 1.2.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Building Batches" href="batching.html" />
+    <link rel="prev" title="Transforming images" href="transform_images.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="introduction.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reading_samples.html">Reading data samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading_images.html">Loading images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_images.html">Viewing Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_images.html">Transforming images</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Augmenting images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batching.html">Building Batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Training networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cifar10_example.html">CIFAR-10 Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">nutsml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="introduction.html">Tutorial</a> &raquo;</li>
+        
+      <li>Augmenting images</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/augment_images.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="augmenting-images">
+<h1>Augmenting images<a class="headerlink" href="#augmenting-images" title="Permalink to this headline">¶</a></h1>
+<p>Deep learning requires large data sets and a common strategy to increase the
+amount of image data is to augment the data set with randomly transformed
+copies, e.g. rotated or blurred.</p>
+<p><code class="docutils literal notranslate"><span class="pre">AugmentImage</span></code> takes input images and performs with a given probability
+image transformations with randomly chosen parameter settings. The following,
+code fragment defines an augmentation where images in sample column 0, with
+a probability of 10% are rotated by a random angle between -10 and +10 degrees,
+or blurred by randomly adjusting the contrast (0.7, …, 1.0):</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">augment</span> <span class="o">=</span> <span class="p">(</span><span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="o">+</span><span class="mi">10</span><span class="p">])</span>
+           <span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;contrast &#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>Augmentation are just randomly applied transformation and the supported
+transformations are those provided by <code class="docutils literal notranslate"><span class="pre">TransformImage</span></code> – including
+custom registered transformation. Call <code class="docutils literal notranslate"><span class="pre">help(TransformImage.by)</span></code> for an overview.</p>
+<p>Note that the parameter values for transformations are uniformly sampled
+from the specified ranges, e.g. -10 and +10 degrees, and that augmentations
+are applied independently. Here, image rotation or contrast adjustment each occur
+with 10% probability and consequently only 20% of the input images are
+actually transformed and outputted by <code class="docutils literal notranslate"><span class="pre">AugmentImage</span></code>.</p>
+<p>We can easily increase the number of augmented images by augmenting within
+a higher probability and values &gt; 1 are treated as multipliers. For instance,
+the following excerpt generates 3 randomly rotated images for each input image:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">augment_image</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">])</span>
+<span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">augment_image</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Sometimes it is useful to not apply transformations independently but to
+combine augmentations. The following example first flips images horizontally
+and vertically (with probability 1), and then randomly changes contrast with
+probability 0.5:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">augment_flip</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;fliplr&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;flipud&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">augment_contrast</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;contrast &#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">augment_flip</span> <span class="o">&gt;&gt;</span> <span class="n">augment_contrast</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">Collect</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Now we get flipped images with changes in contrast. Note that <code class="docutils literal notranslate"><span class="pre">augment_flip</span></code> alone
+would double our data but the subsequent <code class="docutils literal notranslate"><span class="pre">augment_contrast</span></code> with probability 50%
+halves it again, resulting in roughly the same number of augmented images as we have original images. If we want to pass through the original images unaltered as well,
+we can use <code class="docutils literal notranslate"><span class="pre">identical</span></code>:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;identical&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;brightness &#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>In the above example, <code class="docutils literal notranslate"><span class="pre">AugmentImage</span></code> always outputs the original image and with
+50% chance an additional image with changed brightness.</p>
+<p>Image augmentation can also be applied to samples that contain more than one image,
+for example and image and its mask. The important feature here is, that the same
+random augmentation is applied to both images of a sample. For instance, in the
+case of a rotational augmentation we need to randomly rotate, but image and mask
+by the same degree! The following example assumes that image and mask are in
+sample columns 0 and 1 and would with 50% chance rotate them together:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">read_image</span> <span class="o">=</span> <span class="n">ReadImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">rotate</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">])</span>
+<span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">rotate</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If an independent transformation is needed the augmentation can be divided into
+two parts. Here we rotate image and mask together but change the contrast of
+image (in sample column 0) only:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">read_image</span> <span class="o">=</span> <span class="n">ReadImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">augment_rotate</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">])</span>
+<span class="n">augment_contrast</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;contrast &#39;</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">augment_rotate</span> <span class="o">&gt;&gt;</span> <span class="n">augment_contrast</span> <span class="o">&gt;&gt;</span> <span class="o">...</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Let us conclude this section with a complete piece of code that can be executed.
+We read a single sample containing a color image and the corresponding monochrome
+image (similar to a mask). Both images are resized to 128x128 by <code class="docutils literal notranslate"><span class="pre">TransformImage</span></code>.
+We then generate 100 samples with randomly rotated images using <code class="docutils literal notranslate"><span class="pre">aug_rotate</span></code>,
+followed by two times of a random contrast change of the image in sample column 0:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color.jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;nut_monochrome.jpg&#39;</span><span class="p">),]</span>
+<span class="n">imagepath</span> <span class="o">=</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span>
+
+<span class="n">read_images</span> <span class="o">=</span> <span class="n">ReadImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">imagepath</span><span class="p">)</span>
+<span class="n">resize</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;resize&#39;</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<span class="n">aug_rotate</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;rotate&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">])</span>
+<span class="n">aug_contrast</span> <span class="o">=</span> <span class="n">AugmentImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;contrast&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">view_images</span> <span class="o">=</span> <span class="n">ViewImage</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_images</span> <span class="o">&gt;&gt;</span> <span class="n">resize</span> <span class="o">&gt;&gt;</span> <span class="n">aug_rotate</span> <span class="o">&gt;&gt;</span> <span class="n">aug_contrast</span> <span class="o">&gt;&gt;</span> <span class="n">view_images</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will result in 200 augmented samples (derived from a single sample) that
+are displayed via <code class="docutils literal notranslate"><span class="pre">view_images</span></code> . You should see a window similar to the following,
+which gets updated every second (or press any key to progress immediately).</p>
+<img alt="../_images/augmentation_view.png" src="../_images/augmentation_view.png" />
+<p>The next step after reading, transforming and augmenting data is typically the
+construction of mini-batches for training. The next section describes the
+<code class="docutils literal notranslate"><span class="pre">BuildBatch</span></code> nut that is used for this purpose.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="batching.html" class="btn btn-neutral float-right" title="Building Batches" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="transform_images.html" class="btn btn-neutral float-left" title="Transforming images" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Dec 23, 2020.
+      </span>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

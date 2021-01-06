@@ -1,0 +1,528 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nutsml.reader &mdash; nutsml 1.2.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">nutsml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>nutsml.reader</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for nutsml.reader</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: reader</span>
+<span class="sd">   :synopsis: Reading of sample data and images</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">fnmatch</span> <span class="kn">import</span> <span class="n">fnmatch</span>
+<span class="kn">from</span> <span class="nn">nutsml.imageutil</span> <span class="kn">import</span> <span class="n">load_image</span>
+<span class="kn">from</span> <span class="nn">nutsml.fileutil</span> <span class="kn">import</span> <span class="n">reader_filepath</span>
+<span class="kn">from</span> <span class="nn">nutsflow</span> <span class="kn">import</span> <span class="n">NutSource</span><span class="p">,</span> <span class="n">nut_function</span><span class="p">,</span> <span class="n">nut_source</span>
+<span class="kn">from</span> <span class="nn">nutsflow.common</span> <span class="kn">import</span> <span class="n">as_set</span>
+
+
+<div class="viewcode-block" id="ReadLabelDirs"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadLabelDirs">[docs]</a><span class="nd">@nut_source</span>
+<span class="k">def</span> <span class="nf">ReadLabelDirs</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">filepattern</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="s1">&#39;_*&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read file paths from label directories.</span>
+
+<span class="sd">    Typically used when classification data is organized in folders,</span>
+<span class="sd">    where the folder name represents the class label and the files in</span>
+<span class="sd">    the folder the data samples (images, documents, ...) for that class.</span>
+
+<span class="sd">    &gt;&gt;&gt; from __future__ import print_function</span>
+<span class="sd">    &gt;&gt;&gt; from nutsflow import Sort</span>
+
+<span class="sd">    &gt;&gt;&gt; read = ReadLabelDirs(&#39;tests/data/labeldirs&#39;, &#39;*.txt&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; samples = read &gt;&gt; Sort()</span>
+<span class="sd">    &gt;&gt;&gt; for sample in samples:</span>
+<span class="sd">    ...     print(sample)</span>
+<span class="sd">    ...</span>
+<span class="sd">    (&#39;tests/data/labeldirs/0/test0.txt&#39;, &#39;0&#39;)</span>
+<span class="sd">    (&#39;tests/data/labeldirs/1/test1.txt&#39;, &#39;1&#39;)</span>
+<span class="sd">    (&#39;tests/data/labeldirs/1/test11.txt&#39;, &#39;1&#39;)</span>
+
+<span class="sd">    :param string basedir: Path to folder that contains label directories.</span>
+<span class="sd">    :param string filepattern: Pattern for filepaths to read from</span>
+<span class="sd">           label directories, e.g. &#39;*.jpg&#39;, &#39;*.txt&#39;</span>
+<span class="sd">    :param string exclude: Pattern for label directories to exclude.</span>
+<span class="sd">           Default is &#39;_*&#39; which excludes all label folders prefixed with &#39;_&#39;.</span>
+<span class="sd">    :return: iterator over labeled file paths</span>
+<span class="sd">    :rtype: iterator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">basedir</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">label</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">fnmatch</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">exclude</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">pathname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">filepattern</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">filepath</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">pathname</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">filepath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">),</span> <span class="n">label</span></div>
+
+
+<div class="viewcode-block" id="ReadNumpy"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadNumpy">[docs]</a><span class="nd">@nut_function</span>
+<span class="k">def</span> <span class="nf">ReadNumpy</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">pathfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load numpy arrays from filesystem.</span>
+
+<span class="sd">    Note that the loaded numpy array replace the file name|path in the</span>
+<span class="sd">    sample.</span>
+
+<span class="sd">    &gt;&gt;&gt; from nutsflow import Consume, Collect, PrintType</span>
+
+<span class="sd">    &gt;&gt;&gt; samples = [&#39;tests/data/img_arrays/nut_color.jpg.npy&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; samples &gt;&gt; ReadNumpy(None) &gt;&gt; PrintType() &gt;&gt; Consume()</span>
+<span class="sd">    (&lt;ndarray&gt; 213x320x3:uint8)</span>
+
+<span class="sd">    &gt;&gt;&gt; samples = [(&#39;tests/data/img_arrays/nut_color.jpg.npy&#39;, &#39;class0&#39;)]</span>
+<span class="sd">    &gt;&gt;&gt; samples &gt;&gt; ReadNumpy(0) &gt;&gt; PrintType() &gt;&gt; Consume()</span>
+<span class="sd">    (&lt;ndarray&gt; 213x320x3:uint8, &lt;str&gt; class0)</span>
+
+<span class="sd">    &gt;&gt;&gt; filepath = &#39;tests/data/img_arrays/*.jpg.npy&#39;</span>
+<span class="sd">    &gt;&gt;&gt; samples = [(1, &#39;nut_color&#39;), (2, &#39;nut_grayscale&#39;)]</span>
+<span class="sd">    &gt;&gt;&gt; samples &gt;&gt; ReadNumpy(1, filepath) &gt;&gt; PrintType() &gt;&gt; Consume()</span>
+<span class="sd">    (&lt;int&gt; 1, &lt;ndarray&gt; 213x320x3:uint8)</span>
+<span class="sd">    (&lt;int&gt; 2, &lt;ndarray&gt; 213x320:uint8)</span>
+
+<span class="sd">    &gt;&gt;&gt; pathfunc = lambda s: &#39;tests/data/img_arrays/{1}.jpg.npy&#39;.format(*s)</span>
+<span class="sd">    &gt;&gt;&gt; samples &gt;&gt; ReadNumpy(1, pathfunc) &gt;&gt; PrintType() &gt;&gt; Consume()</span>
+<span class="sd">    (&lt;int&gt; 1, &lt;ndarray&gt; 213x320x3:uint8)</span>
+<span class="sd">    (&lt;int&gt; 2, &lt;ndarray&gt; 213x320:uint8)</span>
+
+<span class="sd">    :param tuple|list sample: (&#39;nut_data&#39;, 1)</span>
+<span class="sd">    :param None|int|tuple columns: Indices of columns in sample to be replaced</span>
+<span class="sd">                              by numpy array (based on fileid in that column)</span>
+<span class="sd">                              If None then a flat samples is assumed and</span>
+<span class="sd">                              a tuple with the numpy array is returned.</span>
+<span class="sd">    :param string|function|None pathfunc: Filepath with wildcard &#39;*&#39;,</span>
+<span class="sd">      which is replaced by the file id/name provided in the sample, e.g.</span>
+<span class="sd">      &#39;tests/data/img_arrays/*.jpg.npy&#39; for sample (&#39;nut_grayscale&#39;, 2)</span>
+<span class="sd">      will become &#39;tests/data/img_arrays/nut_grayscale.jpg.npy&#39;</span>
+<span class="sd">      or</span>
+<span class="sd">      Function to compute path to numnpy file from sample, e.g.</span>
+<span class="sd">      lambda sample: &#39;tests/data/img_arrays/{1}.jpg.npy&#39;.format(*sample)</span>
+<span class="sd">      or</span>
+<span class="sd">      None, in this case the file id/name is taken as the filepath.</span>
+<span class="sd">    :param bool allow_pickle : Allow loading pickled object arrays in npy files.</span>
+<span class="sd">    :return: Sample with file ids/names replaced by numpy arrays.</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load numpy array for given fileid&quot;&quot;&quot;</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">reader_filepath</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">pathfunc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="n">allow_pickle</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="n">sample</span><span class="p">),)</span>  <span class="c1"># numpy array as tuple with one element</span>
+
+    <span class="n">colset</span> <span class="o">=</span> <span class="n">as_set</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">elems</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colset</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReadImage"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadImage">[docs]</a><span class="nd">@nut_function</span>
+<span class="k">def</span> <span class="nf">ReadImage</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">pathfunc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load images from filesystem for samples.</span>
+
+<span class="sd">    Loads images in jpg, gif, png, tif and bmp format.</span>
+<span class="sd">    Images are returned as numpy arrays of shape (h, w, c) or (h, w) for</span>
+<span class="sd">    color images or gray scale images respectively.</span>
+<span class="sd">    See nutsml.imageutil.load_image for details.</span>
+
+<span class="sd">    Note that the loaded images replace the image file name|path in the</span>
+<span class="sd">    sample. If the images file paths are directly proved (not as a tuple</span>
+<span class="sd">    sample) still tuples with the loaded image are returned.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; from nutsflow import Consume, Collect</span>
+<span class="sd">    &gt;&gt;&gt; from nutsml import PrintColType</span>
+
+<span class="sd">    &gt;&gt;&gt; images = [&#39;tests/data/img_formats/nut_color.gif&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; images &gt;&gt; ReadImage(None) &gt;&gt; PrintColType() &gt;&gt; Consume()</span>
+<span class="sd">    item 0: &lt;tuple&gt;</span>
+<span class="sd">      0: &lt;ndarray&gt; shape:213x320x3 dtype:uint8 range:0..255</span>
+
+<span class="sd">    &gt;&gt;&gt; samples = [(&#39;tests/data/img_formats/nut_color.gif&#39;, &#39;class0&#39;)]</span>
+<span class="sd">    &gt;&gt;&gt; img_samples = samples &gt;&gt; ReadImage(0) &gt;&gt; Collect()</span>
+
+<span class="sd">    &gt;&gt;&gt; imagepath = &#39;tests/data/img_formats/*.gif&#39;</span>
+<span class="sd">    &gt;&gt;&gt; samples = [(1, &#39;nut_color&#39;), (2, &#39;nut_grayscale&#39;)]</span>
+<span class="sd">    &gt;&gt;&gt; samples &gt;&gt; ReadImage(1, imagepath) &gt;&gt; PrintColType() &gt;&gt; Consume()</span>
+<span class="sd">    item 0: &lt;tuple&gt;</span>
+<span class="sd">      0: &lt;int&gt; 1</span>
+<span class="sd">      1: &lt;ndarray&gt; shape:213x320x3 dtype:uint8 range:0..255</span>
+<span class="sd">    item 1: &lt;tuple&gt;</span>
+<span class="sd">      0: &lt;int&gt; 2</span>
+<span class="sd">      1: &lt;ndarray&gt; shape:213x320 dtype:uint8 range:20..235</span>
+
+<span class="sd">    &gt;&gt;&gt; pathfunc = lambda s: &#39;tests/data/img_formats/{1}.jpg&#39;.format(*s)</span>
+<span class="sd">    &gt;&gt;&gt; img_samples = samples &gt;&gt; ReadImage(1, pathfunc) &gt;&gt; Collect()</span>
+
+<span class="sd">    :param tuple|list sample: (&#39;nut_color&#39;, 1)</span>
+<span class="sd">    :param None|int|tuple columns: Indices of columns in sample to be replaced</span>
+<span class="sd">                              by image (based on image id in that column)</span>
+<span class="sd">                              If None then a flat samples is assumed and</span>
+<span class="sd">                              a tuple with the image is returned.</span>
+<span class="sd">    :param string|function|None pathfunc: Filepath with wildcard &#39;*&#39;,</span>
+<span class="sd">      which is replaced by the imageid provided in the sample, e.g.</span>
+<span class="sd">      &#39;tests/data/img_formats/*.jpg&#39; for sample (&#39;nut_grayscale&#39;, 2)</span>
+<span class="sd">      will become &#39;tests/data/img_formats/nut_grayscale.jpg&#39;</span>
+<span class="sd">      or</span>
+<span class="sd">      Function to compute path to image file from sample, e.g.</span>
+<span class="sd">      lambda sample: &#39;tests/data/img_formats/{1}.jpg&#39;.format(*sample)</span>
+<span class="sd">      or</span>
+<span class="sd">      None, in this case the image id is taken as the filepath.</span>
+<span class="sd">    :param bool as_grey: If true, load as grayscale image.</span>
+<span class="sd">    :param dtype dtype: Numpy data type of the image.</span>
+<span class="sd">    :return: Sample with image ids replaced by image (=ndarray)</span>
+<span class="sd">            of shape (h, w, c) or (h, w)</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load image for given fileid&quot;&quot;&quot;</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">reader_filepath</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">pathfunc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">load_image</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">as_grey</span><span class="o">=</span><span class="n">as_grey</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="n">sample</span><span class="p">),)</span>  <span class="c1"># image as tuple with one element</span>
+
+    <span class="n">colset</span> <span class="o">=</span> <span class="n">as_set</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">elems</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">load</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">colset</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elems</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ReadPandas"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas">[docs]</a><span class="k">class</span> <span class="nc">ReadPandas</span><span class="p">(</span><span class="n">NutSource</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read data as Pandas table from file system.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ReadPandas.__init__"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colnames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dropnan</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">replacenan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rowname</span><span class="o">=</span><span class="s1">&#39;Row&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create reader for Pandas tables.</span>
+
+<span class="sd">        The reader returns the table contents as an interator over named tuples,</span>
+<span class="sd">        where the column names are derived from the table columns. The order</span>
+<span class="sd">        and selection of columns can be changed.</span>
+
+<span class="sd">        &gt;&gt;&gt; from nutsflow import Collect, Consume, Print</span>
+<span class="sd">        &gt;&gt;&gt; filepath = &#39;tests/data/pandas_table.csv&#39;</span>
+
+<span class="sd">        &gt;&gt;&gt; ReadPandas(filepath) &gt;&gt; Print() &gt;&gt; Consume()</span>
+<span class="sd">        Row(col1=1.0, col2=4.0)</span>
+<span class="sd">        Row(col1=3.0, col2=6.0)</span>
+
+<span class="sd">        &gt;&gt;&gt; (ReadPandas(filepath, dropnan=False, rowname=&#39;Sample&#39;) &gt;&gt;</span>
+<span class="sd">        ... Print() &gt;&gt; Consume())</span>
+<span class="sd">        Sample(col1=1.0, col2=4.0)</span>
+<span class="sd">        Sample(col1=2.0, col2=nan)</span>
+<span class="sd">        Sample(col1=3.0, col2=6.0)</span>
+
+<span class="sd">        &gt;&gt;&gt; ReadPandas(filepath, replacenan=None) &gt;&gt; Print() &gt;&gt; Consume()</span>
+<span class="sd">        Row(col1=1.0, col2=4.0)</span>
+<span class="sd">        Row(col1=2.0, col2=None)</span>
+<span class="sd">        Row(col1=3.0, col2=6.0)</span>
+
+<span class="sd">        &gt;&gt;&gt; colnames=[&#39;col2&#39;, &#39;col1&#39;]   # swap order</span>
+<span class="sd">        &gt;&gt;&gt; ReadPandas(filepath, colnames=colnames) &gt;&gt; Print() &gt;&gt; Consume()</span>
+<span class="sd">        Row(col2=4.0, col1=1.0)</span>
+<span class="sd">        Row(col2=6.0, col1=3.0)</span>
+
+<span class="sd">        &gt;&gt;&gt; ReadPandas(filepath, rows=&#39;col1 &gt; 1&#39;, replacenan=0) &gt;&gt; Collect()</span>
+<span class="sd">        [Row(col1=2.0, col2=0), Row(col1=3.0, col2=6.0)]</span>
+
+<span class="sd">        :param str filepath: Path to a table in CSV, TSV, XLSX or</span>
+<span class="sd">          Pandas pickle format. Depending on file extension (e.g. .csv)</span>
+<span class="sd">          the table format is picked.</span>
+<span class="sd">          Note tables must have a header with the column names.</span>
+<span class="sd">        :param str rows: Rows to filter. Any Pandas filter expression. If</span>
+<span class="sd">          rows = None all rows of the table are returned.</span>
+<span class="sd">        :param list columns: List of names for the table columns to return.</span>
+<span class="sd">          For columns = None all columns are returned.</span>
+<span class="sd">        :param bool dropnan: If True all rows that contain NaN are dropped.</span>
+<span class="sd">        :param object replacenan: If not False all NaNs are replaced by</span>
+<span class="sd">             the value of replacenan</span>
+<span class="sd">        :param str rowname: Name of named tuple return as rows.</span>
+<span class="sd">        :param kwargs kwargs: Key word arguments passed on the the Pandas</span>
+<span class="sd">          methods for data reading, e.g, header=None.</span>
+<span class="sd">          See pandas/pandas/io/parsers.py for detais</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="n">filepath</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">colnames</span> <span class="o">=</span> <span class="n">colnames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropnan</span> <span class="o">=</span> <span class="n">dropnan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">replacenan</span> <span class="o">=</span> <span class="n">replacenan</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rowname</span> <span class="o">=</span> <span class="n">rowname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_table</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ReadPandas.isnull"><a class="viewcode-back" href="../../nutsml.html#nutsml.reader.ReadPandas.isnull">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isnull</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return true if values is NaN or None.</span>
+
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; ReadPandas.isnull(np.NaN)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &gt;&gt;&gt; ReadPandas.isnull(None)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &gt;&gt;&gt; ReadPandas.isnull(0)</span>
+<span class="sd">        False</span>
+
+<span class="sd">        :param value: Value to test</span>
+<span class="sd">        :return: Return true for NaN or None values.</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_replacenan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Replace NaN values in row by None</span>
+
+<span class="sd">        :param iterable row: Any iterable.</span>
+<span class="sd">        :return: Row with None instead of NaN</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replacenan</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">value</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">else</span> <span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">row</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load table from file system.</span>
+
+<span class="sd">        :param str filepath: Path to table in CSV, TSV, XLSX or</span>
+<span class="sd">                   Pandas pickle format.</span>
+<span class="sd">        :return: Pandas table</span>
+<span class="sd">        :rtype: pandas.core.frame.DataFrame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="o">==</span> <span class="s1">&#39;.tsv&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="o">==</span> <span class="s1">&#39;.csv&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="o">==</span> <span class="s1">&#39;.xlsx&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;openpyxl&#39;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return iterator over rows in table.</span>
+
+<span class="sd">        :return: Iterator over rows.</span>
+<span class="sd">        :rtype: iterator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataframe</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="k">else</span> <span class="n">df</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">rows</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">colnames</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">colnames</span> <span class="k">else</span> <span class="n">rows</span>
+        <span class="n">Row</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rowname</span><span class="p">,</span> <span class="n">series</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_list</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">replacenan</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_replacenan</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">series</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropnan</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Row</span><span class="p">(</span><span class="o">*</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Dec 23, 2020.
+      </span>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

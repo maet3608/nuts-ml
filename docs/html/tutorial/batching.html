@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Building Batches &mdash; nutsml 1.2.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Training networks" href="network.html" />
+    <link rel="prev" title="Augmenting images" href="augment_images.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="introduction.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="reading_samples.html">Reading data samples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="split_stratify.html">Splitting and stratifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loading_images.html">Loading images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="view_images.html">Viewing Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_images.html">Transforming images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="augment_images.html">Augmenting images</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Building Batches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">Training networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">Logging data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html">Configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cifar10_example.html">CIFAR-10 Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributions.html">Contributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nutsml.html">nutsml package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">nutsml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="introduction.html">Tutorial</a> &raquo;</li>
+        
+      <li>Building Batches</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/tutorial/batching.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="building-batches">
+<h1>Building Batches<a class="headerlink" href="#building-batches" title="Permalink to this headline">¶</a></h1>
+<p>Networks are trained with <em>mini-batches</em> of samples, e.g. a stack of images
+with their corresponding class labels. <code class="docutils literal notranslate"><span class="pre">BuildBatch(batchsize)</span></code>
+is used to build these batches. Note that constructing a batch of the correct format
+is often tricky, since it depends on the network architecture, the deep learning
+framework and error messages are sometimes not informative.</p>
+<p>We start with an extremely simple toy example. Our data samples are
+single integer numbers. We build batches of size 2 and print them out</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">[array([1, 2])]</span>
+<span class="go">[array([3])]</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">input(column,</span> <span class="pre">format,</span> <span class="pre">dtype)</span></code> specifies from which sample column to
+extract data for the batch, which format the data is in (e.g. numbers, vectors, images)
+and which data type to use for creation of the NumPy arrays.</p>
+<p>Since the number of samples is not dividable by the batch size of 2 the last batch
+is shorter. If this is problematic you need to either ensure that the sample set size
+are dividable by batch size or filter them out. Most network libraries, however,
+allow to specify one dimension of the input tensor as <code class="docutils literal notranslate"><span class="pre">None</span></code> and can handle
+variable batch sizes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">BuildBatch</span></code> prefetches data to build a batch on the CPU, while another
+batch is processed by the network on the GPU. This parallelism can result
+in a hanging pipeline if there is no network to process the batches.
+If the code example above does not work for you, use
+<code class="docutils literal notranslate"><span class="pre">BuildBatch(2,</span> <span class="pre">prefetch=0)</span></code> instead!</p>
+</div>
+<p>Training batches contain inputs and possibly outputs/targets. The general format
+of training batches generated  by <code class="docutils literal notranslate"><span class="pre">BuildBatch</span></code> is a list composed of two sublists
+containing Numpy arrays. The first sublist contains the input data and
+the second list contains the output data for the network:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="o">&lt;</span><span class="n">in_ndarray</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">out_ndarray</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>In the next example we generate batches with inputs and outputs. Each sample of the
+(training) data set contains two numbers, the first as input and the second as output
+(e.g. class label):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="mi">3</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">batchsize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>               <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span>
+<span class="gp">... </span>               <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="go">[[array([10., 20.])], [array([1, 2])]]</span>
+<span class="go">[[array([30.])], [array([3])]]</span>
+</pre></div>
+</div>
+<p>We build the batch by extracting the first number from column 0 as input and converting it to
+float, and the number in sample column 1 becomes the output. <code class="docutils literal notranslate"><span class="pre">input()</span></code> copies data in the
+first sublist of the batch and <code class="docutils literal notranslate"><span class="pre">output</span></code> copies data in the second. Multiple inputs (e.g.
+<code class="docutils literal notranslate"><span class="pre">BuildBatch().input(...).input(...)</span></code>) will extend the first sublist and multiple
+outputs similarly will extend the second sublist of the batch.</p>
+<p>Note that we can easily use the same number as input and output
+(e.g. to train an autoencoder), use both numbers as input, flip input and output
+or ignore sample columns when creating batches:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>  <span class="c1"># Autoencoder</span>
+<span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>   <span class="c1"># Two inputs</span>
+<span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>  <span class="c1"># Flipped columns</span>
+<span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>                           <span class="c1"># Input only</span>
+</pre></div>
+</div>
+<p>Sample data can be of different formats such as numbers, vectors, tensors or images.
+Run <code class="docutils literal notranslate"><span class="pre">help(BuildBatch.input)</span></code> for an overview of the different formats supported.</p>
+<p>Let us try a slightly more complex example, where our samples are vectors with
+a class index. We will construct batches of size 2 containing float32 vectors as
+inputs and one-hot encoded outputs for the class indices:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">N_CLASSES</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="mi">0</span><span class="p">),</span>
+<span class="o">...</span>            <span class="p">(</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]),</span> <span class="mi">1</span><span class="p">),</span>
+<span class="o">...</span>            <span class="p">(</span><span class="n">array</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="n">batchsize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">...</span>                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vector&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="o">...</span>                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">N_CLASSES</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">Print</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="p">[[</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">],</span>
+         <span class="p">[</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)],</span>
+ <span class="p">[</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint8</span><span class="p">)]]</span>
+<span class="p">[[</span><span class="n">array</span><span class="p">([[</span><span class="mf">7.</span><span class="p">,</span> <span class="mf">8.</span><span class="p">,</span> <span class="mf">9.</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float32</span><span class="p">)],</span>
+ <span class="p">[</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint8</span><span class="p">)]]</span>
+</pre></div>
+</div>
+<p>As you can see, the class index is converted into a one-hot encoded vector of
+length two and input data is converted to float vectors. For larger data, printing
+out batches for debugging is not informative. We can use
+<a class="reference external" href="https://github.com/maet3608/nuts-ml/blob/master/nutsml/common/viewer.py">PrintType()</a>
+to print the shape and data type of the generated NumPy arrays
+within the batch data structure.
+The same code above but with <code class="docutils literal notranslate"><span class="pre">Print</span></code> replaced by <code class="docutils literal notranslate"><span class="pre">PrintType</span></code>, produces
+much more readable output:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="o">...</span>                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;vector&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="o">...</span>                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">N_CLASSES</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>As a last example, let us work with some image data. We create a sample set
+with only three images, labeled ‘good’ or ‘bad’. We read these images, convert
+the string labels in sample column 1 to one-hot encoded vectors and build batches:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">LABELS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">N_CLASSES</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LABELS</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;nut_color.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">),</span>
+<span class="o">...</span>            <span class="p">(</span><span class="s1">&#39;nut_grayscale.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;good&#39;</span><span class="p">),</span>
+<span class="o">...</span>            <span class="p">(</span><span class="s1">&#39;nut_monochrome.gif&#39;</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">read_image</span> <span class="o">=</span> <span class="n">ReadImage</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;tests/data/img_formats/*&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">=</span> <span class="n">TransformImage</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="s1">&#39;gray2rgb&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">=</span> <span class="n">ConvertLabel</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">LABELS</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">...</span>                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+<span class="o">...</span>                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">N_CLASSES</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x213x320x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x213x320x3</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Note that we are reading a mixture of RGB and grayscale images with differing
+numbers of (color) channels that cannot be combined in a batch. We use the
+transformation <code class="docutils literal notranslate"><span class="pre">gray2rgb</span></code> to convert the single channel grayscale image
+to a three channel image.</p>
+<p>The input array of the first batch is of shape <code class="docutils literal notranslate"><span class="pre">2x213x320x3</span></code>, where the
+individual dimension are <code class="docutils literal notranslate"><span class="pre">batchsize</span> <span class="pre">x</span> <span class="pre">image-rows</span> <span class="pre">x</span> <span class="pre">image-cols</span> <span class="pre">x</span> <span class="pre">image-channels</span></code>.
+The output array has two one-hot vectors of length two.
+Some deep learning frameworks require the channel axis of image data to come first.
+The image format function of <code class="docutils literal notranslate"><span class="pre">BuildBatch</span></code> has a flag to add or move a channel
+axis (for details run <code class="docutils literal notranslate"><span class="pre">help(batcher.build_image_batch)</span></code>). If we run the same
+code but with <code class="docutils literal notranslate"><span class="pre">channelfirst=True</span></code> the print out of the batch shows the channel
+axis right after the batch axis and before the image row and colum axes:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">BuildBatch</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="o">...</span>                <span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="n">channelfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="o">...</span>                <span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;one_hot&#39;</span><span class="p">,</span> <span class="s1">&#39;uint8&#39;</span><span class="p">,</span> <span class="n">N_CLASSES</span><span class="p">))</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">to_rgb</span> <span class="o">&gt;&gt;</span> <span class="n">convert_label</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">PrintType</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">()</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x3x213x320</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">2</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+<span class="p">[[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x3x213x320</span><span class="p">:</span><span class="n">float32</span><span class="p">],</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">ndarray</span><span class="o">&gt;</span> <span class="mi">1</span><span class="n">x2</span><span class="p">:</span><span class="n">uint8</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>For more complex scenarios (e.g. 3D input data) have a look at the tensor formatter
+(<code class="docutils literal notranslate"><span class="pre">help(batcher.build_tensor_batch)</span></code>), which allows you to construct batches from
+arbitrary tensors and to reorder axis.
+To wrap things up, here the schematics for a typical training pipeline:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">train_samples</span><span class="p">,</span> <span class="n">test_samples</span> <span class="o">=</span> <span class="n">read_samples</span> <span class="o">&gt;&gt;</span> <span class="n">SplitRandom</span><span class="p">(</span><span class="n">ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+<span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">EPOCHS</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">train_samples</span> <span class="o">&gt;&gt;</span> <span class="n">read_image</span> <span class="o">&gt;&gt;</span> <span class="n">transform</span> <span class="o">&gt;&gt;</span> <span class="n">augment</span> <span class="o">&gt;&gt;</span>
+     <span class="n">Shuffle</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">build_batch</span> <span class="o">&gt;&gt;</span> <span class="n">network</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">Consume</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Note that we shuffle the data after augmentation to ensure that each mini-batch
+contains a good distribution of different class examples.
+How to plug in a network for training and inference is the topic of the next section.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="network.html" class="btn btn-neutral float-right" title="Training networks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="augment_images.html" class="btn btn-neutral float-left" title="Augmenting images" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Dec 23, 2020.
+      </span>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

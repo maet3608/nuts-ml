@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>nutsml.examples package &mdash; nutsml 1.2.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="nutsml.examples.autoencoder package" href="nutsml.examples.autoencoder.html" />
+    <link rel="prev" title="nutsml package" href="nutsml.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> nutsml
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/introduction.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributions.html">Contributions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="nutsml.html">nutsml package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="nutsml.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">nutsml.examples package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-nutsml.examples">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.batcher">nutsml.batcher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.booster">nutsml.booster module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.checkpoint">nutsml.checkpoint module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.common">nutsml.common module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.config">nutsml.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.datautil">nutsml.datautil module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.fileutil">nutsml.fileutil module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.imageutil">nutsml.imageutil module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.logger">nutsml.logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.network">nutsml.network module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.plotter">nutsml.plotter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.reader">nutsml.reader module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.stratify">nutsml.stratify module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.transformer">nutsml.transformer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.viewer">nutsml.viewer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml.writer">nutsml.writer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.html#module-nutsml">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">nutsml</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="nutsml.html">nutsml package</a> &raquo;</li>
+        
+      <li>nutsml.examples package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/nutsml.examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="nutsml-examples-package">
+<h1>nutsml.examples package<a class="headerlink" href="#nutsml-examples-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nutsml.examples.autoencoder.html">nutsml.examples.autoencoder package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.autoencoder.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.autoencoder.html#nutsml-examples-autoencoder-conv-autoencoder-module">nutsml.examples.autoencoder.conv_autoencoder module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.autoencoder.html#nutsml-examples-autoencoder-runner-module">nutsml.examples.autoencoder.runner module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.autoencoder.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nutsml.examples.cifar.html">nutsml.examples.cifar package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#nutsml-examples-cifar-cnn-classify-module">nutsml.examples.cifar.cnn_classify module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#nutsml-examples-cifar-cnn-train-module">nutsml.examples.cifar.cnn_train module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#nutsml-examples-cifar-read-images-module">nutsml.examples.cifar.read_images module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#nutsml-examples-cifar-view-augmented-images-module">nutsml.examples.cifar.view_augmented_images module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#nutsml-examples-cifar-view-data-module">nutsml.examples.cifar.view_data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#nutsml-examples-cifar-view-train-images-module">nutsml.examples.cifar.view_train_images module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#nutsml-examples-cifar-write-images-module">nutsml.examples.cifar.write_images module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.cifar.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nutsml.examples.mnist.html">nutsml.examples.mnist package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-cnn-classify-module">nutsml.examples.mnist.cnn_classify module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-cnn-train-module">nutsml.examples.mnist.cnn_train module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-mlp-classify-module">nutsml.examples.mnist.mlp_classify module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-mlp-train-module">nutsml.examples.mnist.mlp_train module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-mlp-view-misclassified-module">nutsml.examples.mnist.mlp_view_misclassified module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-read-images-module">nutsml.examples.mnist.read_images module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-view-train-images-module">nutsml.examples.mnist.view_train_images module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#nutsml-examples-mnist-write-images-module">nutsml.examples.mnist.write_images module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nutsml.examples.mnist.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-nutsml.examples">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-nutsml.examples" title="Permalink to this headline">¶</a></h2>
+<p>Example nuts-ml pipelines</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nutsml.examples.autoencoder.html" class="btn btn-neutral float-right" title="nutsml.examples.autoencoder package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nutsml.html" class="btn btn-neutral float-left" title="nutsml package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2017, IBM Research Australia
+      <span class="lastupdated">
+        Last updated on Dec 23, 2020.
+      </span>
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

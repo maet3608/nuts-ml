@@ -1,0 +1,181 @@
+Building Batches
+================
+
+Networks are trained with *mini-batches* of samples, e.g. a stack of images
+with their corresponding class labels. ``BuildBatch(batchsize)``
+is used to build these batches. Note that constructing a batch of the correct format
+is often tricky, since it depends on the network architecture, the deep learning
+framework and error messages are sometimes not informative.
+
+We start with an extremely simple toy example. Our data samples are
+single integer numbers. We build batches of size 2 and print them out
+
+.. doctest:: 
+
+   >>> samples = [[1], [2], [3]]
+   >>> build_batch = BuildBatch(2).input(0, 'number', int)
+   >>> samples >> build_batch >> Print() >> Consume()
+   [array([1, 2])]
+   [array([3])]
+   
+where ``input(column, format, dtype)`` specifies from which sample column to
+extract data for the batch, which format the data is in (e.g. numbers, vectors, images) 
+and which data type to use for creation of the NumPy arrays.
+   
+Since the number of samples is not dividable by the batch size of 2 the last batch 
+is shorter. If this is problematic you need to either ensure that the sample set size 
+are dividable by batch size or filter them out. Most network libraries, however, 
+allow to specify one dimension of the input tensor as ``None`` and can handle 
+variable batch sizes.
+
+.. note::
+
+   ``BuildBatch`` prefetches data to build a batch on the CPU, while another
+   batch is processed by the network on the GPU. This parallelism can result
+   in a hanging pipeline if there is no network to process the batches.   
+   If the code example above does not work for you, use 
+   ``BuildBatch(2, prefetch=0)`` instead!
+
+Training batches contain inputs and possibly outputs/targets. The general format 
+of training batches generated  by ``BuildBatch`` is a list composed of two sublists
+containing Numpy arrays. The first sublist contains the input data and 
+the second list contains the output data for the network:
+
+.. code:: Python
+
+   [[<in_ndarray>, ...], [<out_ndarray>, ...]]
+      
+In the next example we generate batches with inputs and outputs. Each sample of the
+(training) data set contains two numbers, the first as input and the second as output 
+(e.g. class label):
+
+  >>> samples = [[10,1], [20,2], [30,3]]
+  >>> build_batch = (BuildBatch(batchsize=2)
+  ...                .input(0, 'number', float)
+  ...                .output(1, 'number', int))
+  >>> samples >> build_batch >> Print() >> Consume() 
+  [[array([10., 20.])], [array([1, 2])]]
+  [[array([30.])], [array([3])]]
+ 
+We build the batch by extracting the first number from column 0 as input and converting it to
+float, and the number in sample column 1 becomes the output. ``input()`` copies data in the
+first sublist of the batch and ``output`` copies data in the second. Multiple inputs (e.g.
+``BuildBatch().input(...).input(...)``) will extend the first sublist and multiple 
+outputs similarly will extend the second sublist of the batch.
+
+Note that we can easily use the same number as input and output 
+(e.g. to train an autoencoder), use both numbers as input, flip input and output 
+or ignore sample columns when creating batches:
+
+.. code:: Python
+  
+   BuildBatch(2).input(0, 'number', int).output(0, 'number', int)  # Autoencoder
+   BuildBatch(2).input(0, 'number', int).input(1, 'number', int)   # Two inputs
+   BuildBatch(2).input(1, 'number', int).output(0, 'number', int)  # Flipped columns
+   BuildBatch(2).input(1, 'number', int)                           # Input only
+
+Sample data can be of different formats such as numbers, vectors, tensors or images.
+Run ``help(BuildBatch.input)`` for an overview of the different formats supported.
+
+Let us try a slightly more complex example, where our samples are vectors with
+a class index. We will construct batches of size 2 containing float32 vectors as
+inputs and one-hot encoded outputs for the class indices: 
+
+.. code:: Python
+
+  >>> from numpy import array
+  >>> N_CLASSES = 2
+  >>> samples = [(array([1, 2, 3]), 0), 
+  ...            (array([4, 5, 6]), 1), 
+  ...            (array([7, 8, 9]), 1)]
+  >>> build_batch = (BuildBatch(batchsize=2)
+  ...                .input(0, 'vector', 'float32')
+  ...                .output(1, 'one_hot', 'uint8', N_CLASSES))
+  >>> samples >> build_batch >> Print() >> Consume()
+  [[array([[1., 2., 3.],
+           [4., 5., 6.]], dtype=float32)], 
+   [array([[1, 0],
+           [0, 1]], dtype=uint8)]]
+  [[array([[7., 8., 9.]], dtype=float32)], 
+   [array([[0, 1]], dtype=uint8)]]
+   
+As you can see, the class index is converted into a one-hot encoded vector of
+length two and input data is converted to float vectors. For larger data, printing
+out batches for debugging is not informative. We can use 
+`PrintType()  <https://github.com/maet3608/nuts-ml/blob/master/nutsml/common/viewer.py>`_
+to print the shape and data type of the generated NumPy arrays 
+within the batch data structure.
+The same code above but with ``Print`` replaced by ``PrintType``, produces
+much more readable output:
+
+.. code:: Python
+
+  >>> build_batch = (BuildBatch(2, verbose=True)
+  ...                .input(0, 'vector', 'float32')
+  ...                .output(1, 'one_hot', 'uint8', N_CLASSES))
+  >>> samples >> build_batch >> PrintType() >> Consume()
+  [[<ndarray> 2x3:float32], [<ndarray> 2x2:uint8]]
+  [[<ndarray> 1x3:float32], [<ndarray> 1x2:uint8]]
+  
+As a last example, let us work with some image data. We create a sample set
+with only three images, labeled 'good' or 'bad'. We read these images, convert
+the string labels in sample column 1 to one-hot encoded vectors and build batches:  
+
+.. code:: Python
+
+  >>> LABELS = ['good', 'bad']
+  >>> N_CLASSES = len(LABELS)
+  >>> samples = [('nut_color.gif', 'good'), 
+  ...            ('nut_grayscale.gif', 'good'),
+  ...            ('nut_monochrome.gif', 'bad')]  
+  >>> read_image = ReadImage(0, 'tests/data/img_formats/*')
+  >>> to_rgb = TransformImage(0).by('gray2rgb')  
+  >>> convert_label = ConvertLabel(1, LABELS)
+  >>> build_batch = (BuildBatch(2)
+  ...                .input(0, 'image', 'float32')
+  ...                .output(1, 'one_hot', 'uint8', N_CLASSES))  
+  >>> samples >> read_image >> to_rgb >> convert_label >> build_batch >> PrintType() >> Consume()      
+  [[<ndarray> 2x213x320x3:float32], [<ndarray> 2x2:uint8]]
+  [[<ndarray> 1x213x320x3:float32], [<ndarray> 1x2:uint8]]  
+
+Note that we are reading a mixture of RGB and grayscale images with differing
+numbers of (color) channels that cannot be combined in a batch. We use the
+transformation ``gray2rgb`` to convert the single channel grayscale image 
+to a three channel image.  
+  
+The input array of the first batch is of shape ``2x213x320x3``, where the
+individual dimension are ``batchsize x image-rows x image-cols x image-channels``.
+The output array has two one-hot vectors of length two.
+Some deep learning frameworks require the channel axis of image data to come first.
+The image format function of ``BuildBatch`` has a flag to add or move a channel
+axis (for details run ``help(batcher.build_image_batch)``). If we run the same
+code but with ``channelfirst=True`` the print out of the batch shows the channel
+axis right after the batch axis and before the image row and colum axes:
+
+.. code:: Python
+
+  >>> build_batch = (BuildBatch(2, verbose=True)
+  ...                .input(0, 'image', 'float32', channelfirst=True)
+  ...                .output(1, 'one_hot', 'uint8', N_CLASSES))  
+  >>> samples >> read_image >> to_rgb >> convert_label >> build_batch >> PrintType() >> Consume()      
+  [[<ndarray> 2x3x213x320:float32], [<ndarray> 2x2:uint8]]
+  [[<ndarray> 1x3x213x320:float32], [<ndarray> 1x2:uint8]] 
+  
+For more complex scenarios (e.g. 3D input data) have a look at the tensor formatter
+(``help(batcher.build_tensor_batch)``), which allows you to construct batches from
+arbitrary tensors and to reorder axis.
+To wrap things up, here the schematics for a typical training pipeline:
+
+.. code:: Python
+
+  train_samples, test_samples = read_samples >> SplitRandom(ratio=0.7)
+  
+  EPOCHS = 100
+  for epoch in range(EPOCHS):
+      (train_samples >> read_image >> transform >> augment >> 
+       Shuffle(100) >> build_batch >> network.train() >> Consume())
+    
+Note that we shuffle the data after augmentation to ensure that each mini-batch 
+contains a good distribution of different class examples. 
+How to plug in a network for training and inference is the topic of the next section.
+

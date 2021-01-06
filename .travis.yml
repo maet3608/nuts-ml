@@ -1,0 +1,28 @@
+sudo: false
+language: python
+python:
+  - "3.6"
+  - "3.7"
+  - "3.8"
+  - "3.9"
+addons:
+  apt:
+    packages:
+      - libopenblas-base
+      - libopenblas-dev
+      - liblapack-dev
+      - gfortran  
+before_install:
+  - pip install --upgrade pip
+  - pip install imagecodecs-lite  # https://github.com/scikit-image/scikit-image/pull/4235
+  - pip install pytest coveralls pytest-cov==2.5.0
+install:
+  - pip install openpyxl  # should not be needed! temporary glitch ?
+  - pip install nutsml
+script:
+  - "echo 'backend : Agg' > matplotlibrc"
+  - py.test
+  - coverage run --source=nutsml --omit="nutsml/examples/*" setup.py test
+  - coverage report --fail-under=100
+after_success:
+  - coveralls  
