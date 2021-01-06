@@ -57,7 +57,7 @@ def test_AugmentImage():
     samples = [(x,) for x in range(1000)]
     augment = AugmentImage(0).by('identical', 0.5)
     n = samples >> augment >> Count()
-    assert 450 < n < 550
+    assert 400 < n < 600
 
     augment = AugmentImage(0).by('identical', 10)
     assert [(1,)] >> augment >> Count() == 10
