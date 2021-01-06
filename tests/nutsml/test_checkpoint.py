@@ -9,9 +9,9 @@ import time
 
 import nutsml.checkpoint as nc
 
-from nutsml.network import Network
-from nutsml.config import Config
 from os.path import join
+from nutsflow.config import Config
+from nutsml.network import Network
 
 BASEPATH = 'tests/data/checkpoints'
 
@@ -61,6 +61,7 @@ def create_net(lr=0.1):
 
 def parameters(network, optimizer):
     return dict(lr=optimizer.lr)
+
 
 def create_net0():
     network = FakeNetwork()

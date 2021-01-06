@@ -7,7 +7,7 @@ import os
 import time
 
 from os.path import join, exists, isdir, getmtime
-from nutsml.config import Config
+from nutsflow.config import Config
 
 """
 .. module:: checkpoint

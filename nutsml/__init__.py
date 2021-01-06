@@ -1,4 +1,4 @@
-__version__ = '1.2.1'
+__version__ = '1.2.2'
 
 # exporting all nuts-flow functions under nutsml namespace
 from nutsflow import *
@@ -6,7 +6,6 @@ from nutsflow import *
 # exporting common nuts-ml functions under nutsml namespace
 from nutsml.batcher import BuildBatch
 from nutsml.booster import Boost
-from nutsml.config import load_config
 from nutsml.checkpoint import Checkpoint
 from nutsml.stratify import Stratify, CollectStratified
 from nutsml.logger import LogToFile, LogCols

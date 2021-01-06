@@ -1,9 +1,12 @@
 Release notes
 =============
 
+1.2.2
+-----
+- Config moved from nuts-ml to nuts-flow
+
 1.2.1
 -----
-
 - ReadPandas returns named tuples
   (parameter 'columns' has changed to 'colnames')
 

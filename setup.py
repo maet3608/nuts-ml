@@ -43,7 +43,7 @@ def load_readme():
 
 
 setup(
-    name='nutsml',
+    name=nutsml.__name__,
     version=nutsml.__version__,
     url='https://maet3608.github.io/nuts-ml',
     download_url='https://github.com/maet3608/nuts-ml',
@@ -55,11 +55,10 @@ setup(
     long_description=load_readme(),
     long_description_content_type='text/x-rst',
     install_requires=[
-        'nutsflow >= 1.2.1',
+        'nutsflow >= 1.2.3',
         'openpyxl >= 3.0.5',
         'pandas > 0.21.0',
         'six >= 1.10.0',
-        'pyyaml >= 3.12',
         'scipy >= 0.17.0',
         'pillow >= 3.0.0',
         'scikit-image >= 0.12.3',

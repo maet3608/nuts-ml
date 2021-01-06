@@ -17,9 +17,6 @@ from nutsflow.common import as_tuple, as_set, stype
 from matplotlib import pyplot as plt
 
 
-# TODO: Fix deprecation warning
-# MatplotlibDeprecationWarning: Using default event loop until function specific
-# to this GUI is implemented
 class ViewImage(NutFunction):  # pragma no coverage
     """
     Display images in window.
