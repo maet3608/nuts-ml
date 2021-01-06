@@ -1,4 +1,4 @@
-__version__ = '1.2.2'
+__version__ = '1.2.3'
 
 # exporting all nuts-flow functions under nutsml namespace
 from nutsflow import *
